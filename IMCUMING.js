@@ -289,7 +289,7 @@ function funnyfunction(dataalolfunny){
                     crown.style.width = "30px";
                     crown.style.height = "30px";
                     crown.style.transform = "translate(-40px,-10px)";
-                    crown.src = "images/CAPTAIN.png";
+                    crown.src = "./images/CAPTAIN.png";
                     crown.style.position = "absolute";
                     crown.style.opacity = 1;
                     
