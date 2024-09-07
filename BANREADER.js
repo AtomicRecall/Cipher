@@ -240,11 +240,6 @@ function fetchMatchData(matchid) {
 
             return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
                 method: 'GET',
-                mode: 'cors',
-                headers: {
-                    'accept': 'application/json',
-                    'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
-                }
             })
             .then((response) => {
                 if (response.status === 404) {
