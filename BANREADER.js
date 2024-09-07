@@ -1,5 +1,5 @@
 console.log("one two three");
-
+console.log("VAINGFA");
 var THETEAMWEARESEARCHING = localStorage.getItem("BITCHID");
 var currentseason = 50;
 function removeElementsByClass(className) {
