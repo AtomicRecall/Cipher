@@ -282,13 +282,13 @@ function funnyfunction(dataalolfunny){
 
             //for every player in that team, create a pfp and put it on the shit, change the width however it's needed
             for (let a = 0; a < datan.members.length; a++){
-                console.log("VAGINA PENIS VAGINA");
                 if(datan.members[a].user_id == leaderid){
                     var crown = document.createElement('img');
                     crown.id = "crn";
                     crown.style.width = "30px";
                     crown.style.height = "30px";
                     crown.style.transform = "translate(-40px,-10px)";
+                    console.log("UMMM WHA THT EUFKC!!");
                     crown.src = "images/CAPTAIN.png";
                     crown.style.position = "absolute";
                     crown.style.opacity = 1;
