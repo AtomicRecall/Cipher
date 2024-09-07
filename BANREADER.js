@@ -238,7 +238,7 @@ function fetchMatchData(matchid) {
                 score = datan123.rounds[0].round_stats.Score;
             }
 
-            return fetch(`https://cors-anywhere.herokuapp.com/https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
+            return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
                 method: 'GET',
                 mode: 'cors',
                 headers: {
