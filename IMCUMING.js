@@ -251,7 +251,7 @@ function funnyfunction(dataalolfunny){
             avat.id = "avat"+d;
             switch(datan.avatar){
                 case undefined:
-                    avat.src = "/images/DEFAULTT.jpg"
+                    avat.src = "images/DEFAULTT.jpg"
                     break;
                 default:
                     avat.src = datan.avatar;
@@ -757,7 +757,7 @@ function searchForTeams(teamnme){
                 
                 document.getElementById("fav"+d).onclick = function(){
                     clicked = true;
-                    document.getElementById("favimg"+d).src = "/images/NicePng_star-shape-png_5691440_"+3+".png";
+                    document.getElementById("favimg"+d).src = "images/NicePng_star-shape-png_5691440_"+3+".png";
                     pushToSavedTeams(datan.team_id);
                     location.reload();
                     
@@ -765,18 +765,18 @@ function searchForTeams(teamnme){
 
                 document.getElementById("fav"+d).onmouseover = function(){
                     if(clicked == true){
-                        document.getElementById("favimg"+d).src = "/images/NicePng_star-shape-png_5691440_"+3+".png";
+                        document.getElementById("favimg"+d).src = "images/NicePng_star-shape-png_5691440_"+3+".png";
                     }
                     else{
-                        document.getElementById("favimg"+d).src = "/images/NicePng_star-shape-png_5691440_"+2+".png";
+                        document.getElementById("favimg"+d).src = "images/NicePng_star-shape-png_5691440_"+2+".png";
                     }
                 }
                 document.getElementById("fav"+d).onmouseout = function(){
                     if(clicked == true){
-                        document.getElementById("favimg"+d).src = "/images/NicePng_star-shape-png_5691440_"+3+".png";
+                        document.getElementById("favimg"+d).src = "images/NicePng_star-shape-png_5691440_"+3+".png";
                     }
                     else{
-                        document.getElementById("favimg"+d).src = "/images/NicePng_star-shape-png_5691440_"+1+".png";
+                        document.getElementById("favimg"+d).src = "images/NicePng_star-shape-png_5691440_"+1+".png";
                     }
                 }
 
