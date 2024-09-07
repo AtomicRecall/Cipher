@@ -46,7 +46,6 @@ if(localStorage.getItem("first-time") == 0){
     var data2 = String(localStorage.getItem("team-id"));
     var ref1 = database.ref('USERS/'+name+'/SAVED_TEAMS/').push(data2);
 }
-
 localStorage.setItem("first-time", 1);
 let ssn = 10; // dont worry
 ontop();
@@ -147,7 +146,14 @@ function ontop(){
         img.width = 150;
         img.style.filter = "drop-shadow(0px 0px 2px #000000)";
         document.getElementById('.form-wrapper').appendChild(img);
-
+        var warning = document.createElement("div");
+        warning.innerHTML = "WARNING: NEED TO DOWNLOAD CORS UNBLOCK FOR WEBSITE TO WORK !!!";
+        //LINK:  <br> https://chromewebstore.google.com/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino?hl=en&pli=1
+        warning.id = "warnn";
+        warning.style.fontSize = "25px";
+        warning.style.color = "white";
+        warning.style.transform = "translate(160px,-285px)";
+        document.getElementById(".form-wrapper").appendChild(warning);
         var elo = document.createElement('div');
         elo.innerHTML = ("ELO: "+data.games.cs2.faceit_elo);
         elo.id = "elo";
