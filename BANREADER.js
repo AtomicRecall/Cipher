@@ -240,7 +240,8 @@ function fetchMatchData(matchid) {
 
             return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
                 headers:{
-                    'Access-Control-Allow-Origin': 'https://atomicrecall.github.io/Cipher/'
+                    'Access-Control-Expose-Headers': 'Acess-Control-Allow-Origin',
+                    'Access-Control-Allow-Origin': '*'
                 }
             })
             .then((response) => {
