@@ -60,7 +60,7 @@ body {
 }
 #warnn{
   position: absolute;
-  filter: drop-shadow(3px 0px 1px #ffff);
+  filter: drop-shadow(3px 0px 1px #ff0000);
 }
 #fflink{
   position:absolute;
