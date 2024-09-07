@@ -240,11 +240,9 @@ function fetchMatchData(matchid) {
 
             return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
                 method: 'GET',
-                mode: 'cors',
+                mode: 'no-cors',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-                    'Access-Control-Allow-Headers': 'Content-Type',
                     'Content-Type': 'application/json',
                     
                 }
