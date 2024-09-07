@@ -238,7 +238,11 @@ function fetchMatchData(matchid) {
                 score = datan123.rounds[0].round_stats.Score;
             }
 
-            return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`)
+            return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
+                headers:{
+                    'Access-Control-Allow-Origin': '*'
+                }
+            })
             .then((response) => {
                 if (response.status === 404) {
                     console.warn(`Match ${matchid} not found, continuing...`);
