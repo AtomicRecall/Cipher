@@ -240,10 +240,7 @@ function fetchMatchData(matchid) {
 
             return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history?Access-Control-Allow-Origin=*`,{
                 method: 'GET',
-                mode: 'no-cors',
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                }
+                mode: 'cors',
             })
             .then((response) => {
                 if (response.status === 404) {
