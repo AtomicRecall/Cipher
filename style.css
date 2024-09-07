@@ -1,0 +1,386 @@
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Play', sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #323838;
+}
+
+
+/*
+:( R.I.P YOU WILL BE MISSED 07/13/24
+
+BROUGHT BACK TO MOTHER FUCKING LIFE 08/17/24
+*/
+
+.wrapper:hover h6 {
+  color: #FF5500;
+  animation: animate 3s linear infinite;
+}
+
+@keyframes animate {
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+
+.wrapper {
+  position: absolute;
+  width: 400px;
+  height: 500px;
+  background: #141616;
+  box-shadow: 0 0 50px #FF5500;
+  border-radius: 20px;
+  padding: 40px;
+  overflow: hidden;
+  
+}
+
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transition: 0.7s ease-in-out;
+}
+
+
+.wrapper .form-wrapper.sign-up {
+  position: absolute;
+  top: 470px;
+  left: 0;
+}
+
+.wrapper .form-wrapper.sign-check {
+  position: absolute;           
+  top: 1000px;
+  left: 0;
+}
+
+.wrapper .form-wrapper.forgot-password {
+  position: absolute;
+  top: 1500px;
+  left: 0;
+}
+
+#signincheck{
+  position: relative;
+  bottom: 100px;
+}
+
+h2 {
+  transition: 2s;
+  font-size: 30px;
+  color: #EBEFF3;
+  text-align: center;
+}
+h6{
+  font-size: 30px;
+  color: #EBEFF3;
+  text-align: center;
+  transition: 1s;
+}
+h3 {
+  font-size: 30px;
+  color: #EBEFF3;
+  text-align: center;
+}
+
+h4 {
+  transition: 2s;
+  font-size: 30px;
+  color: #D7DBDF;
+  text-align: center;
+}
+
+#center123 {
+  position: relative;
+  height: 10px;
+}
+
+#center123 p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 10%);
+  margin: 0;
+  font-size: 30px;
+  color: #EBEFF3;
+
+}
+#codd{
+  font: 30px;
+}
+#poopgroup{
+  position: absolute;
+  width: 100px;
+  transform: translate(200px,-45px);
+}
+#level{
+  position: absolute;
+  top: 100px;
+  left: 230px;
+}
+#background{
+  position: relative;
+  top: 50px;
+  width: 498px;
+  height: 150px;
+  opacity: 0.18;
+  filter: drop-shadow(10px 5px 8px #000000);
+}
+
+#profile{
+  position: relative;
+  height: 110px;
+  width: 110px;
+  top: -50px;
+  left: 200px;
+  filter: drop-shadow(10px 5px 8px #000000);
+  border-radius: 50% 20% / 10% 40%;
+  
+}
+#temm{
+  position: absolute;
+  height: 40px;
+  width: 220px;
+  top: 270px;
+  left: 140px;
+  color: #EBEFF3;
+  font-size: 30px;
+  filter: drop-shadow(10px 5px 8px #000000);
+  margin: 0 auto;
+  text-align: center;
+
+}
+#affirmativee {
+  position: absolute;
+  top: 360px;
+  left: 180px;
+  width: 150px;
+
+
+}
+.input-group {
+ 
+  position: relative;
+  margin: 30px 0;
+  border-bottom: 2px solid #EBEFF3;
+}
+
+.input-group label {
+  
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-20%);
+  font-size: 16px;
+  color: #EBEFF3;
+  pointer-events: none;
+  transition: 2s;
+}
+
+.input-group input {
+  width: 320px;
+  height: 40px;
+  font-size: 16px;
+  color: #EBEFF3;
+  padding: 0 5px;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.input-group input:focus~label,
+.input-group input:valid~label {
+  top: -5px;
+}
+
+.remember {
+  margin: -5px 0 15px 5px;
+}
+
+.remember label {
+  color: #EBEFF3;
+  font-size: 14px;
+}
+
+.remember label input {
+  accent-color: #FF5500;
+}
+
+button {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  background: #FF5500;
+  box-shadow: 0 0 10px #EBEFF3;
+  font-size: 16px;
+  color: #000;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 30px;
+  border: none;
+  outline: none;
+}
+
+.signUp-link p {
+  color: #EBEFF3;
+}
+
+.signUp-link p a {
+  color: #FF5500;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signUp-link p a:hover {
+  text-decoration: underline;
+}
+
+.signUp-link {
+  font-size: 20px;
+  text-align: center;
+  margin: 15px 0;
+}
+
+
+
+.signIn-link {
+  font-size: 14px;
+  text-align: center;
+  margin: 15px 0;
+}
+
+.signIn-link p {
+  transition: 2s;
+  color: #EBEFF3;
+}
+
+.signIn-link p a {
+  color: #FF5500;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signIn-link p a:hover {
+  text-decoration: underline;
+}
+.signIn-link {
+
+  font-size: 20px;
+  text-align: center;
+  margin: 15px 0;
+}
+
+.frgrPsswrd-link p {
+  color: #EBEFF3;
+}
+
+.frgrPsswrd-link p a {
+  color: #FF5500;
+  font-weight: 500;
+}
+
+.frgrPsswrd-link p a:hover {
+  text-decoration: underline;
+}
+.frgrPsswrd-link {
+  font-size: 15px;
+  text-align: center;
+  margin: 15px 0;
+}
+
+
+.incorrect-link p a {
+  position:relative;
+  top: 108px;
+  right: -6px;
+  color: #FF5500;
+  text-decoration: none;
+  font-weight: 500;
+}
+.incorrect-link p a:hover {
+  text-decoration: underline;
+}
+.incorrect-link {
+  font-size: 20px;
+  text-align: center;
+  
+}
+
+.wrapper.one .form-wrapper.sign-in {
+  transform: translateY(-468px);
+}
+.wrapper.one .form-wrapper.sign-up {
+  transform: translateY(-468px);
+}
+.wrapper.one .form-wrapper.sign-check {
+  transform: translateY(-468px);
+}
+.wrapper.one .form-wrapper.forgot-password {
+  transform: translateY(-468px);
+}
+
+.wrapper.two .form-wrapper.sign-in {
+  transform: translateY(0px);
+}
+.wrapper.two .form-wrapper.sign-up {
+  transform: translateY(0px);
+}
+.wrapper.two .form-wrapper.sign-check {
+  transform: translateY(0px);
+}
+.wrapper.two .form-wrapper.forgot-password {
+  transform: translateY(0px);
+}
+
+.wrapper.three .form-wrapper.sign-in {
+  transform: translateY(-950px);
+}
+.wrapper.three .form-wrapper.sign-up {
+  transform: translateY(-950px);
+}
+.wrapper.three .form-wrapper.sign-check {
+  transform: translateY(-950px);
+}
+.wrapper.three .form-wrapper.forgot-password {
+  transform: translateY(-950px);
+}
+
+.wrapper.four .form-wrapper.sign-in {
+  transform: translateY(0px);
+}
+.wrapper.four .form-wrapper.sign-up {
+  transform: translateY(0px);
+}
+.wrapper.four .form-wrapper.sign-check {
+  transform: translateY(0px);
+}
+.wrapper.four .form-wrapper.forgot-password {
+  transform: translateY(0px);
+}
+
+.wrapper.five .form-wrapper.sign-in {
+  transform: translateY(-1300px);
+}
+.wrapper.five .form-wrapper.sign-up {
+  transform: translateY(-1300px);
+}
+.wrapper.five .form-wrapper.sign-check {
+  transform: translateY(-1300px);
+}
+.wrapper.five .form-wrapper.forgot-password {
+  transform: translateY(-1300px);
+}
