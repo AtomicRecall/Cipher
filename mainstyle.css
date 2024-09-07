@@ -6,7 +6,7 @@ body {
     min-height: 100vh;
     background: #323838;
     overflow: hidden;
-    background-image: url("/images/124411.jpeg");
+    background-image: url("https://atomicrecall.github.io/Cipher/images/124411.jpeg");
 }
 .wrapper {
     width: 1500px;
