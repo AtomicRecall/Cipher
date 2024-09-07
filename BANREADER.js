@@ -238,7 +238,7 @@ function fetchMatchData(matchid) {
                 score = datan123.rounds[0].round_stats.Score;
             }
 
-            return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history?Access-Control-Allow-Origin=*`,{
+            return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
                 method: 'GET',
                 mode: 'cors',
             })
