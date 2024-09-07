@@ -1,4 +1,8 @@
+const cors = require('cors');
+app.use(cors());
+
 console.log("one two three");
+
 var THETEAMWEARESEARCHING = localStorage.getItem("BITCHID");
 var currentseason = 50;
 function removeElementsByClass(className) {
@@ -238,7 +242,7 @@ function fetchMatchData(matchid) {
                 score = datan123.rounds[0].round_stats.Score;
             }
 
-            return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history?Access-Control-Allow-Origin=https://atomicrecall.github.io/Cipher`,{
+            return fetch(`https://cors-anywhere.herokuapp.com/https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
                 method: 'GET',
                 mode: 'cors',
             })
