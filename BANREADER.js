@@ -1,4 +1,3 @@
-
 console.log("one two three");
 
 var THETEAMWEARESEARCHING = localStorage.getItem("BITCHID");
