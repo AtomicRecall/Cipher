@@ -190,11 +190,15 @@ function fetchMatchData(matchid) {
         let fac2 = errthang.teams.faction2.name;
         let finishedat = errthang.finished_at;
         let winner = datan12.detailed_results[0].winner;
+       // console.log(datan12);
+        let winnerid = "fartcock";
         if (winner == "faction1"){
             winner = fac1;
+            winnerid = datan12.teams.faction1.faction_id;
         }
         else {
             winner = fac2;
+            winnerid = datan12.teams.faction2.faction_id;
         }       
         return fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
             headers: {
@@ -219,8 +223,14 @@ function fetchMatchData(matchid) {
             return res.json();
         })
         .then((datan123) => {
+           // console.log(datan123);
             let detailedscr = datan123.rounds;
             let score = null;
+            
+            let temp = datan123.rounds[0].teams;
+            let tem1id = temp[0].team_id;
+            let tem2id = temp[1].team_id;
+
             if (datan123.rounds.length > 1){
                 let tm1 = 0;
                 let tm2 = 0;
@@ -253,6 +263,7 @@ function fetchMatchData(matchid) {
             .then((data) => {
                 let picksnbanz = [];
                 let payload = data.payload;
+              //  console.log(payload);
                 picksnbanz.push(payload.tickets[2]);
 
                 for (let d = 0; d < picksnbanz[0].entities.length; d++) {
@@ -269,9 +280,9 @@ function fetchMatchData(matchid) {
                 }
                 let fart = [];
                 let result = [];
-                let resultintheresult = [];
                 for (const syndeysweeny of detailedscr){
-                    (syndeysweeny.round_stats.Winner == syndeysweeny.teams[0].team_id) ? result.push(syndeysweeny.teams[0].team_stats.Team): result.push(syndeysweeny.teams[1].team_stats.Team);
+                  //  console.log(syndeysweeny.teams[0].team_id);
+                    (syndeysweeny.round_stats.Winner == syndeysweeny.teams[0].team_id) ? result.push(syndeysweeny.teams[0].team_id): result.push(syndeysweeny.teams[1].team_id);
                     (syndeysweeny.round_stats.Winner == syndeysweeny.teams[0].team_id) ? result.push(syndeysweeny.round_stats.Map) : result.push(syndeysweeny.round_stats.Map);
                     fart.push(syndeysweeny.round_stats.Score);
                 }
@@ -280,8 +291,10 @@ function fetchMatchData(matchid) {
                 let team2 = [];
                 team1.push(t1pfp);
                 team1.push(fac1);
+                team1.push(tem1id);
                 team2.push(t2pfp);
                 team2.push(fac2);
+                team2.push(tem2id);
                 shart.push(team1);
                 shart.push(team2);
                 picksnbanz[0]['detailed_score'] = fart;
@@ -293,6 +306,7 @@ function fetchMatchData(matchid) {
                 picksnbanz[0]['finished'] = finishedat;
                 picksnbanz[0]['score'] = score;
                 picksnbanz[0]['winner'] = winner;
+                picksnbanz[0]['winnerID'] = winnerid;
                 picksnbanz[0].entities[picksnbanz[0].entities.length - 1].selected_by = picksnbanz[0].entities[picksnbanz[0].entities.length - 2].selected_by;
                 picksnbanz[0]['teams'] = shart;
                 picksnbanz[0]['link'] = faceitlink;
@@ -327,31 +341,6 @@ function printToWebsite(dapicksanddabans){
     let tempor = currentseason;
 
     for (let d = 0; d < dapicksanddabans.length; d++){
-        //update the actual picks and bans here
-        //go through dapickanddabans.entities
-        //1. check if it's our team
-        //2. if our team, check the guid
-        //3. then, check the status  and choose accordingly either update bans variable or update picks variable
-
-        if(dapicksanddabans[d].winner.toUpperCase() == h3.textContent.toUpperCase()){
-            if(dapicksanddabans[d].season == "50"){
-                wins = wins + 1;
-            }
-            else {
-                wins1 = wins1 + 1;
-            }
-        }
-        else{
-            if(dapicksanddabans[d].season == "50"){
-                loss = loss + 1;
-            }
-            else {
-                loss1 = loss1 + 1;
-            }
-            
-        }
-
-        //
         let gamediv = document.createElement('div');
         gamediv.id = "game"+d;
         gamediv.style.height = "150px";
@@ -363,18 +352,34 @@ function printToWebsite(dapicksanddabans){
         let score = document.createElement('div');
         score.innerHTML = dapicksanddabans[d].score;
         score.classList.add("scr");
-        switch(dapicksanddabans[d].winner.toUpperCase()){
-            case document.getElementById("h3").textContent:
-                score.style.color = 'green';
-                score.style.webkitFilter = "drop-shadow(0px 0px 2px #1eff00)";
-                
-                break;
-            default:
-                score.style.color = 'red';
-                score.style.webkitFilter = "drop-shadow(0px 0px 2px #ff0000)";
-                
-                break;
+        //update the actual picks and bans here
+        //go through dapickanddabans.entities
+        //1. check if it's our team
+        //2. if our team, check the guid
+        //3. then, check the status  and choose accordingly either update bans variable or update picks variable
+        console.log(dapicksanddabans[d]);
+        if(dapicksanddabans[d].winnerID == localStorage.getItem("team-id")){
+            score.style.color = 'green';
+            score.style.webkitFilter = "drop-shadow(0px 0px 2px #1eff00)";
+            if(dapicksanddabans[d].season == "50"){
+                wins = wins + 1;
+            }
+            else {
+                wins1 = wins1 + 1;
+            }
         }
+        else{
+            score.style.color = 'red';
+            score.style.webkitFilter = "drop-shadow(0px 0px 2px #ff0000)";
+            if(dapicksanddabans[d].season == "50"){
+                loss = loss + 1;
+            }
+            else {
+                loss1 = loss1 + 1;
+            }
+            
+        }
+
         if (coun == 0){
             let SeasonDivider = document.createElement('div');
             SeasonDivider.id = "ssnNum";
@@ -396,8 +401,8 @@ function printToWebsite(dapicksanddabans){
             }
             else{
                 //this means j is even idk about 0?
-                switch(dapicksanddabans[d].detailed_results[j].toUpperCase()){
-                    case document.getElementById("h3").textContent.toUpperCase():
+                switch(dapicksanddabans[d].detailed_results[j]){
+                    case localStorage.getItem("team-id"):
                         console.log("we won "+dapicksanddabans[d].detailed_results[j+1]);
                         switch(dapicksanddabans[d].detailed_results[j+1]){
                             case "de_ancient":
@@ -942,7 +947,7 @@ function printToWebsite(dapicksanddabans){
             tm1nme.style.transform = "translate(60px,-250px)";
             tm1nme.style.color = "#ffffff";
             tm1nme.style.fontSize = "25px";
-            tm1nme.style.textShadow = "0px 0px 2px "+(( tm1nme.innerHTML == dapicksanddabans[d].detailed_results[0]) ? "green" : "red");
+            tm1nme.style.textShadow = "0px 0px 2px "+(( fjksdhfksdj[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
             checkImageExists(fjksdhfksdj[0], function(exists) {
                 if (exists) {
                     tm1pfp.src = fjksdhfksdj[0];
@@ -961,7 +966,7 @@ function printToWebsite(dapicksanddabans){
             tm2nme.style.transform = "translate(300px,-250px)";
             tm2nme.style.color = "#ffffff";
             tm2nme.style.fontSize = "25px";
-            tm2nme.style.textShadow = "0px 0px 2px "+(( tm2nme.innerHTML == dapicksanddabans[d].detailed_results[0]) ? "green" : "red");
+            tm2nme.style.textShadow = "0px 0px 2px "+(( fsdfesfsdf[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
             checkImageExists(fsdfesfsdf[0], function(exists) {
                 if (exists) {
                     tm2pfp.src = fsdfesfsdf[0];
@@ -974,12 +979,12 @@ function printToWebsite(dapicksanddabans){
             let dascore = document.createElement("div");
             dascore.id = "dascore";
             for (const penisvagina of dapicksanddabans[d].detailed_score){
-                console.log(penisvagina);
+                //console.log(penisvagina);
                 dascore.innerHTML+=penisvagina+"<br>";
                 
             }
-            switch(dapicksanddabans[d].winner.toUpperCase()){
-                case document.getElementById("h3").textContent:
+            switch(dapicksanddabans[d].winnerID){
+                case localStorage.getItem("team-id"):
                     dascore.style.color = 'green';
                     dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #1eff00)";
 

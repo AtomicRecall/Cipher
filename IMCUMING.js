@@ -162,7 +162,7 @@ function ontop(){
 
         var teamname = document.createElement('div');
         teamname.id = "teamname";
-        teamname.innerHTML = "LATEST SEASON PLAYED: ";
+        //teamname.innerHTML = "LATEST SEASON PLAYED: ";
         getTeamNameDoc(data.player_id,0,"teamname");
         teamname.style.filter = "drop-shadow(0px 0px 2px #000000)";
         document.getElementById(".form-wrapper").appendChild(teamname);
@@ -181,8 +181,9 @@ function ontop(){
         });
 
         
-        document.getElementById(".form-wrapper").appendChild(accCr);
+        //document.getElementById(".form-wrapper").appendChild(accCr);
 
+        /*
         var LastLogged = document.createElement('div');
         LastLogged.id = "LastLogged";
         LastLogged.innerHTML = "LAST LOGGED IN: ";
@@ -191,6 +192,7 @@ function ontop(){
         LastLogged.innerHTML+=de;
         LastLogged.style.filter = "drop-shadow(0px 0px 2px #000000)";
         document.getElementById(".form-wrapper").appendChild(LastLogged);
+        */
 
     });  
 }
@@ -294,7 +296,6 @@ function funnyfunction(dataalolfunny){
                     crown.style.width = "30px";
                     crown.style.height = "30px";
                     crown.style.transform = "translate(-40px,-10px)";
-                    console.log("UMMM WHA THT EUFKC!!");
                     crown.src = "https://atomicrecall.github.io/Cipher/images/CAPTAIN.png";
                     crown.style.position = "absolute";
                     crown.style.opacity = 1;

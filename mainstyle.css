@@ -10,19 +10,31 @@ body {
     min-height: 100vh;
     background: #323838;
     overflow: hidden;
-    background-image: url("https://atomicrecall.github.io/Cipher/images/124411.jpeg");
+    background-image: url("images/124411.jpeg");
+    background-size: cover;
+    font-family: 'Play', sans-serif;
 }
 #fffff{
   position:absolute;
   font-size: 50px;
   color: white;
-  transform: translate(1150px,-350px);
+  transform: translate(1150px,-340px);
 }
 #ccccc{
   position:absolute;
   font-size: 50px;
   color: white;
-  transform: translate(1150px,-300px);
+  transform: translate(1350px,-340px);
+}
+.wrapper:hover h2 {
+  color: #FF5500;
+  animation: animate 7s linear infinite;
+}
+
+@keyframes animate {
+  100% {
+    filter: hue-rotate(360deg);
+  }
 }
 .wrapper {
     width: 1500px;
@@ -34,11 +46,12 @@ body {
     overflow: hidden;
     
 }
+
 #tw{
-  color: rgb(255, 255, 255);
   position: absolute;
+  color: rgb(255, 255, 255);
   filter: drop-shadow(3px 0px 1px #000000);
-  transform: translate(-865px,-465px);
+  transform: translate(-680px,-420px);
   font-size: 15px;
   font-family: 'Minecraftia', sans-serif;
 }
@@ -92,7 +105,7 @@ body {
 }
 .BanFileExplorer{
   display: grid;
-  transform: translateY(-280px);
+  transform: translateY(-205px);
   width: 1480px;
   height: 480px;
   background: #323838;
@@ -107,9 +120,10 @@ body {
 .scr{
   position: relative;
   font-size: 40px;
-  transform: translate(70px,-100px);
-  width: 120px;
+  transform: translate(50px,-100px);
+  width: 140px;
   pointer-events: none;
+  text-align: center;
   
 }
 .cvr {
@@ -174,13 +188,15 @@ h2{
   transform: translate(550px, -95px);
   color: #ffffff;
   font-size : 50px;
-  filter: drop-shadow(10px 0px 8px #000000);
+  
+  text-align: center;
+  transition: 1s;
 }
 h3{
   font-weight: bolder;
   display: flex;
   justify-content: center;
-  transform: translateY(-250px);
+  transform: translateY(-170px);
   font-size : 40px;
   filter: drop-shadow(2px 0px 2px #6d6d6d);
 }
@@ -194,24 +210,24 @@ h3{
   position: absolute;
   pointer-events: none;
   transform: translateY(-120px);
-  opacity: 20%;
+  opacity: 100%;
   filter: blur(5px);
   border-radius: 10% / 30%;
 }
 #elo{
   font-size: 25px;
   color: #ffffff;
-  transform: translate(12%, -255px);
+  transform: translate(12%, -225px);
 }
 #teamname{
   font-size: 25px;
   color: #ffffff;
-  transform: translate(12%, -245px);
+  transform: translate(12%, -215px);
 }
 #accountCreated{
   font-size: 25px;
   color: #000000;
-  transform: translate(178px, -235px);
+  transform: translate(178px, -215px);
 }
 #LastLogged{
   font-size: 25px;
@@ -318,6 +334,6 @@ h3{
 }
 #dascore{
   position: absolute;
-  transform: translateX(365px);
+  transform: translateX(345px);
   font-size: 50px;
 }
