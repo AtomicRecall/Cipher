@@ -1,1 +1,12 @@
-# Cipher
+# Do you HATE being locked out of FACEIT trying to read a team's map bans?
+### Try Cipher 
+Cipher is an app built into a website that, after signing in with your FACEIT account, you will be able to search for every cs2 team on faceit and read their picks and bans for currently Season 50 and Season 49
+This site uses the [FACEIT API](https://docs.faceit.com/docs/data-api/) and is one of my very first projects. 
+Many new features coming up like 
+```
+- AI tips
+- Steam account integration
+- Specific profiles for everyone that signed up
+- QoL features (being able to pick specifically what season you want, be able to download the result into a txt file, etc.)
+- many, many more!
+```
