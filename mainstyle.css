@@ -16,15 +16,15 @@ body {
 }
 #fffff{
   position:absolute;
-  font-size: 50px;
+  font-size: 20px;
   color: white;
-  transform: translate(1150px,-340px);
+  transform: translate(930px,420px);
 }
 #ccccc{
   position:absolute;
-  font-size: 50px;
+  font-size: 20px;
   color: white;
-  transform: translate(1350px,-340px);
+  transform: translate(1150px,420px);
 }
 .wrapper:hover h2 {
   color: #FF5500;
@@ -51,7 +51,7 @@ body {
   position: absolute;
   color: rgb(255, 255, 255);
   filter: drop-shadow(3px 0px 1px #000000);
-  transform: translate(-680px,-420px);
+  transform: translate(-660px,-415px);
   font-size: 15px;
   font-family: 'Minecraftia', sans-serif;
 }
@@ -105,7 +105,7 @@ body {
 }
 .BanFileExplorer{
   display: grid;
-  transform: translateY(-205px);
+  transform: translateY(-220px);
   width: 1480px;
   height: 480px;
   background: #323838;
@@ -196,7 +196,7 @@ h3{
   font-weight: bolder;
   display: flex;
   justify-content: center;
-  transform: translateY(-170px);
+  transform: translateY(-180px);
   font-size : 40px;
   filter: drop-shadow(2px 0px 2px #6d6d6d);
 }

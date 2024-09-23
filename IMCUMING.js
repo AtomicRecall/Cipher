@@ -152,7 +152,7 @@ function ontop(){
         warning.id = "warnn";
         warning.style.fontSize = "25px";
         warning.style.color = "white";
-        warning.style.transform = "translate(160px,-285px)";
+        warning.style.transform = "translate(10px, 465px)";
         document.getElementById(".form-wrapper").appendChild(warning);
         var elo = document.createElement('div');
         elo.innerHTML = ("ELO: "+data.games.cs2.faceit_elo);
