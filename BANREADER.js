@@ -14,6 +14,7 @@ document.getElementById("rtrnBtn").style.transform = "translate(1330px, 5px)";
 let ffws = 0;
 let ffws1 = 0;
 
+let defaultimage = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
 //setup image_links
 
 //ancient = 0;
@@ -138,7 +139,7 @@ function GetLeaguePickBans(leaderid, offset) {
         // Process each match and filter
         let matchPromises = allMatches.map((match) => {
             if (match.competition_name.includes("ESEA") && !match.competition_name.includes("S48")) {
-                return fetchMatchData(match.match_id); // Fetch only non-S48 ESEA matches
+                return fetchMatchData(match.match_id, leaderid); // Fetch only non-S48 ESEA matches
             }
             return Promise.resolve();
         });
@@ -157,7 +158,7 @@ function GetLeaguePickBans(leaderid, offset) {
     });
 }
 
-function fetchMatchData(matchid) {
+function fetchMatchData(matchid,leaderid) {
     return fetch(`https://open.faceit.com/data/v4/matches/${matchid}`, {
         headers: {
             'accept': 'application/json',
@@ -186,20 +187,35 @@ function fetchMatchData(matchid) {
         let faceitlink = errthang.faceit_url.replace("{lang}", '');
         let season = errthang.competition_name.substring(6, 8);
         let bostof = errthang.best_of;
+        //console.log(errthang)
         let fac1 = errthang.teams.faction1.name;
         let fac2 = errthang.teams.faction2.name;
+
+        let fac1id = errthang.teams.faction1.faction_id;
+        let fac2id = errthang.teams.faction2.faction_id;
         let finishedat = errthang.finished_at;
-        let winner = datan12.detailed_results[0].winner;
-       // console.log(datan12);
+
         let winnerid = "fartcock";
-        if (winner == "faction1"){
-            winner = fac1;
-            winnerid = datan12.teams.faction1.faction_id;
+        let winner = datan12.detailed_results[0].winner;
+        let fac1wins = 0;
+        let fac2wins = 0;
+        for (const winor of datan12.detailed_results){
+            //check the winner of every winor, count the amount of times fac1 wins and count the amount of times fac2 wins, whichever one is bigger is the winner
+            if (winor.winner == "faction1"){
+                fac1wins++;
+            }
+            else {
+                fac2wins++;
+            }
+            if(fac1wins > fac2wins){
+                winner = fac1;
+                winnerid = datan12.teams.faction1.faction_id;
+            }
+            else{
+                winner = fac2;
+                winnerid = datan12.teams.faction2.faction_id;
+            }
         }
-        else {
-            winner = fac2;
-            winnerid = datan12.teams.faction2.faction_id;
-        }       
         return fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
             headers: {
                 'accept': 'application/json',
@@ -225,27 +241,26 @@ function fetchMatchData(matchid) {
         .then((datan123) => {
            // console.log(datan123);
             let detailedscr = datan123.rounds;
-            let score = null;
+            let scoree = null;
             
             let temp = datan123.rounds[0].teams;
             let tem1id = temp[0].team_id;
             let tem2id = temp[1].team_id;
-
             if (datan123.rounds.length > 1){
                 let tm1 = 0;
                 let tm2 = 0;
                 for (const m of datan123.rounds){
-                    if (m.round_stats.Score.substring(0,2) > m.round_stats.Score.substring(4,6)){
+                    if (Number(m.round_stats.Score.substring(0,2)) > Number(m.round_stats.Score.substring(4,6))){
                         tm1++;
                     }
                     else{
                         tm2++;
                     }
                 }
-                score = tm1+" / "+tm2;
+                scoree = tm1+" / "+tm2;
             }
             else{
-                score = datan123.rounds[0].round_stats.Score;
+                scoree = datan123.rounds[0].round_stats.Score;
             }
 
             return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
@@ -280,15 +295,11 @@ function fetchMatchData(matchid) {
                 }
                 let fart = [];
                 let result = [];
-                for (const syndeysweeny of detailedscr){
-                  //  console.log(syndeysweeny.teams[0].team_id);
-                    (syndeysweeny.round_stats.Winner == syndeysweeny.teams[0].team_id) ? result.push(syndeysweeny.teams[0].team_id): result.push(syndeysweeny.teams[1].team_id);
-                    (syndeysweeny.round_stats.Winner == syndeysweeny.teams[0].team_id) ? result.push(syndeysweeny.round_stats.Map) : result.push(syndeysweeny.round_stats.Map);
-                    fart.push(syndeysweeny.round_stats.Score);
-                }
-                let shart = [];
                 let team1 = [];
                 let team2 = [];
+                let ist2 = false;
+                let shart = [];
+
                 team1.push(t1pfp);
                 team1.push(fac1);
                 team1.push(tem1id);
@@ -304,13 +315,36 @@ function fetchMatchData(matchid) {
                 picksnbanz[0]['season'] = season;
                 picksnbanz[0]['compname'] = compname
                 picksnbanz[0]['finished'] = finishedat;
-                picksnbanz[0]['score'] = score;
+                picksnbanz[0]['score'] = scoree;
                 picksnbanz[0]['winner'] = winner;
                 picksnbanz[0]['winnerID'] = winnerid;
                 picksnbanz[0].entities[picksnbanz[0].entities.length - 1].selected_by = picksnbanz[0].entities[picksnbanz[0].entities.length - 2].selected_by;
                 picksnbanz[0]['teams'] = shart;
                 picksnbanz[0]['link'] = faceitlink;
                
+                for (const syndeysweeny of detailedscr){
+                   // console.log(syndeysweeny);
+                    //check each team, once you found the captain, send a variable to the specific team the captain is on, we will use the variable for other shit later
+                    for (const players of syndeysweeny.teams[0].players){
+                        if (players.player_id == leaderid){
+                            team1.push("CAP");
+                            ist2 = false;
+                            break;
+                        }
+                        else{
+                            ist2 = true;
+                            continue;
+                        }
+                    }
+                    if (ist2 == true){
+                        team2.push("CAP");
+                    }
+                
+                    (syndeysweeny.round_stats.Winner == syndeysweeny.teams[0].team_id) ? result.push(syndeysweeny.teams[0].team_id): result.push(syndeysweeny.teams[1].team_id);
+                    (syndeysweeny.round_stats.Winner == syndeysweeny.teams[0].team_id) ? result.push(syndeysweeny.round_stats.Map) : result.push(syndeysweeny.round_stats.Map);
+                    fart.push(syndeysweeny.round_stats.Score);
+                }
+
                 // Update global array
                 picksnbans.push(picksnbanz[0]);
             });
@@ -339,7 +373,7 @@ function printToWebsite(dapicksanddabans){
 
     let coun = 0;
     let tempor = currentseason;
-
+    //let THETEAMWEARESEARCHING
     for (let d = 0; d < dapicksanddabans.length; d++){
         let gamediv = document.createElement('div');
         gamediv.id = "game"+d;
@@ -357,8 +391,20 @@ function printToWebsite(dapicksanddabans){
         //1. check if it's our team
         //2. if our team, check the guid
         //3. then, check the status  and choose accordingly either update bans variable or update picks variable
-        console.log(dapicksanddabans[d]);
-        if(dapicksanddabans[d].winnerID == localStorage.getItem("team-id")){
+       // console.log(dapicksanddabans[d]);
+       // console.log("The winner of the above game is "+dapicksanddabans[d].winnerID);
+        // find the team you are looking at, look through both teams in dapicksanddabans[d] and make "the team we are looking at" be that team's ID
+        for (const team in dapicksanddabans[d].teams){
+            for (const thinginteam in team){
+                if (thinginteam == "CAP"){
+
+                }
+            }
+        }
+       // console.log("The team we are looking at is "+THETEAMWEARESEARCHING);
+      // console.log(dapicksanddabans[d].winnerID+" == "+THETEAMWEARESEARCHING);
+       //console.log("EVERYTHING IS FUCKDD");
+        if(dapicksanddabans[d].winnerID == THETEAMWEARESEARCHING){
             score.style.color = 'green';
             score.style.webkitFilter = "drop-shadow(0px 0px 2px #1eff00)";
             if(dapicksanddabans[d].season == "50"){
@@ -401,9 +447,11 @@ function printToWebsite(dapicksanddabans){
             }
             else{
                 //this means j is even idk about 0?
+               // console.log("POOP IN MY ASS");
+               // console.log(dapicksanddabans[d].detailed_results[j]);
                 switch(dapicksanddabans[d].detailed_results[j]){
-                    case localStorage.getItem("team-id"):
-                        console.log("we won "+dapicksanddabans[d].detailed_results[j+1]);
+                    case THETEAMWEARESEARCHING:
+                        //console.log("we won "+dapicksanddabans[d].detailed_results[j+1]);
                         switch(dapicksanddabans[d].detailed_results[j+1]){
                             case "de_ancient":
                                 played[0]= played[0]+1;
@@ -438,7 +486,7 @@ function printToWebsite(dapicksanddabans){
                         }
                         break;
                     default:
-                        console.log("we lost "+dapicksanddabans[d].detailed_results[j+1]);
+                       // console.log("we lost "+dapicksanddabans[d].detailed_results[j+1]);
                         switch(dapicksanddabans[d].detailed_results[j+1]){
                             case "de_ancient":
                                 played[0]= played[0]+1;
@@ -478,7 +526,7 @@ function printToWebsite(dapicksanddabans){
         for (const penis of dapicksanddabans[d].entities){
             if (penis.status == "pick"){
                 if(penis.selected_by.toUpperCase() == h3.innerText){
-                    console.log("wE PICKED "+penis.guid);
+                   // console.log("wE PICKED "+penis.guid);
                     switch(penis.guid){
                         case "de_ancient":
                                 picks[0]= picks[0]+1;
@@ -577,7 +625,7 @@ function printToWebsite(dapicksanddabans){
             }
             else if (penis.status == "drop"){
                 if(penis.selected_by.toUpperCase() == h3.innerText){
-                    console.log("WE FUCKING BANNED "+penis.guid);
+                    //console.log("WE FUCKING BANNED "+penis.guid);
                     switch(penis.guid){
                         case "de_ancient":
                                 bans[0]= bans[0]+1;
@@ -652,8 +700,8 @@ function printToWebsite(dapicksanddabans){
                 allInfoDivider.appendChild(ancL);
                 allInfoDivider.appendChild(ancW);
 
-                console.log("Banned ancient "+bans[0]+" times");
-                console.log("Played ancient "+played[0]+" times");
+               // console.log("Banned ancient "+bans[0]+" times");
+               // console.log("Played ancient "+played[0]+" times");
                 break;
             //anu
             case 1:
@@ -676,8 +724,8 @@ function printToWebsite(dapicksanddabans){
                 allInfoDivider.appendChild(anuplay);
                 allInfoDivider.appendChild(anuL);
                 allInfoDivider.appendChild(anuW);
-                console.log("Banned anubis "+bans[1]+" times");
-                console.log("Played anubis "+played[1]+" times");
+              //  console.log("Banned anubis "+bans[1]+" times");
+              //  console.log("Played anubis "+played[1]+" times");
                 break;
             //inf
             case 2:
@@ -700,8 +748,8 @@ function printToWebsite(dapicksanddabans){
                 allInfoDivider.appendChild(infplay);
                 allInfoDivider.appendChild(infL);
                 allInfoDivider.appendChild(infW);
-                console.log("Banned inferno "+bans[2]+" times");
-                console.log("Played inferno "+played[2]+" times");
+              //  console.log("Banned inferno "+bans[2]+" times");
+             //   console.log("Played inferno "+played[2]+" times");
                 break; 
             //d2
             case 3:
@@ -724,8 +772,8 @@ function printToWebsite(dapicksanddabans){
                 allInfoDivider.appendChild(d2play);
                 allInfoDivider.appendChild(d2L);
                 allInfoDivider.appendChild(d2W);
-                console.log("Banned dust 2 "+bans[3]+" times");
-                console.log("Played dust 2 "+played[3]+" times");
+              //  console.log("Banned dust 2 "+bans[3]+" times");
+             //   console.log("Played dust 2 "+played[3]+" times");
                 break; 
             //mir
             case 4:
@@ -751,8 +799,8 @@ function printToWebsite(dapicksanddabans){
                 movementdivider.appendChild(mirW);
                 movementdivider.style.transform = "translate(200px, -475px)";
                 allInfoDivider.appendChild(movementdivider);
-                console.log("Banned mirage "+bans[4]+" times");
-                console.log("Played mirage "+played[4]+" times");
+             //   console.log("Banned mirage "+bans[4]+" times");
+            //    console.log("Played mirage "+played[4]+" times");
                 break; 
             //nuk 
             case 5:
@@ -778,8 +826,8 @@ function printToWebsite(dapicksanddabans){
                 movementdivider1.appendChild(nuW);
                 movementdivider1.style.transform = "translate(200px, -475px)";
                 allInfoDivider.appendChild(movementdivider1);
-                console.log("Banned nuke "+bans[5]+" times");
-                console.log("Played nuke "+played[5]+" times");
+             //   console.log("Banned nuke "+bans[5]+" times");
+              //  console.log("Played nuke "+played[5]+" times");
                 break; 
             //ver    
             case 6:
@@ -805,8 +853,8 @@ function printToWebsite(dapicksanddabans){
                 movementdivider2.appendChild(verW);
                 movementdivider2.style.transform = "translate(200px, -475px)";
                 allInfoDivider.appendChild(movementdivider2);
-                console.log("Banned vertigo "+bans[6]+" times");
-                console.log("Played vertigo "+played[6]+" times");
+              //  console.log("Banned vertigo "+bans[6]+" times");
+              //  console.log("Played vertigo "+played[6]+" times");
                 break;   
             default:
                 break;
@@ -862,7 +910,6 @@ function printToWebsite(dapicksanddabans){
                     bigimage.id = "image";
                     bigimage.classList.add("cvr");
 
-                    
                     if(dapicksanddabans[d].entity_type >= 2){
                         bigimage.style.height = "300px";
                         bigimage.style.width = "167px";
@@ -952,7 +999,7 @@ function printToWebsite(dapicksanddabans){
                 if (exists) {
                     tm1pfp.src = fjksdhfksdj[0];
                 } else {
-                    tm1pfp.src = "/images/DEFAULTT.jpg"; // Use fallback URL if the image doesn't exist
+                    tm1pfp.src = defaultimage// Use fallback URL if the image doesn't exist
                 }
             });
 
@@ -971,34 +1018,11 @@ function printToWebsite(dapicksanddabans){
                 if (exists) {
                     tm2pfp.src = fsdfesfsdf[0];
                 } else {
-                    tm2pfp.src = "/images/DEFAULTT.jpg"; // Use fallback URL if the image doesn't exist
+                    tm2pfp.src = defaultimage; // Use fallback URL if the image doesn't exist
                 }
             });
 
             //display score here?
-            let dascore = document.createElement("div");
-            dascore.id = "dascore";
-            for (const penisvagina of dapicksanddabans[d].detailed_score){
-                //console.log(penisvagina);
-                dascore.innerHTML+=penisvagina+"<br>";
-                
-            }
-            switch(dapicksanddabans[d].winnerID){
-                case localStorage.getItem("team-id"):
-                    dascore.style.color = 'green';
-                    dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #1eff00)";
-
-                    
-                    break;
-                default:
-                    dascore.style.color = 'red';
-                    dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #ff0000)";
-                    
-                    break;
-            }
-            
-
-            
             let VS = document.createElement("div");
             VS.id = "VS";
             VS.innerHTML = "VS";
@@ -1008,15 +1032,41 @@ function printToWebsite(dapicksanddabans){
             holyshitsomanymapss.appendChild(tm2pfp);
             holyshitsomanymapss.appendChild(tm2nme);
             holyshitsomanymapss.appendChild(VS);
-
-            let emptydiv = document.createElement("div");
-            emptydiv.innerHTML = "_";
-            emptydiv.style.opacity = "0";
-            quickInfoDivider.appendChild(emptydiv);
             quickInfoDivider.appendChild(holyshitsomanymapss);
-            quickInfoDivider.appendChild(dascore);
             quickInfoDivider.appendChild(info);
 
+            let omfgsomanycounters = 0;
+            for (const stuff of dapicksanddabans[d].detailed_results){
+                if(omfgsomanycounters % 2==0){
+                 
+                    if (dapicksanddabans[d].detailed_results[omfgsomanycounters] == THETEAMWEARESEARCHING){
+
+                        let holyshitsomanyscore = document.createElement("div");
+                        holyshitsomanyscore.classList.add("scoreinthescore")
+                        holyshitsomanyscore.style.color = 'green';
+                        holyshitsomanyscore.innerHTML = dapicksanddabans[d].detailed_score[omfgsomanycounters/2];
+                        quickInfoDivider.appendChild(holyshitsomanyscore);
+                        //dascore.style.color = 'green';
+                        //dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #1eff00)";
+                        
+                    }
+                    else {
+                        let holyshitsomanyscoree = document.createElement("div");
+                        holyshitsomanyscoree.classList.add("scoreinthescore")
+                        holyshitsomanyscoree.style.color = 'red';
+                        holyshitsomanyscoree.innerHTML = dapicksanddabans[d].detailed_score[omfgsomanycounters/2];
+                        quickInfoDivider.appendChild(holyshitsomanyscoree);
+                        //dascore.style.color = 'red';
+                        //dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #ff0000)";
+                        
+                    }
+
+                }
+                else {
+
+                }
+                omfgsomanycounters++;
+            }
             
         }
         document.getElementById("game"+d).onmouseout = function(){
