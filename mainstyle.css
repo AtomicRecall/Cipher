@@ -57,19 +57,126 @@ body {
 }
 
 #quickInfo{
+  color: white;
   align-items: center;
   justify-content: center;
   position: absolute;
   width: 480px;
   height: 480px;
-  transform: translate(300px);
+  transform: translate(260px);
 }
 #allInfo{
   position: absolute;
   width: 680px;
   height: 480px;
-  transform: translateX(815px);
+  transform: translateX(775px);
   
+}
+#ancientimage{
+  transform: translateY(20px);
+  opacity: 60%;
+}
+#ancient{
+  filter: drop-shadow(.5px 0.5px 0.1px black);
+  transform: translateY(20px);
+  width: 230px;
+  height: 130px;
+  position: absolute;
+  color: black;
+}
+#de_ancient{
+  color: white;
+  filter: drop-shadow(.5px 0.5px 2px lime);
+}
+#anubisimage{
+  transform: translateY(175px);
+  opacity: 60%;
+}
+#anubis{
+  filter: drop-shadow(.5px 0.5px 0.1px black);
+  width: 230px;
+  height: 130px;
+  position: absolute;
+  transform: translateY(175px);
+}
+#de_anubis{
+  color:white;
+  filter: drop-shadow(.5px 0.5px 2px salmon)
+}
+#infimage{
+  transform: translateY(330px);
+  opacity: 60%;
+}
+#inferno{
+  filter: drop-shadow(.5px 0.5px 0.1px black);
+  width: 230px;
+  height: 130px;
+  position: absolute;
+  transform: translateY(330px);
+}
+#de_inferno{
+  color: white;
+  filter: drop-shadow(.5px 0.5px 2px rgb(171, 99, 39))
+}
+#d2image{
+  transform: translate(235px,20px);
+  opacity: 60%;
+}
+#dust2{
+  filter: drop-shadow(.5px 0.5px 0.1px black);
+  width: 230px;
+  height: 130px;
+  position: absolute;
+  transform: translate(235px,20px);
+}
+#de_dust2{
+  color:white;
+  filter: drop-shadow(.5px 0.5px 2px skyblue)
+}
+#mirimage{
+  transform: translate(235px,175px);
+  opacity: 60%;
+}
+#mirage{
+  filter: drop-shadow(.5px 0.5px 0.1px black);
+  width: 230px;
+  height: 130px;
+  position: absolute;
+  transform: translate(235px,175px);
+}
+#de_mirage{
+  color:white;
+  filter: drop-shadow(.5px 0.5px 2px rgb(215, 183, 0));
+}
+#nukimage{
+  transform: translate(235px,330px);
+  opacity: 60%;
+}
+#nuke{
+  filter: drop-shadow(.5px 0.5px 0.1px black);
+  width: 230px;
+  height: 130px;
+  position: absolute;
+  transform: translate(235px,330px);
+}
+#de_nuke{
+  color: white;
+  filter: drop-shadow(.5px 0.5px 2px cyan);
+}
+#verimage{
+  transform: translate(480px,30px);
+  opacity: 60%;
+}
+#vertigo{
+  filter: drop-shadow(.5px 0.5px 0.1px black);
+  width: 230px;
+  height: 130px;
+  position: absolute;
+  transform: translate(480px,30px);
+}
+#de_vertigo{
+  color:White;
+  filter: drop-shadow(.5px 0.5px 2px blue)
 }
 #warnn{
   position: absolute;
@@ -138,21 +245,40 @@ body {
 .red {
   color: red;
 }
+.redd{
+  color: red;
+  filter: drop-shadow(.5px 0.5px 1px black);
+}
 .green {
   color: green;
+}
+.greenn{
+  color: green;
+  filter: drop-shadow(.5px 0.5px 0.75px black);
+
+}
+.white{
+  color: white;
+  filter: drop-shadow(.5px 0.5px 0.75px white);
 }
 .black {
   color: black;
 }
 .smalltext {
+  color: black;
   position: absolute;
   transform: translateY(-5px);
-  font-size: 20px;
-  color: black;
+  font-size: 15px;
+  
   
 }
 .grey{
   color: grey;
+}
+.greyy{
+  color: grey;
+  filter: drop-shadow(.5px 0.5px 0.75px black);
+
 }
 .dvr{
   box-sizing: border-box;

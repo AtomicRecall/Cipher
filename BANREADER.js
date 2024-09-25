@@ -17,11 +17,12 @@ var ffws1 = 0;
 var defaultimage = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
 //setup image_links
 var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+//var loadGears = "/images/gears.gif"
 var loadingimage = document.createElement("img");
 loadingimage.src = loadGears;
-loadingimage.style.width = "570px";
-loadingimage.style.height = "190px";
-loadingimage.style.transform = "translate(400px,200px)";
+loadingimage.style.width = "600px";
+loadingimage.style.height = "200px";
+loadingimage.style.transform = "translate(450px,150px)";
 loadingimage.style.position = "absolute";
 loadingimage.id = "removemepls";
 document.getElementById(".BanFileExplorer").appendChild(loadingimage);
@@ -91,7 +92,7 @@ var picksnbans = [];
 fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     headers: {
         'accept': 'application/json',
-        'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+        'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
     }
 }).then((res) => {
     if (!res.ok) {
@@ -128,7 +129,7 @@ function GetLeaguePickBans(leaderid, offset) {
     return fetch(`https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${offset}&limit=100`, {
         headers: {
             'accept': 'application/json',
-            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
         }
     }).then((res) => {
         if (!res.ok) {
@@ -174,7 +175,7 @@ function fetchMatchData(matchid,leaderid) {
     return fetch(`https://open.faceit.com/data/v4/matches/${matchid}`, {
         headers: {
             'accept': 'application/json',
-            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
         }
     })
     .then((res) => {
@@ -231,7 +232,7 @@ function fetchMatchData(matchid,leaderid) {
         return fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
             headers: {
                 'accept': 'application/json',
-                'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+                'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
             }
         })
         .then((res) => {
@@ -690,181 +691,259 @@ function printToWebsite(dapicksanddabans){
     //organize the info from the global arrays initalized above
     for(let y = 0; y < 7; y++){
         switch(y){
+            
             //anc
             case 0:
+                let DAancient = document.createElement("div");
+                DAancient.id = "ancient";
+                let ancimage = document.createElement("img");
+                ancimage.id = "ancientimage";
+                ancimage.src = image_links[0];
+                ancimage.style.width = "230px";
+                ancimage.style.height = "130px";
+                ancimage.style.position = "absolute";
                 let mapidentifier = document.createElement("div");
+                mapidentifier.id = "de_ancient";
                 mapidentifier.style.fontSize = "25px";
-                mapidentifier.innerHTML = "de_ancient";
+                mapidentifier.innerHTML = "Ancient";
                 let ancbans = document.createElement("div");
-                ancbans.innerHTML = "Banned de_ancient "+bans[0]+((bans[0] > 1|| bans[0] == 0) ? " times" : " time")+".";
+                ancbans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[0]+((bans[0] > 1|| bans[0] == 0) ? " times" : " time")+".";
                 let ancpics = document.createElement("div");
-                ancpics.innerHTML = "Picked de_ancient "+picks[0]+((picks[0] > 1|| picks[0] == 0) ? " times" : " time")+".";
+                ancpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[0]+((picks[0] > 1|| picks[0] == 0) ? " times" : " time")+".";
                 let ancplay = document.createElement("div");
-                ancplay.innerHTML = "Played de_ancient "+played[0]+((played[0] > 1|| played[0] == 0) ? " times" : " time")+".";
+                ancplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[0]+((played[0] > 1|| played[0] == 0) ? " times" : " time")+".";
                 let ancL = document.createElement("div");
-                ancL.innerHTML = "Lost de_ancient "+L[0]+((L[0] > 1|| L[0] == 0) ? " times" : " time")+".";
+                ancL.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[0]+((L[0] > 1|| L[0] == 0) ? " times" : " time")+".";
                 let ancW = document.createElement("div");
-                ancW.innerHTML = "Won de_ancient "+W[0]+((W[0] > 1|| W[0] == 0) ? " times" : " time")+".";
-                allInfoDivider.appendChild(mapidentifier);
-                allInfoDivider.appendChild(ancbans);
-                allInfoDivider.appendChild(ancpics);
-                allInfoDivider.appendChild(ancplay);
-                allInfoDivider.appendChild(ancL);
-                allInfoDivider.appendChild(ancW);
-
+                ancW.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[0]+((W[0] > 1|| W[0] == 0) ? " times" : " time")+".";
+                allInfoDivider.appendChild(ancimage);
+                DAancient.appendChild(mapidentifier);
+                DAancient.appendChild(ancbans);
+                DAancient.appendChild(ancpics);
+                DAancient.appendChild(ancplay);
+                DAancient.appendChild(ancL);
+                DAancient.appendChild(ancW);
+                //DAancient.appendChild(ancimage);
+                allInfoDivider.appendChild(DAancient);
                // console.log("Banned ancient "+bans[0]+" times");
                // console.log("Played ancient "+played[0]+" times");
                 break;
             //anu
             case 1:
+                let DAanubis = document.createElement("div");
+                DAanubis.id = "anubis";
+                let anuimage = document.createElement("img");
+                anuimage.id = "anubisimage";
+                anuimage.src = image_links[1];
+                anuimage.style.width = "230px";
+                anuimage.style.height = "130px";
+                anuimage.style.position = "absolute";
                 let mapidentifier1 = document.createElement("div");
                 mapidentifier1.style.fontSize = "25px";
-                mapidentifier1.innerHTML = "de_anubis";
+                mapidentifier1.innerHTML = "Anubis";
+                mapidentifier1.id = "de_anubis"
                 let anubans = document.createElement("div");
-                anubans.innerHTML = "Banned de_anubis "+bans[1]+((bans[1] > 1|| bans[1] == 0) ? " times" : " time")+".";
+                anubans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[1]+((bans[1] > 1|| bans[1] == 0) ? " times" : " time")+".";
                 let anupics = document.createElement("div");
-                anupics.innerHTML = "Picked de_anubis "+picks[1]+((picks[1] > 1|| picks[1] == 0) ? " times" : " time")+".";
+                anupics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[1]+((picks[1] > 1|| picks[1] == 0) ? " times" : " time")+".";
                 let anuplay = document.createElement("div");
-                anuplay.innerHTML = "Played de_anubis "+played[1]+((played[1] > 1|| played[1] == 0) ? " times" : " time")+".";
+                anuplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[1]+((played[1] > 1|| played[1] == 0) ? " times" : " time")+".";
                 let anuL = document.createElement("div");
-                anuL.innerHTML = "Lost de_anubis "+L[1]+((L[1] > 1|| L[1] == 0) ? " times" : " time")+".";
+                anuL.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[1]+((L[1] > 1|| L[1] == 0) ? " times" : " time")+".";
                 let anuW = document.createElement("div");
-                anuW.innerHTML = "Won de_anubis "+W[1]+((W[1] > 1|| W[1] == 0) ? " times" : " time")+".";
-                allInfoDivider.appendChild(mapidentifier1);
-                allInfoDivider.appendChild(anubans);
-                allInfoDivider.appendChild(anupics);
-                allInfoDivider.appendChild(anuplay);
-                allInfoDivider.appendChild(anuL);
-                allInfoDivider.appendChild(anuW);
+                anuW.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[1]+((W[1] > 1|| W[1] == 0) ? " times" : " time")+".";
+                allInfoDivider.appendChild(anuimage);
+                DAanubis.appendChild(mapidentifier1);
+                DAanubis.appendChild(anubans);
+                DAanubis.appendChild(anupics);
+                DAanubis.appendChild(anuplay);
+                DAanubis.appendChild(anuL);
+                DAanubis.appendChild(anuW);
+                allInfoDivider.appendChild(DAanubis);
               //  console.log("Banned anubis "+bans[1]+" times");
               //  console.log("Played anubis "+played[1]+" times");
                 break;
             //inf
             case 2:
+                let DAinf = document.createElement("div");
+                DAinf.id = "inferno";
+                let infimage = document.createElement("img");
+               infimage.id = "infimage";
+                infimage.src = image_links[2];
+                infimage.style.width = "230px";
+                infimage.style.height = "130px";
+               infimage.style.position = "absolute";
                 let mapidentifier2 = document.createElement("div");
                 mapidentifier2.style.fontSize = "25px";
-                mapidentifier2.innerHTML = "de_inferno";
+                mapidentifier2.innerHTML = "Inferno";
+                mapidentifier2.id = "de_inferno";
                 let infbans = document.createElement("div");
-                infbans.innerHTML = "Banned de_inferno "+bans[2]+((bans[2] > 1|| bans[2] == 0) ? " times" : " time")+".";
+                infbans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[2]+((bans[2] > 1|| bans[2] == 0) ? " times" : " time")+".";
                 let infpics = document.createElement("div");
-                infpics.innerHTML = "Picked de_inferno "+picks[2]+((picks[2] > 1|| picks[2] == 0) ? " times" : " time")+".";
+                infpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[2]+((picks[2] > 1|| picks[2] == 0) ? " times" : " time")+".";
                 let infplay = document.createElement("div");
-                infplay.innerHTML = "Played de_inferno "+played[2]+((played[2] > 1|| played[2] == 0) ? " times" : " time")+".";
+                infplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[2]+((played[2] > 1|| played[2] == 0) ? " times" : " time")+".";
                 let infL = document.createElement("div");
-                infL.innerHTML = "Lost de_inferno "+L[2]+((L[2] > 1|| L[2] == 0) ? " times" : " time")+".";
+                infL.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[2]+((L[2] > 1|| L[2] == 0) ? " times" : " time")+".";
                 let infW = document.createElement("div");
-                infW.innerHTML = "Won de_inferno "+W[2]+((W[2] > 1|| W[2] == 0) ? " times" : " time")+".";
-                allInfoDivider.appendChild(mapidentifier2);
-                allInfoDivider.appendChild(infbans);
-                allInfoDivider.appendChild(infpics);
-                allInfoDivider.appendChild(infplay);
-                allInfoDivider.appendChild(infL);
-                allInfoDivider.appendChild(infW);
+                infW.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[2]+((W[2] > 1|| W[2] == 0) ? " times" : " time")+".";
+                allInfoDivider.appendChild(infimage);
+                DAinf.appendChild(mapidentifier2);
+                DAinf.appendChild(infbans);
+                DAinf.appendChild(infpics);
+                DAinf.appendChild(infplay);
+                DAinf.appendChild(infL);
+                DAinf.appendChild(infW);
+                allInfoDivider.appendChild(DAinf);
               //  console.log("Banned inferno "+bans[2]+" times");
              //   console.log("Played inferno "+played[2]+" times");
                 break; 
             //d2
             case 3:
+                let DAd2 = document.createElement("div");
+                DAd2.id = "dust2";
+                let d2image = document.createElement("img");
+                d2image.id = "d2image";
+                d2image.src = image_links[3];
+                d2image.style.width = "230px";
+                d2image.style.height = "130px";
+                d2image.style.position = "absolute";
                 let mapidentifier3 = document.createElement("div");
                 mapidentifier3.style.fontSize = "25px";
-                mapidentifier3.innerHTML = "de_dust2";
+                mapidentifier3.innerHTML = "Dust2";
+                mapidentifier3.id = "de_dust2";
                 let d2bans = document.createElement("div");
-                d2bans.innerHTML = "Banned de_dust2 "+bans[3]+((bans[3] > 1|| bans[3] == 0) ? " times" : " time")+".";
+                d2bans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[3]+((bans[3] > 1|| bans[3] == 0) ? " times" : " time")+".";
                 let d2pics = document.createElement("div");
-                d2pics.innerHTML = "Picked de_dust2 "+picks[3]+((picks[3] > 1|| picks[3] == 0) ? " times" : " time")+".";
+                d2pics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[3]+((picks[3] > 1|| picks[3] == 0) ? " times" : " time")+".";
                 let d2play = document.createElement("div");
-                d2play.innerHTML = "Played de_dust2 "+played[3]+((played[3] > 1|| played[3] == 0) ? " times" : " time")+".";
+                d2play.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[3]+((played[3] > 1|| played[3] == 0) ? " times" : " time")+".";
                 let d2L = document.createElement("div");
-                d2L.innerHTML = "Lost de_dust2 "+L[3]+((L[3] > 1|| L[3] == 0) ? " times" : " time")+".";
+                d2L.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[3]+((L[3] > 1|| L[3] == 0) ? " times" : " time")+".";
                 let d2W = document.createElement("div");
-                d2W.innerHTML = "Won de_dust2 "+W[3]+((W[3] > 1|| W[3] == 0) ? " times" : " time")+".";
-                allInfoDivider.appendChild(mapidentifier3);
-                allInfoDivider.appendChild(d2bans);
-                allInfoDivider.appendChild(d2pics);
-                allInfoDivider.appendChild(d2play);
-                allInfoDivider.appendChild(d2L);
-                allInfoDivider.appendChild(d2W);
+                d2W.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[3]+((W[3] > 1|| W[3] == 0) ? " times" : " time")+".";
+                allInfoDivider.appendChild(d2image);
+                DAd2.appendChild(mapidentifier3);
+                DAd2.appendChild(d2bans);
+                DAd2.appendChild(d2pics);
+                DAd2.appendChild(d2play);
+                DAd2.appendChild(d2L);
+                DAd2.appendChild(d2W);
+                allInfoDivider.appendChild(DAd2);
               //  console.log("Banned dust 2 "+bans[3]+" times");
              //   console.log("Played dust 2 "+played[3]+" times");
                 break; 
             //mir
             case 4:
+                let DAmir = document.createElement("div");
+                DAmir.id = "mirage";
+                let mirimage = document.createElement("img");
+                mirimage.id = "mirimage";
+                mirimage.src = image_links[4];
+                mirimage.style.width = "230px";
+                mirimage.style.height = "130px";
+                mirimage.style.position = "absolute";
                 let movementdivider = document.createElement("div");
                 let mapidentifier4 = document.createElement("div");
                 mapidentifier4.style.fontSize = "25px";
-                mapidentifier4.innerHTML = "de_mirage";
+                mapidentifier4.innerHTML = "Mirage";
+                mapidentifier4.id = "de_mirage";
                 let mirbans = document.createElement("div");
-                mirbans.innerHTML = "Banned de_mirage "+bans[4]+((bans[4] > 1|| bans[4] == 0) ? " times" : " time")+".";
+                mirbans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[4]+((bans[4] > 1|| bans[4] == 0) ? " times" : " time")+".";
                 let mirpics = document.createElement("div");
-                mirpics.innerHTML = "Picked de_mirage "+picks[4]+((picks[4] > 1|| picks[4] == 0) ? " times" : " time")+".";
+                mirpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[4]+((picks[4] > 1|| picks[4] == 0) ? " times" : " time")+".";
                 let mirplay = document.createElement("div");
-                mirplay.innerHTML = "Played de_mirage "+played[4]+((played[4] > 1|| played[4] == 0) ? " times" : " time")+".";
+                mirplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[4]+((played[4] > 1|| played[4] == 0) ? " times" : " time")+".";
                 let mirL = document.createElement("div");
-                mirL.innerHTML = "Lost de_mirage "+L[4]+((L[4] > 1|| L[4] == 0) ? " times" : " time")+".";
+                mirL.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[4]+((L[4] > 1|| L[4] == 0) ? " times" : " time")+".";
                 let mirW = document.createElement("div");
-                mirW.innerHTML = "Won de_mirage "+W[4]+((W[4] > 1|| W[4] == 0) ? " times" : " time")+".";
+                mirW.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[4]+((W[4] > 1|| W[4] == 0) ? " times" : " time")+".";
+                allInfoDivider.appendChild(mirimage);
                 movementdivider.appendChild(mapidentifier4);
                 movementdivider.appendChild(mirbans);
                 movementdivider.appendChild(mirpics);
                 movementdivider.appendChild(mirplay);
                 movementdivider.appendChild(mirL);
                 movementdivider.appendChild(mirW);
-                movementdivider.style.transform = "translate(200px, -475px)";
-                allInfoDivider.appendChild(movementdivider);
+                DAmir.appendChild(movementdivider);
+                //movementdivider.style.transform = "translate(250px, -495px)";
+                allInfoDivider.appendChild(DAmir);
              //   console.log("Banned mirage "+bans[4]+" times");
             //    console.log("Played mirage "+played[4]+" times");
                 break; 
             //nuk 
             case 5:
+                let DAnuk = document.createElement("div");
+                DAnuk.id = "nuke";
+                let nukimage = document.createElement("img");
+                nukimage.id = "nukimage";
+                nukimage.src = image_links[5];
+                nukimage.style.width = "230px";
+                nukimage.style.height = "130px";
+                nukimage.style.position = "absolute";
                 let movementdivider1 = document.createElement("div");
                 let mapidentifier5 = document.createElement("div");
                 mapidentifier5.style.fontSize = "25px";
-                mapidentifier5.innerHTML = "de_nuke";
+                mapidentifier5.innerHTML = "Nuke";
+                mapidentifier5.id = "de_nuke";
                 let nubans = document.createElement("div");
-                nubans.innerHTML = "Banned de_nuke "+bans[5]+((bans[5] > 1|| bans[5] == 0) ? " times" : " time")+".";
+                nubans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[5]+((bans[5] > 1|| bans[5] == 0) ? " times" : " time")+".";
                 let nupics = document.createElement("div");
-                nupics.innerHTML = "Picked de_nuke "+picks[5]+((picks[5] > 1|| picks[5] == 0) ? " times" : " time")+".";
+                nupics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[5]+((picks[5] > 1|| picks[5] == 0) ? " times" : " time")+".";
                 let nuplay = document.createElement("div");
-                nuplay.innerHTML = "Played de_nuke "+played[5]+((played[5] > 1|| played[5] == 0) ? " times" : " time")+".";
+                nuplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[5]+((played[5] > 1|| played[5] == 0) ? " times" : " time")+".";
                 let nuL = document.createElement("div");
-                nuL.innerHTML = "Lost de_nuke "+L[5]+((L[5] > 1|| L[5] == 0) ? " times" : " time")+".";
+                nuL.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[5]+((L[5] > 1|| L[5] == 0) ? " times" : " time")+".";
                 let nuW = document.createElement("div");
-                nuW.innerHTML = "Won de_nukee "+W[5]+((W[5] > 1|| W[5] == 0) ? " times" : " time")+".";
+                nuW.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[5]+((W[5] > 1|| W[5] == 0) ? " times" : " time")+".";
+                allInfoDivider.appendChild(nukimage);
                 movementdivider1.appendChild(mapidentifier5);
                 movementdivider1.appendChild(nubans);
                 movementdivider1.appendChild(nupics);
                 movementdivider1.appendChild(nuplay);
                 movementdivider1.appendChild(nuL);
                 movementdivider1.appendChild(nuW);
-                movementdivider1.style.transform = "translate(200px, -475px)";
-                allInfoDivider.appendChild(movementdivider1);
+                //movementdivider1.style.transform = "translate(250px, -495px)";
+                DAnuk.appendChild(movementdivider1);
+                allInfoDivider.appendChild(DAnuk);
              //   console.log("Banned nuke "+bans[5]+" times");
               //  console.log("Played nuke "+played[5]+" times");
                 break; 
             //ver    
             case 6:
+                let DAver = document.createElement("div");
+                DAver.id = "vertigo";
+                let verimage = document.createElement("img");
+                verimage.id = "verimage";
+                verimage.src = image_links[6];
+                verimage.style.width = "230px";
+                verimage.style.height = "130px";
+                verimage.style.position = "absolute";
                 let movementdivider2 = document.createElement("div");
                 let mapidentifier6 = document.createElement("div");
                 mapidentifier6.style.fontSize = "25px";
-                mapidentifier6.innerHTML = "de_vertigo";
+                mapidentifier6.innerHTML = "Vertigo";
+                mapidentifier6.id = "de_vertigo";
                 let verbans = document.createElement("div");
-                verbans.innerHTML = "Banned de_vertigo "+bans[6]+((bans[6] > 1|| bans[6] == 0) ? " times" : " time")+".";
+                verbans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[6]+((bans[6] > 1|| bans[6] == 0) ? " times" : " time")+".";
                 let verpics = document.createElement("div");
-                verpics.innerHTML = "Picked de_vertigo "+picks[6]+((picks[6] > 1|| picks[6] == 0) ? " times" : " time")+".";
+                verpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[6]+((picks[6] > 1|| picks[6] == 0) ? " times" : " time")+".";
                 let verplay = document.createElement("div");
-                verplay.innerHTML = "Played de_vertigo "+played[6]+((played[6] > 1|| played[6] == 0) ? " times" : " time")+".";
+                verplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[6]+((played[6] > 1|| played[6] == 0) ? " times" : " time")+".";
                 let verL = document.createElement("div");
-                verL.innerHTML = "Lost de_vertigo "+L[6]+((L[6] > 1|| L[6] == 0) ? " times" : " time")+".";
+                verL.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[6]+((L[6] > 1|| L[6] == 0) ? " times" : " time")+".";
                 let verW = document.createElement("div");
-                verW.innerHTML = "Won de_vertigo "+W[6]+((W[6] > 1|| W[6] == 0) ? " times" : " time")+".";
+                verW.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[6]+((W[6] > 1|| W[6] == 0) ? " times" : " time")+".";
+                allInfoDivider.appendChild(verimage);
                 movementdivider2.appendChild(mapidentifier6);
                 movementdivider2.appendChild(verbans);
                 movementdivider2.appendChild(verpics);
                 movementdivider2.appendChild(verplay);
                 movementdivider2.appendChild(verL);
                 movementdivider2.appendChild(verW);
-                movementdivider2.style.transform = "translate(200px, -475px)";
-                allInfoDivider.appendChild(movementdivider2);
+                //movementdivider2.style.transform = "translate(250px, -495px)";
+                DAver.appendChild(movementdivider2);
+                allInfoDivider.appendChild(DAver);
               //  console.log("Banned vertigo "+bans[6]+" times");
               //  console.log("Played vertigo "+played[6]+" times");
                 break;   
@@ -877,7 +956,7 @@ function printToWebsite(dapicksanddabans){
     record.id = "record";
     record.innerHTML = 'S50: <span class="green">'+wins+' <span class="black"> // <span class="red">'+loss+"<br>"+((ffws > 0) ? '<span class="smalltext">('+ffws+' FFWS or games not found)' : "" )+"</span>";
     record.style.fontSize = "35px";
-    record.style.transform = "translate(200px,-470px)";
+    record.style.transform = "translate(470px,160px)";
     allInfoDivider.appendChild(record);
 
     let record2 = document.createElement("div");
@@ -885,7 +964,8 @@ function printToWebsite(dapicksanddabans){
     record2.innerHTML = 'S49: <span class="green">'+wins1+' <span class="black"> // <span class="red">'+loss1+"<br>"+((ffws1 > 0) ? '<span class="smalltext">('+ffws1+' FFWS or games not found)' : "" )+"</span>";
     record2.style.fontSize = "35px";
     //-480px
-    record2.style.transform = "translate(200px,"+((ffws <= 0) ? "-480px" : " -450px")+ ")";
+   // record2.style.transform = "translate(200px,"+((ffws <= 0) ? "-480px" : " -450px")+ ")";
+    record2.style.transform = "translate(470px,170px)";
     allInfoDivider.appendChild(record2);
     document.getElementById(".BanFileExplorer").appendChild(matchesDivider);
     document.getElementById(".BanFileExplorer").appendChild(quickInfoDivider);
