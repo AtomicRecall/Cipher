@@ -11,12 +11,20 @@ removeElementsByClass("divv");
 document.getElementById("srchBtn").style.visibility = "hidden";
 document.getElementById("rtrnBtn").style.visibility = "visible";
 document.getElementById("rtrnBtn").style.transform = "translate(1330px, 5px)";
-let ffws = 0;
-let ffws1 = 0;
+var ffws = 0;
+var ffws1 = 0;
 
-let defaultimage = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
+var defaultimage = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
 //setup image_links
-
+var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+var loadingimage = document.createElement("img");
+loadingimage.src = loadGears;
+loadingimage.style.width = "570px";
+loadingimage.style.height = "190px";
+loadingimage.style.transform = "translate(400px,200px)";
+loadingimage.style.position = "absolute";
+loadingimage.id = "removemepls";
+document.getElementById(".BanFileExplorer").appendChild(loadingimage);
 //ancient = 0;
 //anubis = 1;
 //Inferno = 2;
@@ -107,6 +115,8 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     picksnbans.sort((a, b) => b.finished - a.finished);
     console.log("Matches sorted:");
     console.log(picksnbans);
+    var myshit = document.getElementById("removemepls");
+    myshit.parentNode.removeChild(myshit);
     printToWebsite(picksnbans);
 })
 .catch((error) => {
@@ -131,6 +141,7 @@ function GetLeaguePickBans(leaderid, offset) {
         return res.json();
     })
     .then((data) => {
+
         let allMatches = data.items;
        if (!allMatches || allMatches.length === 0) return Promise.resolve(); // End if no more matches
 
@@ -159,6 +170,7 @@ function GetLeaguePickBans(leaderid, offset) {
 }
 
 function fetchMatchData(matchid,leaderid) {
+
     return fetch(`https://open.faceit.com/data/v4/matches/${matchid}`, {
         headers: {
             'accept': 'application/json',
