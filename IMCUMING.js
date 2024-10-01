@@ -261,6 +261,9 @@ function funnyfunction(dataalolfunny){
                 case undefined:
                     avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
                     break;
+                case null:
+                    avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                    break;
                 default:
                     avat.src = datan.avatar;
                     break;
@@ -404,7 +407,7 @@ function funnyfunction(dataalolfunny){
                         pfpdiv.style.transform = "translate(110px, -125px)";
                         break;
                     case 6:
-                        pfpdiv.style.transform = "translate(110px, -125px)";
+                        pfpdiv.style.transform = "translate(130px, -125px)";
                         break;
                     case 7:
                         pfpdiv.style.transform = "translate(115px, -125px)";
@@ -413,10 +416,10 @@ function funnyfunction(dataalolfunny){
                         pfpdiv.style.transform = "translate(115px, -125px)";
                         break;
                     case 9:
-                        pfpdiv.style.transform = "translate(120px, -125px)";
+                        pfpdiv.style.transform = "translate(150px, -125px)";
                         break;
                     case 10:
-                        pfpdiv.style.transform = "translate(145px, -125px)";
+                        pfpdiv.style.transform = "translate(160px, -125px)";
                         break;
                     case 11:
                         pfpdiv.style.transform = "translate(160px, -125px)";
@@ -428,7 +431,7 @@ function funnyfunction(dataalolfunny){
                         pfpdiv.style.transform = "translate(165px, -125px)";
                         break;
                     case 14:
-                        pfpdiv.style.transform = "translate(180px, -125px)";
+                        pfpdiv.style.transform = "translate(190px, -125px)";
                         break;
                     case 15:
                         pfpdiv.style.transform = "translate(190px, -125px)"
@@ -606,7 +609,8 @@ function getTeamNameDoc(name, offsett, docelement){
                     for (let key3 = 0; key3 < 5; key3++){
                         if(data.items[key].teams.faction1.players[key3].player_id.includes(name)){
                             //console.log("ohhh you in team1 big boy :)");
-                            document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
+                            ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction1.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
+                            
                             return;
 
                         }
@@ -615,8 +619,7 @@ function getTeamNameDoc(name, offsett, docelement){
                         }
                     }
                     //console.log("just guessing, you probably in team2 right now big boy :)");
-                    document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
-
+                    ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction2.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
                     return;
 
                 }

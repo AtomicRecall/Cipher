@@ -442,7 +442,7 @@ function printToWebsite(dapicksanddabans){
         if (coun == 0){
             let SeasonDivider = document.createElement('div');
             SeasonDivider.id = "ssnNum";
-            SeasonDivider.innerHTML = "-------------- Season "+dapicksanddabans[d].season;
+            dapicksanddabans[d].season == "ea" ? SeasonDivider.innerHTML = "-------------- Qualifier" : SeasonDivider.innerHTML = "-------------- Season "+dapicksanddabans[d].season;
             SeasonDivider.style.fontSize = "20px";
             SeasonDivider.style.transform = "translateX(20px)";
             matchesDivider.append(SeasonDivider);
@@ -678,8 +678,9 @@ function printToWebsite(dapicksanddabans){
         gamediv.appendChild(holyshitsomanymaps);
         gamediv.appendChild(score);
 
+        //what the fuck???
        if((d+1) < dapicksanddabans.length){
-        if ((dapicksanddabans[d+1]!= undefined) && dapicksanddabans[d+1].season == tempor-1){
+        if ((dapicksanddabans[d+1]!= undefined) && (dapicksanddabans[d+1].season == tempor-1 || dapicksanddabans[d+1].season == tempor)){
             coun = 0;
             tempor = tempor - 1;
         }
