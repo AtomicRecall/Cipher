@@ -53,9 +53,8 @@ signInBtnLink.addEventListener('click', () => {
 });
 
 loginBtn.addEventListener('click', () => {
-    console.log("button clicked");
     LogintoAccount();
-    console.log("finish");
+    document.getElementById("temm").innerHTML = "Loading...";
     
 });
 
@@ -79,6 +78,7 @@ submitBtn.addEventListener('click', () => {
 
         
         } 
+        document.getElementById("temm").innerHTML = "Loading...";
 });
 
 

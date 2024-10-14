@@ -386,7 +386,6 @@ function printToWebsite(dapicksanddabans){
 
     let coun = 0;
     let tempor = currentseason;
-    //let THETEAMWEARESEARCHING
     for (let d = 0; d < dapicksanddabans.length; d++){
         let gamediv = document.createElement('div');
         gamediv.id = "game"+d;
@@ -688,9 +687,13 @@ function printToWebsite(dapicksanddabans){
        matchesDivider.appendChild(gamediv);
 
     }
-    
+
     //organize the info from the global arrays initalized above
     for(let y = 0; y < 7; y++){
+        let emptydiv = document.createElement('div');
+        emptydiv.innerHTML = "_";
+        emptydiv.id = "emptydiv";
+        emptydiv.style.opacity = "0";
         switch(y){
             
             //anc
@@ -711,18 +714,15 @@ function printToWebsite(dapicksanddabans){
                 ancbans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[0]+((bans[0] > 1|| bans[0] == 0) ? " times" : " time")+".";
                 let ancpics = document.createElement("div");
                 ancpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[0]+((picks[0] > 1|| picks[0] == 0) ? " times" : " time")+".";
-                let ancplay = document.createElement("div");
-                ancplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[0]+((played[0] > 1|| played[0] == 0) ? " times" : " time")+".";
-                let ancL = document.createElement("div");
-                ancL.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[0]+((L[0] > 1|| L[0] == 0) ? " times" : " time")+".";
                 let ancW = document.createElement("div");
-                ancW.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[0]+((W[0] > 1|| W[0] == 0) ? " times" : " time")+".";
+                ancW.classList.add("winnerdiv");
+                ancW.innerHTML = '<span class="greenn1">'+W[0]+'</span><span class = "white"> // </span> <span class="redd1">'+L[0];
+                
                 allInfoDivider.appendChild(ancimage);
                 DAancient.appendChild(mapidentifier);
-                DAancient.appendChild(ancbans);
+                DAancient.appendChild(emptydiv);
                 DAancient.appendChild(ancpics);
-                DAancient.appendChild(ancplay);
-                DAancient.appendChild(ancL);
+                DAancient.appendChild(ancbans);
                 DAancient.appendChild(ancW);
                 //DAancient.appendChild(ancimage);
                 allInfoDivider.appendChild(DAancient);
@@ -749,16 +749,14 @@ function printToWebsite(dapicksanddabans){
                 anupics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[1]+((picks[1] > 1|| picks[1] == 0) ? " times" : " time")+".";
                 let anuplay = document.createElement("div");
                 anuplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[1]+((played[1] > 1|| played[1] == 0) ? " times" : " time")+".";
-                let anuL = document.createElement("div");
-                anuL.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[1]+((L[1] > 1|| L[1] == 0) ? " times" : " time")+".";
                 let anuW = document.createElement("div");
-                anuW.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[1]+((W[1] > 1|| W[1] == 0) ? " times" : " time")+".";
+                anuW.classList.add("winnerdiv");
+                anuW.innerHTML = '<span class="greenn1">'+W[1]+'</span><span class = "white"> // </span> <span class="redd1">'+L[1];
                 allInfoDivider.appendChild(anuimage);
                 DAanubis.appendChild(mapidentifier1);
-                DAanubis.appendChild(anubans);
+                DAanubis.appendChild(emptydiv);
                 DAanubis.appendChild(anupics);
-                DAanubis.appendChild(anuplay);
-                DAanubis.appendChild(anuL);
+                DAanubis.appendChild(anubans);
                 DAanubis.appendChild(anuW);
                 allInfoDivider.appendChild(DAanubis);
               //  console.log("Banned anubis "+bans[1]+" times");
@@ -784,16 +782,15 @@ function printToWebsite(dapicksanddabans){
                 infpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[2]+((picks[2] > 1|| picks[2] == 0) ? " times" : " time")+".";
                 let infplay = document.createElement("div");
                 infplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[2]+((played[2] > 1|| played[2] == 0) ? " times" : " time")+".";
-                let infL = document.createElement("div");
-                infL.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[2]+((L[2] > 1|| L[2] == 0) ? " times" : " time")+".";
                 let infW = document.createElement("div");
-                infW.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[2]+((W[2] > 1|| W[2] == 0) ? " times" : " time")+".";
+                infW.classList.add("winnerdiv");
+                infW.innerHTML = '<span class="greenn1">'+W[2]+'</span><span class = "white"> // </span> <span class="redd1">'+L[2];
                 allInfoDivider.appendChild(infimage);
                 DAinf.appendChild(mapidentifier2);
-                DAinf.appendChild(infbans);
+                DAinf.appendChild(emptydiv);
                 DAinf.appendChild(infpics);
-                DAinf.appendChild(infplay);
-                DAinf.appendChild(infL);
+                DAinf.appendChild(infbans);
+
                 DAinf.appendChild(infW);
                 allInfoDivider.appendChild(DAinf);
               //  console.log("Banned inferno "+bans[2]+" times");
@@ -819,16 +816,15 @@ function printToWebsite(dapicksanddabans){
                 d2pics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[3]+((picks[3] > 1|| picks[3] == 0) ? " times" : " time")+".";
                 let d2play = document.createElement("div");
                 d2play.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[3]+((played[3] > 1|| played[3] == 0) ? " times" : " time")+".";
-                let d2L = document.createElement("div");
-                d2L.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[3]+((L[3] > 1|| L[3] == 0) ? " times" : " time")+".";
                 let d2W = document.createElement("div");
-                d2W.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[3]+((W[3] > 1|| W[3] == 0) ? " times" : " time")+".";
+                d2W.classList.add("winnerdiv");
+                d2W.innerHTML = '<span class="greenn1">'+W[3]+'</span><span class = "white"> // </span> <span class="redd1">'+L[3];
                 allInfoDivider.appendChild(d2image);
                 DAd2.appendChild(mapidentifier3);
-                DAd2.appendChild(d2bans);
+                DAd2.appendChild(emptydiv);
                 DAd2.appendChild(d2pics);
-                DAd2.appendChild(d2play);
-                DAd2.appendChild(d2L);
+                DAd2.appendChild(d2bans);
+
                 DAd2.appendChild(d2W);
                 allInfoDivider.appendChild(DAd2);
               //  console.log("Banned dust 2 "+bans[3]+" times");
@@ -855,16 +851,15 @@ function printToWebsite(dapicksanddabans){
                 mirpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[4]+((picks[4] > 1|| picks[4] == 0) ? " times" : " time")+".";
                 let mirplay = document.createElement("div");
                 mirplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[4]+((played[4] > 1|| played[4] == 0) ? " times" : " time")+".";
-                let mirL = document.createElement("div");
-                mirL.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[4]+((L[4] > 1|| L[4] == 0) ? " times" : " time")+".";
                 let mirW = document.createElement("div");
-                mirW.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[4]+((W[4] > 1|| W[4] == 0) ? " times" : " time")+".";
+                mirW.classList.add("winnerdiv");
+                mirW.innerHTML = '<span class="greenn1">'+W[4]+'</span><span class = "white"> // </span> <span class="redd1">'+L[4];
                 allInfoDivider.appendChild(mirimage);
                 movementdivider.appendChild(mapidentifier4);
-                movementdivider.appendChild(mirbans);
+                movementdivider.appendChild(emptydiv);
                 movementdivider.appendChild(mirpics);
-                movementdivider.appendChild(mirplay);
-                movementdivider.appendChild(mirL);
+                movementdivider.appendChild(mirbans);
+
                 movementdivider.appendChild(mirW);
                 DAmir.appendChild(movementdivider);
                 //movementdivider.style.transform = "translate(250px, -495px)";
@@ -893,16 +888,15 @@ function printToWebsite(dapicksanddabans){
                 nupics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[5]+((picks[5] > 1|| picks[5] == 0) ? " times" : " time")+".";
                 let nuplay = document.createElement("div");
                 nuplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[5]+((played[5] > 1|| played[5] == 0) ? " times" : " time")+".";
-                let nuL = document.createElement("div");
-                nuL.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[5]+((L[5] > 1|| L[5] == 0) ? " times" : " time")+".";
                 let nuW = document.createElement("div");
-                nuW.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[5]+((W[5] > 1|| W[5] == 0) ? " times" : " time")+".";
+                nuW.classList.add("winnerdiv");
+                nuW.innerHTML = '<span class="greenn1">'+W[5]+'</span><span class = "white"> // </span> <span class="redd1">'+L[5];
                 allInfoDivider.appendChild(nukimage);
                 movementdivider1.appendChild(mapidentifier5);
-                movementdivider1.appendChild(nubans);
+                movementdivider1.appendChild(emptydiv);
                 movementdivider1.appendChild(nupics);
-                movementdivider1.appendChild(nuplay);
-                movementdivider1.appendChild(nuL);
+                movementdivider1.appendChild(nubans);
+
                 movementdivider1.appendChild(nuW);
                 //movementdivider1.style.transform = "translate(250px, -495px)";
                 DAnuk.appendChild(movementdivider1);
@@ -931,16 +925,14 @@ function printToWebsite(dapicksanddabans){
                 verpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[6]+((picks[6] > 1|| picks[6] == 0) ? " times" : " time")+".";
                 let verplay = document.createElement("div");
                 verplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[6]+((played[6] > 1|| played[6] == 0) ? " times" : " time")+".";
-                let verL = document.createElement("div");
-                verL.innerHTML = '<span class="redd">Lost '+'</span><span class="white">'+L[6]+((L[6] > 1|| L[6] == 0) ? " times" : " time")+".";
                 let verW = document.createElement("div");
-                verW.innerHTML = '<span class="greenn">Won '+'</span><span class="white">'+W[6]+((W[6] > 1|| W[6] == 0) ? " times" : " time")+".";
+                verW.classList.add("winnerdiv");
+                verW.innerHTML = '<span class="greenn1">'+W[6]+'</span><span class = "white"> // </span> <span class="redd1">'+L[6];
                 allInfoDivider.appendChild(verimage);
                 movementdivider2.appendChild(mapidentifier6);
-                movementdivider2.appendChild(verbans);
+                movementdivider2.appendChild(emptydiv);
                 movementdivider2.appendChild(verpics);
-                movementdivider2.appendChild(verplay);
-                movementdivider2.appendChild(verL);
+                movementdivider2.appendChild(verbans);
                 movementdivider2.appendChild(verW);
                 //movementdivider2.style.transform = "translate(250px, -495px)";
                 DAver.appendChild(movementdivider2);
@@ -981,6 +973,7 @@ function printToWebsite(dapicksanddabans){
         }
         document.getElementById("game"+d).onmouseover = function(){
             quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
+            document.getElementById("allInfo").style.transform = "translateX(775px)";
            // quickInfoDivider.innerHTML+='<span class="grey"> '+dapicksanddabans[d].entities[0].selected_by+"</span> VS "+'<span class="grey"> '+dapicksanddabans[d].entities[1].selected_by+"</span>";
             document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px #ffffff)";
             //function that calculates info for current highlighted game (you can get the matchid by getting the vote_type from)
@@ -1163,6 +1156,7 @@ function printToWebsite(dapicksanddabans){
             
         }
         document.getElementById("game"+d).onmouseout = function(){
+            document.getElementById("allInfo").style.transform = "translate(260px,10px)";
             document.getElementById("game"+d).style.webkitFilter = "";
             info.innerHTML = "";
             const myNode = document.getElementById("quickInfo");

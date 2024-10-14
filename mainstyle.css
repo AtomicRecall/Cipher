@@ -46,7 +46,12 @@ body {
     overflow: hidden;
     
 }
-
+.winnerdiv{
+  font-size: 45px;
+}
+#emptydiv{
+  height: 0px;
+}
 #tw{
   position: absolute;
   color: rgb(255, 255, 255);
@@ -57,6 +62,7 @@ body {
 }
 
 #quickInfo{
+  transition: 1s;
   color: white;
   align-items: center;
   justify-content: center;
@@ -69,7 +75,8 @@ body {
   position: absolute;
   width: 680px;
   height: 480px;
-  transform: translateX(775px);
+  transform: translate(260px,10px);
+  transition: 0.3s;
   
 }
 #ancientimage{
@@ -248,11 +255,22 @@ body {
 .redd{
   color: red;
   filter: drop-shadow(.5px 0.5px 1px black);
+  font-size: 25px;
+}
+.redd1{
+  color: red;
+  filter: drop-shadow(.5px 0.5px 1px black);
 }
 .green {
   color: green;
 }
 .greenn{
+  color: green;
+  filter: drop-shadow(.5px 0.5px 0.75px black);
+  font-size: 25px
+
+}
+.greenn1{
   color: green;
   filter: drop-shadow(.5px 0.5px 0.75px black);
 
