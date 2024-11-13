@@ -29,6 +29,7 @@ body {
 .wrapper:hover h2 {
   color: #FF5500;
   animation: animate 7s linear infinite;
+
 }
 
 @keyframes animate {
@@ -269,10 +270,12 @@ body {
   filter: drop-shadow(.5px 0.5px 0.75px black);
   font-size: 25px
 
+
 }
 .greenn1{
   color: green;
   filter: drop-shadow(.5px 0.5px 0.75px black);
+  
 
 }
 .white{
@@ -336,7 +339,6 @@ h2{
   font-weight: bold;
   display: flex;
   justify-content: center;
-  transform: translate(550px, -95px);
   color: #ffffff;
   font-size : 50px;
   text-align: center;

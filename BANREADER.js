@@ -945,6 +945,7 @@ function printToWebsite(dapicksanddabans){
 
         }
     }
+/*
     let record = document.createElement("div");
     record.id = "record";
     record.innerHTML = 'S50: <span class="green">'+wins+' <span class="black"> // <span class="red">'+loss+"<br>"+((ffws > 0) ? '<span class="smalltext">('+ffws+' FFWS or games not found)' : "" )+"</span>";
@@ -956,10 +957,12 @@ function printToWebsite(dapicksanddabans){
     record2.id = "record2";
     record2.innerHTML = 'S49: <span class="green">'+wins1+' <span class="black"> // <span class="red">'+loss1+"<br>"+((ffws1 > 0) ? '<span class="smalltext">('+ffws1+' FFWS or games not found)' : "" )+"</span>";
     record2.style.fontSize = "35px";
+    
     //-480px
    // record2.style.transform = "translate(200px,"+((ffws <= 0) ? "-480px" : " -450px")+ ")";
     record2.style.transform = "translate(470px,170px)";
     allInfoDivider.appendChild(record2);
+    */
     document.getElementById(".BanFileExplorer").appendChild(matchesDivider);
     document.getElementById(".BanFileExplorer").appendChild(quickInfoDivider);
     document.getElementById(".BanFileExplorer").appendChild(allInfoDivider);

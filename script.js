@@ -55,29 +55,34 @@ signInBtnLink.addEventListener('click', () => {
 loginBtn.addEventListener('click', () => {
     LogintoAccount();
     document.getElementById("temm").innerHTML = "Loading...";
+    localStorage.setItem('faceit-name', document.getElementById("usrr").value);
     
 });
 
 submitBtn.addEventListener('click', () => {
 //TODO: CHECK IF THE INPUTS FOR THE FORM ARE CORRECT OR NOT
+        if (!isNaN(document.getElementById("passwordd")) && !isNaN(parseFloat(document.getElementById("passwordd")))){
+                 //three
+                submitSignupInfo();
+                if (!(wrapper.classList.contains('one') ||wrapper.classList.contains('two') || wrapper.classList.contains('three') || wrapper.classList.contains('four'))){
+            
+                    wrapper.classList.add('three');
+                    return;
+                }
+                for (let d = 1; d < wrapper.classList.length; d++){
+                    if (wrapper.classList.item(d).toString() == ('three')){
+                        continue;
+                    }
+                    else {
+                        wrapper.classList.replace(wrapper.classList.item(d),'three');
+                    }
 
-        //three
-        submitSignupInfo();
-        if (!(wrapper.classList.contains('one') ||wrapper.classList.contains('two') || wrapper.classList.contains('three') || wrapper.classList.contains('four'))){
-    
-            wrapper.classList.add('three');
-            return;
+                
+                } 
         }
-        for (let d = 1; d < wrapper.classList.length; d++){
-            if (wrapper.classList.item(d).toString() == ('three')){
-                continue;
-            }
-            else {
-                wrapper.classList.replace(wrapper.classList.item(d),'three');
-            }
-
-        
-        } 
+        else{
+            alert("Your PIN needs to have numbers yo");
+        }
         document.getElementById("temm").innerHTML = "Loading...";
 });
 
@@ -137,14 +142,8 @@ forgotpassword.addEventListener('click', () =>{
 });
 
 affiramtivee.addEventListener('click', () =>{
-    if ((document.getElementById("usr").value)){
-        console.log("111");
-        localStorage.setItem('faceit-name', document.getElementById("usr").value);
-    }
-    else {
-        console.log("222");
-        localStorage.setItem('faceit-name', document.getElementById("usrr").value);
-    }
+    console.log("BUTTON CLICKED");
+    
 });
 
 

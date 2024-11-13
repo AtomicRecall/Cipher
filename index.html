@@ -11,14 +11,14 @@
   <link href="https://fonts.cdnfonts.com/css/minecraftia" rel="stylesheet">
   <script>
     let alertShown = false; // Flag to track if alert has already been shown
-
+    let counter = 0;
     // Function to check if div is "Loading..."
     function checkLoading() {
+        
         const div = document.getElementById("temm");
         const button = document.getElementById("affirmativee");
 
         if (div.innerHTML === "Loading...") {
-            button.disabled = true;  // Disable the button
 
             if (!alertShown) { 
                 alert("Button is disabled because the page is loading."); // Show the alert
@@ -28,15 +28,16 @@
             button.disabled = false;  // Enable the button
             alertShown = false; // Reset the flag when the condition changes
         }
+        
     }
 
     // Function to handle the button click event
     function onButtonClick(event) {
         // Check the loading condition after the button is clicked
         checkLoading(); 
-
         // Optionally, navigate to the new page after checking loading
         if (!document.getElementById("affirmativee").disabled) {
+          
             window.location.href = "main.html"; // Replace with your target URL
         }
     }
@@ -61,24 +62,14 @@
         <form action="" id="loginForm">
           <h2>Welcome to</h2>
           <h6>Cipher</h6>
-          <h2>Please login:</h2>
           <div class="input-group">
             <input type="text" id="usrr" required>
-            <label for="">Username</label>
-          </div>
-          <div class="input-group">
-            <input type="password" id="thefuckingpasswordyo"required>
-            <label for="">Password</label>
-          </div>
-          <div class="remember">
-            <label><input type="checkbox"> Remember me</label>
+            <label for="">FACEIT Username</label>
           </div>
           <button type="button" class = "loginBtn" id="loginBtn">Login</button>
           <div class="signUp-link">
+            <img src = https://atomicrecall.github.io/Cipher/images/UNDERCONSTRUCTION.png id="UNDERCONSTRUCTION">
             <p>Don't have an account? <a id="signUpBtn-link">Sign Up</a></p>
-          </div>
-          <div class ="frgrPsswrd-link">
-            <p>Forgot your password? <a class="frgrPsswrd-link" >Forgot Password?</a></p>
           </div>
         </form>
       </div>
@@ -96,7 +87,7 @@
           </div>
           <div class="input-group">
             <input type="password" id="passwordd" required>
-            <label for="">Confirm Password</label>
+            <label for="">Create a 4 number PIN</label>
           </div>
           <div class="input-group">
             <input type = "text" id="recvryEmaill" required>
@@ -141,7 +132,18 @@
       </div>
     
       
-
+      <div class="form-wrapper PIN-INPUT">
+        <div class="PIN">
+        <form action="" id="PIN">
+         
+            <button type="button" id="affirmativee">YES!!</button>
+          
+          <div class="incorrect-link">
+            <p><a class="incorrect-link" id="incorrect-linkk">NO?</a></p>
+          </div>
+        </form>
+      </div>
+      </div>
 
 
       

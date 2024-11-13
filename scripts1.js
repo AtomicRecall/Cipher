@@ -26,14 +26,14 @@ const database = firebase.database();
 
 function LogintoAccount(){
     var inputt = document.getElementById("usrr").value;
-    var pwrd = document.getElementById("thefuckingpasswordyo").value;
+    //var pwrd = document.getElementById("thefuckingpasswordyo").value;
     var user_ref = database.ref("USERS/"+inputt);
     user_ref.on('value', function(snapshot){
-        var data = snapshot.val();
-        if(pwrd != data.password){
-            alert("incorrect password");
+        if(!snapshot.exists()){
+            localStorage.setItem("first-time", 0);
+            submitSignupInfoExtra(inputt,"1111","NULL","NULL");
         }
-        else {
+        var data = snapshot.val();
             InitializeCheck(inputt);
             const wrapper = document.querySelector('.wrapper');
             if (!(wrapper.classList.contains('one') ||wrapper.classList.contains('two') || wrapper.classList.contains('three') || wrapper.classList.contains('four'))){
@@ -53,8 +53,8 @@ function LogintoAccount(){
             
             }
             wrapper.classList.add('login');
-        }
     })
+    
     //console.log("function end");
 }
 //TODO: START OF SEASON WAHTEVER AND END OF SEASON WHATEVER FROM AND TO
@@ -190,14 +190,17 @@ function submitSignupInfo(){
 
     //submitting data to firebase databse
     var input = document.getElementById('usr').value;
-    var pswrd = document.getElementById('passwordd').value;
+    var PIN = document.getElementById('passwordd').value.substring(0,3);
+    var pswrd = document.getElementById('psswrdinitiall').value;
     var rcvry = document.getElementById('recvryEmaill').value;
     
     var crnttme = Math.floor(Date.now()/1000);
     InitializeCheck(input);
+
     var data = {
         faceitusername: input,
         password: pswrd,
+        pin: PIN,
         recoveryemail: rcvry,
         accountCreated: crnttme
     }
@@ -208,6 +211,24 @@ function submitSignupInfo(){
     
     //console.log("TWO TWO TWO TWO = "+ref1);
 }
+function submitSignupInfoExtra(input,PIN,pswrd,rcvry){
+    
+    var crnttme = Math.floor(Date.now()/1000);
+    InitializeCheck(input);
 
+    var data = {
+        faceitusername: input,
+        password: pswrd,
+        pin: PIN,
+        recoveryemail: rcvry,
+        accountCreated: crnttme
+    }
+    var ref = database.ref('USERS/'+input).set(data);
+
+    localStorage.setItem("first-time", 0);
+    
+    
+    //console.log("TWO TWO TWO TWO = "+ref1);
+}
 localStorage.removeItem("faceit-name");
 localStorage.removeItem("team-id");
