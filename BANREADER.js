@@ -276,9 +276,8 @@ function fetchMatchData(matchid,leaderid) {
                 scoree = datan123.rounds[0].round_stats.Score;
             }
 
-            return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
-                method: 'GET',
-            })
+            // Example: Fetching data through the proxy
+            return fetch('https://cipher-virid.vercel.app/api/faceitProxy?endpoint=match/${matchid}/history')
             .then((response) => {
                 if (response.status === 404) {
                     console.warn(`Match ${matchid} not found, continuing...`);
