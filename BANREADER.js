@@ -277,7 +277,7 @@ function fetchMatchData(matchid,leaderid) {
             }
 
             // Example: Fetching data through the proxy
-            return fetch('https://cipher-virid.vercel.app/api/faceitProxy?endpoint=match/${matchid}/history')
+            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=match/${matchid}/history`)
             .then((response) => {
                 if (response.status === 404) {
                     console.warn(`Match ${matchid} not found, continuing...`);
