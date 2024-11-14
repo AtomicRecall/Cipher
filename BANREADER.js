@@ -283,10 +283,9 @@ fetch(`https://cipher-virid.vercel.app/api/proxy?endpoint=match/${matchid}/histo
   .catch(error => console.error('Error in fetch request:', error));
   */
             
-            return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
-                method: 'GET',
+            return fetch(`https://cipher-virid.vercel.app/api/proxy?endpoint=match/${matchid}/history`,{
                 headers:{
-                    'Access-Control-Allow-Origin' : 'https://cipher-virid.vercel.app/'
+                    'Access-Control-Allow-Origin' : '*'
                 }
             })
             .then((response) => {
