@@ -1,6 +1,5 @@
 // api/faceitProxy.js
 import axios from 'axios';
-
 export default async function handler(req, res) {
   const endpoint = req.query.endpoint || ''; // Grab the endpoint from the query
   const apiUrl = `https://api.faceit.com/democracy/v1/${endpoint}`;
