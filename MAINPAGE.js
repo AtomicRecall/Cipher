@@ -146,14 +146,6 @@ function ontop(){
         img.width = 150;
         img.style.filter = "drop-shadow(0px 0px 2px #000000)";
         document.getElementById('.form-wrapper').appendChild(img);
-        var warning = document.createElement("div");
-        warning.innerHTML = "WARNING: NEED TO DOWNLOAD CORS UNBLOCK FOR WEBSITE TO WORK !!!";
-        //LINK:  <br> https://chromewebstore.google.com/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino?hl=en&pli=1
-        warning.id = "warnn";
-        warning.style.fontSize = "25px";
-        warning.style.color = "white";
-        warning.style.transform = "translate(10px, 465px)";
-        document.getElementById(".form-wrapper").appendChild(warning);
         var elo = document.createElement('div');
         elo.innerHTML = ("ELO: "+data.games.cs2.faceit_elo);
         elo.id = "elo";

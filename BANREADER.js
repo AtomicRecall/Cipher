@@ -275,13 +275,6 @@ function fetchMatchData(matchid,leaderid) {
             else{
                 scoree = datan123.rounds[0].round_stats.Score;
             }
-            console.log("OH GOD NO OHGOD");
-            /*
-fetch(`https://cipher-virid.vercel.app/api/proxy?endpoint=match/${matchid}/history`)
-  .then(response => response.json())
-  .then(data => console.log("Data received in frontend:", data))
-  .catch(error => console.error('Error in fetch request:', error));
-  */
             
             return fetch(`https://cipher-virid.vercel.app/api/proxy?endpoint=match/${matchid}/history`,{
                 headers:{
