@@ -279,6 +279,9 @@ function fetchMatchData(matchid,leaderid) {
             
             return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
                 method: 'GET',
+                headers:{
+                    'Access-Control-Allow-Origin' : 'https://cipher-virid.vercel.app/'
+                }
             })
             .then((response) => {
                 if (response.status === 404) {
