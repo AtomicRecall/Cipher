@@ -11,6 +11,7 @@ removeElementsByClass("divv");
 document.getElementById("srchBtn").style.visibility = "hidden";
 document.getElementById("rtrnBtn").style.visibility = "visible";
 document.getElementById("rtrnBtn").style.transform = "translate(1330px, 5px)";
+var lastbooleaniswear = false;
 var ffws = 0;
 var ffws1 = 0;
 
@@ -108,8 +109,12 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
     const teamPfp = document.createElement("img");
     teamPfp.id = "teamPfp";
-    teamPfp.src = datan.avatar;
-    document.getElementById('h3').prepend(teamPfp);
+    if (datan.src != undefined){
+        teamPfp.src = datan.avatar;
+        document.getElementById('h3').prepend(teamPfp);
+    }
+    
+    
     return GetLeaguePickBans(datan.leader, 0);  // Start fetching match history
 })
 .then(() => {
@@ -118,7 +123,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     console.log(picksnbans);
     var myshit = document.getElementById("removemepls");
     myshit.parentNode.removeChild(myshit);
-    printToWebsite(picksnbans);
+    printToWebsite(picksnbans, false);
 })
 .catch((error) => {
     console.error('Error:', error);
@@ -281,6 +286,12 @@ function fetchMatchData(matchid,leaderid) {
                     'Access-Control-Allow-Origin' : '*'
                 }
             })
+                /*
+            
+            return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
+                method: 'GET'
+            })
+                */
             .then((response) => {
                 if (response.status === 404) {
                     console.warn(`Match ${matchid} not found, continuing...`);
@@ -371,7 +382,7 @@ function fetchMatchData(matchid,leaderid) {
     
 }
 
-function printToWebsite(dapicksanddabans){
+function printToWebsite(dapicksanddabans, something){
     let wins = 0;
     let loss = 0;
     let wins1 = 0;
@@ -380,6 +391,9 @@ function printToWebsite(dapicksanddabans){
     matchesDivider.id = "mtches";
     matchesDivider.style.overflow = "auto";
     matchesDivider.style.overflowX = "hidden";
+    if (something){
+        matchesDivider.style.transform = "translate(-20px,-170px)";
+    }
     let quickInfoDivider = document.createElement('div');
     quickInfoDivider.id = "quickInfo";
     quickInfoDivider.innerHTML = "PLEASE HOVER OVER A GAME:";
@@ -909,7 +923,7 @@ function printToWebsite(dapicksanddabans){
             //ver    
             case 6:
                 let DAver = document.createElement("div");
-                DAver.id = "vertigo";
+                DAver.id = "vertigoo";
                 let verimage = document.createElement("img");
                 verimage.id = "verimage";
                 verimage.src = image_links[6];
@@ -965,201 +979,232 @@ function printToWebsite(dapicksanddabans){
     record2.style.transform = "translate(470px,170px)";
     allInfoDivider.appendChild(record2);
     */
+
+    
+   // createToggle(allInfoDivider);
     document.getElementById(".BanFileExplorer").appendChild(matchesDivider);
     document.getElementById(".BanFileExplorer").appendChild(quickInfoDivider);
     document.getElementById(".BanFileExplorer").appendChild(allInfoDivider);
+    
+    const childdddrr = matchesDivider.childNodes;
+    if(!something){
+        console.log(childdddrr);
+        for(const childs of childdddrr){
+         if (childs.id.includes("ssnNum")){
+             createToggle(allInfoDivider);
+            }
+        }
+    }
+    
     document.getElementById(".BanFileExplorer").appendChild(document.getElementById("rtrnBtn"));
     let info = document.createElement("div");
     info.style.fontSize = "20px";
     info.style.color = "white";
-    for (let d = 0; d < matchesDivider.children.length-2; d++){
-        document.getElementById("game"+d).onclick = function(){
-            window.open(dapicksanddabans[d].link);
-        }
-        document.getElementById("game"+d).onmouseover = function(){
-            quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
-            document.getElementById("allInfo").style.transform = "translateX(775px)";
-           // quickInfoDivider.innerHTML+='<span class="grey"> '+dapicksanddabans[d].entities[0].selected_by+"</span> VS "+'<span class="grey"> '+dapicksanddabans[d].entities[1].selected_by+"</span>";
-            document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px #ffffff)";
-            //function that calculates info for current highlighted game (you can get the matchid by getting the vote_type from)
-            //dapicksanddabans[d] returns the correct ban information for that hightlighted map.
-            //we want the pick ban process, so take the array that's in picksandbans[d] and display what the info is ex. Spin da Block banned de_vertigo
-            //                                                                                                           PIG Gaming banned de_nuke
-            //                                                                                                           PIG Gaming banned de_inferno
-            //                                                                                                           Spin da Block banned de_mirage
-            //                                                                                                           Spind da Block banned de_dust2
-            //                                                                                                           PIG Gaming banned de_ancient
-            //                                                                                                           Left over but picked by PIG Gaming
-            let holyshitsomanymapss = document.createElement('div');
-            holyshitsomanymapss.id = "cvr";
-            holyshitsomanymapss.style.width = "600px";
-            let counter = 0;
-            for (const p of dapicksanddabans[d].entities){
-                counter = counter+1;
-                if (p.status == "pick"){
-                    let bigimage = document.createElement('img');
-                    bigimage.id = "image";
-                    bigimage.classList.add("cvr");
+    
 
-                    if(dapicksanddabans[d].entity_type >= 2){
-                        bigimage.style.height = "300px";
-                        bigimage.style.width = "167px";
-                        switch (p.guid){
-                            case "de_ancient":
-                                bigimage.src = image_links[0];
-                                break;
-                            case "de_anubis":
-                                bigimage.src = image_links[1];
-                                break;
-                            case "de_inferno":
-                                bigimage.src = image_links[2];
-                                break;
-                            case "de_dust2":
-                                bigimage.src = image_links[3];
-                                break;
-                            case "de_mirage":
-                                bigimage.src = image_links[4];
-                                break;
-                            case "de_nuke":
-                                bigimage.src = image_links[5];
-                                break;
-                            case "de_vertigo":
-                                bigimage.src = image_links[6];
-                                break;
-                            default:
-                                bigimage.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
-                                break;
+    for (let d = 0; d < matchesDivider.children.length-2; d++){
+        if(document.getElementById("game"+d)){
+            document.getElementById("game"+d).onclick = function(){
+                window.open(dapicksanddabans[d].link);
+            }
+        
+            document.getElementById("game"+d).onmouseover = function(){
+                quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
+                    document.getElementById("allInfo").style.transform = "translateX(775px)";
+                    const allelems = document.querySelectorAll('[id=penisandcock]');
+                    for (const elem of allelems){
+                        //console.log(elem);
+                        elem.style.transition = "0.3s"
+                        if (!lastbooleaniswear){
+                            elem.style.transform = "translate(1250px,-345px)";
                         }
-                        if(dapicksanddabans[d].entity_type > 3){
-                            bigimage.classList.remove("cvr");
-                            bigimage.classList.add("dvr");
-                            bigimage.style.width = "100px";
+                        else{
+                            elem.style.transform = "translate(1250px,160px)";
                         }
+                        
                     }
-                    else{
-                        bigimage.classList.remove("cvr");
-                        bigimage.classList.add("pvr");
-                        bigimage.style.height = "300px";
-                        bigimage.style.width = "500px";
-                        switch (p.guid){
-                            case "de_ancient":
-                                bigimage.src = image_links[0];
-                                break;
-                            case "de_anubis":
-                                bigimage.src = image_links[1];
-                                break;
-                            case "de_inferno":
-                                bigimage.src = image_links[2];
-                                break;
-                            case "de_dust2":
-                                bigimage.src = image_links[3];
-                                break;
-                            case "de_mirage":
-                                bigimage.src = image_links[4];
-                                break;
-                            case "de_nuke":
-                                bigimage.src = image_links[5];
-                                break;
-                            case "de_vertigo":
-                                bigimage.src = image_links[6];
-                                break;
-                            default:
-                                bigimage.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
-                                break;
+                // quickInfoDivider.innerHTML+='<span class="grey"> '+dapicksanddabans[d].entities[0].selected_by+"</span> VS "+'<span class="grey"> '+dapicksanddabans[d].entities[1].selected_by+"</span>";
+                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px #ffffff)";
+                    //function that calculates info for current highlighted game (you can get the matchid by getting the vote_type from)
+                    //dapicksanddabans[d] returns the correct ban information for that hightlighted map.
+                    //we want the pick ban process, so take the array that's in picksandbans[d] and display what the info is ex. Spin da Block banned de_vertigo
+                    //                                                                                                           PIG Gaming banned de_nuke
+                    //                                                                                                           PIG Gaming banned de_inferno
+                    //                                                                                                           Spin da Block banned de_mirage
+                    //                                                                                                           Spind da Block banned de_dust2
+                    //                                                                                                           PIG Gaming banned de_ancient
+                    //                                                                                                           Left over but picked by PIG Gaming
+                    let holyshitsomanymapss = document.createElement('div');
+                    holyshitsomanymapss.id = "cvr";
+                    holyshitsomanymapss.style.width = "600px";
+                    let counter = 0;
+                    for (const p of dapicksanddabans[d].entities){
+                        counter = counter+1;
+                        if (p.status == "pick"){
+                            let bigimage = document.createElement('img');
+                            bigimage.id = "image";
+                            bigimage.classList.add("cvr");
+
+                            if(dapicksanddabans[d].entity_type >= 2){
+                                bigimage.style.height = "300px";
+                                bigimage.style.width = "167px";
+                                switch (p.guid){
+                                    case "de_ancient":
+                                        bigimage.src = image_links[0];
+                                        break;
+                                    case "de_anubis":
+                                        bigimage.src = image_links[1];
+                                        break;
+                                    case "de_inferno":
+                                        bigimage.src = image_links[2];
+                                        break;
+                                    case "de_dust2":
+                                        bigimage.src = image_links[3];
+                                        break;
+                                    case "de_mirage":
+                                        bigimage.src = image_links[4];
+                                        break;
+                                    case "de_nuke":
+                                        bigimage.src = image_links[5];
+                                        break;
+                                    case "de_vertigo":
+                                        bigimage.src = image_links[6];
+                                        break;
+                                    default:
+                                        bigimage.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                                        break;
+                                }
+                                if(dapicksanddabans[d].entity_type > 3){
+                                    bigimage.classList.remove("cvr");
+                                    bigimage.classList.add("dvr");
+                                    bigimage.style.width = "100px";
+                                }
+                            }
+                            else{
+                                bigimage.classList.remove("cvr");
+                                bigimage.classList.add("pvr");
+                                bigimage.style.height = "300px";
+                                bigimage.style.width = "500px";
+                                switch (p.guid){
+                                    case "de_ancient":
+                                        bigimage.src = image_links[0];
+                                        break;
+                                    case "de_anubis":
+                                        bigimage.src = image_links[1];
+                                        break;
+                                    case "de_inferno":
+                                        bigimage.src = image_links[2];
+                                        break;
+                                    case "de_dust2":
+                                        bigimage.src = image_links[3];
+                                        break;
+                                    case "de_mirage":
+                                        bigimage.src = image_links[4];
+                                        break;
+                                    case "de_nuke":
+                                        bigimage.src = image_links[5];
+                                        break;
+                                    case "de_vertigo":
+                                        bigimage.src = image_links[6];
+                                        break;
+                                    default:
+                                        bigimage.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                                        break;
+                                }
+                            }
+                            holyshitsomanymapss.appendChild(bigimage);
                         }
+                        
+                        let final = (counter == 7) ? "(LEFT OVER) "+p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>": p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>";
+                        info.innerHTML+=final;
+
                     }
-                    holyshitsomanymapss.appendChild(bigimage);
+
+                    let tm1pfp = document.createElement("img");
+                    tm1pfp.id = "tm1pfp";
+                    let fjksdhfksdj = dapicksanddabans[d].teams[0];
+                    let tm1nme = document.createElement("div");
+                    tm1nme.innerHTML = fjksdhfksdj[1];
+                    tm1nme.style.position = "absolute";
+                    tm1nme.style.transform = "translate(60px,-250px)";
+                    tm1nme.style.color = "#ffffff";
+                    tm1nme.style.fontSize = "25px";
+                    tm1nme.style.textShadow = "0px 0px 2px "+(( fjksdhfksdj[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
+                    checkImageExists(fjksdhfksdj[0], function(exists) {
+                        if (exists) {
+                            tm1pfp.src = fjksdhfksdj[0];
+                        } else {
+                            tm1pfp.src = defaultimage// Use fallback URL if the image doesn't exist
+                        }
+                    });
+
+                    // Creating the second image element
+                    let tm2pfp = document.createElement("img");
+                    tm2pfp.id = "tm2pfp";
+                    let fsdfesfsdf = dapicksanddabans[d].teams[1];
+                    let tm2nme = document.createElement("div");
+                    tm2nme.innerHTML = fsdfesfsdf[1];
+                    tm2nme.style.position = "absolute";
+                    tm2nme.style.transform = "translate(300px,-250px)";
+                    tm2nme.style.color = "#ffffff";
+                    tm2nme.style.fontSize = "25px";
+                    tm2nme.style.textShadow = "0px 0px 2px "+(( fsdfesfsdf[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
+                    checkImageExists(fsdfesfsdf[0], function(exists) {
+                        if (exists) {
+                            tm2pfp.src = fsdfesfsdf[0];
+                        } else {
+                            tm2pfp.src = defaultimage; // Use fallback URL if the image doesn't exist
+                        }
+                    });
+
+                    //display score here?
+                    let VS = document.createElement("div");
+                    VS.id = "VS";
+                    VS.innerHTML = "VS";
+
+                    holyshitsomanymapss.appendChild(tm1pfp);
+                    holyshitsomanymapss.appendChild(tm1nme);
+                    holyshitsomanymapss.appendChild(tm2pfp);
+                    holyshitsomanymapss.appendChild(tm2nme);
+                    holyshitsomanymapss.appendChild(VS);
+                    quickInfoDivider.appendChild(holyshitsomanymapss);
+                    quickInfoDivider.appendChild(info);
+
+                    let omfgsomanycounters = 0;
+                    for (const stuff of dapicksanddabans[d].detailed_results){
+                        if(omfgsomanycounters % 2==0){
+                        
+                            if (dapicksanddabans[d].detailed_results[omfgsomanycounters] == THETEAMWEARESEARCHING){
+
+                                let holyshitsomanyscore = document.createElement("div");
+                                holyshitsomanyscore.classList.add("scoreinthescore")
+                                holyshitsomanyscore.style.color = 'green';
+                                holyshitsomanyscore.innerHTML = dapicksanddabans[d].detailed_score[omfgsomanycounters/2];
+                                quickInfoDivider.appendChild(holyshitsomanyscore);
+                                //dascore.style.color = 'green';
+                                //dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #1eff00)";
+                                
+                            }
+                            else {
+                                let holyshitsomanyscoree = document.createElement("div");
+                                holyshitsomanyscoree.classList.add("scoreinthescore")
+                                holyshitsomanyscoree.style.color = 'red';
+                                holyshitsomanyscoree.innerHTML = dapicksanddabans[d].detailed_score[omfgsomanycounters/2];
+                                quickInfoDivider.appendChild(holyshitsomanyscoree);
+                                //dascore.style.color = 'red';
+                                //dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #ff0000)";
+                                
+                            }
+
+                        }
+                        else {
+
+                        }
+                        omfgsomanycounters++;
+                    }
+                    
                 }
                 
-                let final = (counter == 7) ? "(LEFT OVER) "+p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>": p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>";
-                info.innerHTML+=final;
-
-            }
-
-            let tm1pfp = document.createElement("img");
-            tm1pfp.id = "tm1pfp";
-            let fjksdhfksdj = dapicksanddabans[d].teams[0];
-            let tm1nme = document.createElement("div");
-            tm1nme.innerHTML = fjksdhfksdj[1];
-            tm1nme.style.position = "absolute";
-            tm1nme.style.transform = "translate(60px,-250px)";
-            tm1nme.style.color = "#ffffff";
-            tm1nme.style.fontSize = "25px";
-            tm1nme.style.textShadow = "0px 0px 2px "+(( fjksdhfksdj[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
-            checkImageExists(fjksdhfksdj[0], function(exists) {
-                if (exists) {
-                    tm1pfp.src = fjksdhfksdj[0];
-                } else {
-                    tm1pfp.src = defaultimage// Use fallback URL if the image doesn't exist
-                }
-            });
-
-            // Creating the second image element
-            let tm2pfp = document.createElement("img");
-            tm2pfp.id = "tm2pfp";
-            let fsdfesfsdf = dapicksanddabans[d].teams[1];
-            let tm2nme = document.createElement("div");
-            tm2nme.innerHTML = fsdfesfsdf[1];
-            tm2nme.style.position = "absolute";
-            tm2nme.style.transform = "translate(300px,-250px)";
-            tm2nme.style.color = "#ffffff";
-            tm2nme.style.fontSize = "25px";
-            tm2nme.style.textShadow = "0px 0px 2px "+(( fsdfesfsdf[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
-            checkImageExists(fsdfesfsdf[0], function(exists) {
-                if (exists) {
-                    tm2pfp.src = fsdfesfsdf[0];
-                } else {
-                    tm2pfp.src = defaultimage; // Use fallback URL if the image doesn't exist
-                }
-            });
-
-            //display score here?
-            let VS = document.createElement("div");
-            VS.id = "VS";
-            VS.innerHTML = "VS";
-
-            holyshitsomanymapss.appendChild(tm1pfp);
-            holyshitsomanymapss.appendChild(tm1nme);
-            holyshitsomanymapss.appendChild(tm2pfp);
-            holyshitsomanymapss.appendChild(tm2nme);
-            holyshitsomanymapss.appendChild(VS);
-            quickInfoDivider.appendChild(holyshitsomanymapss);
-            quickInfoDivider.appendChild(info);
-
-            let omfgsomanycounters = 0;
-            for (const stuff of dapicksanddabans[d].detailed_results){
-                if(omfgsomanycounters % 2==0){
-                 
-                    if (dapicksanddabans[d].detailed_results[omfgsomanycounters] == THETEAMWEARESEARCHING){
-
-                        let holyshitsomanyscore = document.createElement("div");
-                        holyshitsomanyscore.classList.add("scoreinthescore")
-                        holyshitsomanyscore.style.color = 'green';
-                        holyshitsomanyscore.innerHTML = dapicksanddabans[d].detailed_score[omfgsomanycounters/2];
-                        quickInfoDivider.appendChild(holyshitsomanyscore);
-                        //dascore.style.color = 'green';
-                        //dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #1eff00)";
-                        
-                    }
-                    else {
-                        let holyshitsomanyscoree = document.createElement("div");
-                        holyshitsomanyscoree.classList.add("scoreinthescore")
-                        holyshitsomanyscoree.style.color = 'red';
-                        holyshitsomanyscoree.innerHTML = dapicksanddabans[d].detailed_score[omfgsomanycounters/2];
-                        quickInfoDivider.appendChild(holyshitsomanyscoree);
-                        //dascore.style.color = 'red';
-                        //dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #ff0000)";
-                        
-                    }
-
-                }
-                else {
-
-                }
-                omfgsomanycounters++;
-            }
-            
-        }
         document.getElementById("game"+d).onmouseout = function(){
             document.getElementById("allInfo").style.transform = "translate(260px,10px)";
             document.getElementById("game"+d).style.webkitFilter = "";
@@ -1169,10 +1214,101 @@ function printToWebsite(dapicksanddabans){
                 myNode.removeChild(myNode.lastChild);
             }
             quickInfoDivider.innerHTML = "PLEASE HOVER OVER A GAME";
+            const allelems = document.querySelectorAll('[id=penisandcock]');
+            for (const elem of allelems){
+                //console.log(elem);
+                if (!lastbooleaniswear){
+                    elem.style.transform = "translate(730px,-345px)";
+                }
+                else{
+                    elem.style.transform = "translate(730px,160px)";
+                }
+
+            }
+            
         }
     }
+    }
 }
+var THEFINALCOUNTERISWEAR = 0;
+var ILIEDLOLL = 3;
+    function createToggle(allinfodiv){
+        THEFINALCOUNTERISWEAR++;
+        // Create a container span element
+    const span = document.createElement("div");
+    span.id = "penisandcock";
+    span.classList.add("divvv");
+    // Create a checkbox input element
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = "c"+THEFINALCOUNTERISWEAR;
+    checkbox.style.display = "none";
+    const imag = document.createElement("img");
+    imag.id = "spanimg";
+    imag.src = "https://atomicrecall.github.io/Cipher/images/button.png"
+    imag.style.height = "30px";
+    imag.style.width = "30px";
+    // Create a label element
+    const label = document.createElement("label");
+    label.htmlFor = "c"+THEFINALCOUNTERISWEAR; // Associate the label with the checkbox
+    label.textContent = "S"+(51-(THEFINALCOUNTERISWEAR-1)); // Set the label text
+   // label.fontSize = "10px";
 
+    // Append the checkbox and label to the span
+    span.appendChild(checkbox);
+    span.appendChild(label);
+    //span.style.backgroundImage(`url(${imag.src})`);
+
+    
+    
+    span.style.transform = "translate(730px,-345px)";
+    checkbox.addEventListener("click", () => {
+        if (checkbox.checked) {
+            ILIEDLOLL-=1;
+
+          label.style.color = "orange"; // Change text color
+          label.style.fontSize = "30px"; // Change font size
+          span.style.height = "45px";
+          span.style.width = "45px";
+          var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
+          DotheThing(newarray,true);
+          span.style.transform = "translate(730px,160px)";
+          document.getElementById("allInfo").style.width = "480px";
+          lastbooleaniswear = true;
+          console.log("WTF1 "+ILIEDLOLL);
+
+        } else {
+
+          ILIEDLOLL+=1;
+          label.style.color = ""; // Reset text color
+          label.style.fontSize = ""; // Reset font size
+          span.style.height = "30px";
+          span.style.width = "30px";
+
+          console.log("WTFFF "+ILIEDLOLL);
+            //make the finalarrayiswear be removed of the season that is clicked
+            //find the season by doing picksnbans[d].season
+            var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
+            console.log("but first");
+            console.log(THEFINALARRAYISWEAR);
+
+            if (ILIEDLOLL%3 == 0){
+                THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.filter(item => item.season !== label.textContent.substring(1));
+                DotheThing(picksnbans,true);
+                ccccc++;
+            }
+            else{
+                DotheThing(newarray,false);
+
+            }
+
+          document.getElementById("mtches").style.transform = "translate(-20px, -155px)";
+          document.getElementById("allInfo").style.width = "480px";
+        }
+      });
+      
+    document.getElementById(".BanFileExplorer").appendChild(span);
+}
 function checkImageExists(url, callback) {
     const img = new Image();
     img.onload = function() {
@@ -1182,4 +1318,58 @@ function checkImageExists(url, callback) {
         callback(false); // Image does not exist
     };
     img.src = url;
+}
+
+function getArrayFromSeason(ssn, arrayofallmatchess){
+    console.log("finding "+ssn);
+
+    let finalArray = new Array();
+    let storethesearrays = false;
+    for (const match of arrayofallmatchess){
+        if(match.season === ssn.toString()){
+            finalArray.push(match);
+        }
+    }
+return (finalArray);
+}
+var THEFINALARRAYISWEAR = new Array();
+var ccccc = 0;
+function DotheThing (arrayofallmatches2, removeoradd){
+    bans = new Array(7).fill(0);
+    picks = new Array(7).fill(0);
+    played = new Array(7).fill(0);
+    L = new Array(7).fill(0);
+    W = new Array(7).fill(0);
+    if(ccccc >= 1){
+        THEFINALARRAYISWEAR.length = 0;
+        ccccc = 0;
+    }
+    console.log("???? "+removeoradd);
+    if(removeoradd){
+        THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.concat(arrayofallmatches2);
+        document.getElementById("mtches").remove();
+        document.getElementById("allInfo").remove();
+        document.getElementById("quickInfo").remove();
+        console.log("THE ARRAY YOU GAVE US:");
+        console.log(arrayofallmatches2);
+        printToWebsite(THEFINALARRAYISWEAR, true);
+        const elements = document.querySelectorAll('[id=penisandcock]');
+        for (const elem of elements){
+            elem.style.transform = "translate(730px, 160px)";
+        }
+    }
+    else{
+        THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.filter(item => item.season !== arrayofallmatches2[0].season);
+        document.getElementById("mtches").remove();
+        document.getElementById("allInfo").remove();
+        document.getElementById("quickInfo").remove();
+        console.log("THE ARRAY YOU GAVE US:");
+        console.log(arrayofallmatches2);
+        printToWebsite(THEFINALARRAYISWEAR, true);
+        const elements = document.querySelectorAll('[id=penisandcock]');
+        for (const elem of elements){
+            elem.style.transform = "translate(730px, 160px)";
+        }
+    }
+
 }

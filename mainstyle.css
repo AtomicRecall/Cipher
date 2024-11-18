@@ -172,19 +172,37 @@ body {
   filter: drop-shadow(.5px 0.5px 2px cyan);
 }
 #verimage{
-  transform: translate(480px,30px);
+  transform: translate(470px,20px);
   opacity: 60%;
 }
-#vertigo{
+#vertigoo{
   filter: drop-shadow(.5px 0.5px 0.1px black);
   width: 230px;
   height: 130px;
   position: absolute;
-  transform: translate(480px,30px);
+  transform: translate(470px,20px);
 }
 #de_vertigo{
   color:White;
   filter: drop-shadow(.5px 0.5px 2px blue)
+}
+#Season51Button{
+  height: 200px;
+  width: 100px;
+}
+#penisandcock{
+  height: 30px;
+  width: 30px;
+  background-image: url('https://atomicrecall.github.io/Cipher/images/button.png');
+  background-size: cover;             /* Scale the image to fill the button */
+  background-position: center;        /* Center the image within the button */
+  text-align: center;                /* Center text horizontally */
+  font-size: 15px;
+  color: black;
+  font-weight: bold;
+}
+#spanimg{
+  transform: trasnlateX(-10px);
 }
 #warnn{
   position: absolute;
@@ -342,6 +360,7 @@ h2{
   color: #ffffff;
   font-size : 50px;
   text-align: center;
+  transform: translate(550px,-100px);
 }
 h3{
   color: rgb(255, 255, 255);
