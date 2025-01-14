@@ -193,6 +193,7 @@ h4 {
   color: #EBEFF3;
   pointer-events: none;
   transition: 2s;
+  font-family: 'Play', sans-serif;
 }
 
 .input-group input {
@@ -204,6 +205,7 @@ h4 {
   background: transparent;
   border: none;
   outline: none;
+  font-family: 'Play', sans-serif;
 }
 
 .input-group input:focus~label,
@@ -259,7 +261,12 @@ button {
   margin: 15px 0;
  
 }
-
+#loadingorsearching{
+  transform: translate(10px,70px);
+  position: absolute;
+  color: white;
+  width: 100%;
+}
 #UNDERCONSTRUCTION{
   position: absolute;
   height: 60px;

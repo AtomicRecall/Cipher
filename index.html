@@ -9,48 +9,7 @@
   <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="shortcut icon" href="https://atomicrecall.github.io/Cipher/favicon.ico">
   <link href="https://fonts.cdnfonts.com/css/minecraftia" rel="stylesheet">
-  <script>
-    let alertShown = false; // Flag to track if alert has already been shown
-    let counter = 0;
-    // Function to check if div is "Loading..."
-    function checkLoading() {
-        
-        const div = document.getElementById("temm");
-        const button = document.getElementById("affirmativee");
 
-        if (div.innerHTML === "Loading...") {
-
-            if (!alertShown) { 
-                alert("Button is disabled because the page is loading."); // Show the alert
-                alertShown = true;  // Set the flag so the alert doesn't show again
-            }
-        } else {
-            button.disabled = false;  // Enable the button
-            alertShown = false; // Reset the flag when the condition changes
-        }
-        
-    }
-
-    // Function to handle the button click event
-    function onButtonClick(event) {
-        // Check the loading condition after the button is clicked
-        checkLoading(); 
-        // Optionally, navigate to the new page after checking loading
-        if (!document.getElementById("affirmativee").disabled) {
-          
-            window.location.href = "main.html"; // Replace with your target URL
-        }
-    }
-
-    // Wait for the DOM to load before attaching the event listener
-    document.addEventListener("DOMContentLoaded", function() {
-        const button = document.getElementById("affirmativee");
-
-        // Attach the event listener to the button
-        button.addEventListener("click", onButtonClick);
-    });
-</script>
-  
 </head>
 
 <body>
@@ -101,7 +60,7 @@
         </form>
       </div>
 
-      <div class="form-wrapper sign-check">
+      <div class="form-wrapper sign-check" id="signchek">
         <div class="poopookaakaa">
         <form action="" id="signincheck">
           <h3>Is this you?</h3>

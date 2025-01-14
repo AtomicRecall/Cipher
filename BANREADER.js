@@ -1,6 +1,6 @@
 console.log("one two three");
 var THETEAMWEARESEARCHING = localStorage.getItem("BITCHID");
-var currentseason = 50;
+var currentseason = 51;
 function removeElementsByClass(className) {
     let elements = document.getElementsByClassName(className);
     while(elements.length > 0) {
@@ -26,6 +26,7 @@ loadingimage.style.height = "200px";
 loadingimage.style.transform = "translate(450px,150px)";
 loadingimage.style.position = "absolute";
 loadingimage.id = "removemepls";
+loadingimage.classList.add("removemepls");
 document.getElementById(".BanFileExplorer").appendChild(loadingimage);
 //ancient = 0;
 //anubis = 1;
@@ -286,8 +287,9 @@ function fetchMatchData(matchid,leaderid) {
                     'Access-Control-Allow-Origin' : '*'
                 }
             })
-                /*
-            
+                
+                
+            /*
             return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
                 method: 'GET'
             })

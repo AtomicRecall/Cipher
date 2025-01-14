@@ -80,10 +80,12 @@ srchbtn.addEventListener('click', () =>{
     div.classList.add("input-group");
     div.type = "text";
     div.style.fontSize = "40px";
+    div.style.fontFamily = ''
 
 
     srch3.addEventListener('click',()=>{
         document.getElementById("h3").innerHTML = "SEARCH RESULTS";
+        removeElementsByClass("divvv");
         searchForTeams(document.getElementById("srchboxdiv").value);
         srch3.style.transform = "translate(1430px,13px)";
 
@@ -95,7 +97,7 @@ srchbtn.addEventListener('click', () =>{
 const rtrnBtn = document.getElementById("rtrnBtn");
 rtrnBtn.addEventListener('click', () =>{
     removeElementsByClass("divvv");
-   
+   removeElementsByClass("removemepls");
     YOURSAVEDTEAMS();
     document.getElementById("h3").innerHTML = "YOUR SAVED TEAMS"
     if (document.getElementById("SEARCH") !== null){
@@ -131,7 +133,6 @@ function ontop(){
         return res.json();
     })
     .then((data) =>{
-
         var cvrimmg = document.createElement('img');
         cvrimmg.id = "cvrimg";
         cvrimmg.src = data.cover_image;
@@ -154,7 +155,7 @@ function ontop(){
 
         var teamname = document.createElement('div');
         teamname.id = "teamname";
-        //teamname.innerHTML = "LATEST SEASON PLAYED: ";
+        teamname.innerHTML = "Season "+localStorage.getItem("dafuckingseasonyo")+" for "+localStorage.getItem("dafuckingnameyo");
         getTeamNameDoc(data.player_id,0,"teamname");
         teamname.style.filter = "drop-shadow(0px 0px 2px #000000)";
         document.getElementById(".form-wrapper").appendChild(teamname);
@@ -218,7 +219,6 @@ function funnyfunction(dataalolfunny){
             return res.json();
         })
         .then((datan) =>{ 
-
             counter++;
             let leaderid = datan.leader;
             //avatar and cover image in the right spot, will have to figure out how to do this automatically with lots of mother fucking entries
@@ -269,6 +269,13 @@ function funnyfunction(dataalolfunny){
             Tmne.classList.add("TTmne");
             Tmne.id = "Tmne"+d;
             Tmne.innerHTML = datan.name;
+            const lasttempiswear = datan.name;
+            if(datan.name.length >= 14){
+                Tmne.innerHTML = datan.name.substring(0,8)+"...";
+            }
+            else{
+                Tmne.innerHTML = datan.name;
+            }
             Tmne.style.transform = "translate(50px, -85px)";
             Tmne.pointerEvents = "none";
             
@@ -376,7 +383,7 @@ function funnyfunction(dataalolfunny){
 
 
             document.getElementById("div"+d).onmouseover = function(){
-
+            Tmne.innerHTML = lasttempiswear;
             div.style.transition = "2s";
             div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";
             
@@ -417,16 +424,19 @@ function funnyfunction(dataalolfunny){
                         pfpdiv.style.transform = "translate(160px, -125px)";
                         break;
                     case 12:
-                        pfpdiv.style.transform = "translate(165px, -125px)";
+                        pfpdiv.style.transform = "translate(170px, -125px)";
                         break;
                     case 13:
-                        pfpdiv.style.transform = "translate(165px, -125px)";
+                        pfpdiv.style.transform = "translate(190px, -125px)";
                         break;
                     case 14:
                         pfpdiv.style.transform = "translate(190px, -125px)";
                         break;
                     case 15:
-                        pfpdiv.style.transform = "translate(190px, -125px)"
+                        pfpdiv.style.transform = "translate(210px, -125px)"
+                        break;
+                    case 16:
+                        pfpdiv.style.transform = "translate(210px, -125px)"
                         break;
                     default:
                         
@@ -492,6 +502,12 @@ function funnyfunction(dataalolfunny){
        
         document.getElementById("div"+d).onmouseout = function(){
                 //make sure to delete the shit you made up top!
+                if(Tmne.innerHTML.length >= 14){
+                    Tmne.innerHTML = datan.name.substring(0,8)+"...";
+                }
+                else{
+                    Tmne.innerHTML = datan.name;
+                }
                 div.style.filter = "";
                 
                 cvrimg.width = 200;
@@ -548,7 +564,7 @@ function funnyfunction(dataalolfunny){
 function moveColumn(fart,c,colms){
     //every 4, increases X by 120, increases y by 400
     if(colms == 4){
-        fart.style.transform="translate("+(210*c)+"px,"+(((-400)*(c)))+"px)";
+        fart.style.transform="translate("+(210*c)+"px,"+(((-420)*c))+"px)";
     }
     else{
         fart.style.transform="translate("+(210*c)+"px,"+(((-100*colms+50)*(c)))+"px)";
@@ -572,7 +588,11 @@ function getPosition(element){
 }
 //TODO: START OF SEASON WAHTEVER AND END OF SEASON WHATEVER FROM AND TO
 function getTeamNameDoc(name, offsett, docelement){
-    fetch('https://open.faceit.com/data/v4/players/'+name+'/history?game=cs2&from=1734184800&to=1711414424&offset='+offsett+'&limit=20', {
+    var beenfound = false;
+    if (beenfound){
+        return;
+    }
+    fetch('https://open.faceit.com/data/v4/players/'+name+'/history?game=cs2&offset='+offsett+'&limit=20', {
     headers: {
         'accept': 'application/json',
         'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
@@ -585,33 +605,30 @@ function getTeamNameDoc(name, offsett, docelement){
         return res.json();
     })
   .then((data) =>{
+    console.log(data);
     for(let key = 0; key < data.items.length; key++){
-        //console.log(data.items[key].competition_name);
         // if the "items' competition_name has something to do with esea
-        if(data.items[key].competition_name.toLowerCase().includes("esea")){
+        if(data.items[key].competition_name.includes("ESEA") && !data.items[key].competition_name.includes("Qualifier")){
             ssn = data.items[key].competition_name.substring(6,8);
-            /*
-            if(ssn == "ea"){
-                ssn = "QUALIFER";
-            }
-            */
+
             for(let key2 = 0; key2 < data.items[key].playing_players.length; key2++){
                 if(data.items[key].playing_players[key2].includes(name)){
-                    //console.log("Fopund ur bitch ass LOL");
+                    console.log("Fopund ur bitch ass LOL");
                     for (let key3 = 0; key3 < 5; key3++){
                         if(data.items[key].teams.faction1.players[key3].player_id.includes(name)){
-                            //console.log("ohhh you in team1 big boy :)");
-                            ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction1.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
-                            
+
+                            console.log("ohhh you in team1 big boy :)");
+                            //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction1.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
+                            document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
+                            beenfound = true;
                             return;
 
                         }
-                        else {
-
-                        }
                     }
-                    //console.log("just guessing, you probably in team2 right now big boy :)");
-                    ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction2.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
+                    console.log("just guessing, you probably in team2 right now big boy :)");
+                    //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction2.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
+                    document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
+                    beenfound = true;
                     return;
 
                 }
@@ -620,10 +637,11 @@ function getTeamNameDoc(name, offsett, docelement){
                 }
                 
             }
-           // console.log("done with loop");
+            //console.log("done with loop");
             
         }
     }
+    getTeamNameDoc(name,offsett+20,docelement);
     return;
   });
 }
@@ -632,7 +650,7 @@ function searchForTeams(teamnme){
     let counter = 0;
     let c = 1;
     var cocksucker = teamnme.split(' ').join('%20');
-        fetch('https://open.faceit.com/data/v4/search/teams?nickname='+cocksucker+'&game=cs2&offset=0&limit=24', {
+        fetch('https://open.faceit.com/data/v4/search/teams?nickname='+cocksucker+'&game=cs2&offset=0&limit=8', {
         headers: {
             'accept': 'application/json',
             'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
@@ -645,12 +663,85 @@ function searchForTeams(teamnme){
             return res.json();
         })
         .then((datann) =>{
+            console.log(datann);
+        if (datann.items.length == 0){
+            alert("Your search result got nothing! Maybe you spelt the team name wrong? ");
+        }
         for(let d = 0; d < datann.items.length; d++){
             let datan = datann.items[d];
-           
+            let cvrimg = document.createElement('img');
+            cvrimg.id = "cvrimg"+d;
+            var pfpdivvv = document.createElement('div');
+            pfpdivvv.id = "pfpp";
+            pfpdivvv.style.position = "absolute";
+            pfpdivvv.style.filter = "blur(100px)";
+            var leaderpicture = undefined;
+            var leadername = undefined;
+            
+                var crown = document.createElement('img');
+                    crown.id = "crn";
+                    crown.style.width = "30px";
+                    crown.style.height = "30px";
+                    crown.style.transform = "translate(-40px,-10px)";
+                    crown.src = "https://atomicrecall.github.io/Cipher/images/CAPTAIN.png";
+                    crown.style.position = "absolute";
+                    crown.style.opacity = 1;
+                    
+
+                    var pfp = document.createElement('img');
+                    pfp.id = datan.nickname+"pfp";
+                    pfp.height = 10;
+                    pfp.width = 10;
+                    pfp.style.padding = "10px";
+                    pfp.style.filter = "blur(100px)";
+                    pfp.style.position = "relative";
+                    pfp.pointerEvents = "none";
+                    pfp.style.borderRadius = "40px";
+                    pfp.src = leaderpicture;
+                    if (leaderpicture == undefined){
+                        pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
+                    }
+
+                    var leadernamez = document.createElement('div');
+                    leadernamez.id = leadername;
+                    leadernamez.innerHTML = leadername;
+
+                    fetch('https://open.faceit.com/data/v4/teams/'+datan.team_id, {
+                        headers: {
+                            'accept': 'application/json',
+                            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+                        }
+                        }).then((res) => {
+                            if(!res.ok){
+                                throw new Error("couldnt fetcht that shit");
+                            }
+                            return res.json();
+                        })
+                        .then((datan12) =>{ 
+                            console.log(datan12);
+                            if(datan.cover_image == undefined){
+                                cvrimg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+        
+                            }
+                            else{
+                                cvrimg.src = datan12.cover_image;
+        
+                            }
+                            const someleader = datan12.leader;
+                            for (const players of datan12.members){
+                                if (players.user_id == someleader){
+                                    pfp.src = players.avatar;
+                                    leadernamez.innerHTML = players.nickname;
+                                }
+                            }
+
+                        })
+                        pfpdivvv.appendChild(crown);
+                        pfpdivvv.appendChild(pfp);
+                        pfpdivvv.appendChild(leadernamez);
+                    
             counter++;  
             
-
             //avatar and cover image in the right spot, will have to figure out how to do this automatically with lots of mother fucking entries
             var div = document.createElement('div');
             div.classList.add("divvv");
@@ -658,33 +749,42 @@ function searchForTeams(teamnme){
             div.style.position = "flex";
             document.getElementById(".BanFileExplorer").appendChild(div);
 
+            var avat = document.createElement('img');
+            avat.classList.add("avatt");
+            avat.pointerEvents = "none";
+            avat.id = "avat"+d;
 
-            let cvrimg = document.createElement('img');
-            cvrimg.id = "cvrimg"+d;
             switch(datan.avatar){
                 case "":
-                    cvrimg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                    avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
                     break;
+                    case undefined:
+                        avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
+                        break;
+                    case null:
+                        avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
+                        break;
+                    
                 default:
                     cvrimg.src = datan.avatar;
+                    avat.src = datan.avatar;
                     break;
             }
             cvrimg.height = 80;
             cvrimg.width = 200;
             cvrimg.style.filter = "blur(3px)";
             cvrimg.style.transition = "0.5s";
+            document.getElementById("div"+d).appendChild(pfpdivvv);
             document.getElementById("div"+d).appendChild(cvrimg);
 
-            var avat = document.createElement('img');
-            avat.classList.add("avatt");
-            avat.pointerEvents = "none";
-            avat.id = "avat"+d;
-            avat.src = datan.avatar;
+
+            
+
             avat.height = 40;
             avat.width = 40;
             avat.style.transform = "translate(5px, -60px)";
             document.getElementById("div"+d).appendChild(avat);
-
+           
             //if the name is too long, cutt off the name, show the button infront of it, when the user hovers over the team,
             //move the fav button to the end and show the full team name
             //if the name is not that long, dont even have a hover animation, it doesnt matter anyways.
@@ -840,6 +940,7 @@ function searchForTeams(teamnme){
               //  console.log("moving search ");
                // console.log("WHAT ROW?? search "+c)
                 moveColumn(fart,c,4);
+                
                 if (counter % 4 == 0){
                     
                     c++;

@@ -83,13 +83,12 @@ submitBtn.addEventListener('click', () => {
         else{
             alert("Your PIN needs to have numbers yo");
         }
-        document.getElementById("temm").innerHTML = "Loading...";
+        //document.getElementById("temm").innerHTML = "Loading...";
 });
 
 
 
 inc.addEventListener('click', () => {
-    if (wrapper.classList.contains('fart')){
         if (!(wrapper.classList.contains('one') ||wrapper.classList.contains('two') || wrapper.classList.contains('three') || wrapper.classList.contains('four'))){
             wrapper.classList.add('two');
             return;
@@ -105,7 +104,7 @@ inc.addEventListener('click', () => {
            
         }
         return;
-    }
+    /*
     //four
     else if (!(wrapper.classList.contains('one') ||wrapper.classList.contains('two') || wrapper.classList.contains('three') || wrapper.classList.contains('four'))){
         wrapper.classList.add('one');
@@ -121,8 +120,9 @@ inc.addEventListener('click', () => {
 
        
     }
+            */
 });
-
+/*
 forgotpassword.addEventListener('click', () =>{
     if (!(wrapper.classList.contains('one') ||wrapper.classList.contains('two') || wrapper.classList.contains('three') || wrapper.classList.contains('four'))){
     
@@ -141,9 +141,12 @@ forgotpassword.addEventListener('click', () =>{
     }
 });
 
+*/
+
 affiramtivee.addEventListener('click', () =>{
+
     console.log("BUTTON CLICKED");
-    
+    window.location.href = "main.html";
 });
 
 

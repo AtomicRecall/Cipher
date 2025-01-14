@@ -24,13 +24,15 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
+localStorage.setItem("dafuckingnameyo", "");
+localStorage.setItem("dafuckingseasonyo", "");
 function LogintoAccount(){
     var inputt = document.getElementById("usrr").value;
     //var pwrd = document.getElementById("thefuckingpasswordyo").value;
     var user_ref = database.ref("USERS/"+inputt);
     user_ref.on('value', function(snapshot){
         if(!snapshot.exists()){
-            localStorage.setItem("first-time", 0);
+            //localStorage.setItem("first-time", 0);
             submitSignupInfoExtra(inputt,"1111","NULL","NULL");
         }
         var data = snapshot.val();
@@ -57,8 +59,14 @@ function LogintoAccount(){
     
     //console.log("function end");
 }
+    var loadingtext = document.createElement("div");
+    loadingtext.id = "loadingorsearching";
+    loadingtext.innerHTML = " Now Searching: "
+    document.getElementById("signchek").appendChild(loadingtext); 
+
 //TODO: START OF SEASON WAHTEVER AND END OF SEASON WHATEVER FROM AND TO
 function getTeamNameDoc(name, offsett, docelement){
+    
     fetch('https://open.faceit.com/data/v4/players/'+name+'/history?game=cs2&from=1734184800&to=1711414424&offset='+offsett+'&limit=20', {
     headers: {
         'accept': 'application/json',
@@ -73,21 +81,30 @@ function getTeamNameDoc(name, offsett, docelement){
     })
   .then((data) =>{
     console.log("HOLY FUCK");
+
     for(let key = 0; key < data.items.length; key++){
-        console.log(data.items[key].competition_name);
+        var dating = new Date(data.items[key].finished_at* 1000);
+
+        document.getElementById("loadingorsearching").innerHTML = " Now Searching: "+data.items[key].competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();
         // if the "items' competition_name has something to do with esea
         if(data.items[key].competition_name.toLowerCase().includes("esea")){
-            //ssn = data.items[key].competition_name.substring(6,8);
-            
+            var ssnn = data.items[key].competition_name.substring(6,8);
+            if(ssnn == "ea"){
+                continue;
+            }
             for(let key2 = 0; key2 < data.items[key].playing_players.length; key2++){
                 //console.log(data.items[key].playing_players[key2]+"=="+name);
                 if(data.items[key].playing_players[key2].includes(name)){
                     console.log("Fopund ur bitch ass LOL");
+
                     for (let key3 = 0; key3 < data.items[key].teams.faction1.players.length; key3++){
                         //console.log(data.items[key].teams.faction1.players[key3].player_id+" == "+ name);
                         if(data.items[key].teams.faction1.players[key3].player_id.includes(name)){
                             console.log("ohhh you in team1 big boy :) scrips1js");
                             document.getElementById(docelement).innerHTML =data.items[key].teams.faction1.nickname;
+                            localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction1.nickname);
+                            localStorage.setItem("dafuckingseasonyo",ssnn);
+                            document.getElementById("loadingorsearching").innerHTML = " FOUND IN: "+data.items[key].competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;
 
                             //console.log("ONE "+data.items[key].teams.faction1.team_id);
                             localStorage.setItem("team-id",data.items[key].teams.faction1.team_id);
@@ -102,7 +119,11 @@ function getTeamNameDoc(name, offsett, docelement){
                     console.log("just guessing, you probably in team2 right now big boy :)");
 
                     document.getElementById(docelement).innerHTML = data.items[key].teams.faction2.nickname;
+                    document.getElementById("loadingorsearching").innerHTML = " FOUND IN: "+data.items[key].competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;    
                     localStorage.setItem("team-id",data.items[key].teams.faction2.team_id);
+                    localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction1.nickname);
+                    localStorage.setItem("dafuckingseasonyo",ssnn);
+
 
                     //console.log("TWO "+data.items[key].teams.faction2.team_id);
 
@@ -118,10 +139,13 @@ function getTeamNameDoc(name, offsett, docelement){
             
         }
     }
+    
     getTeamNameDoc(name,offsett+20,docelement);
   });
+  
 }
 function InitializeCheck(input){
+  
     console.log("WHAT? "+input);
     //obtaining faceit information
     fetch('https://open.faceit.com/data/v4/players?nickname='+input+'&game=cs2', {
@@ -131,7 +155,9 @@ function InitializeCheck(input){
     }
     }).then((res) => {
         if(!res.ok){
+            alert("We didn't find a faceit account with that name? Did you type in your name wrong?");
             throw new Error("couldnt fetcht that shit");
+            
         }
         return res.json();
     })
@@ -180,6 +206,7 @@ function InitializeCheck(input){
                 break;
                 
         }
+
         getTeamNameDoc(playerrid,0,"temm");
         
     });
