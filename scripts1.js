@@ -26,13 +26,16 @@ const database = firebase.database();
 
 localStorage.setItem("dafuckingnameyo", "");
 localStorage.setItem("dafuckingseasonyo", "");
+
 function LogintoAccount(){
     var inputt = document.getElementById("usrr").value;
     //var pwrd = document.getElementById("thefuckingpasswordyo").value;
+
     var user_ref = database.ref("USERS/"+inputt);
     user_ref.on('value', function(snapshot){
         if(!snapshot.exists()){
             //localStorage.setItem("first-time", 0);
+            console.log("THIS ACCOUNT DOES NOT EXIST");
             submitSignupInfoExtra(inputt,"1111","NULL","NULL");
         }
         var data = snapshot.val();
@@ -87,7 +90,7 @@ function getTeamNameDoc(name, offsett, docelement){
 
         document.getElementById("loadingorsearching").innerHTML = " Now Searching: "+data.items[key].competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();
         // if the "items' competition_name has something to do with esea
-        if(data.items[key].competition_name.toLowerCase().includes("esea")){
+        if(data.items[key].competition_name.toLowerCase().includes("esea") && !(data.items[key].competition_name.toLowerCase().includes("qualifier"))){
             var ssnn = data.items[key].competition_name.substring(6,8);
             if(ssnn == "ea"){
                 continue;
@@ -104,10 +107,11 @@ function getTeamNameDoc(name, offsett, docelement){
                             document.getElementById(docelement).innerHTML =data.items[key].teams.faction1.nickname;
                             localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction1.nickname);
                             localStorage.setItem("dafuckingseasonyo",ssnn);
+                            localStorage.setItem("team-id",data.items[key].teams.faction1.team_id);
                             document.getElementById("loadingorsearching").innerHTML = " FOUND IN: "+data.items[key].competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;
 
                             //console.log("ONE "+data.items[key].teams.faction1.team_id);
-                            localStorage.setItem("team-id",data.items[key].teams.faction1.team_id);
+                            
 
       
                             return;
@@ -121,7 +125,7 @@ function getTeamNameDoc(name, offsett, docelement){
                     document.getElementById(docelement).innerHTML = data.items[key].teams.faction2.nickname;
                     document.getElementById("loadingorsearching").innerHTML = " FOUND IN: "+data.items[key].competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;    
                     localStorage.setItem("team-id",data.items[key].teams.faction2.team_id);
-                    localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction1.nickname);
+                    localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction2.nickname);
                     localStorage.setItem("dafuckingseasonyo",ssnn);
 
 
@@ -156,7 +160,8 @@ function InitializeCheck(input){
     }).then((res) => {
         if(!res.ok){
             alert("We didn't find a faceit account with that name? Did you type in your name wrong?");
-            throw new Error("couldnt fetcht that shit");
+            console.log("bringing you back to the main page");
+            document.getElementById('incorrect-linkk').click();
             
         }
         return res.json();

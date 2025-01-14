@@ -18,7 +18,6 @@ var ffws1 = 0;
 var defaultimage = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
 //setup image_links
 var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
-//var loadGears = "/images/gears.gif"
 var loadingimage = document.createElement("img");
 loadingimage.src = loadGears;
 loadingimage.style.width = "600px";
@@ -28,6 +27,22 @@ loadingimage.style.position = "absolute";
 loadingimage.id = "removemepls";
 loadingimage.classList.add("removemepls");
 document.getElementById(".BanFileExplorer").appendChild(loadingimage);
+var loadingbar = document.createElement("div");
+loadingbar.innerHTML = "Now Searching: "
+loadingbar.id = "loadingbar";
+loadingbar.classList.add("divvv");
+var finishedbar = document.createElement("div");
+finishedbar.innerHTML = "Searched Matches: ";
+finishedbar.id = "finishedbar";
+finishedbar.classList.add("divvv");
+var finishtext = document.createElement("div");
+finishtext.id = "finishedtext";
+finishtext.classList.add("divvv");
+finishedbar.appendChild(finishtext);
+document.getElementById(".BanFileExplorer").appendChild(loadingbar);
+document.getElementById(".BanFileExplorer").appendChild(finishedbar);
+
+
 //ancient = 0;
 //anubis = 1;
 //Inferno = 2;
@@ -124,6 +139,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     console.log(picksnbans);
     var myshit = document.getElementById("removemepls");
     myshit.parentNode.removeChild(myshit);
+    removeElementsByClass("divvv");
     printToWebsite(picksnbans, false);
 })
 .catch((error) => {
@@ -140,6 +156,8 @@ function GetLeaguePickBans(leaderid, offset) {
     }).then((res) => {
         if (!res.ok) {
             if (res.status == 404) {
+                //update the loading bar saying like not found or error or some shit idk lmfao
+                loadingbar.innerHTML = " Now Searching: "+`Match not found (404), continuing...`;
                 console.warn(`Match history not found (404), continuing...`);
                 return Promise.resolve(); // Resolve to continue without error
             }
@@ -150,13 +168,20 @@ function GetLeaguePickBans(leaderid, offset) {
     .then((data) => {
 
         let allMatches = data.items;
+        
        if (!allMatches || allMatches.length === 0) return Promise.resolve(); // End if no more matches
 
         console.log(`Fetched ${allMatches.length} matches`);
 
         // Process each match and filter
         let matchPromises = allMatches.map((match) => {
-            if (match.competition_name.includes("ESEA") && !match.competition_name.includes("S48")) {
+            //update the loading bar here.
+            var dating = new Date(match.finished_at*1000);
+            loadingbar.innerHTML = " Now Searching: "+match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();
+    
+            if (match.competition_name.includes("ESEA") && !match.competition_name.includes("S48") && !match.competition_name.includes("Qualifier")) {
+                finishedtext.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
+            
                 return fetchMatchData(match.match_id, leaderid); // Fetch only non-S48 ESEA matches
             }
             return Promise.resolve();
@@ -201,6 +226,7 @@ function fetchMatchData(matchid,leaderid) {
         
         let errthang = datan12;
         
+
         let compname = errthang.competition_name;
 
         let faceitlink = errthang.faceit_url.replace("{lang}", '');
@@ -258,7 +284,8 @@ function fetchMatchData(matchid,leaderid) {
             return res.json();
         })
         .then((datan123) => {
-           // console.log(datan123);
+        
+            //console.log(datan123);
             let detailedscr = datan123.rounds;
             let scoree = null;
             
@@ -281,19 +308,19 @@ function fetchMatchData(matchid,leaderid) {
             else{
                 scoree = datan123.rounds[0].round_stats.Score;
             }
-            
+            /*
             return fetch(`https://cipher-virid.vercel.app/api/proxy?endpoint=match/${matchid}/history`,{
                 headers:{
                     'Access-Control-Allow-Origin' : '*'
                 }
             })
+                */
                 
-                
-            /*
+            
             return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
                 method: 'GET'
             })
-                */
+                
             .then((response) => {
                 if (response.status === 404) {
                     console.warn(`Match ${matchid} not found, continuing...`);
@@ -393,9 +420,6 @@ function printToWebsite(dapicksanddabans, something){
     matchesDivider.id = "mtches";
     matchesDivider.style.overflow = "auto";
     matchesDivider.style.overflowX = "hidden";
-    if (something){
-        matchesDivider.style.transform = "translate(-20px,-170px)";
-    }
     let quickInfoDivider = document.createElement('div');
     quickInfoDivider.id = "quickInfo";
     quickInfoDivider.innerHTML = "PLEASE HOVER OVER A GAME:";
@@ -984,9 +1008,16 @@ function printToWebsite(dapicksanddabans, something){
 
     
    // createToggle(allInfoDivider);
-    document.getElementById(".BanFileExplorer").appendChild(matchesDivider);
-    document.getElementById(".BanFileExplorer").appendChild(quickInfoDivider);
-    document.getElementById(".BanFileExplorer").appendChild(allInfoDivider);
+    if(something){
+        document.getElementById(".BanFileExplorer").insertBefore(matchesDivider, document.getElementById(".BanFileExplorer").firstChild);
+        document.getElementById(".BanFileExplorer").insertBefore(quickInfoDivider, document.getElementById(".BanFileExplorer").firstChild);
+        document.getElementById(".BanFileExplorer").insertBefore(allInfoDivider, document.getElementById(".BanFileExplorer").firstChild);
+    }
+    else{
+        document.getElementById(".BanFileExplorer").appendChild(matchesDivider);
+        document.getElementById(".BanFileExplorer").appendChild(quickInfoDivider);
+        document.getElementById(".BanFileExplorer").appendChild(allInfoDivider);
+    }
     
     const childdddrr = matchesDivider.childNodes;
     if(!something){
@@ -1013,18 +1044,10 @@ function printToWebsite(dapicksanddabans, something){
             document.getElementById("game"+d).onmouseover = function(){
                 quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
                     document.getElementById("allInfo").style.transform = "translateX(775px)";
-                    const allelems = document.querySelectorAll('[id=penisandcock]');
-                    for (const elem of allelems){
-                        //console.log(elem);
-                        elem.style.transition = "0.3s"
-                        if (!lastbooleaniswear){
-                            elem.style.transform = "translate(1250px,-345px)";
-                        }
-                        else{
-                            elem.style.transform = "translate(1250px,160px)";
-                        }
-                        
-                    }
+                    const butons = document.querySelectorAll('#penisandcock');
+                    butons.forEach(element =>{
+                        element.style.transform = "translate(1235px, -338px)"
+                    });
                 // quickInfoDivider.innerHTML+='<span class="grey"> '+dapicksanddabans[d].entities[0].selected_by+"</span> VS "+'<span class="grey"> '+dapicksanddabans[d].entities[1].selected_by+"</span>";
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px #ffffff)";
                     //function that calculates info for current highlighted game (you can get the matchid by getting the vote_type from)
@@ -1210,23 +1233,17 @@ function printToWebsite(dapicksanddabans, something){
         document.getElementById("game"+d).onmouseout = function(){
             document.getElementById("allInfo").style.transform = "translate(260px,10px)";
             document.getElementById("game"+d).style.webkitFilter = "";
+            
+            const butons = document.querySelectorAll('#penisandcock');
+                    butons.forEach(element =>{
+                        element.style.transform = "translate(720px, -328px)";
+                    });
             info.innerHTML = "";
             const myNode = document.getElementById("quickInfo");
             while (myNode.firstChild) {
                 myNode.removeChild(myNode.lastChild);
             }
             quickInfoDivider.innerHTML = "PLEASE HOVER OVER A GAME";
-            const allelems = document.querySelectorAll('[id=penisandcock]');
-            for (const elem of allelems){
-                //console.log(elem);
-                if (!lastbooleaniswear){
-                    elem.style.transform = "translate(730px,-345px)";
-                }
-                else{
-                    elem.style.transform = "translate(730px,160px)";
-                }
-
-            }
             
         }
     }
@@ -1263,7 +1280,6 @@ var ILIEDLOLL = 3;
 
     
     
-    span.style.transform = "translate(730px,-345px)";
     checkbox.addEventListener("click", () => {
         if (checkbox.checked) {
             ILIEDLOLL-=1;
@@ -1274,7 +1290,7 @@ var ILIEDLOLL = 3;
           span.style.width = "45px";
           var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
           DotheThing(newarray,true);
-          span.style.transform = "translate(730px,160px)";
+          //span.style.transform = "translate(730px,160px)";
           document.getElementById("allInfo").style.width = "480px";
           lastbooleaniswear = true;
           console.log("WTF1 "+ILIEDLOLL);
@@ -1304,7 +1320,7 @@ var ILIEDLOLL = 3;
 
             }
 
-          document.getElementById("mtches").style.transform = "translate(-20px, -155px)";
+          //document.getElementById("mtches").style.transform = "translate(-20px, -155px)";
           document.getElementById("allInfo").style.width = "480px";
         }
       });
@@ -1352,26 +1368,14 @@ function DotheThing (arrayofallmatches2, removeoradd){
         document.getElementById("mtches").remove();
         document.getElementById("allInfo").remove();
         document.getElementById("quickInfo").remove();
-        console.log("THE ARRAY YOU GAVE US:");
-        console.log(arrayofallmatches2);
         printToWebsite(THEFINALARRAYISWEAR, true);
-        const elements = document.querySelectorAll('[id=penisandcock]');
-        for (const elem of elements){
-            elem.style.transform = "translate(730px, 160px)";
-        }
     }
     else{
         THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.filter(item => item.season !== arrayofallmatches2[0].season);
         document.getElementById("mtches").remove();
         document.getElementById("allInfo").remove();
         document.getElementById("quickInfo").remove();
-        console.log("THE ARRAY YOU GAVE US:");
-        console.log(arrayofallmatches2);
         printToWebsite(THEFINALARRAYISWEAR, true);
-        const elements = document.querySelectorAll('[id=penisandcock]');
-        for (const elem of elements){
-            elem.style.transform = "translate(730px, 160px)";
-        }
     }
 
 }

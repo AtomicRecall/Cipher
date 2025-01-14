@@ -1,9 +1,9 @@
 import {submitSignupInfo, LogintoAccount } from "./scripts1.js"
-const signInBtnLink = document.getElementById('signInBtn-link');
-const signUpBtnLink = document.getElementById('signUpBtn-link');
+//const signInBtnLink = document.getElementById('signInBtn-link');
+//const signUpBtnLink = document.getElementById('signUpBtn-link');
 const inc = document.getElementById('incorrect-linkk');
 const loginBtn = document.querySelector('.loginBtn');
-const submitBtn = document.querySelector('.submitBtn');
+//const submitBtn = document.querySelector('.submitBtn');
 const wrapper = document.querySelector('.wrapper'); 
 const forgotpassword = document.querySelector('.frgrPsswrd-link');
 const affiramtivee = document.getElementById("affirmativee");
@@ -13,7 +13,7 @@ const affiramtivee = document.getElementById("affirmativee");
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
-
+/*
 signUpBtnLink.addEventListener('click', () => {
     if (!(wrapper.classList.contains('one') ||wrapper.classList.contains('two') || wrapper.classList.contains('three') || wrapper.classList.contains('four'))){
         wrapper.classList.add('one');
@@ -31,6 +31,7 @@ signUpBtnLink.addEventListener('click', () => {
     }
     
 });
+
 signInBtnLink.addEventListener('click', () => {
 
     //two
@@ -51,19 +52,21 @@ signInBtnLink.addEventListener('click', () => {
        
     }
 });
+*/
 
 loginBtn.addEventListener('click', () => {
-    LogintoAccount();
     document.getElementById("temm").innerHTML = "Loading...";
     localStorage.setItem('faceit-name', document.getElementById("usrr").value);
+    LogintoAccount();
+
     
 });
-
+/*
 submitBtn.addEventListener('click', () => {
 //TODO: CHECK IF THE INPUTS FOR THE FORM ARE CORRECT OR NOT
         if (!isNaN(document.getElementById("passwordd")) && !isNaN(parseFloat(document.getElementById("passwordd")))){
                  //three
-                submitSignupInfo();
+                //submitSignupInfo();
                 if (!(wrapper.classList.contains('one') ||wrapper.classList.contains('two') || wrapper.classList.contains('three') || wrapper.classList.contains('four'))){
             
                     wrapper.classList.add('three');
@@ -86,7 +89,7 @@ submitBtn.addEventListener('click', () => {
         //document.getElementById("temm").innerHTML = "Loading...";
 });
 
-
+*/
 
 inc.addEventListener('click', () => {
         if (!(wrapper.classList.contains('one') ||wrapper.classList.contains('two') || wrapper.classList.contains('three') || wrapper.classList.contains('four'))){

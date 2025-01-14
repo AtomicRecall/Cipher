@@ -41,12 +41,7 @@ document.getElementById("poop").innerHTML = name;
 
 
 
-if(localStorage.getItem("first-time") == 0){
-    console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO it's your first time!!!");
-    var data2 = String(localStorage.getItem("team-id"));
-    var ref1 = database.ref('USERS/'+name+'/SAVED_TEAMS/').push(data2);
-}
-localStorage.setItem("first-time", 1);
+
 let ssn = 10; // dont worry
 ontop();
 YOURSAVEDTEAMS();
@@ -96,7 +91,7 @@ srchbtn.addEventListener('click', () =>{
 
 const rtrnBtn = document.getElementById("rtrnBtn");
 rtrnBtn.addEventListener('click', () =>{
-    removeElementsByClass("divvv");
+ 
    removeElementsByClass("removemepls");
     YOURSAVEDTEAMS();
     document.getElementById("h3").innerHTML = "YOUR SAVED TEAMS"
@@ -119,6 +114,14 @@ rtrnBtn.addEventListener('click', () =>{
     document.getElementById("srchBtn").style.visibility = "visible";
     document.getElementById("rtrnBtn").style.visibility = "hidden";
 });
+
+if(localStorage.getItem("first-time") == 0){
+    console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO it's your first time!!!");
+    alert("Hello! Welcome to Cipher, an application that helps you solve the other team. \n\nTo start using it, you can check your team's cipher by clicking on them once the page refreshes. \n\nif you want to delete your team or any team, double click on the respective team name. \n\nIf you want to add more teams, click on the search button on the right. \nGive it a try!");
+    var data2 = String(localStorage.getItem("team-id"));
+    var ref1 = database.ref('USERS/'+name+'/SAVED_TEAMS/').push(data2);
+}
+localStorage.setItem("first-time", 1);
 function ontop(){
     //obtaining faceit information
     fetch('https://open.faceit.com/data/v4/players?nickname='+name+'&game=cs2', {
@@ -192,13 +195,18 @@ function ontop(){
 
 function YOURSAVEDTEAMS(){
     let dataa11 = [];
+    removeElementsByClass("divvv");
     database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
         var data = snapshot.val();
+        if (data == null){
+            alert("Looks like you have no teams! search for something using the search button!");
+        }
         Object.keys(data).forEach((key) => {
             dataa11.push(data[key]);
         });
         funnyfunction(dataa11);
     });
+
 }
 
 function funnyfunction(dataalolfunny){
@@ -589,7 +597,8 @@ function getPosition(element){
 //TODO: START OF SEASON WAHTEVER AND END OF SEASON WHATEVER FROM AND TO
 function getTeamNameDoc(name, offsett, docelement){
     var beenfound = false;
-    if (beenfound){
+
+    if (beenfound || !(localStorage.getItem("dafuckingnameyo")=="")){
         return;
     }
     fetch('https://open.faceit.com/data/v4/players/'+name+'/history?game=cs2&offset='+offsett+'&limit=20', {
@@ -620,6 +629,7 @@ function getTeamNameDoc(name, offsett, docelement){
                             console.log("ohhh you in team1 big boy :)");
                             //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction1.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
                             document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
+                            localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction1.nickname);
                             beenfound = true;
                             return;
 
@@ -627,7 +637,8 @@ function getTeamNameDoc(name, offsett, docelement){
                     }
                     console.log("just guessing, you probably in team2 right now big boy :)");
                     //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction2.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
-                    document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
+                    document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
+                    localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction2.nickname);
                     beenfound = true;
                     return;
 
@@ -665,7 +676,9 @@ function searchForTeams(teamnme){
         .then((datann) =>{
             console.log(datann);
         if (datann.items.length == 0){
-            alert("Your search result got nothing! Maybe you spelt the team name wrong? ");
+            if(confirm("Your search result got nothing! Maybe you spelt the team name wrong? ")){
+
+            }
         }
         for(let d = 0; d < datann.items.length; d++){
             let datan = datann.items[d];
