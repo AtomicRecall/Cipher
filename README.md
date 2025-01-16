@@ -3,7 +3,7 @@
 Cipher is a website that, after signing in with your FACEIT account, you will be able to search for every CS2 team on faceit and read their picks and bans for all seasons AFTER season 48.<br>
 This site uses the [FACEIT API](https://docs.faceit.com/docs/data-api/) and is one of my very first projects. <br>
 Here is an example of what it looks like :
-![example](https://github.com/AtomicRecall/Cipher/blob/main/images/example.gif)
+![example](https://github.com/AtomicRecall/Cipher/blob/main/images/example1.gif)
 Many new features coming up like 
 ```
 - AI tips
