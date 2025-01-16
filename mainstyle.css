@@ -514,14 +514,15 @@ h3{
   font-size: 16px;
   width: 550px;
   overflow : scroll;
-  height: 450px;
+  height: 480px;
+  transform: translate(-18px,-18px);
 }
 
 #finishedbar{
   color: white;
   font-size: 40px;
-  width: 100%;
-  transform: translate(950px,-500px);
+  width: 35%;
+  transform: translate(950px,-528px);
   
 }
 #finishedtext{
