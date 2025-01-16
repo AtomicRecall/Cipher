@@ -148,6 +148,8 @@ function getTeamNameDoc(name, offsett, docelement){
 }
 function InitializeCheck(input){
     console.log("WHAT? "+input);
+    const now = new Date();
+
     var playerid = null;
     var namecyka = null;
     fetch('https://open.faceit.com/data/v4/search/players?nickname='+input+'&game=cs2',{
@@ -171,6 +173,7 @@ function InitializeCheck(input){
                     namecyka = players.nickname;
                     var user_ref = database.ref("USERS/"+namecyka);
                     user_ref.on('value', function(snapshot){
+                        console.log("checking some shit");
                         if(!snapshot.exists()){
                             //localStorage.setItem("first-time", 0);
                             console.log("THIS ACCOUNT DOES NOT EXIST");
@@ -261,7 +264,7 @@ function submitSignupInfo(){
     var pswrd = document.getElementById('psswrdinitiall').value;
     var rcvry = document.getElementById('recvryEmaill').value;
     
-    var crnttme = Math.floor(Date.now()/1000);
+    var crnttme = new Date().toISOString().split('T')[0];
    // InitializeCheck(input);
 
     var data = {
@@ -269,7 +272,8 @@ function submitSignupInfo(){
         password: pswrd,
         pin: PIN,
         recoveryemail: rcvry,
-        accountCreated: crnttme
+        accountCreated: crnttme,
+        LastLoggedIn: crnttme
     }
     var ref = database.ref('USERS/'+input).set(data);
 
@@ -280,7 +284,7 @@ function submitSignupInfo(){
 }
 function submitSignupInfoExtra(input,PIN,pswrd,rcvry){
     
-    var crnttme = Math.floor(Date.now()/1000);
+    var crnttme = new Date().toISOString().split('T')[0];
    //InitializeCheck(input);
 
     var data = {
@@ -288,7 +292,8 @@ function submitSignupInfoExtra(input,PIN,pswrd,rcvry){
         password: pswrd,
         pin: PIN,
         recoveryemail: rcvry,
-        accountCreated: crnttme
+        accountCreated: crnttme,
+        LastLoggedIn: crnttme
     }
     var ref = database.ref('USERS/'+input).set(data);
 
