@@ -56,9 +56,7 @@ signInBtnLink.addEventListener('click', () => {
 
 loginBtn.addEventListener('click', () => {
     document.getElementById("temm").innerHTML = "Loading...";
-    localStorage.setItem('faceit-name', document.getElementById("usrr").value);
     LogintoAccount();
-
     
 });
 /*
@@ -147,7 +145,6 @@ forgotpassword.addEventListener('click', () =>{
 */
 
 affiramtivee.addEventListener('click', () =>{
-
     console.log("BUTTON CLICKED");
     window.location.href = "main.html";
 });

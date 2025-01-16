@@ -30,15 +30,10 @@ localStorage.setItem("dafuckingseasonyo", "");
 function LogintoAccount(){
     var inputt = document.getElementById("usrr").value;
     //var pwrd = document.getElementById("thefuckingpasswordyo").value;
-
-    var user_ref = database.ref("USERS/"+inputt);
-    user_ref.on('value', function(snapshot){
-        if(!snapshot.exists()){
-            //localStorage.setItem("first-time", 0);
-            console.log("THIS ACCOUNT DOES NOT EXIST");
-            submitSignupInfoExtra(inputt,"1111","NULL","NULL");
-        }
-        var data = snapshot.val();
+    if (inputt.length < 3 || inputt.length > 12 || typeof inputt === 'symbol'){
+        alert("Looks like you wrote your name wrong!");
+        return;
+    }
             InitializeCheck(inputt);
             const wrapper = document.querySelector('.wrapper');
             if (!(wrapper.classList.contains('one') ||wrapper.classList.contains('two') || wrapper.classList.contains('three') || wrapper.classList.contains('four'))){
@@ -58,7 +53,6 @@ function LogintoAccount(){
             
             }
             wrapper.classList.add('login');
-    })
     
     //console.log("function end");
 }
@@ -69,8 +63,12 @@ function LogintoAccount(){
 
 //TODO: START OF SEASON WAHTEVER AND END OF SEASON WHATEVER FROM AND TO
 function getTeamNameDoc(name, offsett, docelement){
-    
-    fetch('https://open.faceit.com/data/v4/players/'+name+'/history?game=cs2&from=1734184800&to=1711414424&offset='+offsett+'&limit=20', {
+    if(offsett > 200){
+        if (confirm("Looks like we didn't find the last league match you played <br>Have you played the ESEA League before?")){
+            window.location.href = "main.html";
+        }
+    }
+    fetch('https://open.faceit.com/data/v4/players/'+name+'/history?game=cs2&offset='+offsett+'&limit=20', {
     headers: {
         'accept': 'application/json',
         'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
@@ -149,72 +147,109 @@ function getTeamNameDoc(name, offsett, docelement){
   
 }
 function InitializeCheck(input){
-  
     console.log("WHAT? "+input);
-    //obtaining faceit information
-    fetch('https://open.faceit.com/data/v4/players?nickname='+input+'&game=cs2', {
-    headers: {
-        'accept': 'application/json',
-        'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
-    }
-    }).then((res) => {
-        if(!res.ok){
-            alert("We didn't find a faceit account with that name? Did you type in your name wrong?");
-            console.log("bringing you back to the main page");
-            document.getElementById('incorrect-linkk').click();
+    var playerid = null;
+    var namecyka = null;
+    fetch('https://open.faceit.com/data/v4/search/players?nickname='+input+'&game=cs2',{
+        headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+        }
+        }).then((res) => {
+            if(!res.ok){
+                alert("We didn't find a faceit account with that name? Did you type in your name wrong?");
+                console.log("bringing you back to the main page");
+                document.getElementById('incorrect-linkk').click();
+            }
             
+            return res.json();
+        })
+        .then((data) =>{
+            for (const players of data.items){
+                if (players.nickname.toLowerCase() == input.toLowerCase()){
+                    playerid = players.player_id;
+                    namecyka = players.nickname;
+                    var user_ref = database.ref("USERS/"+namecyka);
+                    user_ref.on('value', function(snapshot){
+                        if(!snapshot.exists()){
+                            //localStorage.setItem("first-time", 0);
+                            console.log("THIS ACCOUNT DOES NOT EXIST");
+                            submitSignupInfoExtra(namecyka,"1111","NULL","NULL");
+                        }
+                        var data = snapshot.val();
+                    //document.getElementById('usr').value = namecyka;
+                    localStorage.setItem('faceit-name', namecyka);
+                    });
+                }
+            }
+            //obtaining faceit information
+    fetch('https://open.faceit.com/data/v4/players/'+playerid, {
+    
+        headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
         }
-        return res.json();
-    })
-    .then((data) =>{
-        const playerrid = data.player_id;
-        const image = document.getElementById("profile");
-        image.src = data.avatar;
-        const bckrd = document.getElementById("background");
-        bckrd.src= data.cover_image;
-        const nme = document.getElementById("namee");
-        nme.innerHTML = data.nickname;
-        const lvl = document.getElementById("level");
-        switch(data.games.cs2.skill_level){
-            case 1:
-                lvl.src= "https://support.faceit.com/hc/article_attachments/10525200575516";
-                break;
-            case 2:
-                lvl.src= "https://support.faceit.com/hc/article_attachments/10525189649308";
-                break;
-            case 3:
-                lvl.src= "https://support.faceit.com/hc/article_attachments/10525200576796";
-                break;
-            case 4:
-                lvl.src= "https://support.faceit.com/hc/article_attachments/10525185037724";
-                break;
-            case 5:
-                lvl.src= "https://support.faceit.com/hc/article_attachments/10525215800860";
-                break;
-            case 6:
-                lvl.src= "https://support.faceit.com/hc/article_attachments/10525245409692";
-                break;
-            case 7:
-                lvl.src= "https://support.faceit.com/hc/article_attachments/10525185034012";
-                break;
-            case 8:
-                lvl.src= "https://support.faceit.com/hc/article_attachments/10525189648796";
-                break;
-            case 9:
-                lvl.src= "https://support.faceit.com/hc/article_attachments/10525200576028";
-                break;
-            case 10:
-                lvl.src= "https://support.faceit.com/hc/article_attachments/10525189646876";
-                break;
-            default:
-                lvl.src= "https://support.faceit.com/hc/article_attachments/10525185033372";
-                break;
-                
-        }
-
-        getTeamNameDoc(playerrid,0,"temm");
-        
-    });
+        }).then((res) => {
+            if(!res.ok){
+                alert("Looks like we had an error finding your faceit account. <br> Do you mind typing in your name again?");
+                window.location.reload();
+            }
+            
+            return res.json();
+        })
+        .then((data) =>{
+            if (data.games == undefined){
+                return;
+            }
+            const image = document.getElementById("profile");
+            image.src = data.avatar;
+            const bckrd = document.getElementById("background");
+            bckrd.src= data.cover_image;
+            const nme = document.getElementById("namee");
+            nme.innerHTML = data.nickname;
+            const lvl = document.getElementById("level");
+            switch(data.games.cs2.skill_level){
+                case 1:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525200575516";
+                    break;
+                case 2:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525189649308";
+                    break;
+                case 3:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525200576796";
+                    break;
+                case 4:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525185037724";
+                    break;
+                case 5:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525215800860";
+                    break;
+                case 6:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525245409692";
+                    break;
+                case 7:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525185034012";
+                    break;
+                case 8:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525189648796";
+                    break;
+                case 9:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525200576028";
+                    break;
+                case 10:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525189646876";
+                    break;
+                default:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525185033372";
+                    break;
+                    
+            }
+    
+            getTeamNameDoc(playerid,0,"temm");
+            
+        });
+        });
+    
 }
 
 
@@ -227,7 +262,7 @@ function submitSignupInfo(){
     var rcvry = document.getElementById('recvryEmaill').value;
     
     var crnttme = Math.floor(Date.now()/1000);
-    InitializeCheck(input);
+   // InitializeCheck(input);
 
     var data = {
         faceitusername: input,
@@ -246,7 +281,7 @@ function submitSignupInfo(){
 function submitSignupInfoExtra(input,PIN,pswrd,rcvry){
     
     var crnttme = Math.floor(Date.now()/1000);
-    InitializeCheck(input);
+   //InitializeCheck(input);
 
     var data = {
         faceitusername: input,

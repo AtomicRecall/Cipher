@@ -32,7 +32,7 @@ loadingbar.innerHTML = "Now Searching: "
 loadingbar.id = "loadingbar";
 loadingbar.classList.add("divvv");
 var finishedbar = document.createElement("div");
-finishedbar.innerHTML = "Searched Matches: ";
+finishedbar.innerHTML = "Found Matches: ";
 finishedbar.id = "finishedbar";
 finishedbar.classList.add("divvv");
 var finishtext = document.createElement("div");
@@ -157,7 +157,7 @@ function GetLeaguePickBans(leaderid, offset) {
         if (!res.ok) {
             if (res.status == 404) {
                 //update the loading bar saying like not found or error or some shit idk lmfao
-                loadingbar.innerHTML = " Now Searching: "+`Match not found (404), continuing...`;
+                loadingbar.innerHTML+=`Match not found (404), continuing...`;
                 console.warn(`Match history not found (404), continuing...`);
                 return Promise.resolve(); // Resolve to continue without error
             }
@@ -177,7 +177,7 @@ function GetLeaguePickBans(leaderid, offset) {
         let matchPromises = allMatches.map((match) => {
             //update the loading bar here.
             var dating = new Date(match.finished_at*1000);
-            loadingbar.innerHTML = " Now Searching: "+match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();
+            loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
     
             if (match.competition_name.includes("ESEA") && !match.competition_name.includes("S48") && !match.competition_name.includes("Qualifier")) {
                 finishedtext.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
@@ -308,19 +308,19 @@ function fetchMatchData(matchid,leaderid) {
             else{
                 scoree = datan123.rounds[0].round_stats.Score;
             }
-            
+            /*
             return fetch(`https://cipher-virid.vercel.app/api/proxy?endpoint=match/${matchid}/history`,{
                 headers:{
                     'Access-Control-Allow-Origin' : '*'
                 }
             })
                 
-                
-            /*
+                */
+            
             return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
                 method: 'GET'
             })
-                */
+                
             .then((response) => {
                 if (response.status === 404) {
                     console.warn(`Match ${matchid} not found, continuing...`);
