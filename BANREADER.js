@@ -239,27 +239,33 @@ function fetchMatchData(matchid,leaderid) {
         let fac1id = errthang.teams.faction1.faction_id;
         let fac2id = errthang.teams.faction2.faction_id;
         let finishedat = errthang.finished_at;
-
+       // console.log(errthang.teams.faction1.leader);
         let winnerid = "fartcock";
         let winner = datan12.detailed_results[0].winner;
         let fac1wins = 0;
         let fac2wins = 0;
+        console.log("GET DOWN!!");
+        console.log(fac1+" vs "+fac2);
         for (const winor of datan12.detailed_results){
+            console.log(winor.winner);
+
             //check the winner of every winor, count the amount of times fac1 wins and count the amount of times fac2 wins, whichever one is bigger is the winner
-            if (winor.winner == "faction1"){
+            if (winor.winner === "faction1"){
+                console.log("faction 1 won one map")
                 fac1wins++;
             }
-            else {
+            else if(winor.winner === "faction2") {
+                console.log("faction 2 won one map");
                 fac2wins++;
             }
-            if(fac1wins > fac2wins){
-                winner = fac1;
-                winnerid = datan12.teams.faction1.faction_id;
-            }
-            else{
-                winner = fac2;
-                winnerid = datan12.teams.faction2.faction_id;
-            }
+        }
+        if(fac1wins > fac2wins){
+            winner = fac1;
+            winnerid = datan12.teams.faction1.faction_id;
+        }
+        else{
+            winner = fac2;
+            winnerid = datan12.teams.faction2.faction_id;
         }
         return fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
             headers: {
@@ -269,13 +275,6 @@ function fetchMatchData(matchid,leaderid) {
         })
         .then((res) => {
             if (res.status === 404) {
-                if(season === "50"){
-                    ffws = ffws +1;
-                }
-                else {
-                    ffws1 = ffws1 +1;
-                }
-                
                 console.warn(`Match ${matchid} not found (404), continuing...`);
                 return Promise.resolve();
             } else if (!res.ok) {
@@ -285,7 +284,7 @@ function fetchMatchData(matchid,leaderid) {
         })
         .then((datan123) => {
         
-            //console.log(datan123);
+            console.log(datan123);
             let detailedscr = datan123.rounds;
             let scoree = null;
             
@@ -293,34 +292,24 @@ function fetchMatchData(matchid,leaderid) {
             let tem1id = temp[0].team_id;
             let tem2id = temp[1].team_id;
             if (datan123.rounds.length > 1){
-                let tm1 = 0;
-                let tm2 = 0;
-                for (const m of datan123.rounds){
-                    if (Number(m.round_stats.Score.substring(0,2)) > Number(m.round_stats.Score.substring(4,6))){
-                        tm1++;
-                    }
-                    else{
-                        tm2++;
-                    }
-                }
-                scoree = tm1+" / "+tm2;
+                scoree = fac1wins+" / "+fac2wins;
             }
             else{
                 scoree = datan123.rounds[0].round_stats.Score;
             }
-            
+            /*
             return fetch(`https://cipher-virid.vercel.app/api/proxy?endpoint=match/${matchid}/history`,{
                 headers:{
                     'Access-Control-Allow-Origin' : '*'
                 }
             })
+                */
                 
-                /*
             
             return fetch(`https://api.faceit.com/democracy/v1/match/${matchid}/history`,{
                 method: 'GET'
             })
-                */
+                
             .then((response) => {
                 if (response.status === 404) {
                     console.warn(`Match ${matchid} not found, continuing...`);
@@ -455,12 +444,14 @@ function printToWebsite(dapicksanddabans, something){
                 }
             }
         }
-       // console.log("The team we are looking at is "+THETEAMWEARESEARCHING);
-      // console.log(dapicksanddabans[d].winnerID+" == "+THETEAMWEARESEARCHING);
-       //console.log("EVERYTHING IS FUCKDD");
+        /*
+       console.log("The team we are looking at is "+THETEAMWEARESEARCHING);
+       console.log(dapicksanddabans[d].winnerID+" == "+THETEAMWEARESEARCHING);
+       console.log("EVERYTHING IS FUCKDD");
+       */
         if(dapicksanddabans[d].winnerID == THETEAMWEARESEARCHING){
-            score.style.color = 'green';
-            score.style.webkitFilter = "drop-shadow(0px 0px 2px #1eff00)";
+            score.style.color = 'chartreuse';
+            score.style.webkitFilter = "drop-shadow(0px 0px 10px #1eff00)";
             if(dapicksanddabans[d].season == "50"){
                 wins = wins + 1;
             }
@@ -469,8 +460,8 @@ function printToWebsite(dapicksanddabans, something){
             }
         }
         else{
-            score.style.color = 'red';
-            score.style.webkitFilter = "drop-shadow(0px 0px 2px #ff0000)";
+            score.style.color = 'maroon';
+            score.style.webkitFilter = "drop-shadow(0px 0px 5px #ff0000)";
             if(dapicksanddabans[d].season == "50"){
                 loss = loss + 1;
             }
@@ -732,10 +723,7 @@ function printToWebsite(dapicksanddabans, something){
 
     //organize the info from the global arrays initalized above
     for(let y = 0; y < 7; y++){
-        let emptydiv = document.createElement('div');
-        emptydiv.innerHTML = "_";
-        emptydiv.id = "emptydiv";
-        emptydiv.style.opacity = "0";
+
         switch(y){
             
             //anc
@@ -762,7 +750,6 @@ function printToWebsite(dapicksanddabans, something){
                 
                 allInfoDivider.appendChild(ancimage);
                 DAancient.appendChild(mapidentifier);
-                DAancient.appendChild(emptydiv);
                 DAancient.appendChild(ancpics);
                 DAancient.appendChild(ancbans);
                 DAancient.appendChild(ancW);
@@ -796,7 +783,6 @@ function printToWebsite(dapicksanddabans, something){
                 anuW.innerHTML = '<span class="greenn1">'+W[1]+'</span><span class = "white"> // </span> <span class="redd1">'+L[1];
                 allInfoDivider.appendChild(anuimage);
                 DAanubis.appendChild(mapidentifier1);
-                DAanubis.appendChild(emptydiv);
                 DAanubis.appendChild(anupics);
                 DAanubis.appendChild(anubans);
                 DAanubis.appendChild(anuW);
@@ -829,7 +815,6 @@ function printToWebsite(dapicksanddabans, something){
                 infW.innerHTML = '<span class="greenn1">'+W[2]+'</span><span class = "white"> // </span> <span class="redd1">'+L[2];
                 allInfoDivider.appendChild(infimage);
                 DAinf.appendChild(mapidentifier2);
-                DAinf.appendChild(emptydiv);
                 DAinf.appendChild(infpics);
                 DAinf.appendChild(infbans);
 
@@ -863,7 +848,6 @@ function printToWebsite(dapicksanddabans, something){
                 d2W.innerHTML = '<span class="greenn1">'+W[3]+'</span><span class = "white"> // </span> <span class="redd1">'+L[3];
                 allInfoDivider.appendChild(d2image);
                 DAd2.appendChild(mapidentifier3);
-                DAd2.appendChild(emptydiv);
                 DAd2.appendChild(d2pics);
                 DAd2.appendChild(d2bans);
 
@@ -898,7 +882,6 @@ function printToWebsite(dapicksanddabans, something){
                 mirW.innerHTML = '<span class="greenn1">'+W[4]+'</span><span class = "white"> // </span> <span class="redd1">'+L[4];
                 allInfoDivider.appendChild(mirimage);
                 movementdivider.appendChild(mapidentifier4);
-                movementdivider.appendChild(emptydiv);
                 movementdivider.appendChild(mirpics);
                 movementdivider.appendChild(mirbans);
 
@@ -935,7 +918,6 @@ function printToWebsite(dapicksanddabans, something){
                 nuW.innerHTML = '<span class="greenn1">'+W[5]+'</span><span class = "white"> // </span> <span class="redd1">'+L[5];
                 allInfoDivider.appendChild(nukimage);
                 movementdivider1.appendChild(mapidentifier5);
-                movementdivider1.appendChild(emptydiv);
                 movementdivider1.appendChild(nupics);
                 movementdivider1.appendChild(nubans);
 
@@ -972,7 +954,6 @@ function printToWebsite(dapicksanddabans, something){
                 verW.innerHTML = '<span class="greenn1">'+W[6]+'</span><span class = "white"> // </span> <span class="redd1">'+L[6];
                 allInfoDivider.appendChild(verimage);
                 movementdivider2.appendChild(mapidentifier6);
-                movementdivider2.appendChild(emptydiv);
                 movementdivider2.appendChild(verpics);
                 movementdivider2.appendChild(verbans);
                 movementdivider2.appendChild(verW);

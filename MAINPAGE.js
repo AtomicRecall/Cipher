@@ -33,6 +33,7 @@ database.ref("USERS/"+name).on('value', function(snapshot){
     fartpoop = d;
 });
 const now = new Date();
+
 var currenttimestring = now.getMonth()+1+"/"+now.getDate()+"/"+now.getFullYear()+" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
 var ref = database.ref('USERS/'+name+'/LastLoggedIn').set(currenttimestring);
 

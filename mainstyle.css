@@ -49,9 +49,7 @@ body {
 }
 .winnerdiv{
   font-size: 45px;
-}
-#emptydiv{
-  height: 0px;
+  transform: translateY(-5px);
 }
 #tw{
   position: absolute;
@@ -183,12 +181,13 @@ body {
   transform: translate(470px,20px);
 }
 #de_vertigo{
-  color:White;
+  color:white;
   filter: drop-shadow(.5px 0.5px 2px blue)
 }
 #Season51Button{
   height: 200px;
   width: 100px;
+  color: white;
 }
 #penisandcock{
   height: 30px;
@@ -198,7 +197,7 @@ body {
   background-position: center;        /* Center the image within the button */
   text-align: center;                /* Center text horizontally */
   font-size: 15px;
-  color: black;
+  color: white;
   font-weight: bold;
   transform: translate(720px, -328px);
   transition: .3s
@@ -259,6 +258,7 @@ body {
   width: 140px;
   pointer-events: none;
   text-align: center;
+  color:white;
   
 }
 .cvr {
@@ -510,14 +510,18 @@ h3{
 }
 
 #loadingbar{
+  display: flex;
   color: white;
   font-size: 16px;
   width: 550px;
   overflow : scroll;
   height: 480px;
   transform: translate(-18px,-18px);
+  flex-direction: column-reverse;
 }
-
+#ssnNum{
+  color: white;
+}
 #finishedbar{
   color: white;
   font-size: 40px;
