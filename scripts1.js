@@ -64,7 +64,12 @@ function LogintoAccount(){
 //TODO: START OF SEASON WAHTEVER AND END OF SEASON WHATEVER FROM AND TO
 function getTeamNameDoc(name, offsett, docelement){
     if(offsett > 200){
-        if (confirm("Looks like we didn't find the last league match you played <br>Have you played the ESEA League before?")){
+        var yesorno = confirm("Looks like we didn't find the last league match you played <br>Have you played the ESEA League before?<br> OK = Yes, Cancel = No");
+        if (yesorno){
+            window.location.reload;
+        }
+        else if(!yesorno){
+            localStorage.setItem("NONESEALEAGUEPLAYER",1);
             window.location.href = "main.html";
         }
     }
@@ -86,7 +91,7 @@ function getTeamNameDoc(name, offsett, docelement){
     for(let key = 0; key < data.items.length; key++){
         var dating = new Date(data.items[key].finished_at* 1000);
 
-        document.getElementById("loadingorsearching").innerHTML = " Now Searching: "+data.items[key].competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();
+        document.getElementById("loadingorsearching").innerHTML = " Now Searching: "+data.items[key].competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();
         // if the "items' competition_name has something to do with esea
         if(data.items[key].competition_name.toLowerCase().includes("esea") && !(data.items[key].competition_name.toLowerCase().includes("qualifier"))){
             var ssnn = data.items[key].competition_name.substring(6,8);
@@ -106,7 +111,7 @@ function getTeamNameDoc(name, offsett, docelement){
                             localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction1.nickname);
                             localStorage.setItem("dafuckingseasonyo",ssnn);
                             localStorage.setItem("team-id",data.items[key].teams.faction1.team_id);
-                            document.getElementById("loadingorsearching").innerHTML = " FOUND IN: "+data.items[key].competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;
+                            document.getElementById("loadingorsearching").innerHTML = " FOUND IN: "+data.items[key].competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;
 
                             //console.log("ONE "+data.items[key].teams.faction1.team_id);
                             
@@ -121,7 +126,7 @@ function getTeamNameDoc(name, offsett, docelement){
                     console.log("just guessing, you probably in team2 right now big boy :)");
 
                     document.getElementById(docelement).innerHTML = data.items[key].teams.faction2.nickname;
-                    document.getElementById("loadingorsearching").innerHTML = " FOUND IN: "+data.items[key].competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;    
+                    document.getElementById("loadingorsearching").innerHTML = " FOUND IN: "+data.items[key].competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;    
                     localStorage.setItem("team-id",data.items[key].teams.faction2.team_id);
                     localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction2.nickname);
                     localStorage.setItem("dafuckingseasonyo",ssnn);

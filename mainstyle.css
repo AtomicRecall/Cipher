@@ -372,6 +372,7 @@ h3{
   transform: translateY(-180px);
   font-size : 40px;
   filter: drop-shadow(2px 0px 2px #6d6d6d);
+  opacity: 0;
 
 }
 #img{
@@ -536,4 +537,19 @@ h3{
   overflow : scroll;
   height: 450px;
   transform: translate(-9px,-15px);
+}
+#upcomingmatchesdivider{
+  color: white;
+  font-size: 20px;
+  width: 200px;
+}
+#upcomingmatchestag{
+  width:280px;
+}
+#yoursavedteamss{
+  height: 30px;
+}
+#yoursavedteamsdivider{
+  color: white;
+  font-size: 20px;
 }
