@@ -2,7 +2,7 @@
 import axios from 'axios';
 export default async function handler(req, res) {
   const endpoint = req.query.endpoint || ''; 
-  const apiUrl = `https://api.faceit.com/democracy/v1/${endpoint}`;
+  const apiUrl = `https://api.faceit.com/${endpoint}`;
 
   try {
     const response = await axios.get(apiUrl);

@@ -298,7 +298,7 @@ function fetchMatchData(matchid,leaderid) {
                 scoree = datan123.rounds[0].round_stats.Score;
             }
             
-            return fetch(`https://cipher-virid.vercel.app/api/proxy?endpoint=match/${matchid}/history`,{
+            return fetch(`https://cipher-virid.vercel.app/api/proxy?endpoint=democracy/v1/match/${matchid}/history`,{
                 headers:{
                     'Access-Control-Allow-Origin' : '*'
                 }
