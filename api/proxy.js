@@ -1,42 +1,34 @@
+import https from 'https';
 import axios from 'axios';
 
-export default async function handler(req, res) {
-  if (req.method === 'OPTIONS') {
-    // Handle CORS preflight requests
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.setHeader("Access-Control-Max-Age", "86400");
-    return res.status(200).end();
-  }
+const agent = new https.Agent({
+  secureProtocol: 'TLSv1_2_method', // Force TLS 1.2
+});
 
+export default async function handler(req, res) {
   const endpoint = req.query.endpoint || '';
   const apiUrl = `https://api.faceit.com/${endpoint}`;
-  console.log("Proxying request to:", apiUrl);
 
   try {
-
-
     const response = await axios({
       url: apiUrl,
       method: req.method,
       headers: {
         Authorization: `Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a`,
-        'Content-Type': 'application/json',
-        ...req.headers, // Include incoming headers if needed
+        ...req.headers,
       },
-      data: req.body, // Pass body for POST/PUT requests
+      data: req.body,
+      httpsAgent: agent, // Use the custom agent
     });
 
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.status(response.status).json(response.data);
   } catch (error) {
-    console.error("Error fetching data from Faceit API:");
-    console.error({
+    console.error("Error details:", {
       message: error.message,
+      stack: error.stack,
       config: error.config,
       response: error.response?.data,
-      status: error.response?.status,
     });
 
     res.status(error.response?.status || 500).json({
