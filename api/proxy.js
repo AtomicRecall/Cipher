@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   const endpoint = req.query.endpoint || '';
   
   // Construct the full API URL dynamically
-  const apiUrl = `https://api.faceit.com/democracy/v1/${endpoint}`;
+  const apiUrl = `https://api.faceit.com/${endpoint}`;
   console.log(`Proxying request to: ${apiUrl}`); // For debugging
   
   try {
@@ -22,6 +22,8 @@ export default async function handler(req, res) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.setHeader('Access-Control-Max-Age', '86400');
+    res.status(200).end();
 
     // Return the API response
     res.status(response.status).json(response.data);
