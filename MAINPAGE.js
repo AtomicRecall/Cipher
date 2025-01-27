@@ -994,6 +994,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
         case 52:
                 const url = `championships/v1/matches?participantId=`+team+`&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
     return fetch(`https://cipher-virid.vercel.app/api/proxy?endpoint=${url}`,{
+        method: 'GET',
         headers:{
             'Access-Control-Allow-Origin' : '*'
         }
