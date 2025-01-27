@@ -15,10 +15,7 @@ export default async function handler(req, res) {
   console.log("Proxying request to:", apiUrl);
 
   try {
-    const FACEIT_API_TOKEN = process.env.FACEIT_API_TOKEN;
-    if (!FACEIT_API_TOKEN) {
-      throw new Error("FACEIT_API_TOKEN is not set.");
-    }
+
 
     const response = await axios({
       url: apiUrl,
