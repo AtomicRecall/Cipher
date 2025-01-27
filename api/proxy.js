@@ -3,6 +3,8 @@ import axios from 'axios';
 
 const agent = new https.Agent({
   secureProtocol: 'TLSv1_2_method', // Force TLS 1.2
+  ciphers: 'ECDHE-RSA-AES256-GCM-SHA384:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!SRP:!CAMELLIA',
+
 });
 
 export default async function handler(req, res) {
