@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   const endpoint = req.query.endpoint || '';
   
   // Construct the full API URL dynamically
-  const apiUrl = `https://api.faceit.com/${endpoint}`;
+  const apiUrl = `https://api.faceit.com/democracy/v1/${endpoint}`;
   console.log(`Proxying request to: ${apiUrl}`); // For debugging
   
   try {

@@ -1010,6 +1010,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
             if (response.status === 404) {
                 return Promise.resolve();
             } else if (!response.ok) {
+                console.log(response);
                 throw new Error("Couldn't fetch that data");
             }
             return response.json();
