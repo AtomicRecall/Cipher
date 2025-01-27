@@ -300,7 +300,9 @@ function fetchMatchData(matchid,leaderid) {
             
             return fetch(`https://cipher-virid.vercel.app/api/proxy?endpoint=match/${matchid}/history`,{
                 headers:{
-                    'Access-Control-Allow-Origin' : '*'
+                    'Access-Control-Allow-Origin' : '*',
+                    'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+
                 }
             })
                 
