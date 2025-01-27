@@ -992,8 +992,8 @@ function getUpcomingMatches(team,season,upcomingdivider){
 
     switch (season){
         case 52:
-                
-    return fetch(`https://cipher-virid.vercel.app/api/proxy?endpoint=championships/v1/matches?participantId=`+team+`&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103&limit=20&offset=0`,{
+                const url = `championships/v1/matches?participantId=`+team+`&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
+    return fetch(`https://cipher-virid.vercel.app/api/proxy?endpoint=${url}`,{
         headers:{
             'Access-Control-Allow-Origin' : '*'
         }
