@@ -14,9 +14,7 @@ export default async function handler(req, res) {
     const response = await axios({
       url: apiUrl,
       method: req.method,
-      headers: {
-        'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
-      },
+      headers: req.headers,
       data: req.body, // Pass body for POST/PUT requests
     });
 
