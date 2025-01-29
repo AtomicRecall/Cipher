@@ -12,8 +12,7 @@ export default async function handler(req, res) {
   try {
     const response = await axios.get(apiUrl);
     console.log("Data received:", response.data); // Log the received data
-    req.setHeader("Access-Control-Allow-Headers", "*");
-    res.setHeader("Access-Control-Allow-Origin", "*"); 
+   
 
     res.status(200).json(response.data); // Send back the data
     return response.data;
