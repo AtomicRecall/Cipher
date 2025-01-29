@@ -2,11 +2,12 @@ import https from 'https';
 import axios from 'axios';
 
 const agent = new https.Agent({
-  secureProtocol: 'TLSv1_2_method', // Force TLS 1.2
-  ciphers: 'ECDHE-RSA-AES256-GCM-SHA384:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!SRP:!CAMELLIA',
+  rejectUnauthorized: true, // Ensure the certificate is valid
+  secureProtocol: 'TLS_method', // Try with the latest supported TLS protocol
 
 });
-console.log('Node.js version:', process.version);
+
+
 export default async function handler(req, res) {
   const endpoint = req.query.endpoint || '';
   let url = (req.url).substring(20);
