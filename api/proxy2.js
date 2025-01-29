@@ -24,6 +24,7 @@ app.use(
     },
     proxyReqOptDecorator: (proxyReqOpts) => {
       proxyReqOpts.headers["Authorization"] = `Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a`;
+      proxyReqOpts.headers['content-type'] = `application/json`;
       return proxyReqOpts;
     },
     userResDecorator: (proxyRes, proxyResData, req, res) => {
