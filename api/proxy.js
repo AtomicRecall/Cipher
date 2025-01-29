@@ -6,7 +6,7 @@ const agent = new https.Agent({
   ciphers: 'ECDHE-RSA-AES256-GCM-SHA384:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!SRP:!CAMELLIA',
 
 });
-
+console.log('Node.js version:', process.version);
 export default async function handler(req, res) {
   const endpoint = req.query.endpoint || '';
   const apiUrl = `https://api.faceit.com/${endpoint}`;
