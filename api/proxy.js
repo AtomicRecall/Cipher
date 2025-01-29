@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         url = url.replace("&","?");
   const apiUrl = `https://api.faceit.com/championships/v1/matches${url}`;
   console.log("RUNNING "+apiUrl);
-
+  res.setHeader("Access-Control-Allow-Origin", "*");
   try {
     const response = await axios({
       url: apiUrl,
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
       httpsAgent: agent, // Use the custom agent
     });
 
-    res.setHeader("Access-Control-Allow-Origin", "*");
+   
     res.status(response.status).json(response.data);
   } catch (error) {
     console.error("Error details:", {

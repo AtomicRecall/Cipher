@@ -1,51 +1,24 @@
-import express from "express";
-import cors from "cors";
-import proxy from "express-http-proxy";
-
-const app = express();
-app.use(cors());
-
-app.use("/", (req, res, next) => {
-    //console.dir(req);
-  console.log(`Incoming request: ${req.url}`);
-  next();
-});
-
-app.use(
-    '/api',
-  proxy("https://api.faceit.com/championships/v1/matches", {
-    proxyReqPathResolver: (req) => {
-        let url = (req.url).substring(17);
+// api/faceitProxy.js
+import axios from 'axios';
+export default async function handler(req, res) {
+  const endpoint = req.url || ''; // Grab the endpoint from the query
+  let url = (endpoint).substring(21);
         console.log("URL BEFORE DECODING: "+url);
         url = decodeURIComponent(url);
-        url = url.replace("&","?");
-      console.log(`Proxying request to: https://api.faceit.com/championships/v1/matches${url}`);
-      return url;
-    },
-    proxyReqOptDecorator: (proxyReqOpts) => {
-      proxyReqOpts.headers["Authorization"] = `Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a`;
-      proxyReqOpts.headers['content-type'] = `application/json`;
-      proxyReqOpts.headers['Access-Control-Allow-Origin'] = "*";
-      return proxyReqOpts;
-    },
-    userResDecorator: (proxyRes, proxyResData, req, res) => {
-      try {
-        console.log('Response Data:', proxyResData.toString());
-        const data = proxyResData.toString('utf-8');
-        const realdata = JSON.parse(data);
-        console.log("Response from Faceit API:", realdata);
-        return JSON.stringify(data);
-      } catch (error) {
-        console.error("Error parsing response:", error);
-        return proxyResData;
-      }
-    },
-  })
-);
+  const apiUrl = `https://api.faceit.com/democracy/v1/match/${url}`;
 
-app.use((req, res) => {
-  console.log("No matching route found:", req.url);
-  res.status(404).json({ error: "Not found" });
-});
+  console.log("Requesting data from:", apiUrl); // Debug log to verify the URL
+  res.setHeader("Access-Control-Allow-Origin", "*"); // Enable CORS
+  try {
+    const response = await axios.get(apiUrl);
+    console.log("Data received:", response.data); // Log the received data
+    
 
-export default app;
+    res.status(200).json(response.data); // Send back the data
+    return response.data;
+
+  } catch (error) {
+    console.error("Error fetching data:", error.message);
+    res.status(error.response?.status || 500).json({ error: "Error fetching data from Faceit API" });
+  }
+}
