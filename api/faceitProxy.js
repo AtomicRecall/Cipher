@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
 
     req.setHeader("Access-Control-Allow-Headers", "*");
-    res.setHeader("Access-Control-Allow-Origin", "*"); // Enable CORS
+    res.setHeader("Access-Control-Allow-Origin", "*"); 
     res.status(200).json(response.data); // Send back the data
     return response.data;
 
