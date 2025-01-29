@@ -19,7 +19,7 @@ app.use(
         console.log("URL BEFORE DECODING: "+url);
         url = decodeURIComponent(url);
         url = url.replace("&","?");
-      console.log(`Proxying request to: https://api.faceit.com/championships/v1/matches${url}`);
+      console.log(`Proxying request to: https://api.faceit.com/championships/v1/matches/${url}`);
       return url;
     },
     proxyReqOptDecorator: (proxyReqOpts) => {
