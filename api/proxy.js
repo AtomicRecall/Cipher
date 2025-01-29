@@ -10,6 +10,7 @@ console.log('Node.js version:', process.version);
 export default async function handler(req, res) {
   const endpoint = req.query.endpoint || '';
   const apiUrl = `https://api.faceit.com/${endpoint}`;
+  console.log("RUNNING "+apiUrl);
 
   try {
     const response = await axios({
