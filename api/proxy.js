@@ -9,7 +9,11 @@ const agent = new https.Agent({
 console.log('Node.js version:', process.version);
 export default async function handler(req, res) {
   const endpoint = req.query.endpoint || '';
-  const apiUrl = `https://api.faceit.com/championships/v1/matches${endpoint}`;
+  let url = (req.url).substring(21);
+        console.log("URL BEFORE DECODING: "+url);
+        url = decodeURIComponent(url);
+        url = url.replace("&","?");
+  const apiUrl = `https://api.faceit.com/championships/v1/matches${url}`;
   console.log("RUNNING "+apiUrl);
 
   try {
