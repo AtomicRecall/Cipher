@@ -28,7 +28,7 @@ app.use(
     },
     userResDecorator: (proxyRes, proxyResData, req, res) => {
       try {
-        const data = JSON.parse(proxyResData);
+        const data = proxyResData;
         console.log("Response from Faceit API:", data);
         return JSON.stringify(data);
       } catch (error) {
