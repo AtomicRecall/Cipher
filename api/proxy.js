@@ -13,7 +13,7 @@ export default async function handler(req, res) {
         console.log("URL BEFORE DECODING: "+url);
         url = decodeURIComponent(url);
         url = url.replace("&","?");
-  const apiUrl = `https://api.faceit.com/championships/v1/matches/${url}`;
+  const apiUrl = `https://api.faceit.com/championships/v1/matches${url}`;
   console.log("RUNNING "+apiUrl);
 
   try {
