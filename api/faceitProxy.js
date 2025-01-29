@@ -14,13 +14,11 @@ export default async function handler(req, res) {
   try {
     const response = await axios.get(apiUrl);
     console.log("Data received:", response.data); // Log the received data
-    /*
+    
     res.setHeader("Access-Control-Allow-Origin", "*"); // Enable CORS
     res.status(200).json(response.data); // Send back the data
-    res.setHeader("Access-Control-Allow-Origin", "*"); 
-    res.status(200).json(response.data); 
-    */
-   return response.data;
+    return response.data;
+
   } catch (error) {
     console.error("Error fetching data:", error.message);
     res.status(error.response?.status || 500).json({ error: "Error fetching data from Faceit API" });
