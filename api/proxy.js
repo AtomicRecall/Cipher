@@ -9,7 +9,7 @@ const agent = new https.Agent({
 console.log('Node.js version:', process.version);
 export default async function handler(req, res) {
   const endpoint = req.query.endpoint || '';
-  let url = (req.url).substring(21);
+  let url = (req.url).substring(20);
         console.log("URL BEFORE DECODING: "+url);
         url = decodeURIComponent(url);
         url = url.replace("&","?");
