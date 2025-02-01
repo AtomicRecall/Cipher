@@ -199,7 +199,7 @@ function InitializeCheck(input){
         }
         }).then((res) => {
             if(!res.ok){
-                alert("Looks like we had an error finding your faceit account. <br> Do you mind typing in your name again?");
+                alert("Looks like we had an error finding your faceit account. Do you mind typing in your name again?");
                 window.location.reload();
             }
             

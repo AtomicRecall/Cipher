@@ -7,7 +7,8 @@ const loginBtn = document.querySelector('.loginBtn');
 const wrapper = document.querySelector('.wrapper'); 
 const forgotpassword = document.querySelector('.frgrPsswrd-link');
 const affiramtivee = document.getElementById("affirmativee");
-
+const signincheck = document.getElementById("signchek");
+let enterclicked = 0;
     // Function to validate email format
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -58,6 +59,18 @@ loginBtn.addEventListener('click', () => {
     document.getElementById("temm").innerHTML = "Loading...";
     LogintoAccount();
     
+});
+
+loginForm.addEventListener('submit', function(event) {
+    console.log("enter has been clicked "+enterclicked+" times");
+    if (!enterclicked > 0){
+        event.preventDefault(); // Prevent page refresh
+
+        loginBtn.click();
+        enterclicked++;
+        console.log("enter clicked");
+    }
+   
 });
 /*
 submitBtn.addEventListener('click', () => {
@@ -148,5 +161,13 @@ affiramtivee.addEventListener('click', () =>{
     console.log("BUTTON CLICKED");
     window.location.href = "main.html";
 });
+document.body.addEventListener('keydown', function(event) {
+    if(event.keyCode == 13 && enterclicked > 0){
+        console.log("HOLY SHIT");
+        
+        event.preventDefault(); // Prevent page refresh
 
+        window.location.href = "main.html";
+    }
+})
 

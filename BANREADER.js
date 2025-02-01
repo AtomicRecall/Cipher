@@ -39,7 +39,7 @@ var finishtext = document.createElement("div");
 finishtext.id = "finishedtext";
 finishtext.classList.add("divvv");
 finishedbar.appendChild(finishtext);
-document.getElementById(".BanFileExplorer").appendChild(loadingbar);
+//document.getElementById(".BanFileExplorer").appendChild(loadingbar);
 document.getElementById(".BanFileExplorer").appendChild(finishedbar);
 
 
@@ -140,6 +140,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     var myshit = document.getElementById("removemepls");
     myshit.parentNode.removeChild(myshit);
     removeElementsByClass("divvv");
+    document.getElementById("h3").style.opacity = 100;
     printToWebsite(picksnbans, false);
 })
 .catch((error) => {
@@ -177,10 +178,10 @@ function GetLeaguePickBans(leaderid, offset) {
         let matchPromises = allMatches.map((match) => {
             //update the loading bar here.
             var dating = new Date(match.finished_at*1000);
-            loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
+            //loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
     
             if (match.competition_name.includes("ESEA") && !match.competition_name.includes("S48") && !match.competition_name.includes("Qualifier")) {
-                finishedtext.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
+                finishedtext.innerHTML+=match.competition_name+" - "+dating.getMonth()+1+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
             
                 return fetchMatchData(match.match_id, leaderid); // Fetch only non-S48 ESEA matches
             }
