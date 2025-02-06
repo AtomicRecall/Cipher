@@ -37,7 +37,14 @@ const now = new Date();
 var currenttimestring = now.getMonth()+1+"/"+now.getDate()+"/"+now.getFullYear()+" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
 var ref = database.ref('USERS/'+name+'/LastLoggedIn').set(currenttimestring);
 
-
+let NONESEALEAGUEPLAYERR = -1;
+var NONESEALEAGUEPLAYERREF = database.ref('USERS/'+name).on ('value', function(snapshot){
+    var data = snapshot.val();
+    console.log(data);
+    var thingy = data.NONESEALEAGUEPLAYER;
+    NONESEALEAGUEPLAYERR = thingy;
+    console.log(NONESEALEAGUEPLAYERR);
+});
 
 document.getElementById("shit").innerHTML = ("Cipher: "+name);
 document.getElementById("poop").innerHTML = name;
@@ -148,7 +155,7 @@ function ontop(){
         console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO it's your first time!!!");
         alert("Hello! Welcome to Cipher, an application that helps you solve the other team. \n\nTo start using it, you can check your team's cipher by clicking on them once the page refreshes. \n\nif you want to delete your team or any team, double click on the respective team name. \n\nIf you want to add more teams, click on the search button on the right. \nGive it a try!");
         var data2 = String(localStorage.getItem("team-id"));
-        if (data2 != null){
+        if (data2 != null && !(data2 === "null")){
             var ref1 = database.ref('USERS/'+name+'/SAVED_TEAMS/').push(data2);
         }
     }
@@ -168,7 +175,7 @@ function ontop(){
     .then((data) =>{
         var cvrimmg = document.createElement('img');
         cvrimmg.id = "cvrimg";
-        cvrimmg.src = data.cover_image;
+        cvrimmg.src = data.cover_image == null ? "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>" : data.cover_image; 
         cvrimmg.height = 200;
         cvrimmg.width = 1100;
         document.getElementById('.form-wrapper').appendChild(cvrimmg);
@@ -185,73 +192,51 @@ function ontop(){
         elo.id = "elo";
         elo.style.filter = "drop-shadow(0px 0px 2px #000000)";
         document.getElementById(".form-wrapper").appendChild(elo);
-
-        var upcomingmtches = document.createElement('div');
-        upcomingmtches.id = "upcomingmatchesdivider";
-        upcomingmtches.classList.add("divv");
-        var upcomingmatchestag = document.createElement('div');
-        upcomingmatchestag.id = "upcomingmatchestag";
-        upcomingmatchestag.classList.add("divv");
-        upcomingmatchestag.innerHTML = "YOUR NEXT OPPONENTS :";
-        var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
-        var loadingimage = document.createElement("img");
-        loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
-        loadingimage.style.width = "600px";
-        loadingimage.style.height = "200px";
-        loadingimage.style.position = "absolute";
-        loadingimage.id = "removemepls";
-        loadingimage.classList.add("removemepls");
-        upcomingmtches.appendChild(upcomingmatchestag);
-        upcomingmtches.appendChild(loadingimage);
-        document.getElementById(".BanFileExplorer").appendChild(upcomingmtches);
-
-
-        var teamname = document.createElement('div');
-        teamname.id = "teamname";
-        teamname.innerHTML = "Season "+localStorage.getItem("dafuckingseasonyo")+" for "+localStorage.getItem("dafuckingnameyo");
-        if(localStorage.getItem('team-id') != null){
-            getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
-        }
-        else{
-            getTeamNameDoc(data.player_id,0,"teamname",upcomingmtches);
-
-        }
-        teamname.style.filter = "drop-shadow(0px 0px 2px #000000)";
-        document.getElementById(".form-wrapper").appendChild(teamname);
-
-
-        var accCr = document.createElement('button');
-        accCr.id = "accountCreated";
-        accCr.innerHTML = "ACCOUNT CREATED: ";
-        accCr.addEventListener("click", function(){
-            if(fartpoop == "BLAH BLAH"){
-                return;
+        console.log("IS THIS PLAYER A ESEA LEAGUE PLAYER? "+NONESEALEAGUEPLAYERR);
+        if (NONESEALEAGUEPLAYERR != 1){
+            var upcomingmtches = document.createElement('div');
+            upcomingmtches.id = "upcomingmatchesdivider";
+            upcomingmtches.classList.add("divv");
+            var upcomingmatchestag = document.createElement('div');
+            upcomingmatchestag.id = "upcomingmatchestag";
+            upcomingmatchestag.classList.add("divv");
+            upcomingmatchestag.innerHTML = "YOUR NEXT OPPONENTS :";
+            var loadingimage = document.createElement("img");
+            loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+            loadingimage.style.width = "600px";
+            loadingimage.style.height = "200px";
+            loadingimage.style.position = "absolute";
+            loadingimage.id = "removemepls";
+            loadingimage.classList.add("removemepls");
+            upcomingmtches.appendChild(upcomingmatchestag);
+            upcomingmtches.appendChild(loadingimage);
+            document.getElementById(".BanFileExplorer").appendChild(upcomingmtches);
+            var teamname = document.createElement('div');
+            teamname.id = "teamname";
+            teamname.innerHTML = "Season "+localStorage.getItem("dafuckingseasonyo")+" for "+localStorage.getItem("dafuckingnameyo");
+            if(localStorage.getItem('team-id') != null){
+                getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
             }
-            else {
-                alert("ACCOUNT CREATED: "+fartpoop);
+            else{
+                getTeamNameDoc(data.player_id,0,"teamname",upcomingmtches);
+
             }
-            
-        });
-
-        
-        //document.getElementById(".form-wrapper").appendChild(accCr);
-
-        /*
-        var LastLogged = document.createElement('div');
-        LastLogged.id = "LastLogged";
-        LastLogged.innerHTML = "LAST LOGGED IN: ";
-        var de = new Date(0);
-        de.setUTCSeconds(Date.now()/1000);
-        LastLogged.innerHTML+=de;
-        LastLogged.style.filter = "drop-shadow(0px 0px 2px #000000)";
-        document.getElementById(".form-wrapper").appendChild(LastLogged);
-        */
-
+            teamname.style.filter = "drop-shadow(0px 0px 2px #000000)";
+            document.getElementById(".form-wrapper").appendChild(teamname);
+        }
     });
     removeElementsByClass("removemepls");  
 }
 
 function YOURSAVEDTEAMS(){
+    let NONESEALEAGUEPLAYERR3 = -1;
+    var NONESEALEAGUEPLAYERREF = database.ref('USERS/'+name).on ('value', function(snapshot){
+    var data = snapshot.val();
+    console.log(data);
+    var thingy = data.NONESEALEAGUEPLAYER;
+    NONESEALEAGUEPLAYERR3 = thingy;
+    console.log(NONESEALEAGUEPLAYERR3);
+    });
     let dataa11 = [];
     removeElementsByClass("divvv");
     var yoursaveteamsdivider = document.createElement('div');
@@ -262,30 +247,41 @@ function YOURSAVEDTEAMS(){
     yoursaveteamsdividertag.classList.add("divv");
     yoursaveteamsdividertag.innerHTML = "YOUR SAVED TEAMS: ";
     yoursaveteamsdivider.appendChild(yoursaveteamsdividertag);
-    var loadingimage = document.createElement("img");
-    loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
-    loadingimage.style.width = "600px";
-    loadingimage.style.height = "200px";
-    loadingimage.style.position = "absolute";
-    loadingimage.id = "removemepls1";
-    loadingimage.classList.add("removemepls1");
-    yoursaveteamsdivider.appendChild(loadingimage);
-    database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
-        var data = snapshot.val();
-        if (data == null){
-            alert("Looks like you have no teams! search for something using the search button!");
-            return;
-        }
-        else{
-            Object.keys(data).forEach((key) => {
-                dataa11.push(data[key]);
-            });
-    
-            funnyfunction(dataa11,"yoursavedteamsdivider");
-            document.getElementById(".BanFileExplorer").appendChild(yoursaveteamsdivider);
-        }
+    console.log("IS THIS PLAYER A ESEA LEAGUE PLAYER? WHAT THE FUCK "+NONESEALEAGUEPLAYERR3);
+    if (NONESEALEAGUEPLAYERR3 != 1){
+        var loadingimage = document.createElement("img");
+        loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+        loadingimage.style.width = "600px";
+        loadingimage.style.height = "200px";
+        loadingimage.style.position = "absolute";
+        loadingimage.id = "removemepls1";
+        loadingimage.classList.add("removemepls1");
+        yoursaveteamsdivider.appendChild(loadingimage);
+        database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
+            var data = snapshot.val();
+            if (data == null){
+                alert("Looks like you have no teams! search for something using the search button!");
+                return;
+            }
+            else{
+                Object.keys(data).forEach((key) => {
+                    dataa11.push(data[key]);
+                });
+        
+                funnyfunction(dataa11,"yoursavedteamsdivider");
+                document.getElementById(".BanFileExplorer").appendChild(yoursaveteamsdivider);
+            }
+        });
+    }
+    else{
+        database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
+            var data = snapshot.val();
+            if (data == null){
+                alert("Looks like you have no teams! search for something using the search button!");
+                return;
+            }});
+    }
 
-    });
 
 }
 
@@ -363,7 +359,6 @@ function funnyfunction(dataalolfunny,wheretoadd){
             Tmne.classList.add("TTmne");
             Tmne.id = "Tmne"+d;
             Tmne.innerHTML = datan.name;
-            const lasttempiswear = datan.name;
             if(datan.name.length >= 14){
                 Tmne.innerHTML = datan.name.substring(0,8)+"...";
             }
@@ -453,30 +448,31 @@ function funnyfunction(dataalolfunny,wheretoadd){
                     }, DELAY);
         
                 } else {
-        
-                    clearTimeout(timer);    //prevent single-click action
-                    if(confirm('Are you sure you want to delete '+Tmne.innerHTML+', fool?')){
-                    
-                        database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
-                            var data = snapshot.val();
-                            Object.keys(data).forEach((key) => {
-                                if(dataalolfunny[d] == data[key]){
-                                    let omgletitsquirt = database.ref("USERS/"+name+"/SAVED_TEAMS/"+key).remove();
-                                    location.reload();
-                                }
+                    if (!(wheretoadd === "upcomingmatchesdivider")){
+                        clearTimeout(timer);    //prevent single-click action
+                        if(confirm('Are you sure you want to delete '+Tmne.innerHTML+', fool?')){
+                        
+                            database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
+                                var data = snapshot.val();
+                                Object.keys(data).forEach((key) => {
+                                    if(dataalolfunny[d] == data[key]){
+                                        let omgletitsquirt = database.ref("USERS/"+name+"/SAVED_TEAMS/"+key).remove();
+                                        location.reload();
+                                    }
+                                });
                             });
-                        });
-    
+        
+                        }
+                        else { }  //perform double-click action
+                        clicks = 0;             //after action performed, reset counter
                     }
-                    else { }  //perform double-click action
-                    clicks = 0;             //after action performed, reset counter
                 }
 
             });
 
 
             div.onmouseover = function(){
-            Tmne.innerHTML = lasttempiswear;
+            Tmne.innerHTML = datan.name;
             div.style.transition = "2s";
             div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";
             
@@ -556,29 +552,37 @@ function funnyfunction(dataalolfunny,wheretoadd){
             let lol = document.getElementById(wheretoadd).children;
             
                 // console.log(document.getElementById("div"+d));
+
             for (let l = 1; l < lol.length; l++){
-                if (lol[l].id.substring(3)==(d)){
-                    // console.log("WE FOUND THE SPACE");
-                    space = l;
-                    break;
+                if(!(wheretoadd === "upcomingmatchesdivider")){
+                    if (lol[l].id.substring(3)==(d)){
+                        // console.log("WE FOUND THE SPACE");
+                        space = l;
+                        break;
+                    }
+                    else{
+                        continue;
+                    }
                 }
                 else{
-                    continue;
+                    if (lol[l].id.substring(4)==(d)){
+                        // console.log("WE FOUND THE SPACE");
+                        space = l;
+                        break;
+                    }
+                    else{
+                        continue;
+                    }
                 }
+
             }
-            //if (lol.length > 3){
-            // console.log("finished :)");
-            if(lol[space+2] != undefined){
+            if(lol[space+2] != undefined && lol[space+2] != null){
                    console.log("GO UNVISIBLE "+lol[space+2].id);
                 document.getElementById(lol[space+2].id).style.transition = "0.5s";
                 document.getElementById(lol[space+2].id).style.opacity = 0;
                 document.getElementById(lol[space+2].id).style.transform+="translateY(-20px)";
             }
-            else {
-                //   console.log("DO NOTHING");
-            }
-            
-            if(lol[space+4]!= undefined){
+            if(lol[space+4]!= undefined && lol[space+4]!= null){
                    console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+4].id);
                  document.getElementById(lol[space+4].id).style.transition = "0.5s";
                  document.getElementById(lol[space+4].id).style.opacity = 0;
@@ -588,7 +592,6 @@ function funnyfunction(dataalolfunny,wheretoadd){
             else {
               //  console.log("DO NOTHING");
              }
-            //}
 
                 
                 
@@ -619,12 +622,12 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 pfpdiv.style.transform = "translateY(-150px)";
 
                 //if(document.getElementById(wheretoadd).children > 3){
-                    if(document.getElementById(wheretoadd).children[space+2] != undefined){
+                    if(document.getElementById(wheretoadd).children[space+2] != undefined || document.getElementById(wheretoadd).children[space+2] != null){
                         document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.opacity = 1;
                         document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.transform+="translateY(20px)";
                     }
                     else {}
-                    if(document.getElementById(wheretoadd).children[space+4]!= undefined){
+                    if(document.getElementById(wheretoadd).children[space+4]!= undefined || document.getElementById(wheretoadd).children[space+4] != null){
                         document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.opacity = 1;
                         document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.transform+="translateY(20px)";
                     }
@@ -643,9 +646,9 @@ function funnyfunction(dataalolfunny,wheretoadd){
         //change every 5, once the 5th 
         if(counter> 2){
             //every 5, move this one + the next 4, go into next 5 if needed
-            //  console.log("moving");
-            // console.log("WHAT ROW?? "+c)
-            moveColumn(div,c,5);
+            console.log("WHAT ROW?? "+c)
+            moveColumn(div,c,2);
+
             if (counter % 2 == 0){
                 c++;
             }
@@ -911,7 +914,7 @@ function searchForTeams(teamnme){
             
             let pooopppie = database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
                 var data = snapshot.val();
-                if (data != null){
+                if (data != null && !(data === "null")){
                     Object.keys(data).forEach((key) => {
                         if (key != null){
                             testary.push(data[key]);

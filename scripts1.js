@@ -64,12 +64,13 @@ function LogintoAccount(){
 //TODO: START OF SEASON WAHTEVER AND END OF SEASON WHATEVER FROM AND TO
 function getTeamNameDoc(name, offsett, docelement){
     if(offsett > 200){
-        var yesorno = confirm("Looks like we didn't find the last league match you played <br>Have you played the ESEA League before?<br> OK = Yes, Cancel = No");
+        var yesorno = confirm("Looks like we didn't find the last league match you played \n Have you played the ESEA League before?\n OK = Yes, Cancel = No");
         if (yesorno){
             window.location.reload;
         }
         else if(!yesorno){
-            localStorage.setItem("NONESEALEAGUEPLAYER",1);
+            //localStorage.setItem("NONESEALEAGUEPLAYER",1);
+            var ref = database.ref('USERS/'+name+'/NONESEALEAGUEPLAYER').set(1);
             window.location.href = "main.html";
         }
     }
@@ -278,7 +279,8 @@ function submitSignupInfo(){
         pin: PIN,
         recoveryemail: rcvry,
         accountCreated: crnttme,
-        LastLoggedIn: crnttme
+        LastLoggedIn: crnttme,
+        NONESEALEAGUEPLAYER: 0
     }
     var ref = database.ref('USERS/'+input).set(data);
 
@@ -298,7 +300,8 @@ function submitSignupInfoExtra(input,PIN,pswrd,rcvry){
         pin: PIN,
         recoveryemail: rcvry,
         accountCreated: crnttme,
-        LastLoggedIn: crnttme
+        LastLoggedIn: crnttme,
+        NONESEALEAGUEPLAYER: 0
     }
     var ref = database.ref('USERS/'+input).set(data);
 

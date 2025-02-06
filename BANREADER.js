@@ -10,7 +10,7 @@ function removeElementsByClass(className) {
 removeElementsByClass("divv");
 document.getElementById("srchBtn").style.visibility = "hidden";
 document.getElementById("rtrnBtn").style.visibility = "visible";
-document.getElementById("rtrnBtn").style.transform = "translate(1330px, 5px)";
+document.getElementById("rtrnBtn").style.transform = "translate(1390px, 5px)";
 var lastbooleaniswear = false;
 var ffws = 0;
 var ffws1 = 0;
@@ -149,6 +149,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
 
 // Function to recursively fetch match history for the leader
 function GetLeaguePickBans(leaderid, offset) {
+    
     return fetch(`https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${offset}&limit=100`, {
         headers: {
             'accept': 'application/json',
@@ -284,8 +285,6 @@ function fetchMatchData(matchid,leaderid) {
             return res.json();
         })
         .then((datan123) => {
-        
-            console.log(datan123);
             let detailedscr = datan123.rounds;
             let scoree = null;
             
@@ -303,8 +302,7 @@ function fetchMatchData(matchid,leaderid) {
                 method: 'GET',
                 headers:{
                     'Access-Control-Allow-Origin' : '*',
-                    'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
-
+                    'Access-Control-Allow-Headers' : '*',
                 }
             })
                 

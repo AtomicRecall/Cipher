@@ -63,7 +63,8 @@ loginBtn.addEventListener('click', () => {
 
 loginForm.addEventListener('submit', function(event) {
     console.log("enter has been clicked "+enterclicked+" times");
-    if (!enterclicked > 0){
+
+    if (!enterclicked > 0/* && the name is not N/A / null in the "is this you?" part */){
         event.preventDefault(); // Prevent page refresh
 
         loginBtn.click();
@@ -162,9 +163,10 @@ affiramtivee.addEventListener('click', () =>{
     window.location.href = "main.html";
 });
 document.body.addEventListener('keydown', function(event) {
-    if(event.keyCode == 13 && enterclicked > 0){
+    const currentname = document.getElementById("namee");
+
+    if(event.keyCode == 13 && enterclicked > 0 && currentname.textContent.trim() !== "name"){
         console.log("HOLY SHIT");
-        
         event.preventDefault(); // Prevent page refresh
 
         window.location.href = "main.html";
