@@ -8,6 +8,8 @@ function removeElementsByClass(className) {
     }
 }
 removeElementsByClass("divv");
+//document.getElementById(".form-wrapper").remove();
+//document.getElementById(".BanFileExplorer").style.height = "750px";
 document.getElementById("srchBtn").style.visibility = "hidden";
 document.getElementById("rtrnBtn").style.visibility = "visible";
 document.getElementById("rtrnBtn").style.transform = "translate(1390px, 5px)";
@@ -149,7 +151,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
 
 // Function to recursively fetch match history for the leader
 function GetLeaguePickBans(leaderid, offset) {
-    
+
     return fetch(`https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${offset}&limit=100`, {
         headers: {
             'accept': 'application/json',
@@ -182,7 +184,7 @@ function GetLeaguePickBans(leaderid, offset) {
             //loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
     
             if (match.competition_name.includes("ESEA") && !match.competition_name.includes("S48") && !match.competition_name.includes("Qualifier")) {
-                finishedtext.innerHTML+=match.competition_name+" - "+dating.getMonth()+1+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
+                finishedtext.innerHTML+=match.competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
             
                 return fetchMatchData(match.match_id, leaderid); // Fetch only non-S48 ESEA matches
             }

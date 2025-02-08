@@ -22,16 +22,9 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
-let fartpoop = "BLAH BLAH";
 
 let name = localStorage.getItem("faceit-name"); 
 
-database.ref("USERS/"+name).on('value', function(snapshot){
-    var data = snapshot.val();
-    var d = new Date(0);
-    d.setUTCSeconds(data.accountCreated);
-    fartpoop = d;
-});
 const now = new Date();
 
 var currenttimestring = now.getMonth()+1+"/"+now.getDate()+"/"+now.getFullYear()+" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
@@ -175,7 +168,23 @@ function ontop(){
     .then((data) =>{
         var cvrimmg = document.createElement('img');
         cvrimmg.id = "cvrimg";
-        cvrimmg.src = data.cover_image == null ? "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>" : data.cover_image; 
+        console.log("GET DOWN");
+        console.log(data.cover_image);
+        switch(data.cover_image){
+            case undefined:
+                cvrimmg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                break;
+            case null:
+                cvrimmg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                break;
+            case "":
+                cvrimmg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                break;
+            default:
+                cvrimmg.src = data.cover_image;
+                break;
+        }
+        //cvrimmg.src = data.cover_image == null ? "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>" : data.cover_image; 
         cvrimmg.height = 200;
         cvrimmg.width = 1100;
         document.getElementById('.form-wrapper').appendChild(cvrimmg);
@@ -201,6 +210,7 @@ function ontop(){
             upcomingmatchestag.id = "upcomingmatchestag";
             upcomingmatchestag.classList.add("divv");
             upcomingmatchestag.innerHTML = "YOUR NEXT OPPONENTS :";
+
             var loadingimage = document.createElement("img");
             loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
             loadingimage.style.width = "600px";
@@ -211,6 +221,7 @@ function ontop(){
             upcomingmtches.appendChild(upcomingmatchestag);
             upcomingmtches.appendChild(loadingimage);
             document.getElementById(".BanFileExplorer").appendChild(upcomingmtches);
+
             var teamname = document.createElement('div');
             teamname.id = "teamname";
             teamname.innerHTML = "Season "+localStorage.getItem("dafuckingseasonyo")+" for "+localStorage.getItem("dafuckingnameyo");
@@ -231,12 +242,13 @@ function ontop(){
 function YOURSAVEDTEAMS(){
     let NONESEALEAGUEPLAYERR3 = -1;
     var NONESEALEAGUEPLAYERREF = database.ref('USERS/'+name).on ('value', function(snapshot){
-    var data = snapshot.val();
-    console.log(data);
-    var thingy = data.NONESEALEAGUEPLAYER;
-    NONESEALEAGUEPLAYERR3 = thingy;
-    console.log(NONESEALEAGUEPLAYERR3);
+        var data = snapshot.val();
+        console.log(data);
+        var thingy = data.NONESEALEAGUEPLAYER;
+        NONESEALEAGUEPLAYERR3 = thingy;
+        console.log(NONESEALEAGUEPLAYERR3);
     });
+
     let dataa11 = [];
     removeElementsByClass("divvv");
     var yoursaveteamsdivider = document.createElement('div');
@@ -247,7 +259,7 @@ function YOURSAVEDTEAMS(){
     yoursaveteamsdividertag.classList.add("divv");
     yoursaveteamsdividertag.innerHTML = "YOUR SAVED TEAMS: ";
     yoursaveteamsdivider.appendChild(yoursaveteamsdividertag);
-    console.log("IS THIS PLAYER A ESEA LEAGUE PLAYER? WHAT THE FUCK "+NONESEALEAGUEPLAYERR3);
+    //console.log("IS THIS PLAYER A ESEA LEAGUE PLAYER? WHAT THE FUCK "+NONESEALEAGUEPLAYERR3);
     if (NONESEALEAGUEPLAYERR3 != 1){
         var loadingimage = document.createElement("img");
         loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
@@ -678,8 +690,13 @@ function getPosition(element){
 }
 //TODO: START OF SEASON WAHTEVER AND END OF SEASON WHATEVER FROM AND TO
 function getTeamNameDoc(name, offsett, docelement){
-    console.log("penis and balls ::"+name+" "+offsett+" "+docelement);
+    //console.log("penis and balls ::"+name+" "+offsett+" "+docelement);
     var beenfound = false;
+    if (offsett >= 100){
+        beenfound = true;
+        var ref = database.ref('USERS/'+localStorage.getItem("faceit-name")+'/NONESEALEAGUEPLAYER').set(1);
+        window.location.reload();
+    }
     if (beenfound || !(localStorage.getItem("dafuckingnameyo")=="")){
         return;
     }
@@ -1077,7 +1094,6 @@ function getUpcomingMatches(team,season,upcomingdivider){
         method: 'GET',
         headers:{
             'Access-Control-Allow-Origin' : '*',
-            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
 
             
         }

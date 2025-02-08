@@ -228,7 +228,7 @@ body {
   transform: translate(-10px, -2px);
 }
 #lgOut{
-  transform: translate(5px,50px);
+  transform: translate(5px,20px);
   filter: drop-shadow(3px 0px 1px #000000);
   font-size: 15px;
   color: #ffffff;

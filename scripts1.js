@@ -64,13 +64,13 @@ function LogintoAccount(){
 //TODO: START OF SEASON WAHTEVER AND END OF SEASON WHATEVER FROM AND TO
 function getTeamNameDoc(name, offsett, docelement){
     if(offsett > 200){
-        var yesorno = confirm("Looks like we didn't find the last league match you played \n Have you played the ESEA League before?\n OK = Yes, Cancel = No");
+        var yesorno = confirm("Looks like we didn't find the last league match you played\nHave you played the ESEA League before?\nOK = Yes, Cancel = No");
         if (yesorno){
             window.location.reload;
         }
-        else if(!yesorno){
+        else {
             //localStorage.setItem("NONESEALEAGUEPLAYER",1);
-            var ref = database.ref('USERS/'+name+'/NONESEALEAGUEPLAYER').set(1);
+            var ref = database.ref('USERS/'+document.getElementById("usrr").value+'/NONESEALEAGUEPLAYER').set(1);
             window.location.href = "main.html";
         }
     }
@@ -91,8 +91,7 @@ function getTeamNameDoc(name, offsett, docelement){
 
     for(let key = 0; key < data.items.length; key++){
         var dating = new Date(data.items[key].finished_at* 1000);
-
-        document.getElementById("loadingorsearching").innerHTML = " Now Searching: "+data.items[key].competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();
+        document.getElementById("loadingorsearching").innerHTML = "Searching: "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
         // if the "items' competition_name has something to do with esea
         if(data.items[key].competition_name.toLowerCase().includes("esea") && !(data.items[key].competition_name.toLowerCase().includes("qualifier"))){
             var ssnn = data.items[key].competition_name.substring(6,8);
@@ -154,7 +153,6 @@ function getTeamNameDoc(name, offsett, docelement){
 }
 function InitializeCheck(input){
     console.log("WHAT? "+input);
-    const now = new Date();
 
     var playerid = null;
     var namecyka = null;
@@ -213,7 +211,21 @@ function InitializeCheck(input){
             const image = document.getElementById("profile");
             image.src = data.avatar;
             const bckrd = document.getElementById("background");
-            bckrd.src= data.cover_image;
+            //bckrd.src= data.cover_image;
+            switch(data.cover_image){
+                case undefined:
+                    bckrd.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                    break;
+                case null:
+                    bckrd.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                    break;
+                case "":
+                    bckrd.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                    break;
+                default:
+                    bckrd.src = data.cover_image;
+                    break;
+            }
             const nme = document.getElementById("namee");
             nme.innerHTML = data.nickname;
             const lvl = document.getElementById("level");
