@@ -8,11 +8,15 @@ function removeElementsByClass(className) {
     }
 }
 removeElementsByClass("divv");
-//document.getElementById(".form-wrapper").remove();
-//document.getElementById(".BanFileExplorer").style.height = "750px";
+document.getElementById(".form-wrapper").style.opacity = "0";
+document.getElementById(".BanFileExplorer").style.height = "750px";
+document.getElementById(".BanFileExplorer").style.transform = "translateY(-350px)";
+document.getElementById("h3").style.transform = "translate(600px,-40px)";
+document.getElementById("h3").style.position = "absolute";
+document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"));
 document.getElementById("srchBtn").style.visibility = "hidden";
 document.getElementById("rtrnBtn").style.visibility = "visible";
-document.getElementById("rtrnBtn").style.transform = "translate(1390px, 5px)";
+document.getElementById("rtrnBtn").style.transform = "translate(1300px, -3px)";
 var lastbooleaniswear = false;
 var ffws = 0;
 var ffws1 = 0;
@@ -24,7 +28,7 @@ var loadingimage = document.createElement("img");
 loadingimage.src = loadGears;
 loadingimage.style.width = "600px";
 loadingimage.style.height = "200px";
-loadingimage.style.transform = "translate(450px,150px)";
+loadingimage.style.transform = "translate(450px,250px)";
 loadingimage.style.position = "absolute";
 loadingimage.id = "removemepls";
 loadingimage.classList.add("removemepls");
@@ -124,14 +128,38 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     return res.json();
 })
 .then((datan) => {
+    //GetLeaguePickBans2(THETEAMWEARESEARCHING, 52);
+    console.log("PENISSSSSSS");
+    console.log(datan);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
     const teamPfp = document.createElement("img");
     teamPfp.id = "teamPfp";
-    if (datan.src != undefined){
+    const teamBackground = document.createElement("img");
+    teamBackground.id = "teamBackground";
+    teamBackground.position = "absolute";
+    teamBackground.opacity = 0;
+    teamBackground.style.height = "200px";
+    teamBackground.style.width = "1000px";
+    let teambackgrounddiv = document.createElement("div");
+    teambackgrounddiv.classList.add("divv");
+    teambackgrounddiv.appendChild(teamBackground);
+    teambackgrounddiv.id = "teambackgrounddiv";
+    teambackgrounddiv.position = "absolute";
+    if (datan.avatar != undefined){
         teamPfp.src = datan.avatar;
         document.getElementById('h3').prepend(teamPfp);
     }
-    
+    if (datan.cover_image != undefined){
+
+        teamBackground.src = datan.cover_image;
+       
+    }
+    else if(datan.cover_image == undefined || datan.cover_image == null || datan.cover_image === ""){
+
+        teamBackground.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+    }
+
+    document.getElementById(".BanFileExplorer").prepend(teambackgrounddiv);
     
     return GetLeaguePickBans(datan.leader, 0);  // Start fetching match history
 })
@@ -139,19 +167,107 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     picksnbans.sort((a, b) => b.finished - a.finished);
     console.log("Matches sorted:");
     console.log(picksnbans);
-    var myshit = document.getElementById("removemepls");
-    myshit.parentNode.removeChild(myshit);
+    if(document.getElementById("removemepls")){
+        var myshit = document.getElementById("removemepls");
+        myshit.parentNode.removeChild(myshit);
+    }
     removeElementsByClass("divvv");
     document.getElementById("h3").style.opacity = 100;
     printToWebsite(picksnbans, false);
+    
 })
 .catch((error) => {
     console.error('Error:', error);
 });
 
+
+function GetLeaguePickBans2(teamid, currentssn){
+    let crntssn = parseInt(currentssn);
+    console.log("RUNNING GETLEAGUEPICKBANS2 TEAMID= "+teamid+" CURRENTSSN= "+crntssn);
+
+    for(let d = 0; d <= 2; d++){
+        console.log("D IS= "+d);
+        switch(d){
+            case 0:
+                console.log("FINDING SEASON 52 MATCHES");
+                 fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${teamid}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103&limit=20&offset=0`,{
+                    method: 'GET',
+                    headers:{
+                        'Access-Control-Allow-Origin' : '*',
+
+                        
+                    }
+                })
+                .then((response) => {
+                    if (response.status === 404) {
+                        console.log( Promise.resolve());
+                    } else if (!response.ok) {
+                        console.log(response);
+                        throw new Error("Couldn't fetch that data");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    let payload = data.payload;
+                    console.log(payload);
+                });
+                break;
+            case 1:
+                console.log("FINDING SEASON 51 MATCHES");
+                 fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${teamid}&participantType=TEAM&championshipId=3501196b-cc9a-4f5d-800b-7e662ff81778&limit=20&offset=0`,{
+                    method: 'GET',
+                    headers:{
+                        'Access-Control-Allow-Origin' : '*',
+
+                        
+                    }
+                })
+                .then((response) => {
+                    if (response.status === 404) {
+                        console.log( Promise.resolve());
+                    } else if (!response.ok) {
+                        console.log(response);
+                        throw new Error("Couldn't fetch that data");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    let payload = data.payload;
+                    console.log(payload);
+                });
+                break;
+            case 2:
+                console.log("FINDING SEASON 50 MATCHES");
+                 fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${teamid}&participantType=TEAM&championshipId=bc96c661-f33a-4193-8754-d7e2914f7bde&limit=20&offset=0`,{
+                    method: 'GET',
+                    headers:{
+                        'Access-Control-Allow-Origin' : '*',
+
+                        
+                    }
+                })
+                .then((response) => {
+                    if (response.status === 404) {
+                        console.log( Promise.resolve());
+                    } else if (!response.ok) {
+                        console.log(response);
+                        throw new Error("Couldn't fetch that data");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    let payload = data.payload;
+                    console.log(payload);
+                });
+                break;
+
+            
+        }
+    }
+}
 // Function to recursively fetch match history for the leader
 function GetLeaguePickBans(leaderid, offset) {
-
+   //document.getElementById("rtrnBtn").style.trasnform = "translate(10px,-3px)";
     return fetch(`https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${offset}&limit=100`, {
         headers: {
             'accept': 'application/json',
@@ -184,15 +300,16 @@ function GetLeaguePickBans(leaderid, offset) {
             //loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
     
             if (match.competition_name.includes("ESEA") && !match.competition_name.includes("S48") && !match.competition_name.includes("Qualifier")) {
+
                 finishedtext.innerHTML+=match.competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
-            
+
                 return fetchMatchData(match.match_id, leaderid); // Fetch only non-S48 ESEA matches
             }
             return Promise.resolve();
         });
 
         // Check if we have hit S48
-        if (allMatches.some(match => match.competition_name.includes("S48"))) {
+        if (offset >= 350 || (allMatches.some(match => match.competition_name.includes("S48"))) ) {
             console.log("S48 reached, stopping further fetches.");
             return Promise.all(matchPromises); // Resolve when S48 is reached
         }
@@ -204,9 +321,83 @@ function GetLeaguePickBans(leaderid, offset) {
         console.error('Error:', error);
     });
 }
+function fetchLast5Players(matchid){
+    console.log("feetchinf that shit for "+matchid);
+    return fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
+        headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
+        }
+    })
+    .then((res) => {
+        if (res.status === 404) {
+            console.warn(`Match ${matchid} not found (404), continuing...`);
+            return Promise.resolve();
+        } else if (!res.ok) {
+            throw new Error("Couldn't fetch that data");
+        }
+        return res.json();
+    })
+    .then((datan12) => {
+        let damatchstats = datan12.rounds[0];
+        let teams = damatchstats.teams;
+        let tm1 = teams[0];
+        let tm2 = teams[1];
+        let players;
+        if (tm1.team_id == localStorage.getItem("BITCHID")){
+            players = tm1.players;
+            //console.log(tm1);
+        }
+        else{
+            players = tm2.players;
+            //console.log(tm2);
+        }
 
+        for (const player of players){
+            fetch('https://open.faceit.com/data/v4/players?nickname='+player.nickname+'&game=cs2', {
+                headers: {
+                    'accept': 'application/json',
+                    'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+                }
+                }).then((res) => {
+                    if(!res.ok){
+                        throw new Error("couldnt fetcht that shit");
+                    }
+                    return res.json();
+                })
+                .then((data) =>{
+                    console.log(data);
+                    let pfp = document.createElement("img");
+                    pfp.id = "TEAMPFP";
+                    switch(data.avatar){
+                        case undefined:
+                            pfp.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                            break;
+                        case null:
+                            pfp.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                            break;
+                        case "":
+                            pfp.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                            break;
+                        default:
+                            pfp.src = data.avatar;
+                            break;
+                    }
+                    document.getElementById("teambackgrounddiv").appendChild(pfp);
+                });
+        }
+        
+        
+
+    });
+}
+
+var c = 0;
 function fetchMatchData(matchid,leaderid) {
-
+    c++;
+    if( c==1){
+        fetchLast5Players(matchid);
+    }
     return fetch(`https://open.faceit.com/data/v4/matches/${matchid}`, {
         headers: {
             'accept': 'application/json',
@@ -249,17 +440,17 @@ function fetchMatchData(matchid,leaderid) {
         let fac1wins = 0;
         let fac2wins = 0;
         console.log("GET DOWN!!");
-        console.log(fac1+" vs "+fac2);
+       //console.log(fac1+" vs "+fac2);
         for (const winor of datan12.detailed_results){
             console.log(winor.winner);
 
             //check the winner of every winor, count the amount of times fac1 wins and count the amount of times fac2 wins, whichever one is bigger is the winner
             if (winor.winner === "faction1"){
-                console.log("faction 1 won one map")
+                //console.log("faction 1 won one map")
                 fac1wins++;
             }
             else if(winor.winner === "faction2") {
-                console.log("faction 2 won one map");
+                //console.log("faction 2 won one map");
                 fac2wins++;
             }
         }
@@ -407,6 +598,7 @@ function fetchMatchData(matchid,leaderid) {
 }
 
 function printToWebsite(dapicksanddabans, something){
+    document.getElementById("teambackgrounddiv").style.opacity = "1";
     let wins = 0;
     let loss = 0;
     let wins1 = 0;
@@ -1030,10 +1222,10 @@ function printToWebsite(dapicksanddabans, something){
         
             document.getElementById("game"+d).onmouseover = function(){
                 quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
-                    document.getElementById("allInfo").style.transform = "translateX(775px)";
+                    document.getElementById("allInfo").style.transform = "translate(775px,300px)";
                     const butons = document.querySelectorAll('#penisandcock');
                     butons.forEach(element =>{
-                        element.style.transform = "translate(1235px, -338px)"
+                        element.style.transform = "translate(1235px, -295px)"
                     });
                 // quickInfoDivider.innerHTML+='<span class="grey"> '+dapicksanddabans[d].entities[0].selected_by+"</span> VS "+'<span class="grey"> '+dapicksanddabans[d].entities[1].selected_by+"</span>";
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px #ffffff)";
@@ -1218,12 +1410,12 @@ function printToWebsite(dapicksanddabans, something){
                 }
                 
         document.getElementById("game"+d).onmouseout = function(){
-            document.getElementById("allInfo").style.transform = "translate(260px,10px)";
+            document.getElementById("allInfo").style.transform = "translate(260px,300px)";
             document.getElementById("game"+d).style.webkitFilter = "";
             
             const butons = document.querySelectorAll('#penisandcock');
                     butons.forEach(element =>{
-                        element.style.transform = "translate(720px, -328px)";
+                        element.style.transform = "translate(720px, -295px)";
                     });
             info.innerHTML = "";
             const myNode = document.getElementById("quickInfo");
@@ -1257,7 +1449,7 @@ var ILIEDLOLL = 3;
     // Create a label element
     const label = document.createElement("label");
     label.htmlFor = "c"+THEFINALCOUNTERISWEAR; // Associate the label with the checkbox
-    label.textContent = "S"+(51-(THEFINALCOUNTERISWEAR-1)); // Set the label text
+    label.textContent = "S"+(52-(THEFINALCOUNTERISWEAR-1)); // Set the label text
    // label.fontSize = "10px";
 
     // Append the checkbox and label to the span

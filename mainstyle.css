@@ -55,7 +55,7 @@ body {
   position: absolute;
   color: rgb(255, 255, 255);
   filter: drop-shadow(3px 0px 1px #000000);
-  transform: translate(-660px,-415px);
+  transform: translate(-580px,-415px);
   font-size: 15px;
   font-family: 'Minecraftia', sans-serif;
 }
@@ -68,13 +68,13 @@ body {
   position: absolute;
   width: 480px;
   height: 480px;
-  transform: translate(260px);
+  transform: translate(260px,280px);
 }
 #allInfo{
   position: absolute;
   width: 680px;
   height: 480px;
-  transform: translate(260px,10px);
+  transform: translate(260px,300px);
   transition: 0.3s;
   
 }
@@ -199,7 +199,7 @@ body {
   font-size: 15px;
   color: white;
   font-weight: bold;
-  transform: translate(720px, -328px);
+  transform: translate(720px, -295px);
   transition: .3s
 }
 #spanimg{
@@ -225,7 +225,7 @@ body {
   height: 50px;
   width: 50px;
   float: left;
-  transform: translate(-10px, -2px);
+  transform: translate(-10px, 5px);
 }
 #lgOut{
   transform: translate(5px,20px);
@@ -249,6 +249,7 @@ body {
   overflow: hidden;
   overflow-x: hidden;
   scrollbar-width: thin;
+  transition: 2s;
   
 }
 .scr{
@@ -343,7 +344,7 @@ body {
 }
 #mtches{
   width: 270px;
-  height: 500px;
+  height: 760px;
   scrollbar-width: thin;
   transform: translate(-20px,-10px);
 }
@@ -373,6 +374,15 @@ h3{
   font-size : 40px;
   filter: drop-shadow(2px 0px 2px #6d6d6d);
   opacity: 0;
+
+}
+#teamBackground{
+  transform: translate(-550px,70px);
+  height: 200px;
+  width: 1000px;
+  filter: blur(1px);
+ 
+
 
 }
 #img{
@@ -412,8 +422,8 @@ h3{
 #rtrnBtn{ 
   width: 200px;
   height: 10px;
-  transform: translate(1320px, -265px);
-  font-size: 15px;
+  transform: translate(10px, -265px);
+  font-size: 30px;
   color: #ffffff;
   cursor: pointer;
   position: absolute;
@@ -504,6 +514,20 @@ h3{
   height: 150px;
   transform: translate(-200px, 80px);
 }
+#TEAMPFP{
+  position: relative;
+  width: 75px;
+  height: 75px;
+  transform: translate(-1340px, 20px);
+  margin: 20px;
+  filter: drop-shadow(.5px 0.5px 0.75px black);
+}
+#teambackgrounddiv{
+  width: 2000px;
+  position: absolute;
+  transform: translateX(810px);
+  opacity: 0;
+}
 #VS{
   position: absolute;
   font-size: 50px;
@@ -527,6 +551,7 @@ h3{
   color: white;
   font-size: 40px;
   width: 35%;
+  transform: translate(-20px,-15px);
 
   
 }
@@ -535,7 +560,7 @@ h3{
   font-size: 16px;
   width: 100%;
   overflow : scroll;
-  height: 450px;
+  height: 700px;
   transform: translate(-9px,-15px);
 }
 #upcomingmatchesdivider{

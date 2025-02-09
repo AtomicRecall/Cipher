@@ -95,6 +95,12 @@ srchbtn.addEventListener('click', () =>{
 
 const rtrnBtn = document.getElementById("rtrnBtn");
 rtrnBtn.addEventListener('click', () =>{
+    document.getElementById(".form-wrapper").style.opacity = "1";
+    document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
+    document.getElementById(".BanFileExplorer").style.height = "480px";
+    if(document.getElementById("teambackgrounddiv")){
+        document.getElementById("teambackgrounddiv").remove();
+    }
    removeElementsByClass("removemepls");
     YOURSAVEDTEAMS();
     var upcomingmtches = document.createElement('div');

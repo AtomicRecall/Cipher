@@ -10,10 +10,11 @@ export default async function handler(req, res) {
   console.log("Requesting data from:", apiUrl); // Debug log to verify the URL
 
   try {
-    const response = await axios.get(apiUrl);
-    console.log("Data received:", response.data); // Log the received data
     res.setHeader("Access-Control-Allow-Headers", "*");
     res.setHeader("Access-Control-Allow-Origin", "*"); 
+    const response = await axios.get(apiUrl);
+    console.log("Data received:", response.data); // Log the received data
+
 
     res.status(200).json(response.data); // Send back the data
     return response.data;
