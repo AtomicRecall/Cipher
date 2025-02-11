@@ -249,7 +249,7 @@ body {
   overflow: hidden;
   overflow-x: hidden;
   scrollbar-width: thin;
-  transition: 2s;
+  transition: 1s;
   
 }
 .scr{
@@ -377,7 +377,7 @@ h3{
 
 }
 #teamBackground{
-  transform: translate(-550px,70px);
+  transform: translate(-10px,-2px);
   height: 200px;
   width: 1000px;
   filter: blur(1px);
@@ -518,14 +518,33 @@ h3{
   position: relative;
   width: 75px;
   height: 75px;
-  transform: translate(-1340px, 20px);
-  margin: 20px;
+  transform: translateX(10px);
+  margin: 80px;
   filter: drop-shadow(.5px 0.5px 0.75px black);
 }
+#TEAMPFPNAME{
+  transform: translate(110px,-80px);
+  color: white;
+  filter: drop-shadow(2px .1px 2px black)
+
+}
+#PLAYERDIVIDER{
+  height: 90px;
+  width: 75px;
+  position: relative;
+}
+#WHOLEPLAYERDIVIDER{
+  width: 1240px;
+  height:280px;
+  transform: translate(-10px,-285px);
+  display: grid;
+  grid-auto-flow: column;
+}
 #teambackgrounddiv{
-  width: 2000px;
+  width: 1260px;
+  height: 280px;
   position: absolute;
-  transform: translateX(810px);
+  transform: translateX(260px);
   opacity: 0;
 }
 #VS{
@@ -551,7 +570,7 @@ h3{
   color: white;
   font-size: 40px;
   width: 35%;
-  transform: translate(-20px,-15px);
+  transform: translate(-20px,-30px);
 
   
 }
@@ -560,7 +579,7 @@ h3{
   font-size: 16px;
   width: 100%;
   overflow : scroll;
-  height: 700px;
+  height: 730px;
   transform: translate(-9px,-15px);
 }
 #upcomingmatchesdivider{

@@ -10,7 +10,9 @@ function removeElementsByClass(className) {
 removeElementsByClass("divv");
 document.getElementById(".form-wrapper").style.opacity = "0";
 document.getElementById(".BanFileExplorer").style.height = "750px";
+if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
 document.getElementById(".BanFileExplorer").style.transform = "translateY(-350px)";
+}
 document.getElementById("h3").style.transform = "translate(600px,-40px)";
 document.getElementById("h3").style.position = "absolute";
 document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"));
@@ -138,8 +140,8 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     teamBackground.id = "teamBackground";
     teamBackground.position = "absolute";
     teamBackground.opacity = 0;
-    teamBackground.style.height = "200px";
-    teamBackground.style.width = "1000px";
+    teamBackground.style.height = "280px";
+    teamBackground.style.width = "1240px";
     let teambackgrounddiv = document.createElement("div");
     teambackgrounddiv.classList.add("divv");
     teambackgrounddiv.appendChild(teamBackground);
@@ -299,7 +301,7 @@ function GetLeaguePickBans(leaderid, offset) {
             var dating = new Date(match.finished_at*1000);
             //loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
     
-            if (match.competition_name.includes("ESEA") && !match.competition_name.includes("S48") && !match.competition_name.includes("Qualifier")) {
+            if (match.competition_name.includes("ESEA") && !match.competition_name.includes("S48") && !match.competition_name.includes("Qualifier") && !match.competition_name.includes("S47")) {
 
                 finishedtext.innerHTML+=match.competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
 
@@ -309,7 +311,7 @@ function GetLeaguePickBans(leaderid, offset) {
         });
 
         // Check if we have hit S48
-        if (offset >= 350 || (allMatches.some(match => match.competition_name.includes("S48"))) ) {
+        if (offset >= 250 || (allMatches.some(match => match.competition_name.includes("S48")))  || (allMatches.some(match => match.competition_name.includes("S47")))) {
             console.log("S48 reached, stopping further fetches.");
             return Promise.all(matchPromises); // Resolve when S48 is reached
         }
@@ -352,7 +354,8 @@ function fetchLast5Players(matchid){
             players = tm2.players;
             //console.log(tm2);
         }
-
+        let bigplayerdivider = document.createElement("div");
+        bigplayerdivider.id = "WHOLEPLAYERDIVIDER";
         for (const player of players){
             fetch('https://open.faceit.com/data/v4/players?nickname='+player.nickname+'&game=cs2', {
                 headers: {
@@ -366,9 +369,17 @@ function fetchLast5Players(matchid){
                     return res.json();
                 })
                 .then((data) =>{
+                    console.log("GET DOWN NOW!");
+                    //get information like profile picture, flag, and nickname
                     console.log(data);
+                    let playerdivider = document.createElement("div");
+                    playerdivider.id = "PLAYERDIVIDER";
                     let pfp = document.createElement("img");
                     pfp.id = "TEAMPFP";
+                    let name = document.createElement("div");
+                    name.id = "TEAMPFPNAME";
+                    //name.style.position = "absolute";
+                    name.innerHTML = data.nickname;
                     switch(data.avatar){
                         case undefined:
                             pfp.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
@@ -383,10 +394,18 @@ function fetchLast5Players(matchid){
                             pfp.src = data.avatar;
                             break;
                     }
-                    document.getElementById("teambackgrounddiv").appendChild(pfp);
+                    
+                    playerdivider.appendChild(pfp);
+                    playerdivider.appendChild(name);
+                    bigplayerdivider.appendChild(playerdivider);
+
+                    
+                    
+                    
                 });
+                
         }
-        
+        document.getElementById("teambackgrounddiv").appendChild(bigplayerdivider);
         
 
     });
@@ -439,10 +458,10 @@ function fetchMatchData(matchid,leaderid) {
         let winner = datan12.detailed_results[0].winner;
         let fac1wins = 0;
         let fac2wins = 0;
-        console.log("GET DOWN!!");
+       // console.log("GET DOWN!!");
        //console.log(fac1+" vs "+fac2);
         for (const winor of datan12.detailed_results){
-            console.log(winor.winner);
+           // console.log(winor.winner);
 
             //check the winner of every winor, count the amount of times fac1 wins and count the amount of times fac2 wins, whichever one is bigger is the winner
             if (winor.winner === "faction1"){
@@ -519,10 +538,12 @@ function fetchMatchData(matchid,leaderid) {
             .then((data) => {
                 let picksnbanz = [];
                 let payload = data.payload;
-              //  console.log(payload);
+                console.log("AAAAAAAAAA");
+                console.log(payload);
                 picksnbanz.push(payload.tickets[2]);
 
                 for (let d = 0; d < picksnbanz[0].entities.length; d++) {
+                   // console.log(picksnbanz[0].entities[d].selected_by);
                     switch (picksnbanz[0].entities[d].selected_by) {
                         case "faction1":
                             picksnbanz[0].entities[d].selected_by = fac1;
@@ -567,7 +588,7 @@ function fetchMatchData(matchid,leaderid) {
                    // console.log(syndeysweeny);
                     //check each team, once you found the captain, send a variable to the specific team the captain is on, we will use the variable for other shit later
                     for (const players of syndeysweeny.teams[0].players){
-                        if (players.player_id == leaderid){
+                        if (players.player_id === leaderid){
                             team1.push("CAP");
                             ist2 = false;
                             break;
@@ -634,15 +655,37 @@ function printToWebsite(dapicksanddabans, something){
         //3. then, check the status  and choose accordingly either update bans variable or update picks variable
        // console.log(dapicksanddabans[d]);
        // console.log("The winner of the above game is "+dapicksanddabans[d].winnerID);
-        // find the team you are looking at, look through both teams in dapicksanddabans[d] and make "the team we are looking at" be that team's ID
-        for (const team in dapicksanddabans[d].teams){
-            for (const thinginteam in team){
-                if (thinginteam == "CAP"){
 
+        // find the team you are looking at, look through both teams in dapicksanddabans[d] and make "the team we are looking at" be that team's ID
+        let GORILLACHOCOLATE = "";
+        console.log(dapicksanddabans[d].teams);
+        for(let penis = 0; penis < dapicksanddabans[d].teams.length; penis++){
+            console.log("PENISSS "+penis);
+            console.log(dapicksanddabans[d].teams[penis]);
+            for (const INTERLINKED of dapicksanddabans[d].teams[penis]){
+                console.log(INTERLINKED);
+                if (INTERLINKED.toUpperCase() === "CAP"){
+                    console.log("CAP FOUND");
+                    let poopfart = dapicksanddabans[d].teams[penis];
+                    console.log("changing the team we are serching to "+poopfart[2]);
+                    GORILLACHOCOLATE = poopfart[1].toUpperCase();
+                    //THETEAMWEARESEARCHING = poopfart[2];
                 }
             }
         }
         /*
+        for (const team in dapicksanddabans[d].teams){
+            console.log("PENISSS");
+            console.log(team);
+            for (const thinginteam in team){
+                console.log("INTERLINKED");
+                console.log(thinginteam);
+                if (thinginteam === "CAP"){
+                    
+                }
+            }
+        }
+        
        console.log("The team we are looking at is "+THETEAMWEARESEARCHING);
        console.log(dapicksanddabans[d].winnerID+" == "+THETEAMWEARESEARCHING);
        console.log("EVERYTHING IS FUCKDD");
@@ -685,13 +728,10 @@ function printToWebsite(dapicksanddabans, something){
         holyshitsomanymaps.id = "cvr";
         let c12 = 0;
         for (let j = 0; j < dapicksanddabans[d].detailed_results.length; j++){
-            if (j % 2 != 0){
-
-            }
-            else{
+            if (j % 2 == 0){
                 //this means j is even idk about 0?
-               // console.log("POOP IN MY ASS");
-               // console.log(dapicksanddabans[d].detailed_results[j]);
+               //console.log("POOP IN MY ASSHOLEE");
+               // console.log(dapicksanddabans[d].detailed_results);
                 switch(dapicksanddabans[d].detailed_results[j]){
                     case THETEAMWEARESEARCHING:
                         //console.log("we won "+dapicksanddabans[d].detailed_results[j+1]);
@@ -767,9 +807,12 @@ function printToWebsite(dapicksanddabans, something){
             }
         }
         for (const penis of dapicksanddabans[d].entities){
+            console.log(penis);
+
             if (penis.status == "pick"){
-                if(penis.selected_by.toUpperCase() == h3.innerText){
-                   // console.log("wE PICKED "+penis.guid);
+                console.log(penis.selected_by.toUpperCase()+" - "+GORILLACHOCOLATE);
+                if(penis.selected_by.toUpperCase() === GORILLACHOCOLATE){
+                    console.log("wE PICKED "+penis.guid);
                     switch(penis.guid){
                         case "de_ancient":
                                 picks[0]= picks[0]+1;
@@ -867,8 +910,8 @@ function printToWebsite(dapicksanddabans, something){
                     holyshitsomanymaps.appendChild(image);
             }
             else if (penis.status == "drop"){
-                if(penis.selected_by.toUpperCase() == h3.innerText){
-                    //console.log("WE FUCKING BANNED "+penis.guid);
+                if(penis.selected_by.toUpperCase() === GORILLACHOCOLATE){
+                    console.log("WE FUCKING BANNED "+penis.guid);
                     switch(penis.guid){
                         case "de_ancient":
                                 bans[0]= bans[0]+1;

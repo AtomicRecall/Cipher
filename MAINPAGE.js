@@ -25,6 +25,27 @@ const database = firebase.database();
 
 let name = localStorage.getItem("faceit-name"); 
 
+if (name === "null" || name == undefined || name === ""){
+    name = "";
+    document.getElementById(".form-wrapper").style.opacity = "0";
+    document.getElementById(".BanFileExplorer").style.height = "750px";
+    document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
+    document.getElementById("h3").style.transform = "translate(600px,-40px)";
+    document.getElementById("h3").style.position = "absolute";
+    document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"));
+    document.getElementById("lgOut").innerHTML = "Log In?";
+    document.getElementById("redirect").href = "LoginPage.html";
+    localStorage.setItem("NOFACEITACCOUNT", 1);
+    localStorage.setItem("NOTEAMALERT", 0);
+
+}
+else{
+    document.getElementById("lgOut").addEventListener('click', () =>{
+        localStorage.removeItem("faceit-name");
+    })
+    localStorage.setItem("NOFACEITACCOUNT",0);
+    localStorage.setItem("NOTEAMALERT", 1);
+}
 const now = new Date();
 
 var currenttimestring = now.getMonth()+1+"/"+now.getDate()+"/"+now.getFullYear()+" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
@@ -51,6 +72,7 @@ YOURSAVEDTEAMS();
 
 
 const srchbtn = document.getElementById("srchBtn");
+
 srchbtn.addEventListener('click', () =>{
     
     removeElementsByClass("divv");
@@ -58,7 +80,7 @@ srchbtn.addEventListener('click', () =>{
     document.getElementById("h3").innerHTML = "SEARCH";
     document.getElementById("srchBtn").style.visibility = "hidden";
     document.getElementById("rtrnBtn").style.visibility = "visible";
-    document.getElementById("rtrnBtn").style.transform = "translate(10px, 5px)";
+    document.getElementById("rtrnBtn").style.transform = "translate(10px, -5px)";
 
     const srch3 = document.createElement('button');
     srch3.classList.add("input-group");
@@ -95,33 +117,42 @@ srchbtn.addEventListener('click', () =>{
 
 const rtrnBtn = document.getElementById("rtrnBtn");
 rtrnBtn.addEventListener('click', () =>{
-    document.getElementById(".form-wrapper").style.opacity = "1";
-    document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
-    document.getElementById(".BanFileExplorer").style.height = "480px";
+    removeElementsByClass("divvv");
     if(document.getElementById("teambackgrounddiv")){
         document.getElementById("teambackgrounddiv").remove();
     }
    removeElementsByClass("removemepls");
-    YOURSAVEDTEAMS();
-    var upcomingmtches = document.createElement('div');
-    upcomingmtches.id = "upcomingmatchesdivider";
-    upcomingmtches.classList.add("divv");
-    var upcomingmatchestag = document.createElement('div');
-    upcomingmatchestag.id = "upcomingmatchestag";
-    upcomingmatchestag.classList.add("divv");
-    upcomingmatchestag.innerHTML = "UPCOMING MATCHES :";
-    upcomingmtches.appendChild(upcomingmatchestag);
-    
-    var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
-    var loadingimage = document.createElement("img");
-    loadingimage.src = loadGears;
-    loadingimage.style.width = "600px";
-    loadingimage.style.height = "200px";
-    loadingimage.style.position = "absolute";
-    loadingimage.id = "removemepls";
-    loadingimage.classList.add("removemepls");
-    upcomingmtches.appendChild(loadingimage);
-    document.getElementById(".BanFileExplorer").appendChild(upcomingmtches);
+   if (localStorage.getItem("NOFACEITACCOUNT") != 1){
+
+        document.getElementById(".form-wrapper").style.opacity = "1";
+        document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
+        document.getElementById(".BanFileExplorer").style.height = "480px";
+        
+        YOURSAVEDTEAMS();
+
+        var upcomingmtches = document.createElement('div');
+        upcomingmtches.id = "upcomingmatchesdivider";
+        upcomingmtches.classList.add("divv");
+        var upcomingmatchestag = document.createElement('div');
+        upcomingmatchestag.id = "upcomingmatchestag";
+        upcomingmatchestag.classList.add("divv");
+        upcomingmatchestag.innerHTML = "UPCOMING MATCHES :";
+        upcomingmtches.appendChild(upcomingmatchestag);
+        
+        var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+        var loadingimage = document.createElement("img");
+        loadingimage.src = loadGears;
+        loadingimage.style.width = "600px";
+        loadingimage.style.height = "200px";
+        loadingimage.style.position = "absolute";
+        loadingimage.id = "removemepls";
+        loadingimage.classList.add("removemepls");
+        upcomingmtches.appendChild(loadingimage);
+        document.getElementById(".BanFileExplorer").appendChild(upcomingmtches);
+    }
+    if (localStorage.getItem("savedTeams")!= null){
+        YOURSAVEDTEAMS();
+    }
     document.getElementById("h3").innerHTML = "YOUR SAVED TEAMS";
     document.getElementById("h3").style.opacity = 0;
     if (document.getElementById("SEARCH") !== null){
@@ -159,93 +190,97 @@ function ontop(){
         }
     }
     localStorage.setItem("first-time", 1);
-    //obtaining faceit information
-    fetch('https://open.faceit.com/data/v4/players?nickname='+name+'&game=cs2', {
-    headers: {
-        'accept': 'application/json',
-        'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
-    }
-    }).then((res) => {
-        if(!res.ok){
-            throw new Error("couldnt fetcht that shit");
+
+    if (localStorage.getItem("NOFACEITACCOUNT") != 1){
+        //obtaining faceit information
+        fetch('https://open.faceit.com/data/v4/players?nickname='+name+'&game=cs2', {
+        headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
         }
-        return res.json();
-    })
-    .then((data) =>{
-        var cvrimmg = document.createElement('img');
-        cvrimmg.id = "cvrimg";
-        console.log("GET DOWN");
-        console.log(data.cover_image);
-        switch(data.cover_image){
-            case undefined:
-                cvrimmg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
-                break;
-            case null:
-                cvrimmg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
-                break;
-            case "":
-                cvrimmg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
-                break;
-            default:
-                cvrimmg.src = data.cover_image;
-                break;
-        }
-        //cvrimmg.src = data.cover_image == null ? "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>" : data.cover_image; 
-        cvrimmg.height = 200;
-        cvrimmg.width = 1100;
-        document.getElementById('.form-wrapper').appendChild(cvrimmg);
-
-        var img = document.createElement('img');
-        img.id ="img";
-        img.src = data.avatar;
-        img.height = 150;
-        img.width = 150;
-        img.style.filter = "drop-shadow(0px 0px 2px #000000)";
-        document.getElementById('.form-wrapper').appendChild(img);
-        var elo = document.createElement('div');
-        elo.innerHTML = ("ELO: "+data.games.cs2.faceit_elo);
-        elo.id = "elo";
-        elo.style.filter = "drop-shadow(0px 0px 2px #000000)";
-        document.getElementById(".form-wrapper").appendChild(elo);
-        console.log("IS THIS PLAYER A ESEA LEAGUE PLAYER? "+NONESEALEAGUEPLAYERR);
-        if (NONESEALEAGUEPLAYERR != 1){
-            var upcomingmtches = document.createElement('div');
-            upcomingmtches.id = "upcomingmatchesdivider";
-            upcomingmtches.classList.add("divv");
-            var upcomingmatchestag = document.createElement('div');
-            upcomingmatchestag.id = "upcomingmatchestag";
-            upcomingmatchestag.classList.add("divv");
-            upcomingmatchestag.innerHTML = "YOUR NEXT OPPONENTS :";
-
-            var loadingimage = document.createElement("img");
-            loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
-            loadingimage.style.width = "600px";
-            loadingimage.style.height = "200px";
-            loadingimage.style.position = "absolute";
-            loadingimage.id = "removemepls";
-            loadingimage.classList.add("removemepls");
-            upcomingmtches.appendChild(upcomingmatchestag);
-            upcomingmtches.appendChild(loadingimage);
-            document.getElementById(".BanFileExplorer").appendChild(upcomingmtches);
-
-            var teamname = document.createElement('div');
-            teamname.id = "teamname";
-            teamname.innerHTML = "Season "+localStorage.getItem("dafuckingseasonyo")+" for "+localStorage.getItem("dafuckingnameyo");
-            if(localStorage.getItem('team-id') != null){
-                getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
+        }).then((res) => {
+            if(!res.ok){
+                throw new Error("couldnt fetcht that shit");
             }
-            else{
-                getTeamNameDoc(data.player_id,0,"teamname",upcomingmtches);
-
+            return res.json();
+        })
+        .then((data) =>{
+            var cvrimmg = document.createElement('img');
+            cvrimmg.id = "cvrimg";
+            console.log("GET DOWN");
+            console.log(data.cover_image);
+            switch(data.cover_image){
+                case undefined:
+                    cvrimmg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                    break;
+                case null:
+                    cvrimmg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                    break;
+                case "":
+                    cvrimmg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                    break;
+                default:
+                    cvrimmg.src = data.cover_image;
+                    break;
             }
-            teamname.style.filter = "drop-shadow(0px 0px 2px #000000)";
-            document.getElementById(".form-wrapper").appendChild(teamname);
-        }
-    });
+            //cvrimmg.src = data.cover_image == null ? "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>" : data.cover_image; 
+            cvrimmg.height = 200;
+            cvrimmg.width = 1100;
+            document.getElementById('.form-wrapper').appendChild(cvrimmg);
+
+            var img = document.createElement('img');
+            img.id ="img";
+            img.src = data.avatar;
+            img.height = 150;
+            img.width = 150;
+            img.style.filter = "drop-shadow(0px 0px 2px #000000)";
+            document.getElementById('.form-wrapper').appendChild(img);
+            var elo = document.createElement('div');
+            elo.innerHTML = ("ELO: "+data.games.cs2.faceit_elo);
+            elo.id = "elo";
+            elo.style.filter = "drop-shadow(0px 0px 2px #000000)";
+            document.getElementById(".form-wrapper").appendChild(elo);
+            console.log("IS THIS PLAYER A ESEA LEAGUE PLAYER? "+NONESEALEAGUEPLAYERR);
+            if (NONESEALEAGUEPLAYERR != 1){
+                var upcomingmtches = document.createElement('div');
+                upcomingmtches.id = "upcomingmatchesdivider";
+                upcomingmtches.classList.add("divv");
+                var upcomingmatchestag = document.createElement('div');
+                upcomingmatchestag.id = "upcomingmatchestag";
+                upcomingmatchestag.classList.add("divv");
+                upcomingmatchestag.innerHTML = "YOUR NEXT OPPONENTS :";
+
+                var loadingimage = document.createElement("img");
+                loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+                loadingimage.style.width = "600px";
+                loadingimage.style.height = "200px";
+                loadingimage.style.position = "absolute";
+                loadingimage.id = "removemepls";
+                loadingimage.classList.add("removemepls");
+                upcomingmtches.appendChild(upcomingmatchestag);
+                upcomingmtches.appendChild(loadingimage);
+                document.getElementById(".BanFileExplorer").appendChild(upcomingmtches);
+
+                var teamname = document.createElement('div');
+                teamname.id = "teamname";
+                teamname.innerHTML = "Season "+localStorage.getItem("dafuckingseasonyo")+" for "+localStorage.getItem("dafuckingnameyo");
+                if(localStorage.getItem('team-id') != null){
+                    getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
+                }
+                else{
+                    getTeamNameDoc(data.player_id,0,"teamname",upcomingmtches);
+
+                }
+                teamname.style.filter = "drop-shadow(0px 0px 2px #000000)";
+                document.getElementById(".form-wrapper").appendChild(teamname);
+            }
+        });
+}
     removeElementsByClass("removemepls");  
 }
 
 function YOURSAVEDTEAMS(){
+    console.log("RUNNING YOURSAVEDTEAMS");
     let NONESEALEAGUEPLAYERR3 = -1;
     var NONESEALEAGUEPLAYERREF = database.ref('USERS/'+name).on ('value', function(snapshot){
         var data = snapshot.val();
@@ -254,8 +289,9 @@ function YOURSAVEDTEAMS(){
         NONESEALEAGUEPLAYERR3 = thingy;
         console.log(NONESEALEAGUEPLAYERR3);
     });
-
     let dataa11 = [];
+
+
     removeElementsByClass("divvv");
     var yoursaveteamsdivider = document.createElement('div');
     yoursaveteamsdivider.id = "yoursavedteamsdivider";
@@ -265,39 +301,50 @@ function YOURSAVEDTEAMS(){
     yoursaveteamsdividertag.classList.add("divv");
     yoursaveteamsdividertag.innerHTML = "YOUR SAVED TEAMS: ";
     yoursaveteamsdivider.appendChild(yoursaveteamsdividertag);
+    var loadingimage = document.createElement("img");
+    loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+    loadingimage.style.width = "600px";
+    loadingimage.style.height = "200px";
+    loadingimage.style.position = "absolute";
+    loadingimage.id = "removemepls1";
+    loadingimage.classList.add("removemepls1");
+    yoursaveteamsdivider.appendChild(loadingimage);
+   
+    if(localStorage.getItem("NOFACEITACCOUNT") == 1 && localStorage.getItem("NOTEAMALERT")==0){
+        dataa11 = JSON.parse(localStorage.getItem("savedTeams"));
+        console.log(dataa11);
+        if(dataa11 != null){
+            funnyfunction(dataa11,"yoursavedteamsdivider");
+            document.getElementById(".BanFileExplorer").appendChild(yoursaveteamsdivider);
+            
+        }
+        else{
+            //alert("Found no teams in local storage. Try searching for some!");
+        }
+    }
     //console.log("IS THIS PLAYER A ESEA LEAGUE PLAYER? WHAT THE FUCK "+NONESEALEAGUEPLAYERR3);
-    if (NONESEALEAGUEPLAYERR3 != 1){
-        var loadingimage = document.createElement("img");
-        loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
-        loadingimage.style.width = "600px";
-        loadingimage.style.height = "200px";
-        loadingimage.style.position = "absolute";
-        loadingimage.id = "removemepls1";
-        loadingimage.classList.add("removemepls1");
-        yoursaveteamsdivider.appendChild(loadingimage);
-        database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
-            var data = snapshot.val();
-            if (data == null){
-                alert("Looks like you have no teams! search for something using the search button!");
-                return;
-            }
-            else{
-                Object.keys(data).forEach((key) => {
-                    dataa11.push(data[key]);
-                });
-        
-                funnyfunction(dataa11,"yoursavedteamsdivider");
-                document.getElementById(".BanFileExplorer").appendChild(yoursaveteamsdivider);
-            }
-        });
+    if (NONESEALEAGUEPLAYERR3 != 1 && localStorage.getItem("NOFACEITACCOUNT") != 1){
+        document.getElementById(".BanFileExplorer").appendChild(yoursaveteamsdivider);
+        if (localStorage.getItem("NOTEAMALERT") != 0){
+            database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
+                var data = snapshot.val();
+                if (data == null){
+                    alert("Looks like you have no teams! search for something using the search button!");
+                    return;
+                }
+                else{
+                    Object.keys(data).forEach((key) => {
+                        dataa11.push(data[key]);
+                    });
+            
+                    funnyfunction(dataa11,"yoursavedteamsdivider");
+                   
+                }
+            });
+        }
     }
     else{
-        database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
-            var data = snapshot.val();
-            if (data == null){
-                alert("Looks like you have no teams! search for something using the search button!");
-                return;
-            }});
+
     }
 
 
@@ -984,7 +1031,11 @@ function searchForTeams(teamnme){
             const temp2lol = document.getElementById("Tmne"+d).innerHTML;
             let space = 0;
             let clicked = false;
-            
+            let bigorsmall = false;
+            if (document.getElementById(".BanFileExplorer").style.height === "750px"){
+                bigorsmall = true;
+            }
+            let numColmss = bigorsmall ? 6 : 4;
             div.onmouseover = function(){
 
                 div.style.width = 300;
@@ -995,12 +1046,23 @@ function searchForTeams(teamnme){
                 document.getElementById("Tmne"+d).innerHTML = temp;
 
                 document.getElementById("fav"+d).style.transform = "translate(200px,-60px)";
-                
+                let savedTeams = [];
+                if(localStorage.getItem("savedTeams")){
+                    savedTeams = JSON.parse(localStorage.getItem("savedTeams"));
+                }
                 document.getElementById("fav"+d).onclick = function(){
                     clicked = true;
                     document.getElementById("favimg"+d).src = "https://atomicrecall.github.io/Cipher/images/NicePng_star-shape-png_5691440_"+3+".png";
-                    pushToSavedTeams(datan.team_id);
-                    location.reload();
+                    
+                    if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
+                        pushToSavedTeams(datan.team_id);
+                    }
+                    else{
+                        savedTeams.push(datan.team_id);
+                        localStorage.setItem("savedTeams", JSON.stringify(savedTeams));
+                        location.reload();
+                    }
+                    
                     
                 }
 
@@ -1024,29 +1086,40 @@ function searchForTeams(teamnme){
 
 
                 //d is current child; lol holds all childs.
-                //find space in list from all childs, check if the child accross from it is there, if so do the shit, if not dont do shit
                 let lol = document.getElementById(".BanFileExplorer").children;
+            
+                // console.log(document.getElementById("div"+d));
 
-               // console.log(document.getElementById("div"+d));
-                for (let l = 1; l < lol.length; l++){
-                    if (lol[l].id.substring(3)==(d)){
-
+            for (let l = 1; l < lol.length; l++){
+                //console.log(lol[l].id.substring(3)+" VAG");
+    
+                    if (parseInt(lol[l].id.substring(3))==(d)){
+                        // console.log("WE FOUND THE SPACE for "+lol[l].id+" d is: "+d);
                         space = l;
                         break;
-                    }
+                      }
                     else{
                         continue;
                     }
-                }
-
-                //for each row
-                for (let p = 1; p <= 1;p++){
-                    if(lol[space+(p*4)] != undefined){
-                        document.getElementById(lol[space+(p*4)].id).style.transition = "1s";
-                        document.getElementById(lol[space+(p*4)].id).style.opacity = 0;
-                        document.getElementById(lol[space+(p*4)].id).style.transform+= "translate(100px)";
-                    }
-                }
+            }
+           
+                //find space in list from all childs, check if the child accross from it is there, if so do the shit, if not dont do shit
+                if(lol[space+numColmss] != undefined && lol[space+numColmss] != null){
+                    //console.log("GO UNVISIBLE "+lol[space+numColmss].id);
+                 document.getElementById(lol[space+numColmss].id).style.transition = "0.5s";
+                 document.getElementById(lol[space+numColmss].id).style.opacity = 0;
+                 document.getElementById(lol[space+numColmss].id).style.transform+="translateY(-20px)";
+             }
+             if(lol[space+numColmss*2]!= undefined && lol[space+numColmss*2]!= null){
+                    //console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+14].id);
+                  document.getElementById(lol[space+numColmss*2].id).style.transition = "0.5s";
+                  document.getElementById(lol[space+numColmss*2].id).style.opacity = 0;
+                  document.getElementById(lol[space+numColmss*2].id).style.transform+="translateY(-20px)";
+ 
+             }
+             else {
+               //  console.log("DO NOTHING");
+              }
             }
             div.onmouseout = function(){
                 //make sure to delete the shit you made up top!
@@ -1058,8 +1131,9 @@ function searchForTeams(teamnme){
 
                 document.getElementById("avat"+d).style.transform = "translate(5px, -60px)";
 
+                /*
                 //for each row
-                for(let o = 1; o <= 1; o++){
+                for(let o = 1; o <= 2; o++){
                 if(document.getElementById(".BanFileExplorer").children[space+(o*4)] != undefined){
                     document.getElementById(document.getElementById(".BanFileExplorer").children[space+(o*4)].id).style.opacity = 1;
                     document.getElementById(document.getElementById(".BanFileExplorer").children[space+(o*4)].id).style.transform+= "translate(-100px)";
@@ -1067,20 +1141,34 @@ function searchForTeams(teamnme){
                 else {
                     //DO NOTHING
                 }
+                
             }
-
+                */
+            if(document.getElementById(".BanFileExplorer").children[space+numColmss] != undefined || document.getElementById(".BanFileExplorer").children[space+numColmss] != null){
+                document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss].id).style.opacity = 1;
+                document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss].id).style.transform+="translateY(20px)";
+            }
+            else {}
+            if(document.getElementById(".BanFileExplorer").children[space+numColmss*2]!= undefined || document.getElementById(".BanFileExplorer").children[space+numColmss*2] != null){
+                document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss*2].id).style.opacity = 1;
+                document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss*2].id).style.transform+="translateY(20px)";
+            }
+            else {
+                //DO NOTHING
+            }
             }
             
             let fart = div;
 
+
             //change every 5, once the 5th 
-            if(counter> 4){
+            if(counter> numColmss){
                 //every 5, move this one + the next 4, go into next 5 if needed
               //  console.log("moving search ");
                // console.log("WHAT ROW?? search "+c)
-                moveColumn(fart,c,4);
+                moveColumn(fart,c,numColmss);
                 
-                if (counter % 4 == 0){
+                if (counter % numColmss == 0){
                     
                     c++;
                    // console.log("INCREMENTED C ============="+c);
@@ -1088,6 +1176,7 @@ function searchForTeams(teamnme){
             }
         }
         });
+
         return;
 }
 function getUpcomingMatches(team,season,upcomingdivider){
