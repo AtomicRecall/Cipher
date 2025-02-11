@@ -1185,7 +1185,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
     switch (season){
         case 52:
         //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
-    return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`,{
+    return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103&limit=20`,{
         method: 'GET',
         headers:{
             'Access-Control-Allow-Origin' : '*',
@@ -1210,6 +1210,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
             return response.json();
         })
         .then((data) => {
+            if (data != null){
             let payload = data.payload;
             let matches = payload.items;
             const upcomingteams = [];
@@ -1225,7 +1226,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
             }
 
             funnyfunction(upcomingteams,upcomingdivider);
-
+        }
         })
         break;
     } 
