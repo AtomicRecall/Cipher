@@ -374,7 +374,7 @@ h3{
   font-size : 40px;
   filter: drop-shadow(2px 0px 2px black);
   opacity: 0;
-  pointer-events: all;
+  cursor: pointer;
 
 }
 #teamBackground{
@@ -522,6 +522,7 @@ h3{
   transform: translateX(10px);
   margin: 80px;
   filter: drop-shadow(.5px 0.5px 0.75px black);
+  cursor: pointer;
 }
 #TEAMPFPNAME{
   transform: translate(110px,-80px);

@@ -114,10 +114,10 @@ var L = new Array(7).fill(0);
 var W = new Array(7).fill(0);
 var picksnbans = [];
 document.getElementById('h3').onmouseover = function(){
-    document.getElementById("h3").filter = "drop-shadow(.5px 0.5px 0.75px white)";
+    document.getElementById("h3").style.filter = "drop-shadow(.5px 0.5px 3px white)";
 }
 document.getElementById('h3').onmouseout = function(){
-    document.getElementById("h3").filter = "drop-shadow(.5px 0.5px 0.75px black)";
+    document.getElementById("h3").style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
 }
 // Main function to fetch team and leader data
 fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
@@ -137,8 +137,8 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
 })
 .then((datan) => {
     //GetLeaguePickBans2(THETEAMWEARESEARCHING, 52);
-    console.log("PENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-    console.log(datan);
+    //console.log("PENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+    //console.log(datan);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
     document.getElementById("h3").onclick = function(){
         let faceitlinkk = datan.faceit_url.replace("{lang}", '');
@@ -405,7 +405,17 @@ function fetchLast5Players(matchid){
                             pfp.src = data.avatar;
                             break;
                     }
-                    
+                    pfp.onmouseover = function(){
+                        pfp.style.filter = "drop-shadow(.5px 0.5px 3px white)";
+                    }
+                    pfp.onmouseout = function(){
+                        pfp.style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
+
+                    }
+                    pfp.onclick = function(){
+                        console.log("PICTURE CLICKED");
+                        window.open("https://www.faceit.com/en/players/"+player.nickname);
+                    }
                     playerdivider.appendChild(pfp);
                     playerdivider.appendChild(name);
                     bigplayerdivider.appendChild(playerdivider);
@@ -826,12 +836,12 @@ function printToWebsite(dapicksanddabans, something){
             }
         }
         for (const penis of dapicksanddabans[d].entities){
-            console.log(penis);
+          //  console.log(penis);
 
             if (penis.status == "pick"){
-                console.log(penis.selected_by.toUpperCase()+" - "+GORILLACHOCOLATE);
+             //   console.log(penis.selected_by.toUpperCase()+" - "+GORILLACHOCOLATE);
                 if(penis.selected_by.toUpperCase() === GORILLACHOCOLATE){
-                    console.log("wE PICKED "+penis.guid);
+                //    console.log("wE PICKED "+penis.guid);
                     switch(String(penis.guid)){
                         case "de_train":
                             picks[6]= picks[6]+1;
@@ -941,7 +951,7 @@ function printToWebsite(dapicksanddabans, something){
             }
             else if (penis.status == "drop"){
                 if(penis.selected_by.toUpperCase() === GORILLACHOCOLATE){
-                    console.log("WE FUCKING BANNED "+penis.guid);
+                   // console.log("WE FUCKING BANNED "+penis.guid);
                     switch(String(penis.guid)){
                         case "de_train":
                             bans[6]= bans[6]+1;

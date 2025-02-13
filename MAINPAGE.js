@@ -54,10 +54,10 @@ var ref = database.ref('USERS/'+name+'/LastLoggedIn').set(currenttimestring);
 let NONESEALEAGUEPLAYERR = -1;
 var NONESEALEAGUEPLAYERREF = database.ref('USERS/'+name).on ('value', function(snapshot){
     var data = snapshot.val();
-    console.log(data);
+   // console.log(data);
     var thingy = data.NONESEALEAGUEPLAYER;
     NONESEALEAGUEPLAYERR = thingy;
-    console.log(NONESEALEAGUEPLAYERR);
+   // console.log(NONESEALEAGUEPLAYERR);
 });
 
 document.getElementById("shit").innerHTML = ("Cipher: "+name);
@@ -207,8 +207,8 @@ function ontop(){
         .then((data) =>{
             var cvrimmg = document.createElement('img');
             cvrimmg.id = "cvrimg";
-            console.log("GET DOWN");
-            console.log(data.cover_image);
+           // console.log("GET DOWN");
+            //console.log(data.cover_image);
             switch(data.cover_image){
                 case undefined:
                     cvrimmg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
@@ -240,7 +240,7 @@ function ontop(){
             elo.id = "elo";
             elo.style.filter = "drop-shadow(0px 0px 2px #000000)";
             document.getElementById(".form-wrapper").appendChild(elo);
-            console.log("IS THIS PLAYER A ESEA LEAGUE PLAYER? "+NONESEALEAGUEPLAYERR);
+           // console.log("IS THIS PLAYER A ESEA LEAGUE PLAYER? "+NONESEALEAGUEPLAYERR);
             if (NONESEALEAGUEPLAYERR != 1){
                 var upcomingmtches = document.createElement('div');
                 upcomingmtches.id = "upcomingmatchesdivider";
@@ -284,10 +284,10 @@ function YOURSAVEDTEAMS(){
     let NONESEALEAGUEPLAYERR3 = -1;
     var NONESEALEAGUEPLAYERREF = database.ref('USERS/'+name).on ('value', function(snapshot){
         var data = snapshot.val();
-        console.log(data);
+       // console.log(data);
         var thingy = data.NONESEALEAGUEPLAYER;
         NONESEALEAGUEPLAYERR3 = thingy;
-        console.log(NONESEALEAGUEPLAYERR3);
+       // console.log(NONESEALEAGUEPLAYERR3);
     });
     let dataa11 = [];
 
@@ -312,7 +312,7 @@ function YOURSAVEDTEAMS(){
    
     if(localStorage.getItem("NOFACEITACCOUNT") == 1 && localStorage.getItem("NOTEAMALERT")==0){
         dataa11 = JSON.parse(localStorage.getItem("savedTeams"));
-        console.log(dataa11);
+       // console.log(dataa11);
         if(dataa11 != null){
             funnyfunction(dataa11,"yoursavedteamsdivider");
             document.getElementById(".BanFileExplorer").appendChild(yoursaveteamsdivider);
