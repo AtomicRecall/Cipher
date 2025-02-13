@@ -66,6 +66,7 @@ image_links[3] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-
 image_links[4] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/7fb7d725-e44d-4e3c-b557-e1d19b260ab8_1695819144685.jpeg";
 image_links[5] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/7197a969-81e4-4fef-8764-55f46c7cec6e_1695819158849.jpeg";
 image_links[6] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/3bf25224-baee-44c2-bcd4-f1f72d0bbc76_1695819180008.jpeg";
+image_links[7] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/3efe2d1d-da1b-4960-a439-daf216f77bb4_1731582328687.png";
 
 //ancient = 0;
 //anubis = 1;
@@ -112,7 +113,12 @@ var L = new Array(7).fill(0);
 //Verigo = 6;
 var W = new Array(7).fill(0);
 var picksnbans = [];
-
+document.getElementById('h3').onmouseover = function(){
+    document.getElementById("h3").filter = "drop-shadow(.5px 0.5px 0.75px white)";
+}
+document.getElementById('h3').onmouseout = function(){
+    document.getElementById("h3").filter = "drop-shadow(.5px 0.5px 0.75px black)";
+}
 // Main function to fetch team and leader data
 fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     headers: {
@@ -131,9 +137,14 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
 })
 .then((datan) => {
     //GetLeaguePickBans2(THETEAMWEARESEARCHING, 52);
-    console.log("PENISSSSSSS");
+    console.log("PENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
     console.log(datan);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
+    document.getElementById("h3").onclick = function(){
+        let faceitlinkk = datan.faceit_url.replace("{lang}", '');
+        window.open(faceitlinkk);
+    }
+
     const teamPfp = document.createElement("img");
     teamPfp.id = "teamPfp";
     const teamBackground = document.createElement("img");
@@ -185,7 +196,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
 
 function GetLeaguePickBans2(teamid, currentssn){
     let crntssn = parseInt(currentssn);
-    console.log("RUNNING GETLEAGUEPICKBANS2 TEAMID= "+teamid+" CURRENTSSN= "+crntssn);
+    //console.log("RUNNING GETLEAGUEPICKBANS2 TEAMID= "+teamid+" CURRENTSSN= "+crntssn);
 
     for(let d = 0; d <= 2; d++){
         console.log("D IS= "+d);
@@ -369,9 +380,9 @@ function fetchLast5Players(matchid){
                     return res.json();
                 })
                 .then((data) =>{
-                    console.log("GET DOWN NOW!");
+                   // console.log("GET DOWN NOW!");
                     //get information like profile picture, flag, and nickname
-                    console.log(data);
+                   // console.log(data);
                     let playerdivider = document.createElement("div");
                     playerdivider.id = "PLAYERDIVIDER";
                     let pfp = document.createElement("img");
@@ -382,13 +393,13 @@ function fetchLast5Players(matchid){
                     name.innerHTML = data.nickname;
                     switch(data.avatar){
                         case undefined:
-                            pfp.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                            pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
                             break;
                         case null:
-                            pfp.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                            pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
                             break;
                         case "":
-                            pfp.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                            pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
                             break;
                         default:
                             pfp.src = data.avatar;
@@ -538,8 +549,8 @@ function fetchMatchData(matchid,leaderid) {
             .then((data) => {
                 let picksnbanz = [];
                 let payload = data.payload;
-                console.log("AAAAAAAAAA");
-                console.log(payload);
+               // console.log("AAAAAAAAAA");
+                //console.log(payload);
                 picksnbanz.push(payload.tickets[2]);
 
                 for (let d = 0; d < picksnbanz[0].entities.length; d++) {
@@ -658,16 +669,16 @@ function printToWebsite(dapicksanddabans, something){
 
         // find the team you are looking at, look through both teams in dapicksanddabans[d] and make "the team we are looking at" be that team's ID
         let GORILLACHOCOLATE = "";
-        console.log(dapicksanddabans[d].teams);
+       // console.log(dapicksanddabans[d].teams);
         for(let penis = 0; penis < dapicksanddabans[d].teams.length; penis++){
-            console.log("PENISSS "+penis);
-            console.log(dapicksanddabans[d].teams[penis]);
+           // console.log("PENISSS "+penis);
+           // console.log(dapicksanddabans[d].teams[penis]);
             for (const INTERLINKED of dapicksanddabans[d].teams[penis]){
-                console.log(INTERLINKED);
+               // console.log(INTERLINKED);
                 if (INTERLINKED.toUpperCase() === "CAP"){
-                    console.log("CAP FOUND");
+                  //  console.log("CAP FOUND");
                     let poopfart = dapicksanddabans[d].teams[penis];
-                    console.log("changing the team we are serching to "+poopfart[2]);
+                   // console.log("changing the team we are serching to "+poopfart[2]);
                     GORILLACHOCOLATE = poopfart[1].toUpperCase();
                     //THETEAMWEARESEARCHING = poopfart[2];
                 }
@@ -735,7 +746,11 @@ function printToWebsite(dapicksanddabans, something){
                 switch(dapicksanddabans[d].detailed_results[j]){
                     case THETEAMWEARESEARCHING:
                         //console.log("we won "+dapicksanddabans[d].detailed_results[j+1]);
-                        switch(dapicksanddabans[d].detailed_results[j+1]){
+                        switch(String(dapicksanddabans[d].detailed_results[j+1])){
+                            case "de_train":
+                                played[6]= played[6]+1;
+                                W[6] = W[6]+1;
+                                break;
                             case "de_ancient":
                                 played[0]= played[0]+1;
                                 W[0] = W[0]+1;
@@ -770,7 +785,11 @@ function printToWebsite(dapicksanddabans, something){
                         break;
                     default:
                        // console.log("we lost "+dapicksanddabans[d].detailed_results[j+1]);
-                        switch(dapicksanddabans[d].detailed_results[j+1]){
+                        switch(String(dapicksanddabans[d].detailed_results[j+1])){
+                            case "de_train":
+                                played[6]= played[6]+1;
+                                L[6] = L[6]+1;
+                                break;
                             case "de_ancient":
                                 played[0]= played[0]+1;
                                 L[0] = L[0]+1;
@@ -813,7 +832,10 @@ function printToWebsite(dapicksanddabans, something){
                 console.log(penis.selected_by.toUpperCase()+" - "+GORILLACHOCOLATE);
                 if(penis.selected_by.toUpperCase() === GORILLACHOCOLATE){
                     console.log("wE PICKED "+penis.guid);
-                    switch(penis.guid){
+                    switch(String(penis.guid)){
+                        case "de_train":
+                            picks[6]= picks[6]+1;
+                            break;
                         case "de_ancient":
                                 picks[0]= picks[0]+1;
                                 break;
@@ -835,6 +857,7 @@ function printToWebsite(dapicksanddabans, something){
                             case "de_vertigo":
                                 picks[6]= picks[6]+1;
                                 break;
+
                             default:
                                 break;
                     }
@@ -845,7 +868,11 @@ function printToWebsite(dapicksanddabans, something){
                     
                     c12 = c12 + 1;
                     if(dapicksanddabans[d].entity_type > 2){
-                        switch (penis.guid){
+                        switch (String(penis.guid)){
+                            case "de_train":
+                                //console.log("TRAIN");
+                                image.src = image_links[7];
+                                break;
                             case "de_ancient":
                                 image.src = image_links[0];
                                 break;
@@ -879,7 +906,10 @@ function printToWebsite(dapicksanddabans, something){
                     else{
                         image.classList.remove("cvr");
                         image.classList.add("pvr");
-                        switch (penis.guid){
+                        switch (String(penis.guid)){
+                            case "de_train":
+                                image.src = image_links[7];
+                                break;
                             case "de_ancient":
                                 image.src = image_links[0];
                                 break;
@@ -912,7 +942,10 @@ function printToWebsite(dapicksanddabans, something){
             else if (penis.status == "drop"){
                 if(penis.selected_by.toUpperCase() === GORILLACHOCOLATE){
                     console.log("WE FUCKING BANNED "+penis.guid);
-                    switch(penis.guid){
+                    switch(String(penis.guid)){
+                        case "de_train":
+                            bans[6]= bans[6]+1;
+                            break;
                         case "de_ancient":
                                 bans[0]= bans[0]+1;
                                 break;
@@ -963,7 +996,7 @@ function printToWebsite(dapicksanddabans, something){
     }
 
     //organize the info from the global arrays initalized above
-    for(let y = 0; y < 7; y++){
+    for(let y = 0; y <= 7; y++){
 
         switch(y){
             
@@ -1203,7 +1236,43 @@ function printToWebsite(dapicksanddabans, something){
                 allInfoDivider.appendChild(DAver);
               //  console.log("Banned vertigo "+bans[6]+" times");
               //  console.log("Played vertigo "+played[6]+" times");
-                break;   
+                break; 
+                /*
+            case 7:
+                let DAtrain = document.createElement("div");
+                DAtrain.id = "trainn";
+                let trainimage = document.createElement("img");
+                trainimage.id = "trainimage";
+                trainimage.src = image_links[7];
+                trainimage.style.width = "230px";
+                trainimage.style.height = "130px";
+                trainimage.style.position = "absolute";
+                let movementdivider3 = document.createElement("div");
+                let mapidentifier7 = document.createElement("div");
+                mapidentifier7.style.fontSize = "25px";
+                mapidentifier7.innerHTML = "Train";
+                mapidentifier7.id = "de_train";
+                let trainbans = document.createElement("div");
+                trainbans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[6]+((bans[6] > 1|| bans[6] == 0) ? " times" : " time")+".";
+                let trainpics = document.createElement("div");
+                trainpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[6]+((picks[6] > 1|| picks[6] == 0) ? " times" : " time")+".";
+                let trainplay = document.createElement("div");
+                trainplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[6]+((played[6] > 1|| played[6] == 0) ? " times" : " time")+".";
+                let trainW = document.createElement("div");
+                trainW.classList.add("winnerdiv");
+                trainW.innerHTML = '<span class="greenn1">'+W[6]+'</span><span class = "white"> // </span> <span class="redd1">'+L[6];
+                allInfoDivider.appendChild(trainimage);
+                movementdivider3.appendChild(mapidentifier7);
+                movementdivider3.appendChild(trainpics);
+                movementdivider3.appendChild(trainbans);
+                movementdivider3.appendChild(trainW);
+                //movementdivider2.style.transform = "translate(250px, -495px)";
+                DAtrain.appendChild(movementdivider3);
+                allInfoDivider.appendChild(DAtrain);
+              //  console.log("Banned vertigo "+bans[6]+" times");
+              //  console.log("Played vertigo "+played[6]+" times");
+                break;     
+                */
             default:
                 break;
 
@@ -1243,7 +1312,7 @@ function printToWebsite(dapicksanddabans, something){
     
     const childdddrr = matchesDivider.childNodes;
     if(!something){
-        console.log(childdddrr);
+       // console.log(childdddrr);
         for(const childs of childdddrr){
          if (childs.id.includes("ssnNum")){
              createToggle(allInfoDivider);
@@ -1260,6 +1329,7 @@ function printToWebsite(dapicksanddabans, something){
     for (let d = 0; d < matchesDivider.children.length-2; d++){
         if(document.getElementById("game"+d)){
             document.getElementById("game"+d).onclick = function(){
+
                 window.open(dapicksanddabans[d].link);
             }
         
@@ -1296,6 +1366,9 @@ function printToWebsite(dapicksanddabans, something){
                                 bigimage.style.height = "300px";
                                 bigimage.style.width = "167px";
                                 switch (p.guid){
+                                    case "de_train":
+                                        bigimage.src = image_links[7];
+                                        break;
                                     case "de_ancient":
                                         bigimage.src = image_links[0];
                                         break;
@@ -1333,6 +1406,9 @@ function printToWebsite(dapicksanddabans, something){
                                 bigimage.style.height = "300px";
                                 bigimage.style.width = "500px";
                                 switch (p.guid){
+                                    case "de_train":
+                                        bigimage.src = image_links[7];
+                                        break;
                                     case "de_ancient":
                                         bigimage.src = image_links[0];
                                         break;
@@ -1515,7 +1591,7 @@ var ILIEDLOLL = 3;
           //span.style.transform = "translate(730px,160px)";
           document.getElementById("allInfo").style.width = "480px";
           lastbooleaniswear = true;
-          console.log("WTF1 "+ILIEDLOLL);
+         // console.log("WTF1 "+ILIEDLOLL);
 
         } else {
 
@@ -1525,12 +1601,12 @@ var ILIEDLOLL = 3;
           span.style.height = "30px";
           span.style.width = "30px";
 
-          console.log("WTFFF "+ILIEDLOLL);
+         // console.log("WTFFF "+ILIEDLOLL);
             //make the finalarrayiswear be removed of the season that is clicked
             //find the season by doing picksnbans[d].season
             var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
-            console.log("but first");
-            console.log(THEFINALARRAYISWEAR);
+            //console.log("but first");
+           // console.log(THEFINALARRAYISWEAR);
 
             if (ILIEDLOLL%3 == 0){
                 THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.filter(item => item.season !== label.textContent.substring(1));
@@ -1561,7 +1637,7 @@ function checkImageExists(url, callback) {
 }
 
 function getArrayFromSeason(ssn, arrayofallmatchess){
-    console.log("finding "+ssn);
+  //  console.log("finding "+ssn);
 
     let finalArray = new Array();
     let storethesearrays = false;
@@ -1584,7 +1660,7 @@ function DotheThing (arrayofallmatches2, removeoradd){
         THEFINALARRAYISWEAR.length = 0;
         ccccc = 0;
     }
-    console.log("???? "+removeoradd);
+   // console.log("???? "+removeoradd);
     if(removeoradd){
         THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.concat(arrayofallmatches2);
         document.getElementById("mtches").remove();

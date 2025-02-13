@@ -732,7 +732,7 @@ function moveColumn(fart,c,colms){
         fart.style.transform="translate("+(210*c)+"px,"+(((-420)*c))+"px)";
     }
     else{
-        fart.style.transform="translate("+(210*c)+"px,"+(((-179)*(c)))+"px)";
+        fart.style.transform="translate("+(210*c)+"px,"+(((-620)*(c)))+"px)";
     }
 
 }
@@ -1108,13 +1108,13 @@ function searchForTeams(teamnme){
                     //console.log("GO UNVISIBLE "+lol[space+numColmss].id);
                  document.getElementById(lol[space+numColmss].id).style.transition = "0.5s";
                  document.getElementById(lol[space+numColmss].id).style.opacity = 0;
-                 document.getElementById(lol[space+numColmss].id).style.transform+="translateY(-20px)";
+                 document.getElementById(lol[space+numColmss].id).style.transform+="translateY(-200px)";
              }
              if(lol[space+numColmss*2]!= undefined && lol[space+numColmss*2]!= null){
                     //console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+14].id);
                   document.getElementById(lol[space+numColmss*2].id).style.transition = "0.5s";
                   document.getElementById(lol[space+numColmss*2].id).style.opacity = 0;
-                  document.getElementById(lol[space+numColmss*2].id).style.transform+="translateY(-20px)";
+                  document.getElementById(lol[space+numColmss*2].id).style.transform+="translateY(-200px)";
  
              }
              else {
@@ -1146,12 +1146,12 @@ function searchForTeams(teamnme){
                 */
             if(document.getElementById(".BanFileExplorer").children[space+numColmss] != undefined || document.getElementById(".BanFileExplorer").children[space+numColmss] != null){
                 document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss].id).style.opacity = 1;
-                document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss].id).style.transform+="translateY(20px)";
+                document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss].id).style.transform+="translateY(200px)";
             }
             else {}
             if(document.getElementById(".BanFileExplorer").children[space+numColmss*2]!= undefined || document.getElementById(".BanFileExplorer").children[space+numColmss*2] != null){
                 document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss*2].id).style.opacity = 1;
-                document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss*2].id).style.transform+="translateY(20px)";
+                document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss*2].id).style.transform+="translateY(200px)";
             }
             else {
                 //DO NOTHING

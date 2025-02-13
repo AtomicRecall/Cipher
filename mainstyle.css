@@ -372,8 +372,9 @@ h3{
   justify-content: center;
   transform: translateY(-180px);
   font-size : 40px;
-  filter: drop-shadow(2px 0px 2px #6d6d6d);
+  filter: drop-shadow(2px 0px 2px black);
   opacity: 0;
+  pointer-events: all;
 
 }
 #teamBackground{
