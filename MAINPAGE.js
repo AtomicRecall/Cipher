@@ -125,7 +125,7 @@ rtrnBtn.addEventListener('click', () =>{
    if (localStorage.getItem("NOFACEITACCOUNT") != 1){
 
         document.getElementById(".form-wrapper").style.opacity = "1";
-        document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
+        document.getElementById(".BanFileExplorer").style.transform = "translateY(-240px)";
         document.getElementById(".BanFileExplorer").style.height = "480px";
         
         YOURSAVEDTEAMS();
@@ -707,15 +707,28 @@ function funnyfunction(dataalolfunny,wheretoadd){
         }
             
         
-
-        //change every 5, once the 5th 
-        if(counter> 2){
-            //every 5, move this one + the next 4, go into next 5 if needed
-            console.log("WHAT ROW?? "+c)
-            moveColumn(div,c,2);
-
-            if (counter % 2 == 0){
-                c++;
+        if(localStorage.getItem("NOFACEITACCOUNT") == 1){
+            if(counter> 7){
+                //every 5, move this one + the next 4, go into next 5 if needed
+                //console.log("WHAT ROW?? "+c)
+    
+                moveColumn(div,c,4);
+    
+                if (counter % 7 == 0){
+                    c++;
+                }
+            }
+        }
+        else{
+            if(counter> 2){
+                //every 5, move this one + the next 4, go into next 5 if needed
+                //console.log("WHAT ROW?? "+c)
+    
+                moveColumn(div,c,4);
+    
+                if (counter % 2 == 0){
+                    c++;
+                }
             }
         }
             
@@ -729,7 +742,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
 function moveColumn(fart,c,colms){
     //every 4, increases X by 120, increases y by 400
     if(colms == 4){
-        fart.style.transform="translate("+(210*c)+"px,"+(((-420)*c))+"px)";
+        fart.style.transform="translate("+(210*c)+"px,"+(((-180)*c))+"px)";
     }
     else{
         fart.style.transform="translate("+(210*c)+"px,"+(((-620)*(c)))+"px)";
