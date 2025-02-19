@@ -184,6 +184,10 @@ body {
   color:white;
   filter: drop-shadow(.5px 0.5px 2px blue)
 }
+#de_train{
+  color:white;
+  filter: drop-shadow(.5px 0.5px 2px brown)
+}
 #Season51Button{
   height: 200px;
   width: 100px;
@@ -199,7 +203,7 @@ body {
   font-size: 15px;
   color: white;
   font-weight: bold;
-  transform: translate(720px, -295px);
+  transform: translate(960px, -450px);
   transition: .3s
 }
 #spanimg{
@@ -228,7 +232,7 @@ body {
   transform: translate(-10px, 5px);
 }
 #lgOut{
-  transform: translate(5px,20px);
+  transform: translate(5px,45px);
   filter: drop-shadow(3px 0px 1px #000000);
   font-size: 15px;
   color: #ffffff;
@@ -236,6 +240,9 @@ body {
 }
 #lgOut:hover {
   text-decoration: underline;
+}
+.hidden{
+  display: none;
 }
 .BanFileExplorer{
   display: grid;
@@ -529,6 +536,12 @@ h3{
   color: white;
   filter: drop-shadow(2px .1px 2px black)
 
+}
+#trainn{
+  transform: translate(470px,175px);
+}
+#trainimage{
+  transform: translate(470px,175px);
 }
 #PLAYERDIVIDER{
   height: 90px;

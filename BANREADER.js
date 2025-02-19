@@ -1,5 +1,5 @@
 console.log("one two three");
-var THETEAMWEARESEARCHING = localStorage.getItem("BITCHID");
+var THETEAMWEARESEARCHING = localStorage.getItem("THETEAMWEARESEARCHING");
 var currentseason = 51;
 function removeElementsByClass(className) {
     let elements = document.getElementsByClassName(className);
@@ -75,7 +75,8 @@ image_links[7] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-var bans = new Array(7).fill(0);
+//Train = 7;
+var bans = new Array(8).fill(0);
 
 //ancient = 0;
 //anubis = 1;
@@ -84,7 +85,8 @@ var bans = new Array(7).fill(0);
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-var picks = new Array(7).fill(0);
+//Train = 7;
+var picks = new Array(8).fill(0);
 
 //ancient = 0;
 //anubis = 1;
@@ -93,7 +95,8 @@ var picks = new Array(7).fill(0);
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-var played = new Array(7).fill(0);
+//Train = 7;
+var played = new Array(8).fill(0);
 
 //ancient = 0;
 //anubis = 1;
@@ -102,7 +105,8 @@ var played = new Array(7).fill(0);
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-var L = new Array(7).fill(0);
+//Train = 7;
+var L = new Array(8).fill(0);
 
 //ancient = 0;
 //anubis = 1;
@@ -111,7 +115,8 @@ var L = new Array(7).fill(0);
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-var W = new Array(7).fill(0);
+//Train = 7;
+var W = new Array(8).fill(0);
 var picksnbans = [];
 document.getElementById('h3').onmouseover = function(){
     document.getElementById("h3").style.filter = "drop-shadow(.5px 0.5px 3px white)";
@@ -178,8 +183,8 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
 })
 .then(() => {
     picksnbans.sort((a, b) => b.finished - a.finished);
-    console.log("Matches sorted:");
-    console.log(picksnbans);
+    //console.log("Matches sorted:");
+    //console.log(picksnbans);
     if(document.getElementById("removemepls")){
         var myshit = document.getElementById("removemepls");
         myshit.parentNode.removeChild(myshit);
@@ -302,17 +307,17 @@ function GetLeaguePickBans(leaderid, offset) {
 
         let allMatches = data.items;
         
-       if (!allMatches || allMatches.length === 0) return Promise.resolve(); // End if no more matches
+       if (!allMatches || allMatches.length === 0 || offset >= 250) return Promise.resolve(); // End if no more matches
 
         console.log(`Fetched ${allMatches.length} matches`);
-
+        //console.log(allMatches);
         // Process each match and filter
         let matchPromises = allMatches.map((match) => {
             //update the loading bar here.
             var dating = new Date(match.finished_at*1000);
             //loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
     
-            if (match.competition_name.includes("ESEA") && !match.competition_name.includes("S48") && !match.competition_name.includes("Qualifier") && !match.competition_name.includes("S47")) {
+            if (match.competition_name.includes("ESEA") && !match.competition_name.includes("Qualifier")) {
 
                 finishedtext.innerHTML+=match.competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
 
@@ -321,12 +326,6 @@ function GetLeaguePickBans(leaderid, offset) {
             return Promise.resolve();
         });
 
-        // Check if we have hit S48
-        if (offset >= 250 || (allMatches.some(match => match.competition_name.includes("S48")))  || (allMatches.some(match => match.competition_name.includes("S47")))) {
-            console.log("S48 reached, stopping further fetches.");
-            return Promise.all(matchPromises); // Resolve when S48 is reached
-        }
-
         // If not S48, fetch the next batch of matches (recursive call)
         return Promise.all(matchPromises).then(() => GetLeaguePickBans(leaderid, offset + 100));
     })
@@ -334,6 +333,8 @@ function GetLeaguePickBans(leaderid, offset) {
         console.error('Error:', error);
     });
 }
+
+
 function fetchLast5Players(matchid){
     console.log("feetchinf that shit for "+matchid);
     return fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
@@ -357,7 +358,7 @@ function fetchLast5Players(matchid){
         let tm1 = teams[0];
         let tm2 = teams[1];
         let players;
-        if (tm1.team_id == localStorage.getItem("BITCHID")){
+        if (tm1.team_id == localStorage.getItem("THETEAMWEARESEARCHING")){
             players = tm1.players;
             //console.log(tm1);
         }
@@ -454,6 +455,7 @@ function fetchMatchData(matchid,leaderid) {
         return res.json();
     })
     .then((datan12) => {
+       // console.log(datan12);
         let t1pfp = datan12.teams.faction1.avatar;
 
         let t2pfp = datan12.teams.faction2.avatar;
@@ -471,8 +473,6 @@ function fetchMatchData(matchid,leaderid) {
         let fac1 = errthang.teams.faction1.name;
         let fac2 = errthang.teams.faction2.name;
 
-        let fac1id = errthang.teams.faction1.faction_id;
-        let fac2id = errthang.teams.faction2.faction_id;
         let finishedat = errthang.finished_at;
        // console.log(errthang.teams.faction1.leader);
         let winnerid = "fartcock";
@@ -518,6 +518,8 @@ function fetchMatchData(matchid,leaderid) {
             return res.json();
         })
         .then((datan123) => {
+            console.log("UM WHAT THE CHEESE?");
+            console.log(datan123);
             let detailedscr = datan123.rounds;
             let scoree = null;
             
@@ -559,8 +561,8 @@ function fetchMatchData(matchid,leaderid) {
             .then((data) => {
                 let picksnbanz = [];
                 let payload = data.payload;
-               // console.log("AAAAAAAAAA");
-                //console.log(payload);
+                console.log("AAAAAAAAAA");
+                console.log(payload);
                 picksnbanz.push(payload.tickets[2]);
 
                 for (let d = 0; d < picksnbanz[0].entities.length; d++) {
@@ -758,8 +760,8 @@ function printToWebsite(dapicksanddabans, something){
                         //console.log("we won "+dapicksanddabans[d].detailed_results[j+1]);
                         switch(String(dapicksanddabans[d].detailed_results[j+1])){
                             case "de_train":
-                                played[6]= played[6]+1;
-                                W[6] = W[6]+1;
+                                played[7]= played[7]+1;
+                                W[7] = W[7]+1;
                                 break;
                             case "de_ancient":
                                 played[0]= played[0]+1;
@@ -797,8 +799,8 @@ function printToWebsite(dapicksanddabans, something){
                        // console.log("we lost "+dapicksanddabans[d].detailed_results[j+1]);
                         switch(String(dapicksanddabans[d].detailed_results[j+1])){
                             case "de_train":
-                                played[6]= played[6]+1;
-                                L[6] = L[6]+1;
+                                played[7]= played[7]+1;
+                                L[7] = L[7]+1;
                                 break;
                             case "de_ancient":
                                 played[0]= played[0]+1;
@@ -844,7 +846,7 @@ function printToWebsite(dapicksanddabans, something){
                 //    console.log("wE PICKED "+penis.guid);
                     switch(String(penis.guid)){
                         case "de_train":
-                            picks[6]= picks[6]+1;
+                            picks[7]= picks[7]+1;
                             break;
                         case "de_ancient":
                                 picks[0]= picks[0]+1;
@@ -867,7 +869,6 @@ function printToWebsite(dapicksanddabans, something){
                             case "de_vertigo":
                                 picks[6]= picks[6]+1;
                                 break;
-
                             default:
                                 break;
                     }
@@ -954,7 +955,7 @@ function printToWebsite(dapicksanddabans, something){
                    // console.log("WE FUCKING BANNED "+penis.guid);
                     switch(String(penis.guid)){
                         case "de_train":
-                            bans[6]= bans[6]+1;
+                            bans[7]= bans[7]+1;
                             break;
                         case "de_ancient":
                                 bans[0]= bans[0]+1;
@@ -1247,7 +1248,7 @@ function printToWebsite(dapicksanddabans, something){
               //  console.log("Banned vertigo "+bans[6]+" times");
               //  console.log("Played vertigo "+played[6]+" times");
                 break; 
-                /*
+                
             case 7:
                 let DAtrain = document.createElement("div");
                 DAtrain.id = "trainn";
@@ -1263,14 +1264,14 @@ function printToWebsite(dapicksanddabans, something){
                 mapidentifier7.innerHTML = "Train";
                 mapidentifier7.id = "de_train";
                 let trainbans = document.createElement("div");
-                trainbans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[6]+((bans[6] > 1|| bans[6] == 0) ? " times" : " time")+".";
+                trainbans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[7]+((bans[7] > 1|| bans[7] == 0) ? " times" : " time")+".";
                 let trainpics = document.createElement("div");
-                trainpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[6]+((picks[6] > 1|| picks[6] == 0) ? " times" : " time")+".";
+                trainpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[7]+((picks[7] > 1|| picks[7] == 0) ? " times" : " time")+".";
                 let trainplay = document.createElement("div");
-                trainplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[6]+((played[6] > 1|| played[6] == 0) ? " times" : " time")+".";
+                trainplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[7]+((played[7] > 1|| played[7] == 0) ? " times" : " time")+".";
                 let trainW = document.createElement("div");
                 trainW.classList.add("winnerdiv");
-                trainW.innerHTML = '<span class="greenn1">'+W[6]+'</span><span class = "white"> // </span> <span class="redd1">'+L[6];
+                trainW.innerHTML = '<span class="greenn1">'+W[7]+'</span><span class = "white"> // </span> <span class="redd1">'+L[7];
                 allInfoDivider.appendChild(trainimage);
                 movementdivider3.appendChild(mapidentifier7);
                 movementdivider3.appendChild(trainpics);
@@ -1282,7 +1283,7 @@ function printToWebsite(dapicksanddabans, something){
               //  console.log("Banned vertigo "+bans[6]+" times");
               //  console.log("Played vertigo "+played[6]+" times");
                 break;     
-                */
+                
             default:
                 break;
 
@@ -1348,7 +1349,7 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("allInfo").style.transform = "translate(775px,300px)";
                     const butons = document.querySelectorAll('#penisandcock');
                     butons.forEach(element =>{
-                        element.style.transform = "translate(1235px, -295px)"
+                        element.style.transform = "translate(1535px, -450px)"
                     });
                 // quickInfoDivider.innerHTML+='<span class="grey"> '+dapicksanddabans[d].entities[0].selected_by+"</span> VS "+'<span class="grey"> '+dapicksanddabans[d].entities[1].selected_by+"</span>";
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px #ffffff)";
@@ -1544,7 +1545,7 @@ function printToWebsite(dapicksanddabans, something){
             
             const butons = document.querySelectorAll('#penisandcock');
                     butons.forEach(element =>{
-                        element.style.transform = "translate(720px, -295px)";
+                        element.style.transform = "translate(960px, -450px)";
                     });
             info.innerHTML = "";
             const myNode = document.getElementById("quickInfo");
@@ -1591,8 +1592,31 @@ var ILIEDLOLL = 3;
     checkbox.addEventListener("click", () => {
         if (checkbox.checked) {
             ILIEDLOLL-=1;
+            if (label.textContent === "S52"){
+                console.log("Clicked S52!");
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-          label.style.color = "orange"; // Change text color
+
+                if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
+                    setTimeout(() => {
+                        document.getElementById("vertigoo").style.display = "none";
+                        document.getElementById("verimage").style.display = "none";
+                        document.getElementById("trainn").style.transform = "translate(470px,20px)";
+                        document.getElementById("trainimage").style.transform = "translate(470px,20px)";
+                    }, 10);
+                    console.log("Elements hidden");
+                } else {
+                    console.log("vertigoo or verimage not found!");
+                }
+
+            }
+            else{
+                setTimeout(() => {
+                    document.getElementById("trainn").style.display = "none";
+                    document.getElementById("trainimage").style.display = "none";
+                }, 10);
+            }
+          label.style.color = "#0FFF50"; // Change text color
           label.style.fontSize = "30px"; // Change font size
           span.style.height = "45px";
           span.style.width = "45px";
@@ -1661,11 +1685,11 @@ return (finalArray);
 var THEFINALARRAYISWEAR = new Array();
 var ccccc = 0;
 function DotheThing (arrayofallmatches2, removeoradd){
-    bans = new Array(7).fill(0);
-    picks = new Array(7).fill(0);
-    played = new Array(7).fill(0);
-    L = new Array(7).fill(0);
-    W = new Array(7).fill(0);
+    bans = new Array(8).fill(0);
+    picks = new Array(8).fill(0);
+    played = new Array(8).fill(0);
+    L = new Array(8).fill(0);
+    W = new Array(8).fill(0);
     if(ccccc >= 1){
         THEFINALARRAYISWEAR.length = 0;
         ccccc = 0;

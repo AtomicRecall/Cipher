@@ -34,6 +34,7 @@ if (name === "null" || name == undefined || name === ""){
     document.getElementById("h3").style.position = "absolute";
     document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"));
     document.getElementById("lgOut").innerHTML = "Log In?";
+    document.getElementById("lgOut").style.transform = "translate(5px,10px)";
     document.getElementById("redirect").href = "LoginPage.html";
     localStorage.setItem("NOFACEITACCOUNT", 1);
     localStorage.setItem("NOTEAMALERT", 0);
@@ -89,7 +90,8 @@ srchbtn.addEventListener('click', () =>{
     srch3.style.height = "50px";
     srch3.style.position = "absolute";
     srch3.style.transform = "translate(1430px, 13px)";
-    srch3.innerHTML = '<img id="btnimg" src = "https://erindayhaw.com/cdn/shop/products/Screenshot2023-01-12at9.54.51PM.png?v=1689431953&width=1445" />';
+    srch3.src = "https://atomicrecall.github.io/Cipher/images/button.png"
+   // srch3.innerHTML = '<img id="btnimg" src = "https://atomicrecall.github.io/Cipher/images/button.png" />';
 
 
     const div = document.createElement('input');
@@ -125,7 +127,14 @@ rtrnBtn.addEventListener('click', () =>{
    if (localStorage.getItem("NOFACEITACCOUNT") != 1){
 
         document.getElementById(".form-wrapper").style.opacity = "1";
-        document.getElementById(".BanFileExplorer").style.transform = "translateY(-240px)";
+        if(localStorage.getItem("NOFACEITACCOUNT") == 0){
+            document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
+
+        }
+        else{
+            document.getElementById(".BanFileExplorer").style.transform = "translateY(-240px)";
+
+        }
         document.getElementById(".BanFileExplorer").style.height = "480px";
         
         YOURSAVEDTEAMS();
@@ -499,15 +508,13 @@ function funnyfunction(dataalolfunny,wheretoadd){
         
                         //perform single-click action
                         
-                        //const urlParams = new URLSearchParams(window.location.search);
-                       // urlParams.set('team',dataalolfunny[d]);
-                       // window.location.search+=urlParams; 
-                                    
+                       localStorage.setItem("THETEAMWEARESEARCHING" , dataalolfunny[d]);
+                       document.getElementById("lgOut").style.transform = "translate(5px,10px)";
                         let js = document.createElement("script");
                         js.type = "text/javascript"; 
                         js.src = "BANREADER.js";
                         document.body.appendChild(js);
-                        localStorage.setItem("BITCHID" , dataalolfunny[d]);
+                        
                         clicks = 0; //after action performed, reset counter
                         
                     }, DELAY);
@@ -565,7 +572,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                         pfpdiv.style.transform = "translate(115px, -125px)";
                         break;
                     case 8:
-                        pfpdiv.style.transform = "translate(115px, -125px)";
+                        pfpdiv.style.transform = "translate(125px, -125px)";
                         break;
                     case 9:
                         pfpdiv.style.transform = "translate(150px, -125px)";
