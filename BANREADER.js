@@ -1,5 +1,5 @@
 console.log("one two three");
-var THETEAMWEARESEARCHING = localStorage.getItem("BITCHID");
+var THETEAMWEARESEARCHING = localStorage.getItem("THETEAMWEARESEARCHING");
 var currentseason = 51;
 function removeElementsByClass(className) {
     let elements = document.getElementsByClassName(className);
@@ -8,11 +8,17 @@ function removeElementsByClass(className) {
     }
 }
 removeElementsByClass("divv");
-//document.getElementById(".form-wrapper").remove();
-//document.getElementById(".BanFileExplorer").style.height = "750px";
+document.getElementById(".form-wrapper").style.opacity = "0";
+document.getElementById(".BanFileExplorer").style.height = "750px";
+if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
+document.getElementById(".BanFileExplorer").style.transform = "translateY(-350px)";
+}
+document.getElementById("h3").style.transform = "translate(600px,-40px)";
+document.getElementById("h3").style.position = "absolute";
+document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"));
 document.getElementById("srchBtn").style.visibility = "hidden";
 document.getElementById("rtrnBtn").style.visibility = "visible";
-document.getElementById("rtrnBtn").style.transform = "translate(1390px, 5px)";
+document.getElementById("rtrnBtn").style.transform = "translate(1300px, -3px)";
 var lastbooleaniswear = false;
 var ffws = 0;
 var ffws1 = 0;
@@ -24,7 +30,7 @@ var loadingimage = document.createElement("img");
 loadingimage.src = loadGears;
 loadingimage.style.width = "600px";
 loadingimage.style.height = "200px";
-loadingimage.style.transform = "translate(450px,150px)";
+loadingimage.style.transform = "translate(450px,250px)";
 loadingimage.style.position = "absolute";
 loadingimage.id = "removemepls";
 loadingimage.classList.add("removemepls");
@@ -60,6 +66,7 @@ image_links[3] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-
 image_links[4] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/7fb7d725-e44d-4e3c-b557-e1d19b260ab8_1695819144685.jpeg";
 image_links[5] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/7197a969-81e4-4fef-8764-55f46c7cec6e_1695819158849.jpeg";
 image_links[6] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/3bf25224-baee-44c2-bcd4-f1f72d0bbc76_1695819180008.jpeg";
+image_links[7] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/3efe2d1d-da1b-4960-a439-daf216f77bb4_1731582328687.png";
 
 //ancient = 0;
 //anubis = 1;
@@ -68,7 +75,8 @@ image_links[6] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-var bans = new Array(7).fill(0);
+//Train = 7;
+var bans = new Array(8).fill(0);
 
 //ancient = 0;
 //anubis = 1;
@@ -77,7 +85,8 @@ var bans = new Array(7).fill(0);
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-var picks = new Array(7).fill(0);
+//Train = 7;
+var picks = new Array(8).fill(0);
 
 //ancient = 0;
 //anubis = 1;
@@ -86,7 +95,8 @@ var picks = new Array(7).fill(0);
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-var played = new Array(7).fill(0);
+//Train = 7;
+var played = new Array(8).fill(0);
 
 //ancient = 0;
 //anubis = 1;
@@ -95,7 +105,8 @@ var played = new Array(7).fill(0);
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-var L = new Array(7).fill(0);
+//Train = 7;
+var L = new Array(8).fill(0);
 
 //ancient = 0;
 //anubis = 1;
@@ -104,9 +115,15 @@ var L = new Array(7).fill(0);
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-var W = new Array(7).fill(0);
+//Train = 7;
+var W = new Array(8).fill(0);
 var picksnbans = [];
-
+document.getElementById('h3').onmouseover = function(){
+    document.getElementById("h3").style.filter = "drop-shadow(.5px 0.5px 3px white)";
+}
+document.getElementById('h3').onmouseout = function(){
+    document.getElementById("h3").style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
+}
 // Main function to fetch team and leader data
 fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     headers: {
@@ -124,34 +141,151 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     return res.json();
 })
 .then((datan) => {
+    //GetLeaguePickBans2(THETEAMWEARESEARCHING, 52);
+    //console.log("PENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+    //console.log(datan);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
+    document.getElementById("h3").onclick = function(){
+        let faceitlinkk = datan.faceit_url.replace("{lang}", '');
+        window.open(faceitlinkk);
+    }
+
     const teamPfp = document.createElement("img");
     teamPfp.id = "teamPfp";
-    if (datan.src != undefined){
+    const teamBackground = document.createElement("img");
+    teamBackground.id = "teamBackground";
+    teamBackground.position = "absolute";
+    teamBackground.opacity = 0;
+    teamBackground.style.height = "280px";
+    teamBackground.style.width = "1240px";
+    let teambackgrounddiv = document.createElement("div");
+    teambackgrounddiv.classList.add("divv");
+    teambackgrounddiv.appendChild(teamBackground);
+    teambackgrounddiv.id = "teambackgrounddiv";
+    teambackgrounddiv.position = "absolute";
+    if (datan.avatar != undefined){
         teamPfp.src = datan.avatar;
         document.getElementById('h3').prepend(teamPfp);
     }
-    
+    if (datan.cover_image != undefined){
+
+        teamBackground.src = datan.cover_image;
+       
+    }
+    else if(datan.cover_image == undefined || datan.cover_image == null || datan.cover_image === ""){
+
+        teamBackground.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+    }
+
+    document.getElementById(".BanFileExplorer").prepend(teambackgrounddiv);
     
     return GetLeaguePickBans(datan.leader, 0);  // Start fetching match history
 })
 .then(() => {
     picksnbans.sort((a, b) => b.finished - a.finished);
-    console.log("Matches sorted:");
-    console.log(picksnbans);
-    var myshit = document.getElementById("removemepls");
-    myshit.parentNode.removeChild(myshit);
+    //console.log("Matches sorted:");
+    //console.log(picksnbans);
+    if(document.getElementById("removemepls")){
+        var myshit = document.getElementById("removemepls");
+        myshit.parentNode.removeChild(myshit);
+    }
     removeElementsByClass("divvv");
     document.getElementById("h3").style.opacity = 100;
     printToWebsite(picksnbans, false);
+    
 })
 .catch((error) => {
     console.error('Error:', error);
 });
 
+
+function GetLeaguePickBans2(teamid, currentssn){
+    let crntssn = parseInt(currentssn);
+    //console.log("RUNNING GETLEAGUEPICKBANS2 TEAMID= "+teamid+" CURRENTSSN= "+crntssn);
+
+    for(let d = 0; d <= 2; d++){
+        console.log("D IS= "+d);
+        switch(d){
+            case 0:
+                console.log("FINDING SEASON 52 MATCHES");
+                 fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${teamid}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103&limit=20&offset=0`,{
+                    method: 'GET',
+                    headers:{
+                        'Access-Control-Allow-Origin' : '*',
+
+                        
+                    }
+                })
+                .then((response) => {
+                    if (response.status === 404) {
+                        console.log( Promise.resolve());
+                    } else if (!response.ok) {
+                        console.log(response);
+                        throw new Error("Couldn't fetch that data");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    let payload = data.payload;
+                    console.log(payload);
+                });
+                break;
+            case 1:
+                console.log("FINDING SEASON 51 MATCHES");
+                 fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${teamid}&participantType=TEAM&championshipId=3501196b-cc9a-4f5d-800b-7e662ff81778&limit=20&offset=0`,{
+                    method: 'GET',
+                    headers:{
+                        'Access-Control-Allow-Origin' : '*',
+
+                        
+                    }
+                })
+                .then((response) => {
+                    if (response.status === 404) {
+                        console.log( Promise.resolve());
+                    } else if (!response.ok) {
+                        console.log(response);
+                        throw new Error("Couldn't fetch that data");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    let payload = data.payload;
+                    console.log(payload);
+                });
+                break;
+            case 2:
+                console.log("FINDING SEASON 50 MATCHES");
+                 fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${teamid}&participantType=TEAM&championshipId=bc96c661-f33a-4193-8754-d7e2914f7bde&limit=20&offset=0`,{
+                    method: 'GET',
+                    headers:{
+                        'Access-Control-Allow-Origin' : '*',
+
+                        
+                    }
+                })
+                .then((response) => {
+                    if (response.status === 404) {
+                        console.log( Promise.resolve());
+                    } else if (!response.ok) {
+                        console.log(response);
+                        throw new Error("Couldn't fetch that data");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    let payload = data.payload;
+                    console.log(payload);
+                });
+                break;
+
+            
+        }
+    }
+}
 // Function to recursively fetch match history for the leader
 function GetLeaguePickBans(leaderid, offset) {
-
+   //document.getElementById("rtrnBtn").style.trasnform = "translate(10px,-3px)";
     return fetch(`https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${offset}&limit=100`, {
         headers: {
             'accept': 'application/json',
@@ -173,29 +307,24 @@ function GetLeaguePickBans(leaderid, offset) {
 
         let allMatches = data.items;
         
-       if (!allMatches || allMatches.length === 0) return Promise.resolve(); // End if no more matches
+       if (!allMatches || allMatches.length === 0 || offset >= 250) return Promise.resolve(); // End if no more matches
 
         console.log(`Fetched ${allMatches.length} matches`);
-
+        //console.log(allMatches);
         // Process each match and filter
         let matchPromises = allMatches.map((match) => {
             //update the loading bar here.
             var dating = new Date(match.finished_at*1000);
             //loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
     
-            if (match.competition_name.includes("ESEA") && !match.competition_name.includes("S48") && !match.competition_name.includes("Qualifier")) {
+            if (match.competition_name.includes("ESEA") && !match.competition_name.includes("Qualifier")) {
+
                 finishedtext.innerHTML+=match.competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
-            
+
                 return fetchMatchData(match.match_id, leaderid); // Fetch only non-S48 ESEA matches
             }
             return Promise.resolve();
         });
-
-        // Check if we have hit S48
-        if (allMatches.some(match => match.competition_name.includes("S48"))) {
-            console.log("S48 reached, stopping further fetches.");
-            return Promise.all(matchPromises); // Resolve when S48 is reached
-        }
 
         // If not S48, fetch the next batch of matches (recursive call)
         return Promise.all(matchPromises).then(() => GetLeaguePickBans(leaderid, offset + 100));
@@ -205,8 +334,115 @@ function GetLeaguePickBans(leaderid, offset) {
     });
 }
 
-function fetchMatchData(matchid,leaderid) {
 
+function fetchLast5Players(matchid){
+    console.log("feetchinf that shit for "+matchid);
+    return fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
+        headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
+        }
+    })
+    .then((res) => {
+        if (res.status === 404) {
+            console.warn(`Match ${matchid} not found (404), continuing...`);
+            return Promise.resolve();
+        } else if (!res.ok) {
+            throw new Error("Couldn't fetch that data");
+        }
+        return res.json();
+    })
+    .then((datan12) => {
+        let damatchstats = datan12.rounds[0];
+        let teams = damatchstats.teams;
+        let tm1 = teams[0];
+        let tm2 = teams[1];
+        let players;
+        if (tm1.team_id == localStorage.getItem("THETEAMWEARESEARCHING")){
+            players = tm1.players;
+            //console.log(tm1);
+        }
+        else{
+            players = tm2.players;
+            //console.log(tm2);
+        }
+        let bigplayerdivider = document.createElement("div");
+        bigplayerdivider.id = "WHOLEPLAYERDIVIDER";
+        console.log("POOPIE POOP");
+        console.log(datan12);
+        for (const player of players){
+            fetch('https://open.faceit.com/data/v4/players?nickname='+player.nickname+'&game=cs2', {
+                headers: {
+                    'accept': 'application/json',
+                    'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+                }
+                }).then((res) => {
+                    if(!res.ok){
+                        throw new Error("couldnt fetcht that shit");
+                    }
+                    return res.json();
+                })
+                .then((data) =>{
+                   // console.log("GET DOWN NOW!");
+                    //get information like profile picture, flag, and nickname
+                   // console.log(data);
+                    let playerdivider = document.createElement("div");
+                    playerdivider.id = "PLAYERDIVIDER";
+                    let pfp = document.createElement("img");
+                    pfp.id = "TEAMPFP";
+                    let name = document.createElement("div");
+                    name.id = "TEAMPFPNAME";
+                    //name.style.position = "absolute";
+                    name.innerHTML = data.nickname;
+                    switch(data.avatar){
+                        case undefined:
+                            pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                            break;
+                        case null:
+                            pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                            break;
+                        case "":
+                            pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                            break;
+                        default:
+                            pfp.src = data.avatar;
+                            break;
+                    }
+                    pfp.onmouseover = function(){
+                        pfp.style.filter = "drop-shadow(.5px 0.5px 3px white)";
+                        name.style.filter = "drop-shadow(.5px 0.5px 3px white)";
+                    }
+                    pfp.onmouseout = function(){
+                        pfp.style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
+                        name.style.filter = "drop-shadow(.5px 0.5px 3px black)";
+
+                    }
+                    pfp.onclick = function(){
+                        console.log("PICTURE CLICKED");
+                        window.open("https://www.faceit.com/en/players/"+player.nickname);
+                    }
+                    playerdivider.appendChild(pfp);
+                    playerdivider.appendChild(name);
+                    bigplayerdivider.appendChild(playerdivider);
+
+                    
+                    
+                    
+                });
+                
+        }
+        document.getElementById("teambackgrounddiv").appendChild(bigplayerdivider);
+        
+
+    });
+}
+
+var c = 0;
+function fetchMatchData(matchid,leaderid) {
+    c++;
+    if( c==1){
+        fetchLast5Players(matchid);
+    }
     return fetch(`https://open.faceit.com/data/v4/matches/${matchid}`, {
         headers: {
             'accept': 'application/json',
@@ -223,6 +459,7 @@ function fetchMatchData(matchid,leaderid) {
         return res.json();
     })
     .then((datan12) => {
+       // console.log(datan12);
         let t1pfp = datan12.teams.faction1.avatar;
 
         let t2pfp = datan12.teams.faction2.avatar;
@@ -240,26 +477,24 @@ function fetchMatchData(matchid,leaderid) {
         let fac1 = errthang.teams.faction1.name;
         let fac2 = errthang.teams.faction2.name;
 
-        let fac1id = errthang.teams.faction1.faction_id;
-        let fac2id = errthang.teams.faction2.faction_id;
         let finishedat = errthang.finished_at;
        // console.log(errthang.teams.faction1.leader);
         let winnerid = "fartcock";
         let winner = datan12.detailed_results[0].winner;
         let fac1wins = 0;
         let fac2wins = 0;
-        console.log("GET DOWN!!");
-        console.log(fac1+" vs "+fac2);
+       // console.log("GET DOWN!!");
+       //console.log(fac1+" vs "+fac2);
         for (const winor of datan12.detailed_results){
-            console.log(winor.winner);
+           // console.log(winor.winner);
 
             //check the winner of every winor, count the amount of times fac1 wins and count the amount of times fac2 wins, whichever one is bigger is the winner
             if (winor.winner === "faction1"){
-                console.log("faction 1 won one map")
+                //console.log("faction 1 won one map")
                 fac1wins++;
             }
             else if(winor.winner === "faction2") {
-                console.log("faction 2 won one map");
+                //console.log("faction 2 won one map");
                 fac2wins++;
             }
         }
@@ -287,6 +522,8 @@ function fetchMatchData(matchid,leaderid) {
             return res.json();
         })
         .then((datan123) => {
+            console.log("UM WHAT THE CHEESE?");
+            console.log(datan123);
             let detailedscr = datan123.rounds;
             let scoree = null;
             
@@ -328,10 +565,12 @@ function fetchMatchData(matchid,leaderid) {
             .then((data) => {
                 let picksnbanz = [];
                 let payload = data.payload;
-              //  console.log(payload);
+                console.log("AAAAAAAAAA");
+                console.log(payload);
                 picksnbanz.push(payload.tickets[2]);
 
                 for (let d = 0; d < picksnbanz[0].entities.length; d++) {
+                   // console.log(picksnbanz[0].entities[d].selected_by);
                     switch (picksnbanz[0].entities[d].selected_by) {
                         case "faction1":
                             picksnbanz[0].entities[d].selected_by = fac1;
@@ -376,7 +615,7 @@ function fetchMatchData(matchid,leaderid) {
                    // console.log(syndeysweeny);
                     //check each team, once you found the captain, send a variable to the specific team the captain is on, we will use the variable for other shit later
                     for (const players of syndeysweeny.teams[0].players){
-                        if (players.player_id == leaderid){
+                        if (players.player_id === leaderid){
                             team1.push("CAP");
                             ist2 = false;
                             break;
@@ -407,6 +646,7 @@ function fetchMatchData(matchid,leaderid) {
 }
 
 function printToWebsite(dapicksanddabans, something){
+    document.getElementById("teambackgrounddiv").style.opacity = "1";
     let wins = 0;
     let loss = 0;
     let wins1 = 0;
@@ -442,15 +682,37 @@ function printToWebsite(dapicksanddabans, something){
         //3. then, check the status  and choose accordingly either update bans variable or update picks variable
        // console.log(dapicksanddabans[d]);
        // console.log("The winner of the above game is "+dapicksanddabans[d].winnerID);
-        // find the team you are looking at, look through both teams in dapicksanddabans[d] and make "the team we are looking at" be that team's ID
-        for (const team in dapicksanddabans[d].teams){
-            for (const thinginteam in team){
-                if (thinginteam == "CAP"){
 
+        // find the team you are looking at, look through both teams in dapicksanddabans[d] and make "the team we are looking at" be that team's ID
+        let GORILLACHOCOLATE = "";
+       // console.log(dapicksanddabans[d].teams);
+        for(let penis = 0; penis < dapicksanddabans[d].teams.length; penis++){
+           // console.log("PENISSS "+penis);
+           // console.log(dapicksanddabans[d].teams[penis]);
+            for (const INTERLINKED of dapicksanddabans[d].teams[penis]){
+               // console.log(INTERLINKED);
+                if (INTERLINKED.toUpperCase() === "CAP"){
+                  //  console.log("CAP FOUND");
+                    let poopfart = dapicksanddabans[d].teams[penis];
+                   // console.log("changing the team we are serching to "+poopfart[2]);
+                    GORILLACHOCOLATE = poopfart[1].toUpperCase();
+                    //THETEAMWEARESEARCHING = poopfart[2];
                 }
             }
         }
         /*
+        for (const team in dapicksanddabans[d].teams){
+            console.log("PENISSS");
+            console.log(team);
+            for (const thinginteam in team){
+                console.log("INTERLINKED");
+                console.log(thinginteam);
+                if (thinginteam === "CAP"){
+                    
+                }
+            }
+        }
+        
        console.log("The team we are looking at is "+THETEAMWEARESEARCHING);
        console.log(dapicksanddabans[d].winnerID+" == "+THETEAMWEARESEARCHING);
        console.log("EVERYTHING IS FUCKDD");
@@ -493,17 +755,18 @@ function printToWebsite(dapicksanddabans, something){
         holyshitsomanymaps.id = "cvr";
         let c12 = 0;
         for (let j = 0; j < dapicksanddabans[d].detailed_results.length; j++){
-            if (j % 2 != 0){
-
-            }
-            else{
+            if (j % 2 == 0){
                 //this means j is even idk about 0?
-               // console.log("POOP IN MY ASS");
-               // console.log(dapicksanddabans[d].detailed_results[j]);
+               //console.log("POOP IN MY ASSHOLEE");
+               // console.log(dapicksanddabans[d].detailed_results);
                 switch(dapicksanddabans[d].detailed_results[j]){
                     case THETEAMWEARESEARCHING:
                         //console.log("we won "+dapicksanddabans[d].detailed_results[j+1]);
-                        switch(dapicksanddabans[d].detailed_results[j+1]){
+                        switch(String(dapicksanddabans[d].detailed_results[j+1])){
+                            case "de_train":
+                                played[7]= played[7]+1;
+                                W[7] = W[7]+1;
+                                break;
                             case "de_ancient":
                                 played[0]= played[0]+1;
                                 W[0] = W[0]+1;
@@ -538,7 +801,11 @@ function printToWebsite(dapicksanddabans, something){
                         break;
                     default:
                        // console.log("we lost "+dapicksanddabans[d].detailed_results[j+1]);
-                        switch(dapicksanddabans[d].detailed_results[j+1]){
+                        switch(String(dapicksanddabans[d].detailed_results[j+1])){
+                            case "de_train":
+                                played[7]= played[7]+1;
+                                L[7] = L[7]+1;
+                                break;
                             case "de_ancient":
                                 played[0]= played[0]+1;
                                 L[0] = L[0]+1;
@@ -575,10 +842,16 @@ function printToWebsite(dapicksanddabans, something){
             }
         }
         for (const penis of dapicksanddabans[d].entities){
+          //  console.log(penis);
+
             if (penis.status == "pick"){
-                if(penis.selected_by.toUpperCase() == h3.innerText){
-                   // console.log("wE PICKED "+penis.guid);
-                    switch(penis.guid){
+             //   console.log(penis.selected_by.toUpperCase()+" - "+GORILLACHOCOLATE);
+                if(penis.selected_by.toUpperCase() === GORILLACHOCOLATE){
+                //    console.log("wE PICKED "+penis.guid);
+                    switch(String(penis.guid)){
+                        case "de_train":
+                            picks[7]= picks[7]+1;
+                            break;
                         case "de_ancient":
                                 picks[0]= picks[0]+1;
                                 break;
@@ -610,7 +883,11 @@ function printToWebsite(dapicksanddabans, something){
                     
                     c12 = c12 + 1;
                     if(dapicksanddabans[d].entity_type > 2){
-                        switch (penis.guid){
+                        switch (String(penis.guid)){
+                            case "de_train":
+                                //console.log("TRAIN");
+                                image.src = image_links[7];
+                                break;
                             case "de_ancient":
                                 image.src = image_links[0];
                                 break;
@@ -644,7 +921,10 @@ function printToWebsite(dapicksanddabans, something){
                     else{
                         image.classList.remove("cvr");
                         image.classList.add("pvr");
-                        switch (penis.guid){
+                        switch (String(penis.guid)){
+                            case "de_train":
+                                image.src = image_links[7];
+                                break;
                             case "de_ancient":
                                 image.src = image_links[0];
                                 break;
@@ -675,9 +955,12 @@ function printToWebsite(dapicksanddabans, something){
                     holyshitsomanymaps.appendChild(image);
             }
             else if (penis.status == "drop"){
-                if(penis.selected_by.toUpperCase() == h3.innerText){
-                    //console.log("WE FUCKING BANNED "+penis.guid);
-                    switch(penis.guid){
+                if(penis.selected_by.toUpperCase() === GORILLACHOCOLATE){
+                   // console.log("WE FUCKING BANNED "+penis.guid);
+                    switch(String(penis.guid)){
+                        case "de_train":
+                            bans[7]= bans[7]+1;
+                            break;
                         case "de_ancient":
                                 bans[0]= bans[0]+1;
                                 break;
@@ -728,7 +1011,7 @@ function printToWebsite(dapicksanddabans, something){
     }
 
     //organize the info from the global arrays initalized above
-    for(let y = 0; y < 7; y++){
+    for(let y = 0; y <= 7; y++){
 
         switch(y){
             
@@ -968,7 +1251,43 @@ function printToWebsite(dapicksanddabans, something){
                 allInfoDivider.appendChild(DAver);
               //  console.log("Banned vertigo "+bans[6]+" times");
               //  console.log("Played vertigo "+played[6]+" times");
-                break;   
+                break; 
+                
+            case 7:
+                let DAtrain = document.createElement("div");
+                DAtrain.id = "trainn";
+                let trainimage = document.createElement("img");
+                trainimage.id = "trainimage";
+                trainimage.src = image_links[7];
+                trainimage.style.width = "230px";
+                trainimage.style.height = "130px";
+                trainimage.style.position = "absolute";
+                let movementdivider3 = document.createElement("div");
+                let mapidentifier7 = document.createElement("div");
+                mapidentifier7.style.fontSize = "25px";
+                mapidentifier7.innerHTML = "Train";
+                mapidentifier7.id = "de_train";
+                let trainbans = document.createElement("div");
+                trainbans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[7]+((bans[7] > 1|| bans[7] == 0) ? " times" : " time")+".";
+                let trainpics = document.createElement("div");
+                trainpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[7]+((picks[7] > 1|| picks[7] == 0) ? " times" : " time")+".";
+                let trainplay = document.createElement("div");
+                trainplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[7]+((played[7] > 1|| played[7] == 0) ? " times" : " time")+".";
+                let trainW = document.createElement("div");
+                trainW.classList.add("winnerdiv");
+                trainW.innerHTML = '<span class="greenn1">'+W[7]+'</span><span class = "white"> // </span> <span class="redd1">'+L[7];
+                allInfoDivider.appendChild(trainimage);
+                movementdivider3.appendChild(mapidentifier7);
+                movementdivider3.appendChild(trainpics);
+                movementdivider3.appendChild(trainbans);
+                movementdivider3.appendChild(trainW);
+                //movementdivider2.style.transform = "translate(250px, -495px)";
+                DAtrain.appendChild(movementdivider3);
+                allInfoDivider.appendChild(DAtrain);
+              //  console.log("Banned vertigo "+bans[6]+" times");
+              //  console.log("Played vertigo "+played[6]+" times");
+                break;     
+                
             default:
                 break;
 
@@ -1008,7 +1327,7 @@ function printToWebsite(dapicksanddabans, something){
     
     const childdddrr = matchesDivider.childNodes;
     if(!something){
-        console.log(childdddrr);
+       // console.log(childdddrr);
         for(const childs of childdddrr){
          if (childs.id.includes("ssnNum")){
              createToggle(allInfoDivider);
@@ -1025,15 +1344,16 @@ function printToWebsite(dapicksanddabans, something){
     for (let d = 0; d < matchesDivider.children.length-2; d++){
         if(document.getElementById("game"+d)){
             document.getElementById("game"+d).onclick = function(){
+
                 window.open(dapicksanddabans[d].link);
             }
         
             document.getElementById("game"+d).onmouseover = function(){
                 quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
-                    document.getElementById("allInfo").style.transform = "translateX(775px)";
+                    document.getElementById("allInfo").style.transform = "translate(775px,300px)";
                     const butons = document.querySelectorAll('#penisandcock');
                     butons.forEach(element =>{
-                        element.style.transform = "translate(1235px, -338px)"
+                        element.style.transform = "translate(1535px, -450px)"
                     });
                 // quickInfoDivider.innerHTML+='<span class="grey"> '+dapicksanddabans[d].entities[0].selected_by+"</span> VS "+'<span class="grey"> '+dapicksanddabans[d].entities[1].selected_by+"</span>";
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px #ffffff)";
@@ -1061,6 +1381,9 @@ function printToWebsite(dapicksanddabans, something){
                                 bigimage.style.height = "300px";
                                 bigimage.style.width = "167px";
                                 switch (p.guid){
+                                    case "de_train":
+                                        bigimage.src = image_links[7];
+                                        break;
                                     case "de_ancient":
                                         bigimage.src = image_links[0];
                                         break;
@@ -1098,6 +1421,9 @@ function printToWebsite(dapicksanddabans, something){
                                 bigimage.style.height = "300px";
                                 bigimage.style.width = "500px";
                                 switch (p.guid){
+                                    case "de_train":
+                                        bigimage.src = image_links[7];
+                                        break;
                                     case "de_ancient":
                                         bigimage.src = image_links[0];
                                         break;
@@ -1218,12 +1544,12 @@ function printToWebsite(dapicksanddabans, something){
                 }
                 
         document.getElementById("game"+d).onmouseout = function(){
-            document.getElementById("allInfo").style.transform = "translate(260px,10px)";
+            document.getElementById("allInfo").style.transform = "translate(260px,300px)";
             document.getElementById("game"+d).style.webkitFilter = "";
             
             const butons = document.querySelectorAll('#penisandcock');
                     butons.forEach(element =>{
-                        element.style.transform = "translate(720px, -328px)";
+                        element.style.transform = "translate(960px, -450px)";
                     });
             info.innerHTML = "";
             const myNode = document.getElementById("quickInfo");
@@ -1256,8 +1582,9 @@ var ILIEDLOLL = 3;
     imag.style.width = "30px";
     // Create a label element
     const label = document.createElement("label");
+    label.style.filter = "drop-shadow(1px 0px 1px #000000)";
     label.htmlFor = "c"+THEFINALCOUNTERISWEAR; // Associate the label with the checkbox
-    label.textContent = "S"+(51-(THEFINALCOUNTERISWEAR-1)); // Set the label text
+    label.textContent = "S"+(52-(THEFINALCOUNTERISWEAR-1)); // Set the label text
    // label.fontSize = "10px";
 
     // Append the checkbox and label to the span
@@ -1270,8 +1597,31 @@ var ILIEDLOLL = 3;
     checkbox.addEventListener("click", () => {
         if (checkbox.checked) {
             ILIEDLOLL-=1;
+            if (label.textContent === "S52"){
+                console.log("Clicked S52!");
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-          label.style.color = "orange"; // Change text color
+
+                if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
+                    setTimeout(() => {
+                        document.getElementById("vertigoo").style.display = "none";
+                        document.getElementById("verimage").style.display = "none";
+                        document.getElementById("trainn").style.transform = "translate(470px,20px)";
+                        document.getElementById("trainimage").style.transform = "translate(470px,20px)";
+                    }, 10);
+                    console.log("Elements hidden");
+                } else {
+                    console.log("vertigoo or verimage not found!");
+                }
+
+            }
+            else{
+                setTimeout(() => {
+                    document.getElementById("trainn").style.display = "none";
+                    document.getElementById("trainimage").style.display = "none";
+                }, 10);
+            }
+          label.style.color = "#0FFF50"; // Change text color
           label.style.fontSize = "30px"; // Change font size
           span.style.height = "45px";
           span.style.width = "45px";
@@ -1280,7 +1630,7 @@ var ILIEDLOLL = 3;
           //span.style.transform = "translate(730px,160px)";
           document.getElementById("allInfo").style.width = "480px";
           lastbooleaniswear = true;
-          console.log("WTF1 "+ILIEDLOLL);
+         // console.log("WTF1 "+ILIEDLOLL);
 
         } else {
 
@@ -1290,12 +1640,12 @@ var ILIEDLOLL = 3;
           span.style.height = "30px";
           span.style.width = "30px";
 
-          console.log("WTFFF "+ILIEDLOLL);
+         // console.log("WTFFF "+ILIEDLOLL);
             //make the finalarrayiswear be removed of the season that is clicked
             //find the season by doing picksnbans[d].season
             var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
-            console.log("but first");
-            console.log(THEFINALARRAYISWEAR);
+            //console.log("but first");
+           // console.log(THEFINALARRAYISWEAR);
 
             if (ILIEDLOLL%3 == 0){
                 THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.filter(item => item.season !== label.textContent.substring(1));
@@ -1326,7 +1676,7 @@ function checkImageExists(url, callback) {
 }
 
 function getArrayFromSeason(ssn, arrayofallmatchess){
-    console.log("finding "+ssn);
+  //  console.log("finding "+ssn);
 
     let finalArray = new Array();
     let storethesearrays = false;
@@ -1340,16 +1690,16 @@ return (finalArray);
 var THEFINALARRAYISWEAR = new Array();
 var ccccc = 0;
 function DotheThing (arrayofallmatches2, removeoradd){
-    bans = new Array(7).fill(0);
-    picks = new Array(7).fill(0);
-    played = new Array(7).fill(0);
-    L = new Array(7).fill(0);
-    W = new Array(7).fill(0);
+    bans = new Array(8).fill(0);
+    picks = new Array(8).fill(0);
+    played = new Array(8).fill(0);
+    L = new Array(8).fill(0);
+    W = new Array(8).fill(0);
     if(ccccc >= 1){
         THEFINALARRAYISWEAR.length = 0;
         ccccc = 0;
     }
-    console.log("???? "+removeoradd);
+   // console.log("???? "+removeoradd);
     if(removeoradd){
         THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.concat(arrayofallmatches2);
         document.getElementById("mtches").remove();

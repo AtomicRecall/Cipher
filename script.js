@@ -160,7 +160,7 @@ forgotpassword.addEventListener('click', () =>{
 
 affiramtivee.addEventListener('click', () =>{
     console.log("BUTTON CLICKED");
-    window.location.href = "main.html";
+    window.location.href = "index.html";
 });
 document.body.addEventListener('keydown', function(event) {
     const currentname = document.getElementById("namee");
@@ -169,7 +169,8 @@ document.body.addEventListener('keydown', function(event) {
         console.log("HOLY SHIT");
         event.preventDefault(); // Prevent page refresh
 
-        window.location.href = "main.html";
+        window.location.href = "index.html";
+        localStorage.removeItem("savedTeams");
     }
 })
 
