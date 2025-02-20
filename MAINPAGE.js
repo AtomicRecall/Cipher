@@ -26,7 +26,14 @@ const database = firebase.database();
 let name = localStorage.getItem("faceit-name"); 
 
 if (name === "null" || name == undefined || name === ""){
+    document.getElementById("shit").innerHTML = ("Please Log In :)");
     name = "";
+    let instruction = document.createElement("div");
+    instruction.innerHTML = "CLICK HERE TO START SEARCHING -------->";
+    instruction.style.position = "absolute";
+    instruction.id = "instruction";
+    instruction.classList.add("divv");
+    document.getElementById(".BanFileExplorer").prepend(instruction);
     document.getElementById(".form-wrapper").style.opacity = "0";
     document.getElementById(".BanFileExplorer").style.height = "750px";
     document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
@@ -41,6 +48,7 @@ if (name === "null" || name == undefined || name === ""){
 
 }
 else{
+    document.getElementById("shit").innerHTML = ("Cipher: "+name);
     document.getElementById("lgOut").addEventListener('click', () =>{
         localStorage.removeItem("faceit-name");
     })
@@ -61,7 +69,7 @@ var NONESEALEAGUEPLAYERREF = database.ref('USERS/'+name).on ('value', function(s
    // console.log(NONESEALEAGUEPLAYERR);
 });
 
-document.getElementById("shit").innerHTML = ("Cipher: "+name);
+
 document.getElementById("poop").innerHTML = name;
 
 
@@ -90,8 +98,8 @@ srchbtn.addEventListener('click', () =>{
     srch3.style.height = "50px";
     srch3.style.position = "absolute";
     srch3.style.transform = "translate(1430px, 13px)";
-    srch3.src = "https://atomicrecall.github.io/Cipher/images/button.png"
-   // srch3.innerHTML = '<img id="btnimg" src = "https://atomicrecall.github.io/Cipher/images/button.png" />';
+    //srch3.src = "https://atomicrecall.github.io/Cipher/images/button.png"
+    srch3.innerHTML = '<img id="btnimg" src = "https://atomicrecall.github.io/Cipher/images/button.png" />';
 
 
     const div = document.createElement('input');
@@ -128,7 +136,7 @@ rtrnBtn.addEventListener('click', () =>{
 
         document.getElementById(".form-wrapper").style.opacity = "1";
         if(localStorage.getItem("NOFACEITACCOUNT") == 0){
-            document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
+            document.getElementById(".BanFileExplorer").style.transform = "translateY(-220px)";
 
         }
         else{
@@ -287,7 +295,14 @@ function ontop(){
 }
     removeElementsByClass("removemepls");  
 }
-
+function isValidJSON(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
 function YOURSAVEDTEAMS(){
     console.log("RUNNING YOURSAVEDTEAMS");
     let NONESEALEAGUEPLAYERR3 = -1;
@@ -320,7 +335,9 @@ function YOURSAVEDTEAMS(){
     yoursaveteamsdivider.appendChild(loadingimage);
    
     if(localStorage.getItem("NOFACEITACCOUNT") == 1 && localStorage.getItem("NOTEAMALERT")==0){
-        dataa11 = JSON.parse(localStorage.getItem("savedTeams"));
+            dataa11 = JSON.parse(localStorage.getItem("savedTeams"));
+        
+        
        // console.log(dataa11);
         if(dataa11 != null){
             funnyfunction(dataa11,"yoursavedteamsdivider");
@@ -360,7 +377,7 @@ function YOURSAVEDTEAMS(){
 }
 
 function funnyfunction(dataalolfunny,wheretoadd){
-    
+
     let counter = 0;
     let c = 1;
     for (let d = 0; d < dataalolfunny.length; d++){
@@ -522,17 +539,35 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 } else {
                     if (!(wheretoadd === "upcomingmatchesdivider")){
                         clearTimeout(timer);    //prevent single-click action
+
                         if(confirm('Are you sure you want to delete '+Tmne.innerHTML+', fool?')){
-                        
-                            database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
-                                var data = snapshot.val();
-                                Object.keys(data).forEach((key) => {
-                                    if(dataalolfunny[d] == data[key]){
-                                        let omgletitsquirt = database.ref("USERS/"+name+"/SAVED_TEAMS/"+key).remove();
-                                        location.reload();
-                                    }
+                            console.log(div.id);
+                            if(localStorage.getItem("NOFACEITACCOUNT")!=1){
+                                
+                                database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
+                                    var data = snapshot.val();
+                                    Object.keys(data).forEach((key) => {
+                                        if(dataalolfunny[d] == data[key]){
+                                            let omgletitsquirt = database.ref("USERS/"+name+"/SAVED_TEAMS/"+key).remove();
+                                            location.reload();
+                                        }
+                                    });
                                 });
-                            });
+                             }
+                             else{
+                                
+                                var divid = div.id;
+                                console.log("position = "+divid.substring(3));
+
+                                // Retrieve and parse the array from localStorage
+                                let storedArray = JSON.parse(localStorage.getItem("savedTeams")) || [];
+                                storedArray.splice(parseInt(divid.substring(3)), 1); // Remove the item
+                                localStorage.setItem("savedTeams", JSON.stringify(storedArray));
+
+
+                                console.log(storedArray); // Updated array without the removed item
+                                location.reload();
+                             }
         
                         }
                         else { }  //perform double-click action
@@ -840,7 +875,12 @@ function searchForTeams(teamnme){
     let counter = 0;
     let c = 1;
     var cocksucker = teamnme.split(' ').join('%20');
-        fetch('https://open.faceit.com/data/v4/search/teams?nickname='+cocksucker+'&game=cs2&offset=0&limit=8', {
+    var foundteamsdivider = document.createElement("div");
+    foundteamsdivider.id = "foundteamsdivider";
+    foundteamsdivider.style.width = "1450px";
+    foundteamsdivider.classList.add("divvv"); 
+
+        fetch('https://open.faceit.com/data/v4/search/teams?nickname='+cocksucker+'&game=cs2&offset=0&limit=6', {
         headers: {
             'accept': 'application/json',
             'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
@@ -860,43 +900,19 @@ function searchForTeams(teamnme){
             }
         }
         for(let d = 0; d < datann.items.length; d++){
+   
             let datan = datann.items[d];
+            console.log("PEJKFJDSFDS");
+            console.log(datan);
             let cvrimg = document.createElement('img');
             cvrimg.id = "cvrimg"+d;
-            var pfpdivvv = document.createElement('div');
-            pfpdivvv.id = "pfpp";
-            pfpdivvv.style.position = "absolute";
-            pfpdivvv.style.filter = "blur(100px)";
+
             var leaderpicture = undefined;
             var leadername = undefined;
             
-                var crown = document.createElement('img');
-                    crown.id = "crn";
-                    crown.style.width = "30px";
-                    crown.style.height = "30px";
-                    crown.style.transform = "translate(-40px,-10px)";
-                    crown.src = "https://atomicrecall.github.io/Cipher/images/CAPTAIN.png";
-                    crown.style.position = "absolute";
-                    crown.style.opacity = 1;
-                    
 
-                    var pfp = document.createElement('img');
-                    pfp.id = datan.nickname+"pfp";
-                    pfp.height = 10;
-                    pfp.width = 10;
-                    pfp.style.padding = "10px";
-                    pfp.style.filter = "blur(100px)";
-                    pfp.style.position = "relative";
-                    pfp.pointerEvents = "none";
-                    pfp.style.borderRadius = "40px";
-                    pfp.src = leaderpicture;
-                    if (leaderpicture == undefined){
-                        pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
-                    }
 
                     var leadernamez = document.createElement('div');
-                    leadernamez.id = leadername;
-                    leadernamez.innerHTML = leadername;
 
                     fetch('https://open.faceit.com/data/v4/teams/'+datan.team_id, {
                         headers: {
@@ -910,8 +926,11 @@ function searchForTeams(teamnme){
                             return res.json();
                         })
                         .then((datan12) =>{ 
+                            console.log("ummmmmmmmmmmmm");
                             console.log(datan12);
-                            if(datan.cover_image == undefined){
+                            var teaminfoDivider = document.createElement("div");
+
+                            if(datan12.cover_image == undefined){
                                 cvrimg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
         
                             }
@@ -920,26 +939,72 @@ function searchForTeams(teamnme){
         
                             }
                             const someleader = datan12.leader;
+                            leadername = someleader;
+                            leadernamez.id = leadername;
+                            leadernamez.innerHTML = leadername;
+                            var pfpdivvv = document.createElement('div');
+                            pfpdivvv.id = "pfpp"+d;
+                            pfpdivvv.style.position = "absolute";
+                            pfpdivvv.style.transform = "translateY(-130px)";
+                            pfpdivvv.style.opacity = "0";
+                            pfpdivvv.style.transition = "0.5s";
+
                             for (const players of datan12.members){
                                 if (players.user_id == someleader){
+                                    console.log("LEADER FOUND "+players.nickname);
+                                    var crown = document.createElement('img');
+                                    crown.id = "crn";
+                                    crown.style.width = "30px";
+                                    crown.style.height = "30px";
+                                    crown.style.transform = "translate(-30px,-20px)";
+                                    crown.src = "https://atomicrecall.github.io/Cipher/images/CAPTAIN.png";
+                                    crown.style.position = "absolute";
+                                    crown.style.opacity = 1;
+                                    
+                
+                                    var pfp = document.createElement('img');
+                                    pfp.style.height = "25px";
+                                    pfp.style.width = "25px";
+                                    //pfp.style.padding = "10px";
+                                    //pfp.style.filter = "blur(100px)";
+                                    pfp.style.position = "relative";
+                                    pfp.pointerEvents = "none";
+                                    pfp.style.borderRadius = "40px";
+                                    pfp.id = players.nickname;
                                     pfp.src = players.avatar;
-                                    leadernamez.innerHTML = players.nickname;
+                                    //leadernamez.innerHTML = players.nickname;
+                                    
+                                    pfpdivvv.appendChild(pfp);
+                                    pfpdivvv.appendChild(crown);
+                                    document.getElementById("div"+d).appendChild(pfpdivvv);
+                                }
+                                else{
                                 }
                             }
 
-                        })
-                        pfpdivvv.appendChild(crown);
-                        pfpdivvv.appendChild(pfp);
-                        pfpdivvv.appendChild(leadernamez);
+                        });
+
+                        
+                       // pfpdivvv.appendChild(leadernamez);
                     
             counter++;  
             
             //avatar and cover image in the right spot, will have to figure out how to do this automatically with lots of mother fucking entries
-            var div = document.createElement('div');
-            div.classList.add("divvv");
-            div.id = "div"+d;
-            div.style.position = "flex";
-            document.getElementById(".BanFileExplorer").appendChild(div);
+            var divider = document.createElement('div');
+            divider.classList.add("divvv");
+            divider.id = "div"+d;
+            divider.style.position = "flex";
+            divider.style.transform = "translate(0px,0px)";
+            foundteamsdivider.style.display = "grid";
+            foundteamsdivider.style.gridAutoFlow = "column"
+            if (localStorage.getItem("NOFACEITACCOUNT")!= 0){
+                foundteamsdivider.style.transform = "translateY(-280px)";
+            }
+            else{
+                foundteamsdivider.style.transform = "translateY(-150px)";
+
+            }
+            foundteamsdivider.appendChild(divider);
 
             var avat = document.createElement('img');
             avat.classList.add("avatt");
@@ -966,16 +1031,16 @@ function searchForTeams(teamnme){
             cvrimg.width = 200;
             cvrimg.style.filter = "blur(3px)";
             cvrimg.style.transition = "0.5s";
-            div.appendChild(pfpdivvv);
-            div.appendChild(cvrimg);
-
+            
+            divider.appendChild(cvrimg);
+            
 
             
 
             avat.height = 40;
             avat.width = 40;
             avat.style.transform = "translate(5px, -60px)";
-            div.appendChild(avat);
+            divider.appendChild(avat);
            
             //if the name is too long, cutt off the name, show the button infront of it, when the user hovers over the team,
             //move the fav button to the end and show the full team name
@@ -1038,27 +1103,31 @@ function searchForTeams(teamnme){
                 
             });
             fav.style.transform = "translate(115px,-60px)";
-            div.appendChild(fav);
+            divider.appendChild(fav);
 
 
-            div.appendChild(Tmne);
-
+            divider.appendChild(Tmne);
+            document.getElementById(".BanFileExplorer").append(foundteamsdivider);
 
             //UNDOABLE TO DO PFPS FOR NOW BECAUSE I CANT GET PFP INFO,
             //UNLESS I DO A SEPERATE FUNCTION THAT FINDS ALL PFPS, THEN THAT WOULD BE GOOD FOR OPTIMIZING AS WELL, SO IT DOESNT LOAD ALL PFPS AT ONCE WHEN, 
             //FIRST LOADING IN THE SHIT (IMAGINE IF SOMEONE HAD 30 TEAMS, THAT WOULD BE 150 PFPS AND MORE)
 
             const temp2lol = document.getElementById("Tmne"+d).innerHTML;
-            let space = 0;
+            
             let clicked = false;
             let bigorsmall = false;
             if (document.getElementById(".BanFileExplorer").style.height === "750px"){
                 bigorsmall = true;
             }
             let numColmss = bigorsmall ? 6 : 4;
-            div.onmouseover = function(){
 
-                div.style.width = 300;
+            let space = 0;
+            divider.onmouseover = function(){
+
+                
+               
+                divider.style.width = 300;
                 cvrimg.width = 300;
                 cvrimg.style.removeProperty('filter');
                 
@@ -1106,15 +1175,18 @@ function searchForTeams(teamnme){
 
 
                 //d is current child; lol holds all childs.
-                let lol = document.getElementById(".BanFileExplorer").children;
+                let lol = document.getElementById("foundteamsdivider").children;
             
                 // console.log(document.getElementById("div"+d));
 
             for (let l = 1; l < lol.length; l++){
-                //console.log(lol[l].id.substring(3)+" VAG");
+                console.log(lol[l].id.substring(3)+" VAG");
+
+                //console.log(lol[l].id);
     
                     if (parseInt(lol[l].id.substring(3))==(d)){
-                        // console.log("WE FOUND THE SPACE for "+lol[l].id+" d is: "+d);
+                         //console.log("WE FOUND THE SPACE for "+lol[l].id+" d is: "+d);
+
                         space = l;
                         break;
                       }
@@ -1122,29 +1194,26 @@ function searchForTeams(teamnme){
                         continue;
                     }
             }
-           
+            document.getElementById("pfpp"+(lol[space].id.substring(3))).style.transform = "translate(170px,-120px)";
+            console.log("moving "+"pfpp"+(lol[space].id.substring(3)));
+            document.getElementById("pfpp"+(lol[space].id.substring(3))).style.filter = "drop-shadow(0px .1px 2px black)";
+            document.getElementById("pfpp"+(lol[space].id.substring(3))).style.opacity = "1";
+
                 //find space in list from all childs, check if the child accross from it is there, if so do the shit, if not dont do shit
-                if(lol[space+numColmss] != undefined && lol[space+numColmss] != null){
-                    //console.log("GO UNVISIBLE "+lol[space+numColmss].id);
-                 document.getElementById(lol[space+numColmss].id).style.transition = "0.5s";
-                 document.getElementById(lol[space+numColmss].id).style.opacity = 0;
-                 document.getElementById(lol[space+numColmss].id).style.transform+="translateY(-200px)";
-             }
-             if(lol[space+numColmss*2]!= undefined && lol[space+numColmss*2]!= null){
-                    //console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+14].id);
-                  document.getElementById(lol[space+numColmss*2].id).style.transition = "0.5s";
-                  document.getElementById(lol[space+numColmss*2].id).style.opacity = 0;
-                  document.getElementById(lol[space+numColmss*2].id).style.transform+="translateY(-200px)";
- 
+                if(lol[space+1] != undefined && lol[space+1] != null){
+                    console.log("GO UNVISIBLE "+lol[space+1].id);
+                 document.getElementById(lol[space+1].id).style.transition = "0.5s";
+                 document.getElementById(lol[space+1].id).style.opacity = 0;
+                 document.getElementById(lol[space+1].id).style.transform+="translateY(-100px)";
              }
              else {
                //  console.log("DO NOTHING");
               }
             }
-            div.onmouseout = function(){
+            divider.onmouseout = function(){
                 //make sure to delete the shit you made up top!
                 document.getElementById("Tmne"+d).innerHTML = temp2lol;
-                div.style.width = 200;
+                divider.style.width = 200;
                 cvrimg.width = 200;
                 cvrimg.style.filter = "blur(2px)";
                 document.getElementById("fav"+d).style.transform = "translate(115px, -60px)";
@@ -1164,35 +1233,19 @@ function searchForTeams(teamnme){
                 
             }
                 */
-            if(document.getElementById(".BanFileExplorer").children[space+numColmss] != undefined || document.getElementById(".BanFileExplorer").children[space+numColmss] != null){
-                document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss].id).style.opacity = 1;
-                document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss].id).style.transform+="translateY(200px)";
+            document.getElementById("pfpp"+(document.getElementById("foundteamsdivider").children[space].id.substring(3))).style.transform = "translate(10px,-120px)";
+            document.getElementById("pfpp"+(document.getElementById("foundteamsdivider").children[space].id.substring(3))).style.opacity = "0";
+            if(document.getElementById("foundteamsdivider").children[space+1] != undefined || document.getElementById("foundteamsdivider").children[space+1] != null){
+                if(localStorage.getItem("NOFACEITACCOUNT")!=0){
+                    document.getElementById(document.getElementById("foundteamsdivider").children[space+1].id).style.transform+="translateY(100px)";
+                }
+                else{
+                    document.getElementById(document.getElementById("foundteamsdivider").children[space+1].id).style.transform+="translateY(100px)";
+                }
+                document.getElementById(document.getElementById("foundteamsdivider").children[space+1].id).style.opacity = 1;
+                
             }
             else {}
-            if(document.getElementById(".BanFileExplorer").children[space+numColmss*2]!= undefined || document.getElementById(".BanFileExplorer").children[space+numColmss*2] != null){
-                document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss*2].id).style.opacity = 1;
-                document.getElementById(document.getElementById(".BanFileExplorer").children[space+numColmss*2].id).style.transform+="translateY(200px)";
-            }
-            else {
-                //DO NOTHING
-            }
-            }
-            
-            let fart = div;
-
-
-            //change every 5, once the 5th 
-            if(counter> numColmss){
-                //every 5, move this one + the next 4, go into next 5 if needed
-              //  console.log("moving search ");
-               // console.log("WHAT ROW?? search "+c)
-                moveColumn(fart,c,numColmss);
-                
-                if (counter % numColmss == 0){
-                    
-                    c++;
-                   // console.log("INCREMENTED C ============="+c);
-                }
             }
         }
         });

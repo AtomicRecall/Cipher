@@ -368,6 +368,8 @@ function fetchLast5Players(matchid){
         }
         let bigplayerdivider = document.createElement("div");
         bigplayerdivider.id = "WHOLEPLAYERDIVIDER";
+        console.log("POOPIE POOP");
+        console.log(datan12);
         for (const player of players){
             fetch('https://open.faceit.com/data/v4/players?nickname='+player.nickname+'&game=cs2', {
                 headers: {
@@ -408,9 +410,11 @@ function fetchLast5Players(matchid){
                     }
                     pfp.onmouseover = function(){
                         pfp.style.filter = "drop-shadow(.5px 0.5px 3px white)";
+                        name.style.filter = "drop-shadow(.5px 0.5px 3px white)";
                     }
                     pfp.onmouseout = function(){
                         pfp.style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
+                        name.style.filter = "drop-shadow(.5px 0.5px 3px black)";
 
                     }
                     pfp.onclick = function(){
@@ -1578,6 +1582,7 @@ var ILIEDLOLL = 3;
     imag.style.width = "30px";
     // Create a label element
     const label = document.createElement("label");
+    label.style.filter = "drop-shadow(1px 0px 1px #000000)";
     label.htmlFor = "c"+THEFINALCOUNTERISWEAR; // Associate the label with the checkbox
     label.textContent = "S"+(52-(THEFINALCOUNTERISWEAR-1)); // Set the label text
    // label.fontSize = "10px";
