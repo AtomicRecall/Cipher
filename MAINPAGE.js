@@ -136,7 +136,7 @@ rtrnBtn.addEventListener('click', () =>{
 
         document.getElementById(".form-wrapper").style.opacity = "1";
         if(localStorage.getItem("NOFACEITACCOUNT") == 0){
-            document.getElementById(".BanFileExplorer").style.transform = "translateY(-220px)";
+            document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
 
         }
         else{
@@ -377,10 +377,16 @@ function YOURSAVEDTEAMS(){
 }
 
 function funnyfunction(dataalolfunny,wheretoadd){
-
-    let counter = 0;
-    let c = 1;
+    console.log(dataalolfunny);
+    switch(wheretoadd){
+        case "upcomingmatchesdivider":
+            let counter = 0;
+            let c = 1;
     for (let d = 0; d < dataalolfunny.length; d++){
+        console.log("finding from upcoming: ");
+        console.log(dataalolfunny[d]);
+        if(d === 0 || d % 2 === 0 ){
+
         
         fetch('https://open.faceit.com/data/v4/teams/'+dataalolfunny[d], {
         headers: {
@@ -506,13 +512,21 @@ function funnyfunction(dataalolfunny,wheretoadd){
                     pfpdiv.appendChild(crown);
                 }
             }
-
-            document.getElementById(wheretoadd).appendChild(div);
+            var match
+           
             div.appendChild(cvrimg);
             div.appendChild(avat);
             div.appendChild(Tmne);
             div.appendChild(pfpdiv);
-            
+            console.log("POOP VAGINA "+dataalolfunny[d+1]);
+            var matchDateDiv = document.createElement("div");
+            matchDateDiv.id = "matchDate"+d;
+            matchDateDiv.classList.add("matchDate");
+            //document.querySelectorAll(".match-container").querySelector("#matchdate")
+            matchDateDiv.innerHTML = "Next Match: "
+            matchDateDiv.innerHTML+=dataalolfunny[d+1];
+            div.appendChild(matchDateDiv);
+            document.getElementById(wheretoadd).appendChild(div);
             div.addEventListener('dblclick', () => {
                 
             });
@@ -557,7 +571,412 @@ function funnyfunction(dataalolfunny,wheretoadd){
                              else{
                                 
                                 var divid = div.id;
-                                console.log("position = "+divid.substring(3));
+                                //console.log("position = "+divid.substring(3));
+
+                                // Retrieve and parse the array from localStorage
+                                let storedArray = JSON.parse(localStorage.getItem("savedTeams")) || [];
+                                storedArray.splice(parseInt(divid.substring(3)), 1); // Remove the item
+                                localStorage.setItem("savedTeams", JSON.stringify(storedArray));
+
+
+                                console.log(storedArray); // Updated array without the removed item
+                                location.reload();
+                             }
+        
+                        }
+                        else { }  //perform double-click action
+                        clicks = 0;             //after action performed, reset counter
+                    }
+                }
+
+            });
+
+
+            div.onmouseover = function(){
+            Tmne.innerHTML = datan.name;
+            div.style.transition = "2s";
+            div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";
+            
+            cvrimg.width = 500;
+            cvrimg.style.removeProperty('filter');
+
+            pfpdiv.style.transition = ".9s";
+                switch(datan.name.length){
+                    case 2:
+                        pfpdiv.style.transform = "translate(80px, -125px)";
+                        break;
+                    case 3:
+                        pfpdiv.style.transform = "translate(100px, -125px)";
+                        break;
+                    case 4:
+                        pfpdiv.style.transform = "translate(105px, -125px)";
+                        break;
+                    case 5:
+                        pfpdiv.style.transform = "translate(110px, -125px)";
+                        break;
+                    case 6:
+                        pfpdiv.style.transform = "translate(130px, -125px)";
+                        break;
+                    case 7:
+                        pfpdiv.style.transform = "translate(115px, -125px)";
+                        break;
+                    case 8:
+                        pfpdiv.style.transform = "translate(125px, -125px)";
+                        break;
+                    case 9:
+                        pfpdiv.style.transform = "translate(150px, -125px)";
+                        break;
+                    case 10:
+                        pfpdiv.style.transform = "translate(160px, -125px)";
+                        break;
+                    case 11:
+                        pfpdiv.style.transform = "translate(160px, -125px)";
+                        break;
+                    case 12:
+                        pfpdiv.style.transform = "translate(170px, -125px)";
+                        break;
+                    case 13:
+                        pfpdiv.style.transform = "translate(190px, -125px)";
+                        break;
+                    case 14:
+                        pfpdiv.style.transform = "translate(190px, -125px)";
+                        break;
+                    case 15:
+                        pfpdiv.style.transform = "translate(210px, -125px)"
+                        break;
+                    case 16:
+                        pfpdiv.style.transform = "translate(210px, -125px)"
+                        break;
+                    default:
+                        break;
+                }
+                //pfpdiv.style.transform = "translate(150px, -125px)";
+
+            
+            pfpdiv.style.removeProperty('filter');
+            pfpdiv.style.width = 800;
+
+           
+            document.getElementById(datan.nickname+"pfp").style.transition = "1s";
+            document.getElementById(datan.nickname+"pfp").height = 30;
+            document.getElementById(datan.nickname+"pfp").width = 30;
+            document.getElementById(datan.nickname+"pfp").style.removeProperty('filter');
+            document.getElementById(datan.nickname+"pfp").style.filter = "drop-shadow(0px 0px 2px #ffffff)";
+                
+
+            document.getElementById("matchDate"+d).style.opacity = 1;
+            document.getElementById("matchDate"+d).style.transition = "3s";
+                
+
+            //d is current child; lol holds all childs.
+            //find space in list from all childs, check if the child accross from it is there, if so do the shit, if not dont do shit
+            let lol = document.getElementById(wheretoadd).children;
+            
+                // console.log(document.getElementById("div"+d));
+
+            for (let l = 1; l < lol.length; l++){
+                if(!(wheretoadd === "upcomingmatchesdivider")){
+                    if (lol[l].id.substring(3)==(d)){
+                        // console.log("WE FOUND THE SPACE");
+                        space = l;
+                        break;
+                    }
+                    else{
+                        continue;
+                    }
+                }
+                else{
+                    if (lol[l].id.substring(4)==(d)){
+                        // console.log("WE FOUND THE SPACE");
+                        space = l;
+                        break;
+                    }
+                    else{
+                        continue;
+                    }
+                }
+
+            }
+            if(lol[space+2] != undefined && lol[space+2] != null){
+                   console.log("GO UNVISIBLE "+lol[space+2].id);
+                document.getElementById(lol[space+2].id).style.transition = "0.5s";
+                document.getElementById(lol[space+2].id).style.opacity = 0;
+                document.getElementById(lol[space+2].id).style.transform+="translateY(-20px)";
+            }
+            if(lol[space+4]!= undefined && lol[space+4]!= null){
+                   console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+4].id);
+                 document.getElementById(lol[space+4].id).style.transition = "0.5s";
+                 document.getElementById(lol[space+4].id).style.opacity = 0;
+                 document.getElementById(lol[space+4].id).style.transform+="translateY(-20px)";
+
+            }
+            else {
+              //  console.log("DO NOTHING");
+             }
+
+                
+                
+
+        }
+       
+        div.onmouseout = function(){
+                //make sure to delete the shit you made up top!
+                if(Tmne.innerHTML.length >= 14){
+                    Tmne.innerHTML = datan.name.substring(0,8)+"...";
+                }
+                else{
+                    Tmne.innerHTML = datan.name;
+                }
+                div.style.filter = "";
+                
+                cvrimg.width = 200;
+                cvrimg.style.filter = "blur(2px)";
+    
+                let fds = datan.nickname+"pfp";
+                document.getElementById(fds).height = 0;
+                document.getElementById(fds).width = 0;
+                console.log("matchDate"+d);
+                document.getElementById("matchDate"+d).style.opacity = 0;
+                document.getElementById("matchDate"+d).style.transition = "1s";
+                
+                pfpdiv.style.filter = "blur(100px)";
+                pfpdiv.style.width = 200;
+                pfpdiv.style.transform = "translateY(-150px)";
+
+                //if(document.getElementById(wheretoadd).children > 3){
+                    if(document.getElementById(wheretoadd).children[space+2] != undefined || document.getElementById(wheretoadd).children[space+2] != null){
+                        document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.opacity = 1;
+                        document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.transform+="translateY(20px)";
+                    }
+                    else {}
+                    if(document.getElementById(wheretoadd).children[space+4]!= undefined || document.getElementById(wheretoadd).children[space+4] != null){
+                        document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.opacity = 1;
+                        document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.transform+="translateY(20px)";
+                    }
+                    else {
+                        //DO NOTHING
+                    }
+                //}
+
+                
+                
+                
+        }
+            
+        
+        if(localStorage.getItem("NOFACEITACCOUNT") == 1){
+            if(counter> 7){
+                //every 5, move this one + the next 4, go into next 5 if needed
+                //console.log("WHAT ROW?? "+c)
+    
+                moveColumn(div,c,4);
+    
+                if (counter % 7 == 0){
+                    c++;
+                }
+            }
+        }
+        else{
+            if(counter> 2){
+                //every 5, move this one + the next 4, go into next 5 if needed
+                //console.log("WHAT ROW?? "+c)
+    
+                moveColumn(div,c,4);
+    
+                if (counter % 2 == 0){
+                    c++;
+                }
+            }
+        }
+            
+
+        });
+    }
+    }
+            break;
+
+        case "yoursavedteamsdivider":
+            let counterr = 0;
+            let cc = 1;
+    for (let d = 0; d < dataalolfunny.length; d++){
+        console.log("finding ");
+        console.log(dataalolfunny[d]);
+        fetch('https://open.faceit.com/data/v4/teams/'+dataalolfunny[d], {
+        headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+        }
+        }).then((res) => {
+            if(!res.ok){
+                throw new Error("couldnt fetcht that shit");
+            }
+            return res.json();
+        })
+        .then((datan) =>{ 
+            counterr++;
+            let leaderid = datan.leader;
+            //avatar and cover image in the right spot, will have to figure out how to do this automatically with lots of mother fucking entries
+
+            var div = document.createElement('div');
+            div.classList.add("divv");
+            
+            if (wheretoadd == "yoursavedteamsdivider"){
+                removeElementsByClass("removemepls1");
+                div.id = "div"+d;
+            }
+            else{
+                removeElementsByClass("removemepls");
+                div.id = "divv"+d;
+            }
+            var cvrimg = document.createElement('img');
+            cvrimg.id = "cvrimg"+d;
+            switch(datan.cover_image){
+                case undefined:
+                    cvrimg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                    break;
+                default:
+                    cvrimg.src = datan.cover_image;
+                    break;
+            }
+
+            cvrimg.height = 80;
+            cvrimg.width = 200;
+            cvrimg.style.filter = "blur(3px)";
+            cvrimg.style.transition = "2s";
+      
+
+            var avat = document.createElement('img');
+            avat.classList.add("avatt");
+            avat.pointerEvents = "none";
+            avat.id = "avat"+d;
+            switch(datan.avatar){
+                case undefined:
+                    avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                    break;
+                case null:
+                    avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                    break;
+                default:
+                    avat.src = datan.avatar;
+                    break;
+            }
+            avat.height = 40;
+            avat.width = 40;
+            avat.style.transform = "translate(5px, -60px)";
+
+
+            var Tmne = document.createElement('div');
+            Tmne.classList.add("TTmne");
+            Tmne.id = "Tmne"+d;
+            Tmne.innerHTML = datan.name;
+            if(datan.name.length >= 14){
+                Tmne.innerHTML = datan.name.substring(0,8)+"...";
+            }
+            else{
+                Tmne.innerHTML = datan.name;
+            }
+            Tmne.style.transform = "translate(50px, -85px)";
+            Tmne.pointerEvents = "none";
+            
+
+
+
+
+
+            let space = 1;
+            var pfpdiv = document.createElement('div');
+            pfpdiv.id = "pfp";
+            pfpdiv.classList.add("pfpp");
+            pfpdiv.style.filter = "blur(100px)";
+
+            //for every player in that team, create a pfp and put it on the shit, change the width however it's needed
+            for (let a = 0; a < datan.members.length; a++){
+                if(datan.members[a].user_id == leaderid){
+                    var crown = document.createElement('img');
+                    crown.id = "crn";
+                    crown.style.width = "30px";
+                    crown.style.height = "30px";
+                    crown.style.transform = "translate(-40px,-10px)";
+                    crown.src = "https://atomicrecall.github.io/Cipher/images/CAPTAIN.png";
+                    crown.style.position = "absolute";
+                    crown.style.opacity = 1;
+                    
+
+                    var pfp = document.createElement('img');
+                    pfp.id = datan.nickname+"pfp";
+                    pfp.height = 10;
+                    pfp.width = 10;
+                    pfp.style.padding = "10px";
+                    pfp.style.filter = "blur(100px)";
+                    pfp.style.position = "relative";
+                    pfp.pointerEvents = "none";
+                    pfp.style.borderRadius = "40px";
+
+                    switch(datan.members[a].avatar){
+                        case undefined:
+                            pfp.src = "https://cdn-frontend.faceit-cdn.net/web/static/media/assets_images_profile_header.jpg";
+                            break;
+                        default:
+                            pfp.src = datan.members[a].avatar;
+                            break;
+                    }
+
+                    pfpdiv.appendChild(pfp);
+                    pfpdiv.appendChild(crown);
+                }
+            }
+
+           
+            div.appendChild(cvrimg);
+            div.appendChild(avat);
+            div.appendChild(Tmne);
+            div.appendChild(pfpdiv);
+            document.getElementById(wheretoadd).appendChild(div);
+            div.addEventListener('dblclick', () => {
+                
+            });
+            var DELAY = 200, clicks = 0, timer = null;
+            div.addEventListener('click', ()=> {
+                clicks++;
+                if(clicks === 1) {
+
+                    timer = setTimeout(function() {
+        
+                        //perform single-click action
+                        
+                       localStorage.setItem("THETEAMWEARESEARCHING" , dataalolfunny[d]);
+                       document.getElementById("lgOut").style.transform = "translate(5px,10px)";
+                        let js = document.createElement("script");
+                        js.type = "text/javascript"; 
+                        js.src = "BANREADER.js";
+                        document.body.appendChild(js);
+                        
+                        clicks = 0; //after action performed, reset counter
+                        
+                    }, DELAY);
+        
+                } else {
+                    if (!(wheretoadd === "upcomingmatchesdivider")){
+                        clearTimeout(timer);    //prevent single-click action
+
+                        if(confirm('Are you sure you want to delete '+Tmne.innerHTML+', fool?')){
+                            console.log(div.id);
+                            if(localStorage.getItem("NOFACEITACCOUNT")!=1){
+                                
+                                database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
+                                    var data = snapshot.val();
+                                    Object.keys(data).forEach((key) => {
+                                        if(dataalolfunny[d] == data[key]){
+                                            let omgletitsquirt = database.ref("USERS/"+name+"/SAVED_TEAMS/"+key).remove();
+                                            location.reload();
+                                        }
+                                    });
+                                });
+                             }
+                             else{
+                                
+                                var divid = div.id;
+                                //console.log("position = "+divid.substring(3));
 
                                 // Retrieve and parse the array from localStorage
                                 let storedArray = JSON.parse(localStorage.getItem("savedTeams")) || [];
@@ -750,32 +1169,34 @@ function funnyfunction(dataalolfunny,wheretoadd){
             
         
         if(localStorage.getItem("NOFACEITACCOUNT") == 1){
-            if(counter> 7){
+            if(counterr> 7){
                 //every 5, move this one + the next 4, go into next 5 if needed
                 //console.log("WHAT ROW?? "+c)
     
-                moveColumn(div,c,4);
+                moveColumn(div,cc,4);
     
-                if (counter % 7 == 0){
-                    c++;
+                if (counterr % 7 == 0){
+                    cc++;
                 }
             }
         }
         else{
-            if(counter> 2){
+            if(counterr> 2){
                 //every 5, move this one + the next 4, go into next 5 if needed
                 //console.log("WHAT ROW?? "+c)
     
-                moveColumn(div,c,4);
+                moveColumn(div,cc,4);
     
-                if (counter % 2 == 0){
-                    c++;
+                if (counterr % 2 == 0){
+                    cc++;
                 }
             }
         }
             
 
         });
+    }
+            break;
     }
     
 
@@ -1285,20 +1706,42 @@ function getUpcomingMatches(team,season,upcomingdivider){
         .then((data) => {
             if (data != null){
             let payload = data.payload;
+            console.log(payload);
+            
             let matches = payload.items;
             const upcomingteams = [];
             for (const match of matches){
+
                 if (match.status == "created"){
+                    let matchDate = new Date (match.origin.schedule);
                     let factions = match.factions;
                     for (const faction of factions){
                         if (faction.id != team){
+                            
                             upcomingteams.push(faction.id);
+                            upcomingteams.push(matchDate.toDateString());
+                            //funnyfunction(upcomingteams,upcomingdivider);
+                            //upcomingteams.pop();
                         }
                     }
-                }
-            }
 
-            funnyfunction(upcomingteams,upcomingdivider);
+                   
+
+                    
+                   // console.log(matchDate);
+
+                }
+                //if(matchDateDiv){
+                    //document.getElementById(upcomingdivider).appendChild(matchDateDiv);
+
+               // }
+
+            }
+            if (upcomingteams){
+                funnyfunction(upcomingteams,upcomingdivider);
+                
+            }
+            
         }
         })
         break;
