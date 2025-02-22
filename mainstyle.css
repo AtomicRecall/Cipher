@@ -511,6 +511,14 @@ h3{
   width: 40px;
   transform: translate(-0.6px);
 }
+.matchDate{
+  position: absolute;
+  width: 1000px;
+  filter: drop-shadow(2px .1px 2px black);
+  transform: translate(240px,-200px);
+  opacity: 0;
+  font-size: 17px;
+}
 .divvv{
   padding: 10px;
   width: 200px;

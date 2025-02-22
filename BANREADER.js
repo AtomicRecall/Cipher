@@ -118,6 +118,7 @@ var L = new Array(8).fill(0);
 //Train = 7;
 var W = new Array(8).fill(0);
 var picksnbans = [];
+document.getElementById('h3').style.opacity = 1;
 document.getElementById('h3').onmouseover = function(){
     document.getElementById("h3").style.filter = "drop-shadow(.5px 0.5px 3px white)";
 }
