@@ -111,6 +111,23 @@ function getTeamNameDoc(name, offsett, docelement){
                             localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction1.nickname);
                             localStorage.setItem("dafuckingseasonyo",ssnn);
                             localStorage.setItem("team-id",data.items[key].teams.faction1.team_id);
+                            let division = data.items[key].competition_name.substring(12);
+                            if (division.includes("Main")){
+                                division = "Main";
+                            }
+                            else if (division.includes("Advanced")){
+                                division = "Advanced";
+                            }
+                            else if (division.includes("Open")){
+                                division = "Open";
+                            }
+                            else if (division.includes("Intermediate")){
+                                division = "Intermediate";
+                            }
+                            else if (division.includes("ECL")){
+                                division = "ECL";
+                            }
+                            localStorage.setItem("division", division);
                             document.getElementById("loadingorsearching").innerHTML = " FOUND IN: "+data.items[key].competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;
 
                             //console.log("ONE "+data.items[key].teams.faction1.team_id);
@@ -130,6 +147,23 @@ function getTeamNameDoc(name, offsett, docelement){
                     localStorage.setItem("team-id",data.items[key].teams.faction2.team_id);
                     localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction2.nickname);
                     localStorage.setItem("dafuckingseasonyo",ssnn);
+                    let division = data.items[key].competition_name.substring(12);
+                    if (division.includes("Main")){
+                        division = "Main";
+                    }
+                    else if (division.includes("Advanced")){
+                        division = "Advanced";
+                    }
+                    else if (division.includes("Open")){
+                        division = "Open";
+                    }
+                    else if (division.includes("Intermediate")){
+                        division = "Intermediate";
+                    }
+                    else if (division.includes("ECL")){
+                        division = "ECL";
+                    }
+                    localStorage.setItem("division", division);
 
 
                     //console.log("TWO "+data.items[key].teams.faction2.team_id);
