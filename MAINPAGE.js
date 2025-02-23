@@ -136,7 +136,7 @@ rtrnBtn.addEventListener('click', () =>{
 
         document.getElementById(".form-wrapper").style.opacity = "1";
         if(localStorage.getItem("NOFACEITACCOUNT") == 0){
-            document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
+            //document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
 
         }
         else{
@@ -153,7 +153,7 @@ rtrnBtn.addEventListener('click', () =>{
         var upcomingmatchestag = document.createElement('div');
         upcomingmatchestag.id = "upcomingmatchestag";
         upcomingmatchestag.classList.add("divv");
-        upcomingmatchestag.innerHTML = "UPCOMING MATCHES :";
+        upcomingmatchestag.innerHTML = "YOUR NEXT OPPONENTS:";
         upcomingmtches.appendChild(upcomingmatchestag);
         
         var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
@@ -265,7 +265,7 @@ function ontop(){
                 var upcomingmatchestag = document.createElement('div');
                 upcomingmatchestag.id = "upcomingmatchestag";
                 upcomingmatchestag.classList.add("divv");
-                upcomingmatchestag.innerHTML = "YOUR NEXT OPPONENTS :";
+                upcomingmatchestag.innerHTML = "YOUR NEXT OPPONENTS:";
 
                 var loadingimage = document.createElement("img");
                 loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
@@ -280,7 +280,7 @@ function ontop(){
 
                 var teamname = document.createElement('div');
                 teamname.id = "teamname";
-                teamname.innerHTML = "Season "+localStorage.getItem("dafuckingseasonyo")+" for "+localStorage.getItem("dafuckingnameyo");
+                teamname.innerHTML = "Season "+localStorage.getItem("dafuckingseasonyo")+" for "+localStorage.getItem("dafuckingnameyo")+" In division "+localStorage.getItem("division");
                 if(localStorage.getItem('team-id') != null){
                     getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
                 }
@@ -541,6 +541,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                         
                        localStorage.setItem("THETEAMWEARESEARCHING" , dataalolfunny[d]);
                        document.getElementById("lgOut").style.transform = "translate(5px,10px)";
+                       
                         let js = document.createElement("script");
                         js.type = "text/javascript"; 
                         js.src = "BANREADER.js";
@@ -665,7 +666,8 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 
 
             document.getElementById("matchDate"+d).style.opacity = 1;
-            document.getElementById("matchDate"+d).style.transition = "3s";
+            document.getElementById("matchDate"+d).style.transform = "translate(240px,-200px)";
+            document.getElementById("matchDate"+d).style.transition = "2s";
                 
 
             //d is current child; lol holds all childs.
@@ -737,7 +739,8 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 document.getElementById(fds).width = 0;
                 console.log("matchDate"+d);
                 document.getElementById("matchDate"+d).style.opacity = 0;
-                document.getElementById("matchDate"+d).style.transition = "1s";
+                document.getElementById("matchDate"+d).style.transform = "translate(200px,-200px)";
+                document.getElementById("matchDate"+d).style.transition = "0.5s";
                 
                 pfpdiv.style.filter = "blur(100px)";
                 pfpdiv.style.width = 200;
@@ -1247,7 +1250,23 @@ function getTeamNameDoc(name, offsett, docelement){
         // if the "items' competition_name has something to do with esea
         if(data.items[key].competition_name.includes("ESEA") && !data.items[key].competition_name.includes("Qualifier")){
             ssn = data.items[key].competition_name.substring(6,8);
-
+            let division = data.items[key].competition_name.substring(12);
+            if (division.includes("Main")){
+                division = "Main";
+            }
+            else if (division.includes("Advanced")){
+                division = "Advanced";
+            }
+            else if (division.includes("Open")){
+                division = "Open";
+            }
+            else if (division.includes("Intermediate")){
+                division = "Intermediate";
+            }
+            else if (division.includes("ECL")){
+                division = "ECL";
+            }
+            localStorage.setItem("division", division);
             for(let key2 = 0; key2 < data.items[key].playing_players.length; key2++){
                 if(data.items[key].playing_players[key2].includes(name)){
                     console.log("Fopund ur bitch ass LOL");
@@ -1257,7 +1276,7 @@ function getTeamNameDoc(name, offsett, docelement){
                             console.log("ohhh you in team1 big boy :)");
                             console.log(data.items[key]);
                             //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction1.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
-                            document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
+                            document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction1.nickname+" In division "+localStorage.getItem("division");
                             localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction1.nickname);
                             localStorage.setItem('team-id', data.items[key].teams.faction1.team_id);
                             getUpcomingMatches(data.items[key].teams.faction1.team_id,52,"upcomingmatchesdivider");
@@ -1269,7 +1288,7 @@ function getTeamNameDoc(name, offsett, docelement){
                     }
                     console.log("just guessing, you probably in team2 right now big boy :)");
                     //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction2.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
-                    document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
+                    document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction2.nickname+" In division "+localStorage.getItem("division");
                     localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction2.nickname);
                     localStorage.setItem('team-id', data.items[key].teams.faction2.team_id);
                     getUpcomingMatches(data.items[key].teams.faction2.team_id,52,"upcomingmatchesdivider");
@@ -1566,6 +1585,7 @@ function searchForTeams(teamnme){
                     
                     if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
                         pushToSavedTeams(datan.team_id);
+                        location.reload();
                     }
                     else{
                         savedTeams.push(datan.team_id);
@@ -1675,9 +1695,9 @@ function searchForTeams(teamnme){
 }
 function getUpcomingMatches(team,season,upcomingdivider){
     
-
-    switch (season){
-        case 52:
+    console.log("division = "+localStorage.getItem("division"));
+    switch (localStorage.getItem("division")){
+        case "Main":
         //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
     return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103&limit=20`,{
         method: 'GET',
@@ -1745,6 +1765,142 @@ function getUpcomingMatches(team,season,upcomingdivider){
         }
         })
         break;
+        case "Advanced":
+                //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
+            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=37fa33a6-5bb5-469d-b83a-d53893a55de4&limit=20`,{
+                method: 'GET',
+                headers:{
+                    'Access-Control-Allow-Origin' : '*',
+        
+                    
+                }
+            })
+                
+                /*
+                return fetch(`https://www.faceit.com/api/championships/v1/matches?participantId=`+team+`&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103&limit=20&offset=0
+                `,{
+                    method: 'GET'
+                })
+                    */
+                .then((response) => {
+                    if (response.status === 404) {
+                        return Promise.resolve();
+                    } else if (!response.ok) {
+                        console.log(response);
+                        throw new Error("Couldn't fetch that data");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    if (data != null){
+                    let payload = data.payload;
+                    console.log(payload);
+                    
+                    let matches = payload.items;
+                    const upcomingteams = [];
+                    for (const match of matches){
+        
+                        if (match.status == "created"){
+                            let matchDate = new Date (match.origin.schedule);
+                            let factions = match.factions;
+                            for (const faction of factions){
+                                if (faction.id != team){
+                                    
+                                    upcomingteams.push(faction.id);
+                                    upcomingteams.push(matchDate.toDateString());
+                                    //funnyfunction(upcomingteams,upcomingdivider);
+                                    //upcomingteams.pop();
+                                }
+                            }
+        
+                           
+        
+                            
+                           // console.log(matchDate);
+        
+                        }
+                        //if(matchDateDiv){
+                            //document.getElementById(upcomingdivider).appendChild(matchDateDiv);
+        
+                       // }
+        
+                    }
+                    if (upcomingteams){
+                        funnyfunction(upcomingteams,upcomingdivider);
+                        
+                    }
+                    
+                }
+                })
+                break;       
+         case "Intermediate":
+                //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
+            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=c36f31b6-c448-49a5-bfdc-add7666de250&limit=20`,{
+                method: 'GET',
+                headers:{
+                    'Access-Control-Allow-Origin' : '*',
+        
+                    
+                }
+            })
+                
+                /*
+                return fetch(`https://www.faceit.com/api/championships/v1/matches?participantId=`+team+`&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103&limit=20&offset=0
+                `,{
+                    method: 'GET'
+                })
+                    */
+                .then((response) => {
+                    if (response.status === 404) {
+                        return Promise.resolve();
+                    } else if (!response.ok) {
+                        console.log(response);
+                        throw new Error("Couldn't fetch that data");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    if (data != null){
+                    let payload = data.payload;
+                    console.log(payload);
+                    
+                    let matches = payload.items;
+                    const upcomingteams = [];
+                    for (const match of matches){
+        
+                        if (match.status == "created"){
+                            let matchDate = new Date (match.origin.schedule);
+                            let factions = match.factions;
+                            for (const faction of factions){
+                                if (faction.id != team){
+                                    
+                                    upcomingteams.push(faction.id);
+                                    upcomingteams.push(matchDate.toDateString());
+                                    //funnyfunction(upcomingteams,upcomingdivider);
+                                    //upcomingteams.pop();
+                                }
+                            }
+        
+                           
+        
+                            
+                           // console.log(matchDate);
+        
+                        }
+                        //if(matchDateDiv){
+                            //document.getElementById(upcomingdivider).appendChild(matchDateDiv);
+        
+                       // }
+        
+                    }
+                    if (upcomingteams){
+                        funnyfunction(upcomingteams,upcomingdivider);
+                        
+                    }
+                    
+                }
+                })
+                break;
     } 
     
 }

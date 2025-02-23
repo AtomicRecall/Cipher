@@ -8,6 +8,7 @@ function removeElementsByClass(className) {
     }
 }
 removeElementsByClass("divv");
+document.getElementById("h3").innerHTML = " ";
 document.getElementById(".form-wrapper").style.opacity = "0";
 document.getElementById(".BanFileExplorer").style.height = "750px";
 if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
@@ -19,6 +20,12 @@ document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"
 document.getElementById("srchBtn").style.visibility = "hidden";
 document.getElementById("rtrnBtn").style.visibility = "visible";
 document.getElementById("rtrnBtn").style.transform = "translate(1300px, -3px)";
+let rtrnBtn = document.getElementById("rtrnBtn");
+rtrnBtn.addEventListener('click', () =>{
+    if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
+        document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
+    }
+});
 var lastbooleaniswear = false;
 var ffws = 0;
 var ffws1 = 0;
@@ -338,7 +345,7 @@ function GetLeaguePickBans(leaderid, offset) {
 
 function fetchLast5Players(matchid){
     console.log("feetchinf that shit for "+matchid);
-    return fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
+     fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
         headers: {
             'accept': 'application/json',
             'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
@@ -436,12 +443,16 @@ function fetchLast5Players(matchid){
         
 
     });
+
+    
 }
+
+
 
 var c = 0;
 function fetchMatchData(matchid,leaderid) {
     c++;
-    if( c==1){
+    if( c===1){
         fetchLast5Players(matchid);
     }
     return fetch(`https://open.faceit.com/data/v4/matches/${matchid}`, {
@@ -460,15 +471,17 @@ function fetchMatchData(matchid,leaderid) {
         return res.json();
     })
     .then((datan12) => {
-       // console.log(datan12);
+        console.log("OOOOO LOOK AT ME");
+        console.log(datan12);
         let t1pfp = datan12.teams.faction1.avatar;
 
         let t2pfp = datan12.teams.faction2.avatar;
      
         
         let errthang = datan12;
-        
+        let compnamee = datan12.competition_name.substring(4);
 
+        console.log("Found competition id "+datan12.competition_id+" for "+compnamee);
         let compname = errthang.competition_name;
 
         let faceitlink = errthang.faceit_url.replace("{lang}", '');
@@ -528,6 +541,9 @@ function fetchMatchData(matchid,leaderid) {
             let detailedscr = datan123.rounds;
             let scoree = null;
             
+            if (detailedscr.competition_id){
+                console.log("WE FOUND COMPETITION ID "+detailedscr.competition_id);
+            }
             let temp = datan123.rounds[0].teams;
             let tem1id = temp[0].team_id;
             let tem2id = temp[1].team_id;
