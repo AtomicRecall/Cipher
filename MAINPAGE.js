@@ -58,7 +58,7 @@ else{
 const now = new Date();
 
 var currenttimestring = now.getMonth()+1+"/"+now.getDate()+"/"+now.getFullYear()+" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
-var ref = database.ref('USERS/'+name+'/LastLoggedIn').set(currenttimestring);
+
 
 let NONESEALEAGUEPLAYERR = -1;
 var NONESEALEAGUEPLAYERREF = database.ref('USERS/'+name).on ('value', function(snapshot){
@@ -209,6 +209,7 @@ function ontop(){
     localStorage.setItem("first-time", 1);
 
     if (localStorage.getItem("NOFACEITACCOUNT") != 1){
+        var ref = database.ref('USERS/'+name+'/LastLoggedIn').set(currenttimestring);
         //obtaining faceit information
         fetch('https://open.faceit.com/data/v4/players?nickname='+name+'&game=cs2', {
         headers: {
@@ -280,7 +281,15 @@ function ontop(){
 
                 var teamname = document.createElement('div');
                 teamname.id = "teamname";
-                teamname.innerHTML = "Season "+localStorage.getItem("dafuckingseasonyo")+" for "+localStorage.getItem("dafuckingnameyo")+" In division "+localStorage.getItem("division");
+                teamname.style.opacity = 0;
+                if(localStorage.getItem("division")){
+                    teamname.innerHTML = "Season "+localStorage.getItem("daseasonyo")+" for "+localStorage.getItem("danameyo")+"\n In division "+localStorage.getItem("division");
+
+                }
+                else{
+                    teamname.innerHTML = "Season "+localStorage.getItem("daseasonyo")+" for "+localStorage.getItem("danameyo");
+
+                }
                 if(localStorage.getItem('team-id') != null){
                     getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
                 }
@@ -291,6 +300,7 @@ function ontop(){
                 teamname.style.filter = "drop-shadow(0px 0px 2px #000000)";
                 document.getElementById(".form-wrapper").appendChild(teamname);
             }
+            teamname.style.opacity = 1;
         });
 }
     removeElementsByClass("removemepls");  
@@ -1229,7 +1239,7 @@ function getTeamNameDoc(name, offsett, docelement){
         var ref = database.ref('USERS/'+localStorage.getItem("faceit-name")+'/NONESEALEAGUEPLAYER').set(1);
         window.location.reload();
     }
-    if (beenfound || !(localStorage.getItem("dafuckingnameyo")=="")){
+    if (beenfound || !(localStorage.getItem("danameyo")=="")){
         return;
     }
     fetch('https://open.faceit.com/data/v4/players/'+name+'/history?game=cs2&offset='+offsett+'&limit=20', {
@@ -1246,6 +1256,7 @@ function getTeamNameDoc(name, offsett, docelement){
     })
   .then((data) =>{
     console.log(data);
+    document.getElementById(docelement).style.opacity = 0;
     for(let key = 0; key < data.items.length; key++){
         // if the "items' competition_name has something to do with esea
         if(data.items[key].competition_name.includes("ESEA") && !data.items[key].competition_name.includes("Qualifier")){
@@ -1267,6 +1278,7 @@ function getTeamNameDoc(name, offsett, docelement){
                 division = "ECL";
             }
             localStorage.setItem("division", division);
+            localStorage.setItem("daseasonyo",ssn);
             for(let key2 = 0; key2 < data.items[key].playing_players.length; key2++){
                 if(data.items[key].playing_players[key2].includes(name)){
                     console.log("Fopund ur bitch ass LOL");
@@ -1276,8 +1288,8 @@ function getTeamNameDoc(name, offsett, docelement){
                             console.log("ohhh you in team1 big boy :)");
                             console.log(data.items[key]);
                             //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction1.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
-                            document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction1.nickname+" In division "+localStorage.getItem("division");
-                            localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction1.nickname);
+                            document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction1.nickname+"\n In division "+localStorage.getItem("division");
+                            localStorage.setItem("danameyo",data.items[key].teams.faction1.nickname);
                             localStorage.setItem('team-id', data.items[key].teams.faction1.team_id);
                             getUpcomingMatches(data.items[key].teams.faction1.team_id,52,"upcomingmatchesdivider");
 
@@ -1288,8 +1300,8 @@ function getTeamNameDoc(name, offsett, docelement){
                     }
                     console.log("just guessing, you probably in team2 right now big boy :)");
                     //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction2.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
-                    document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction2.nickname+" In division "+localStorage.getItem("division");
-                    localStorage.setItem("dafuckingnameyo",data.items[key].teams.faction2.nickname);
+                    document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction2.nickname+"\n In division "+localStorage.getItem("division");
+                    localStorage.setItem("danameyo",data.items[key].teams.faction2.nickname);
                     localStorage.setItem('team-id', data.items[key].teams.faction2.team_id);
                     getUpcomingMatches(data.items[key].teams.faction2.team_id,52,"upcomingmatchesdivider");
 
@@ -1302,6 +1314,8 @@ function getTeamNameDoc(name, offsett, docelement){
                 }
                 
             }
+            document.getElementById(docelement).style.opacity = 1;
+
             //console.log("done with loop");
             
         }
@@ -1313,7 +1327,6 @@ function getTeamNameDoc(name, offsett, docelement){
 
 function searchForTeams(teamnme){
     let counter = 0;
-    let c = 1;
     var cocksucker = teamnme.split(' ').join('%20');
     var foundteamsdivider = document.createElement("div");
     foundteamsdivider.id = "foundteamsdivider";
@@ -1346,13 +1359,8 @@ function searchForTeams(teamnme){
             console.log(datan);
             let cvrimg = document.createElement('img');
             cvrimg.id = "cvrimg"+d;
-
-            var leaderpicture = undefined;
             var leadername = undefined;
-            
-
-
-                    var leadernamez = document.createElement('div');
+            var leadernamez = document.createElement('div');
 
                     fetch('https://open.faceit.com/data/v4/teams/'+datan.team_id, {
                         headers: {
@@ -1423,10 +1431,6 @@ function searchForTeams(teamnme){
                             }
 
                         });
-
-                        
-                       // pfpdivvv.appendChild(leadernamez);
-                    
             counter++;  
             
             //avatar and cover image in the right spot, will have to figure out how to do this automatically with lots of mother fucking entries

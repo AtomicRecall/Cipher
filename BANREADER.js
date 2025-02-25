@@ -1,4 +1,5 @@
 console.log("one two three");
+const database = firebase.database();
 var THETEAMWEARESEARCHING = localStorage.getItem("THETEAMWEARESEARCHING");
 var currentseason = 51;
 function removeElementsByClass(className) {
@@ -20,7 +21,7 @@ document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"
 document.getElementById("srchBtn").style.visibility = "hidden";
 document.getElementById("rtrnBtn").style.visibility = "visible";
 document.getElementById("rtrnBtn").style.transform = "translate(1300px, -3px)";
-let rtrnBtn = document.getElementById("rtrnBtn");
+var rtrnBtn = document.getElementById("rtrnBtn");
 rtrnBtn.addEventListener('click', () =>{
     if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
         document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
@@ -198,7 +199,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
         myshit.parentNode.removeChild(myshit);
     }
     removeElementsByClass("divvv");
-    document.getElementById("h3").style.opacity = 100;
+    document.getElementById("h3").style.opacity = 1;
     printToWebsite(picksnbans, false);
     
 })
@@ -283,7 +284,7 @@ function GetLeaguePickBans2(teamid, currentssn){
                 })
                 .then((data) => {
                     let payload = data.payload;
-                    console.log(payload);
+                   // console.log(payload);
                 });
                 break;
 
@@ -376,8 +377,8 @@ function fetchLast5Players(matchid){
         }
         let bigplayerdivider = document.createElement("div");
         bigplayerdivider.id = "WHOLEPLAYERDIVIDER";
-        console.log("POOPIE POOP");
-        console.log(datan12);
+       // console.log("POOPIE POOP");
+        //console.log(datan12);
         for (const player of players){
             fetch('https://open.faceit.com/data/v4/players?nickname='+player.nickname+'&game=cs2', {
                 headers: {
@@ -471,8 +472,9 @@ function fetchMatchData(matchid,leaderid) {
         return res.json();
     })
     .then((datan12) => {
-        console.log("OOOOO LOOK AT ME");
-        console.log(datan12);
+       // console.log("OOOOO LOOK AT ME");
+        //console.log(datan12);
+        
         let t1pfp = datan12.teams.faction1.avatar;
 
         let t2pfp = datan12.teams.faction2.avatar;
@@ -480,12 +482,41 @@ function fetchMatchData(matchid,leaderid) {
         
         let errthang = datan12;
         let compnamee = datan12.competition_name.substring(4);
-
-        console.log("Found competition id "+datan12.competition_id+" for "+compnamee);
+        let season = errthang.competition_name.substring(6, 8);
+        let division = datan12.competition_name.substring(12);
+        if (division.includes("Main")){
+            division = "Main";
+        }
+        else if (division.includes("Advanced")){
+            division = "Advanced";
+        }
+        else if (division.includes("Open")){
+            console.log(division);
+            division = "Open";
+        }
+        else if (division.includes("Intermediate")){
+            division = "Intermediate";
+        }
+        else if (division.includes("ECL")){
+            division = "ECL";
+        }
+        console.log("WE FOUND COMPETITION ID "+datan12.competition_id+" FOR S"+season+" "+division);
+        let poopcockvagina = database.ref("championshipIDS/Season "+season+"/Regular Season"+"/"+division).on('value', function(snapshot){
+            var data = snapshot.val();
+            console.log(data);  
+            if (data === null){
+                const wherefoldergoes = database.ref("championshipIDS/Season "+season+"/Regular Season");
+                wherefoldergoes.update({ [division]: datan12.competition_id }) // Creates the path without overwriting existing data
+                .then(() => console.log("Path created:", wherefoldergoes))
+                .catch(error => console.error("Error creating path:", error));
+            }
+            });
+            
+        //console.log("Found competition id "+datan12.competition_id+" for "+compnamee);
         let compname = errthang.competition_name;
 
         let faceitlink = errthang.faceit_url.replace("{lang}", '');
-        let season = errthang.competition_name.substring(6, 8);
+        
         let bostof = errthang.best_of;
         //console.log(errthang)
         let fac1 = errthang.teams.faction1.name;
@@ -536,13 +567,13 @@ function fetchMatchData(matchid,leaderid) {
             return res.json();
         })
         .then((datan123) => {
-            console.log("UM WHAT THE CHEESE?");
-            console.log(datan123);
+           // console.log("UM WHAT THE CHEESE?");
+            //console.log(datan123);
             let detailedscr = datan123.rounds;
             let scoree = null;
             
             if (detailedscr.competition_id){
-                console.log("WE FOUND COMPETITION ID "+detailedscr.competition_id);
+
             }
             let temp = datan123.rounds[0].teams;
             let tem1id = temp[0].team_id;
@@ -582,8 +613,8 @@ function fetchMatchData(matchid,leaderid) {
             .then((data) => {
                 let picksnbanz = [];
                 let payload = data.payload;
-                console.log("AAAAAAAAAA");
-                console.log(payload);
+                //console.log("AAAAAAAAAA");
+                //console.log(payload);
                 picksnbanz.push(payload.tickets[2]);
 
                 for (let d = 0; d < picksnbanz[0].entities.length; d++) {
@@ -664,6 +695,8 @@ function fetchMatchData(matchid,leaderid) {
 
 function printToWebsite(dapicksanddabans, something){
     document.getElementById("teambackgrounddiv").style.opacity = "1";
+    document.getElementById("WHOLEPLAYERDIVIDER").style.pointerEvents = "auto";
+
     let wins = 0;
     let loss = 0;
     let wins1 = 0;
@@ -1614,11 +1647,7 @@ var ILIEDLOLL = 3;
     checkbox.addEventListener("click", () => {
         if (checkbox.checked) {
             ILIEDLOLL-=1;
-            if (label.textContent === "S52"){
-                console.log("Clicked S52!");
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+            if (label.textContent === "S52" ||THEFINALCOUNTERISWEAR === 1){
                 if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
                     setTimeout(() => {
                         document.getElementById("vertigoo").style.display = "none";
@@ -1626,9 +1655,9 @@ var ILIEDLOLL = 3;
                         document.getElementById("trainn").style.transform = "translate(470px,20px)";
                         document.getElementById("trainimage").style.transform = "translate(470px,20px)";
                     }, 10);
-                    console.log("Elements hidden");
+                    //console.log("Elements hidden");
                 } else {
-                    console.log("vertigoo or verimage not found!");
+                   // console.log("vertigoo or verimage not found!");
                 }
 
             }

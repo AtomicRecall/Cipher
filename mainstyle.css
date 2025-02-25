@@ -565,6 +565,10 @@ transform: translateY(-120px);
 
 }
 #trainn{
+  filter: drop-shadow(.5px 0.5px 0.1px black);
+  width: 230px;
+  height: 130px;
+  position: absolute;
   transform: translate(470px,175px);
 }
 #trainimage{
@@ -581,6 +585,7 @@ transform: translateY(-120px);
   transform: translate(-10px,-285px);
   display: grid;
   grid-auto-flow: column;
+  pointer-events: none;
 }
 #teambackgrounddiv{
   width: 1260px;
