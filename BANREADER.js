@@ -1,5 +1,5 @@
 console.log("one two three");
-const database = firebase.database();
+var database = firebase.database();
 var THETEAMWEARESEARCHING = localStorage.getItem("THETEAMWEARESEARCHING");
 var currentseason = 51;
 function removeElementsByClass(className) {
@@ -126,6 +126,7 @@ var L = new Array(8).fill(0);
 //Train = 7;
 var W = new Array(8).fill(0);
 var picksnbans = [];
+let dividerclicked = false;
 document.getElementById('h3').style.opacity = 1;
 document.getElementById('h3').onmouseover = function(){
     document.getElementById("h3").style.filter = "drop-shadow(.5px 0.5px 3px white)";
@@ -151,8 +152,9 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
 })
 .then((datan) => {
     //GetLeaguePickBans2(THETEAMWEARESEARCHING, 52);
-    //console.log("PENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-    //console.log(datan);
+    console.log("PENISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+    console.log(datan);
+    localStorage.setItem("LeaderID", datan.leader);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
     document.getElementById("h3").onclick = function(){
         let faceitlinkk = datan.faceit_url.replace("{lang}", '');
@@ -198,6 +200,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
         var myshit = document.getElementById("removemepls");
         myshit.parentNode.removeChild(myshit);
     }
+
     removeElementsByClass("divvv");
     document.getElementById("h3").style.opacity = 1;
     printToWebsite(picksnbans, false);
@@ -345,7 +348,7 @@ function GetLeaguePickBans(leaderid, offset) {
 
 
 function fetchLast5Players(matchid){
-    console.log("feetchinf that shit for "+matchid);
+    console.log("feetching last 5 players for "+matchid);
      fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
         headers: {
             'accept': 'application/json',
@@ -366,7 +369,7 @@ function fetchLast5Players(matchid){
         let teams = damatchstats.teams;
         let tm1 = teams[0];
         let tm2 = teams[1];
-        let players;
+        let players = [];
         if (tm1.team_id == localStorage.getItem("THETEAMWEARESEARCHING")){
             players = tm1.players;
             //console.log(tm1);
@@ -377,8 +380,10 @@ function fetchLast5Players(matchid){
         }
         let bigplayerdivider = document.createElement("div");
         bigplayerdivider.id = "WHOLEPLAYERDIVIDER";
-       // console.log("POOPIE POOP");
+        //console.log("POOPIE POOP");
         //console.log(datan12);
+        console.log(players);
+        let counter = 0;
         for (const player of players){
             fetch('https://open.faceit.com/data/v4/players?nickname='+player.nickname+'&game=cs2', {
                 headers: {
@@ -398,11 +403,19 @@ function fetchLast5Players(matchid){
                     let playerdivider = document.createElement("div");
                     playerdivider.id = "PLAYERDIVIDER";
                     let pfp = document.createElement("img");
-                    pfp.id = "TEAMPFP";
+
+                    pfp.classList.add("TEAMPFP");
+                    pfp.id = "TEAMPFP"+counter;
                     let name = document.createElement("div");
-                    name.id = "TEAMPFPNAME";
-                    //name.style.position = "absolute";
+                    name.id = "TEAMPFPNAME"+counter;
+                    name.classList.add("TEAMPFPNAME");
+                    counter++;
+                    let captain = document.createElement("img");
+                    captain.src = "https://atomicrecall.github.io/Cipher/images/CAPTAIN.png";
+                    captain.id = "captainforthatonethingy";
+ 
                     name.innerHTML = data.nickname;
+
                     switch(data.avatar){
                         case undefined:
                             pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
@@ -417,21 +430,73 @@ function fetchLast5Players(matchid){
                             pfp.src = data.avatar;
                             break;
                     }
+                    let pic2 = document.createElement("img");
+                    let name2 = document.createElement("div");
+                    let clicks = 0;
                     pfp.onmouseover = function(){
+                        if (clicks <= 0){
                         pfp.style.filter = "drop-shadow(.5px 0.5px 3px white)";
                         name.style.filter = "drop-shadow(.5px 0.5px 3px white)";
-                    }
-                    pfp.onmouseout = function(){
-                        pfp.style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
-                        name.style.filter = "drop-shadow(.5px 0.5px 3px black)";
+                        captain.style.filter = "drop-shadow(.5px 0.5px 3px white)";
+                        }
+                        
 
                     }
+                    pfp.onmouseout = function(){
+                        if(clicks <= 0){
+                            pfp.style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
+                            name.style.filter = "drop-shadow(.5px 0.5px 3px black)";
+                            captain.style.filter = "";
+                        }
+                        
+
+
+                    }
+                    
                     pfp.onclick = function(){
+                        if(dividerclicked){
+                            clicks++;
+                        }
+                        
                         console.log("PICTURE CLICKED");
-                        window.open("https://www.faceit.com/en/players/"+player.nickname);
+
+                        if(dividerclicked && clicks === 1){
+                            console.log("HOVER OVER WHILE DIVIDER CLICKED");
+                            pfp.style.filter = "drop-shadow(.5px 0.5px 10px orange)";
+                            name.style.filter = "drop-shadow(.5px 0.5px 1px orange)";
+                            captain.style.filter = "drop-shadow(.5px 0.5px 1px orange)";
+                            pic2.src = pfp.src;
+                            pic2.id = "DUPLICATEPIC";
+                            pic2.style.width = "75px";
+                            pic2.style.height = "75px";
+                            pic2.style.transform = "translate(400px,-390px)";
+                            name2.id = "DUPLICATENAME";
+                            name2.innerHTML = name.innerHTML;
+                            name2.style.webkitFilter = "drop-shadow(black 1px 1px 0.1px)";
+                            name2.style.transform = "translate(400px,-390px)";
+                            name2.style.color = "white";
+                            document.getElementById("quickInfo").appendChild(pic2);
+                            document.getElementById("quickInfo").appendChild(name2);
+                        }
+
+                        if (dividerclicked && clicks === 2){
+                            clicks = 0;
+                            if(document.getElementById("quickInfo") && document.getElementById("quickInfo")){
+                            document.getElementById("quickInfo").removeChild(pic2);
+                            document.getElementById("quickInfo").removeChild(name2);
+                            pfp.style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
+                            name.style.filter = "drop-shadow(.5px 0.5px 3px black)";
+                            captain.style.filter = "";
+                            }
+                        }
+                        //window.open("https://www.faceit.com/en/players/"+player.nickname);
                     }
                     playerdivider.appendChild(pfp);
                     playerdivider.appendChild(name);
+                    if (player.player_id === localStorage.getItem("LeaderID")){
+                        playerdivider.appendChild(captain);
+                        localStorage.removeItem("LeaderID");
+                    }
                     bigplayerdivider.appendChild(playerdivider);
 
                     
@@ -450,10 +515,10 @@ function fetchLast5Players(matchid){
 
 
 
-var c = 0;
+var c = false;
 function fetchMatchData(matchid,leaderid) {
-    c++;
-    if( c===1){
+    if(!c){
+        c = true;
         fetchLast5Players(matchid);
     }
     return fetch(`https://open.faceit.com/data/v4/matches/${matchid}`, {
@@ -481,7 +546,7 @@ function fetchMatchData(matchid,leaderid) {
      
         
         let errthang = datan12;
-        let compnamee = datan12.competition_name.substring(4);
+        //let compnamee = datan12.competition_name.substring(4);
         let season = errthang.competition_name.substring(6, 8);
         let division = datan12.competition_name.substring(12);
         if (division.includes("Main")){
@@ -491,7 +556,7 @@ function fetchMatchData(matchid,leaderid) {
             division = "Advanced";
         }
         else if (division.includes("Open")){
-            console.log(division);
+            //console.log(division);
             division = "Open";
         }
         else if (division.includes("Intermediate")){
@@ -500,10 +565,10 @@ function fetchMatchData(matchid,leaderid) {
         else if (division.includes("ECL")){
             division = "ECL";
         }
-        console.log("WE FOUND COMPETITION ID "+datan12.competition_id+" FOR S"+season+" "+division);
+       // console.log("WE FOUND COMPETITION ID "+datan12.competition_id+" FOR S"+season+" "+division);
         let poopcockvagina = database.ref("championshipIDS/Season "+season+"/Regular Season"+"/"+division).on('value', function(snapshot){
             var data = snapshot.val();
-            console.log(data);  
+            //console.log(data);  
             if (data === null){
                 const wherefoldergoes = database.ref("championshipIDS/Season "+season+"/Regular Season");
                 wherefoldergoes.update({ [division]: datan12.competition_id }) // Creates the path without overwriting existing data
@@ -567,7 +632,7 @@ function fetchMatchData(matchid,leaderid) {
             return res.json();
         })
         .then((datan123) => {
-           // console.log("UM WHAT THE CHEESE?");
+          // console.log("UM WHAT THE CHEESE?");
             //console.log(datan123);
             let detailedscr = datan123.rounds;
             let scoree = null;
@@ -696,11 +761,13 @@ function fetchMatchData(matchid,leaderid) {
 function printToWebsite(dapicksanddabans, something){
     document.getElementById("teambackgrounddiv").style.opacity = "1";
     document.getElementById("WHOLEPLAYERDIVIDER").style.pointerEvents = "auto";
+    let recorddiv = document.createElement("div");
+    recorddiv.style.display = "grid";
+    recorddiv.style.gridAutoFlow = "column";
+    recorddiv.style.color = "white";
+    recorddiv.style.transform = "translateY(-350px)";
+    recorddiv.style.filter = "drop-shadow(1px 1px 1px black)";
 
-    let wins = 0;
-    let loss = 0;
-    let wins1 = 0;
-    let loss1 = 0;
     let matchesDivider = document.createElement('div');
     matchesDivider.id = "mtches";
     matchesDivider.style.overflow = "auto";
@@ -711,9 +778,13 @@ function printToWebsite(dapicksanddabans, something){
     let allInfoDivider = document.createElement('div');
     allInfoDivider.id = "allInfo";
 
+    let wins = 0;
+    let loss = 0;
     let coun = 0;
     let tempor = currentseason;
+
     for (let d = 0; d < dapicksanddabans.length; d++){
+
         let gamediv = document.createElement('div');
         gamediv.id = "game"+d;
         gamediv.style.height = "150px";
@@ -770,22 +841,14 @@ function printToWebsite(dapicksanddabans, something){
         if(dapicksanddabans[d].winnerID == THETEAMWEARESEARCHING){
             score.style.color = 'chartreuse';
             score.style.webkitFilter = "drop-shadow(0px 0px 10px #1eff00)";
-            if(dapicksanddabans[d].season == "50"){
-                wins = wins + 1;
-            }
-            else {
-                wins1 = wins1 + 1;
-            }
+            wins++;
+
         }
         else{
             score.style.color = 'maroon';
             score.style.webkitFilter = "drop-shadow(0px 0px 5px #ff0000)";
-            if(dapicksanddabans[d].season == "50"){
-                loss = loss + 1;
-            }
-            else {
-                loss1 = loss1 + 1;
-            }
+            loss++;
+
             
         }
 
@@ -796,6 +859,16 @@ function printToWebsite(dapicksanddabans, something){
             SeasonDivider.style.fontSize = "20px";
             SeasonDivider.style.transform = "translateX(20px)";
             matchesDivider.append(SeasonDivider);
+            if (dapicksanddabans[d-1] && !something){
+                
+                let record = document.createElement("div");
+                record.innerHTML = SeasonDivider.innerHTML.substring(13)+": "+wins+" // "+loss;
+                recorddiv.appendChild(record);
+                
+                wins = 0;
+                loss = 0;
+            }
+
             coun = coun + 1;
         }
 
@@ -1057,6 +1130,7 @@ function printToWebsite(dapicksanddabans, something){
         }
        }
        matchesDivider.appendChild(gamediv);
+       document.getElementById("teambackgrounddiv").appendChild(recorddiv);
 
     }
 
@@ -1343,6 +1417,7 @@ function printToWebsite(dapicksanddabans, something){
 
         }
     }
+   
 /*
     let record = document.createElement("div");
     record.id = "record";
@@ -1387,26 +1462,85 @@ function printToWebsite(dapicksanddabans, something){
     
     document.getElementById(".BanFileExplorer").appendChild(document.getElementById("rtrnBtn"));
     let info = document.createElement("div");
+    info.id = "BANINFOMAN";
+                       
+                    //info.style.transform = "translateY(190px)"
+    let moreclicks = 0;
     info.style.fontSize = "20px";
-    info.style.color = "white";
+    info.style.webkitFilter = "drop-shadow(1px 1px 0.1px black)";
     
-
     for (let d = 0; d < matchesDivider.children.length-2; d++){
+
         if(document.getElementById("game"+d)){
             document.getElementById("game"+d).onclick = function(){
+                let storedevents = new Map();
+                moreclicks++;
+                dividerclicked = !dividerclicked;
+                if (moreclicks > 0){
+                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
+                    /*
+                    document.getElementById("mtches").querySelectorAll("*").forEach(element =>{
+                        storedevents.set(element,element.onmouseover);
+                        element.onmouseover = null;
+                        
+                    });
+                    */
+                }
+                else if (moreclicks > 1){
+                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px white)";
+ 
+                    /*
+                    storedevents.forEach((handler, element) => {
+                        element.onmouseover = handler; // Restore event
+                    });
+                    storedMouseoverEvents.clear();
+                    */
+                    dividerclicked = !dividerclicked;
 
-                window.open(dapicksanddabans[d].link);
+                }
+                
+
+                
+
+                    
+
+                
+            
+               
+                
+
+                
+                /*
+                document.getElementById("game"+d).onclick = function(){
+                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px white)";
+                    dividerclicked = !dividerclicked;
+                    info.style.fontSize = "20px";
+                    info.style.transform = "";
+                    //window.open(dapicksanddabans[d].link);
+                }
+                //
+                */
             }
         
             document.getElementById("game"+d).onmouseover = function(){
                 quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
+                if (dividerclicked && moreclicks > 0){
+                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
+                }
+                else{
+                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px white)";
+                }
+                        
+                        
+
                     document.getElementById("allInfo").style.transform = "translate(775px,300px)";
                     const butons = document.querySelectorAll('#penisandcock');
                     butons.forEach(element =>{
                         element.style.transform = "translate(1535px, -450px)"
                     });
                 // quickInfoDivider.innerHTML+='<span class="grey"> '+dapicksanddabans[d].entities[0].selected_by+"</span> VS "+'<span class="grey"> '+dapicksanddabans[d].entities[1].selected_by+"</span>";
-                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px #ffffff)";
+
+                
                     //function that calculates info for current highlighted game (you can get the matchid by getting the vote_type from)
                     //dapicksanddabans[d] returns the correct ban information for that hightlighted map.
                     //we want the pick ban process, so take the array that's in picksandbans[d] and display what the info is ex. Spin da Block banned de_vertigo
@@ -1502,9 +1636,11 @@ function printToWebsite(dapicksanddabans, something){
                             }
                             holyshitsomanymapss.appendChild(bigimage);
                         }
-                        
-                        let final = (counter == 7) ? "(LEFT OVER) "+p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>": p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>";
-                        info.innerHTML+=final;
+                        if (!dividerclicked){
+                            let final = (counter == 7) ? "(LEFT OVER) "+p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>": p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>";
+                            info.innerHTML+=final;
+                        }
+
 
                     }
 
@@ -1513,10 +1649,11 @@ function printToWebsite(dapicksanddabans, something){
                     let fjksdhfksdj = dapicksanddabans[d].teams[0];
                     let tm1nme = document.createElement("div");
                     tm1nme.innerHTML = fjksdhfksdj[1];
+
                     tm1nme.style.position = "absolute";
-                    tm1nme.style.transform = "translate(60px,-250px)";
+                    
                     tm1nme.style.color = "#ffffff";
-                    tm1nme.style.fontSize = "25px";
+                    
                     tm1nme.style.textShadow = "0px 0px 2px "+(( fjksdhfksdj[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
                     checkImageExists(fjksdhfksdj[0], function(exists) {
                         if (exists) {
@@ -1533,9 +1670,9 @@ function printToWebsite(dapicksanddabans, something){
                     let tm2nme = document.createElement("div");
                     tm2nme.innerHTML = fsdfesfsdf[1];
                     tm2nme.style.position = "absolute";
-                    tm2nme.style.transform = "translate(300px,-250px)";
+                    
                     tm2nme.style.color = "#ffffff";
-                    tm2nme.style.fontSize = "25px";
+                    
                     tm2nme.style.textShadow = "0px 0px 2px "+(( fsdfesfsdf[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
                     checkImageExists(fsdfesfsdf[0], function(exists) {
                         if (exists) {
@@ -1544,11 +1681,49 @@ function printToWebsite(dapicksanddabans, something){
                             tm2pfp.src = defaultimage; // Use fallback URL if the image doesn't exist
                         }
                     });
+                                        //display score here?
+                                        let VS = document.createElement("div");
+                                        VS.id = "VS";
+                                        VS.innerHTML = "VS";
+                    if(dividerclicked){
 
-                    //display score here?
-                    let VS = document.createElement("div");
-                    VS.id = "VS";
-                    VS.innerHTML = "VS";
+                        info.style.fontSize = "22px";
+                        info.style.transform = "translateY(-190px)";
+                        info.style.width = "500px";
+                        tm1nme.style.fontSize = "15px";
+                        tm1nme.style.transform = "translate(30px,-300px)";
+                        tm2nme.style.fontSize = "15px";
+                        tm2nme.style.transform = "translate(250px,-300px)";
+                        VS.style.transform = "translate(145px,-275px)";
+                        VS.style.filter = "drop-shadow(.5px 0.5px 0.1px black)";
+                        tm1pfp.style.transform = "translate(-450px,30px)";
+                        tm1pfp.style.width = "75px";
+                        tm1pfp.style.height = "75px";
+                        tm2pfp.style.width = "75px";
+                        tm2pfp.style.height = "75px";
+                        tm2pfp.style.transform = "translate(-250px,30px)";
+                        let highlightedplayerdiv = document.createElement("div");
+                        highlightedplayerdiv.id = "highlightedplayerdiv";
+                        highlightedplayerdiv.style.transform = "translate(340px,130px)";
+                        highlightedplayerdiv.style.webkitFilter = "drop-shadow(1px 1px 1px black)";
+                        let highlightedplayertext = document.createElement("div");
+                        highlightedplayertext.style.fontSize = "15px";
+                        highlightedplayertext.id = "highlightedplayertext";
+                        highlightedplayertext.style.color = "wheat";
+
+                        highlightedplayertext.innerHTML = "HIGHLIGHTED PLAYER:";
+                        highlightedplayerdiv.appendChild(highlightedplayertext);
+                        document.getElementById("quickInfo").appendChild(highlightedplayerdiv);
+
+                    }
+                    else{
+
+                        tm1nme.style.fontSize = "25px";
+                        tm1nme.style.transform = "translate(60px,-250px)";
+                        tm2nme.style.fontSize = "25px";
+                        tm2nme.style.transform = "translate(300px,-250px)";
+                    }
+
 
                     holyshitsomanymapss.appendChild(tm1pfp);
                     holyshitsomanymapss.appendChild(tm1nme);
@@ -1567,6 +1742,9 @@ function printToWebsite(dapicksanddabans, something){
                                 let holyshitsomanyscore = document.createElement("div");
                                 holyshitsomanyscore.classList.add("scoreinthescore")
                                 holyshitsomanyscore.style.color = 'green';
+                                if(dividerclicked){
+                                    holyshitsomanyscore.style.transform = "translate(375px,-490px)";
+                                }
                                 holyshitsomanyscore.innerHTML = dapicksanddabans[d].detailed_score[omfgsomanycounters/2];
                                 quickInfoDivider.appendChild(holyshitsomanyscore);
                                 //dascore.style.color = 'green';
@@ -1578,6 +1756,9 @@ function printToWebsite(dapicksanddabans, something){
                                 holyshitsomanyscoree.classList.add("scoreinthescore")
                                 holyshitsomanyscoree.style.color = 'red';
                                 holyshitsomanyscoree.innerHTML = dapicksanddabans[d].detailed_score[omfgsomanycounters/2];
+                                if(dividerclicked){
+                                    holyshitsomanyscoree.style.transform = "translate(375px,-490px)";
+                                }
                                 quickInfoDivider.appendChild(holyshitsomanyscoree);
                                 //dascore.style.color = 'red';
                                 //dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #ff0000)";
@@ -1591,11 +1772,18 @@ function printToWebsite(dapicksanddabans, something){
                         omfgsomanycounters++;
                     }
                     
-                }
+                
+            }
                 
         document.getElementById("game"+d).onmouseout = function(){
-            document.getElementById("allInfo").style.transform = "translate(260px,300px)";
-            document.getElementById("game"+d).style.webkitFilter = "";
+            
+            if(!dividerclicked){
+                info.style.transform = "";
+                info.style.fontSize = "20px";
+                document.getElementById("game"+d).style.webkitFilter = "";
+                document.getElementById("allInfo").style.transform = "translate(260px,300px)";
+
+
             
             const butons = document.querySelectorAll('#penisandcock');
                     butons.forEach(element =>{
@@ -1609,8 +1797,13 @@ function printToWebsite(dapicksanddabans, something){
             quickInfoDivider.innerHTML = "PLEASE HOVER OVER A GAME";
             
         }
+        else{
+           
+        }
     }
     }
+    }
+    
 }
 var THEFINALCOUNTERISWEAR = 0;
 var ILIEDLOLL = 3;
@@ -1647,7 +1840,7 @@ var ILIEDLOLL = 3;
     checkbox.addEventListener("click", () => {
         if (checkbox.checked) {
             ILIEDLOLL-=1;
-            if (label.textContent === "S52" ||THEFINALCOUNTERISWEAR === 1){
+            if (label.textContent === "S52" ||THEFINALCOUNTERISWEAR === 0){
                 if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
                     setTimeout(() => {
                         document.getElementById("vertigoo").style.display = "none";

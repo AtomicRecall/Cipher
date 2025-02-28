@@ -353,7 +353,7 @@ body {
   position: relative;
   transform: translate(380px,-175px);
   font-size: 40px;
-  filter: drop-shadow(0px,0px,0.75px, black);
+  filter: drop-shadow(.5px 0.5px 0.1px black);
 }
 #mtches{
   width: 270px;
@@ -549,7 +549,7 @@ transform: translateY(-120px);
   height: 150px;
   transform: translate(-200px, 80px);
 }
-#TEAMPFP{
+.TEAMPFP{
   position: relative;
   width: 75px;
   height: 75px;
@@ -558,7 +558,7 @@ transform: translateY(-120px);
   filter: drop-shadow(.5px 0.5px 0.75px black);
   cursor: pointer;
 }
-#TEAMPFPNAME{
+.TEAMPFPNAME{
   transform: translate(90px,-80px);
   color: white;
   filter: drop-shadow(2px .1px 2px black)
@@ -570,6 +570,10 @@ transform: translateY(-120px);
   height: 130px;
   position: absolute;
   transform: translate(470px,175px);
+}
+#captainforthatonethingy{
+  height: 75px;
+  transform: translate(80px,-230px);
 }
 #trainimage{
   transform: translate(470px,175px);

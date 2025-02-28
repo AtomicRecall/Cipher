@@ -536,7 +536,10 @@ function funnyfunction(dataalolfunny,wheretoadd){
             matchDateDiv.innerHTML = "Next Match: "
             matchDateDiv.innerHTML+=dataalolfunny[d+1];
             div.appendChild(matchDateDiv);
-            document.getElementById(wheretoadd).appendChild(div);
+            if(document.getElementById(wheretoadd)){
+                document.getElementById(wheretoadd).appendChild(div);
+
+            }
             div.addEventListener('dblclick', () => {
                 
             });
@@ -944,7 +947,9 @@ function funnyfunction(dataalolfunny,wheretoadd){
             div.appendChild(avat);
             div.appendChild(Tmne);
             div.appendChild(pfpdiv);
+            if(document.getElementById(wheretoadd)){
             document.getElementById(wheretoadd).appendChild(div);
+            }
             div.addEventListener('dblclick', () => {
                 
             });
