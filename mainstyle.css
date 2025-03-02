@@ -193,7 +193,7 @@ body {
   width: 100px;
   color: white;
 }
-#penisandcock{
+#buttonspan{
   height: 30px;
   width: 30px;
   background-image: url('https://atomicrecall.github.io/Cipher/images/button.png');
@@ -590,6 +590,7 @@ transform: translateY(-120px);
   display: grid;
   grid-auto-flow: column;
   pointer-events: none;
+  
 }
 #teambackgrounddiv{
   width: 1260px;
@@ -597,6 +598,7 @@ transform: translateY(-120px);
   position: absolute;
   transform: translateX(260px);
   opacity: 0;
+  
 }
 #VS{
   position: absolute;

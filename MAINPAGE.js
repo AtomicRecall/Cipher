@@ -388,6 +388,7 @@ function YOURSAVEDTEAMS(){
 
 function funnyfunction(dataalolfunny,wheretoadd){
     console.log(dataalolfunny);
+
     switch(wheretoadd){
         case "upcomingmatchesdivider":
             let counter = 0;
@@ -1708,14 +1709,14 @@ function getUpcomingMatches(team,season,upcomingdivider){
     switch (localStorage.getItem("division")){
         case "Main":
         //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
-    return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103&limit=20`,{
-        method: 'GET',
-        headers:{
-            'Access-Control-Allow-Origin' : '*',
+        return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103&limit=20`,{
+            method: 'GET',
+            headers:{
+                'Access-Control-Allow-Origin' : '*',
 
-            
-        }
-    })
+                
+            }
+        })
         
         /*
         return fetch(`https://www.faceit.com/api/championships/v1/matches?participantId=`+team+`&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103&limit=20&offset=0
@@ -1735,8 +1736,14 @@ function getUpcomingMatches(team,season,upcomingdivider){
         .then((data) => {
             if (data != null){
             let payload = data.payload;
-            console.log(payload);
+            console.log(payload.items[payload.items.length-1]);
             
+            if (payload.items[payload.items.length-1].status === "finished"){
+                console.log("paload lengt 0");
+                document.getElementById("removemepls").remove();
+                return;
+            }
+                
             let matches = payload.items;
             const upcomingteams = [];
             for (const match of matches){
