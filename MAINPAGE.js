@@ -1739,7 +1739,17 @@ function getUpcomingMatches(team,season,upcomingdivider){
             console.log(payload.items[payload.items.length-1]);
             
             if (payload.items[payload.items.length-1].status === "finished"){
-                console.log("paload lengt 0");
+                let letuserknowitsempty = document.createElement("div");
+                letuserknowitsempty.id = "returnednoupcomingmatches";
+                letuserknowitsempty.innerHTML = "YOU HAVE NO UPCOMING MATCHES";
+                letuserknowitsempty.style.color = "white";
+                letuserknowitsempty.style.transform = "translateY(40px)";
+                letuserknowitsempty.style.fontSize = "35px";
+                letuserknowitsempty.style.width = "700px";
+                if (document.getElementById("upcomingmatchesdivider")){
+                    document.getElementById("upcomingmatchesdivider").appendChild(letuserknowitsempty);
+
+                }
                 document.getElementById("removemepls").remove();
                 return;
             }
