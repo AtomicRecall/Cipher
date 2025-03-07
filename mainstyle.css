@@ -78,6 +78,10 @@ body {
   transition: 0.3s;
   
 }
+
+#finishedcounter{
+  filter: drop-shadow(1px 0px 3px #000000);
+}
 #ancientimage{
   transform: translateY(20px);
   opacity: 60%;

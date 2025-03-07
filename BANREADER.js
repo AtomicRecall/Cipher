@@ -1,3 +1,4 @@
+
 console.log("one two three");
 var database = firebase.database();
 var THETEAMWEARESEARCHING = localStorage.getItem("THETEAMWEARESEARCHING");
@@ -51,13 +52,23 @@ var finishedbar = document.createElement("div");
 finishedbar.innerHTML = "Found Matches: ";
 finishedbar.id = "finishedbar";
 finishedbar.classList.add("divvv");
+var finishedcounter = document.createElement("div");
+finishedcounter.id = "finishedcounter";
+finishedcounter.style.position = "absolute";
+finishedcounter.style.color = "white";
+finishedcounter.style.fontSize = "35px";
+finishedcounter.style.transform = "translate(285px,-15px)";
+finishedcounter.classList.add("divvv");
+var finishedmatchesrealcounter = 0;
 var finishtext = document.createElement("div");
 finishtext.id = "finishedtext";
 finishtext.classList.add("divvv");
 finishedbar.appendChild(finishtext);
 //document.getElementById(".BanFileExplorer").appendChild(loadingbar);
 document.getElementById(".BanFileExplorer").appendChild(finishedbar);
-let firstMatchID;
+document.getElementById(".BanFileExplorer").appendChild(finishedcounter);
+
+var firstMatchID;
 
 //ancient = 0;
 //anubis = 1;
@@ -127,6 +138,7 @@ var L = new Array(8).fill(0);
 var W = new Array(8).fill(0);
 var picksnbans = [];
 var dividerclicked = false;
+var doitonlyonce = true;
 document.getElementById('h3').style.opacity = 1;
 document.getElementById('h3').onmouseover = function(){
     document.getElementById("h3").style.filter = "drop-shadow(.5px 0.5px 3px white)";
@@ -294,6 +306,7 @@ function GetLeaguePickBans2(teamid, currentssn){
         }
     }
 }
+
 // Function to recursively fetch match history for the leader
 function GetLeaguePickBans(leaderid, offset) {
    //document.getElementById("rtrnBtn").style.trasnform = "translate(10px,-3px)";
@@ -329,8 +342,18 @@ function GetLeaguePickBans(leaderid, offset) {
             //loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
     
             if (match.competition_name.includes("ESEA") && !match.competition_name.includes("Qualifier")) {
-
+                finishedmatchesrealcounter++;
                 finishedtext.innerHTML+=match.competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
+                finishedcounter.innerHTML = finishedmatchesrealcounter;
+
+                    if (doitonlyonce){
+                        console.log("fetching last 5 "+match.match_id);
+                        firstMatchID = match.match_id;
+                        fetchLast5Players(match.match_id, false);
+                        doitonlyonce = false;
+                    }
+                        
+                
 
                 return fetchMatchData(match.match_id, leaderid); // Fetch only non-S48 ESEA matches
             }
@@ -344,10 +367,8 @@ function GetLeaguePickBans(leaderid, offset) {
         console.error('Error:', error);
     });
 }
-var playerpfpclicked = false;
 
 function fetchLast5Players(matchid, rcursivecall){
-
 
     //console.log("feetching last 5 players for "+matchid);
      fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
@@ -368,7 +389,15 @@ function fetchLast5Players(matchid, rcursivecall){
     .then((datan12) => {
         //console.log("HEHEHE");
         //console.log(datan12);
-        let damatchstats = datan12.rounds[0];
+        if (datan12 == undefined){
+            console.log("MATCH WAS NOT REAL");
+            doitonlyonce = true;
+            return;
+        }
+        else {
+            console.log("MATCH WAS REAL NO WAY");
+            doitonlyonce = false;
+            let damatchstats = datan12.rounds[0];
         let teams = damatchstats.teams;
         let tm1 = teams[0];
         let tm2 = teams[1];
@@ -412,6 +441,7 @@ function fetchLast5Players(matchid, rcursivecall){
 
                     pfp.classList.add("TEAMPFP");
                     pfp.id = "TEAMPFP"+counter;
+                    pfp.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
                     let name = document.createElement("div");
                     name.id = "TEAMPFPNAME"+counter;
                     name.classList.add("TEAMPFPNAME");
@@ -471,8 +501,7 @@ function fetchLast5Players(matchid, rcursivecall){
                        
                         if(dividerclicked && clicks === 1){
                             console.log("HOVER OVER WHILE DIVIDER CLICKED");
-                            playerpfpclicked = !playerpfpclicked;
-                            //console.log(picksnbans);
+                                //console.log(picksnbans);
     
                             /*
                             console.log("GET DOWN");
@@ -491,16 +520,18 @@ function fetchLast5Players(matchid, rcursivecall){
                             captain.style.filter = "drop-shadow(.5px 0.5px 1px orange)";
                             pic2.src = pfp.src;
                             pic2.id = "DUPLICATEPIC";
+                            pic2.style.position = "absolute";
                             pic2.style.width = "75px";
                             pic2.style.height = "75px";
-                            pic2.style.transform = "translate(400px,-390px)";
+                            pic2.style.transform = "translate(400px,180px)";
                             name2.id = "DUPLICATENAME";
+                            name2.style.position = "absolute";
                             name2.innerHTML = name.innerHTML;
                             name2.style.webkitFilter = "drop-shadow(black 1px 1px 0.1px)";
-                            name2.style.transform = "translate(400px,-390px)";
+                            name2.style.transform = "translate(400px,260px)";
                             name2.style.color = "white";
-                            document.getElementById("quickInfo").appendChild(pic2);
-                            document.getElementById("quickInfo").appendChild(name2);
+                            document.getElementById("quickInfo").prepend(pic2);
+                            document.getElementById("quickInfo").prepend(name2);
                             for (const match of picksnbans){
                                 if (match.vote_type == matchid){
                                     console.log(match);
@@ -512,9 +543,10 @@ function fetchLast5Players(matchid, rcursivecall){
                                                 let stats = play.player_stats;
                                                 let overallDivider = document.createElement("div");
                                                 overallDivider.id = "OverallDivider";
-                                                overallDivider.style.transform = "translate(10px,-310px)";
+                                                overallDivider.style.transform = "translate(10px, 350px)";
                                                 overallDivider.style.width = "490px";
                                                 overallDivider.style.height = "140px";
+                                                overallDivider.style.position = "absolute";
                                                 let playerStatsInfo = document.createElement("div");
                                                 playerStatsInfo.id = "PlayerStatsInfo";
                                                 playerStatsInfo.style.position = "absolute";
@@ -531,7 +563,7 @@ function fetchLast5Players(matchid, rcursivecall){
                                                 buttondivider.id = "dabuttondivider";
                                                 console.log("DONE NOW ADDING:");
                                                 overallDivider.appendChild(playerStatsInfo);
-                                                document.getElementById("quickInfo").append(overallDivider);
+                                                document.getElementById("quickInfo").prepend(overallDivider);
                                             }
                                         }
                                     }
@@ -568,28 +600,21 @@ function fetchLast5Players(matchid, rcursivecall){
                     
                     
                 });
-                
+                document.getElementById("teambackgrounddiv").appendChild(bigplayerdivider);
         }
-        document.getElementById("teambackgrounddiv").appendChild(bigplayerdivider);
+        
+        }
+        
         
 
     });
-
 }
 
 
 
-var doitonlyonce = false;
-function fetchMatchData(matchid,leaderid) {
-    if(!doitonlyonce){
-        doitonlyonce = true;
-        firstMatchID = matchid;
-        fetchLast5Players(matchid, false);
- 
-       
 
-        
-    }
+function fetchMatchData(matchid,leaderid) {
+
     return fetch(`https://open.faceit.com/data/v4/matches/${matchid}`, {
         headers: {
             'accept': 'application/json',
@@ -606,7 +631,7 @@ function fetchMatchData(matchid,leaderid) {
         return res.json();
     })
     .then((datan12) => {
-       // console.log("OOOOO LOOK AT ME");
+        //console.log("OOOOO LOOK AT ME");
         //console.log(datan12);
         
         let t1pfp = datan12.teams.faction1.avatar;
@@ -838,7 +863,7 @@ function fetchMatchData(matchid,leaderid) {
     });
     
 }
-let moreclicks = 0;
+var moreclicks = 0;
 function printToWebsite(dapicksanddabans, something){
     document.getElementById("teambackgrounddiv").style.opacity = "1";
     if(document.getElementById("WHOLEPLAYERDIVIDER")){
@@ -850,10 +875,12 @@ function printToWebsite(dapicksanddabans, something){
     recorddiv.style.display = "grid";
     recorddiv.style.gridAutoFlow = "column";
     recorddiv.style.color = "white";
-    recorddiv.style.transform = "translateY(-380px)";
+    recorddiv.style.transform = "translate(-25px,-380px)";
     recorddiv.style.filter = "drop-shadow(.1px .1px 5px black)";
-    recorddiv.style.fontSize = "35px";
+    recorddiv.style.fontSize = "30px";
+    recorddiv.style.position = "absolute";
     recorddiv.id = "RECORDDD";
+    recorddiv.style.padding = "20px";
     let matchesDivider = document.createElement('div');
     matchesDivider.id = "mtches";
     matchesDivider.style.overflow = "auto";
@@ -947,7 +974,7 @@ function printToWebsite(dapicksanddabans, something){
                 
                 let record = document.createElement("div");
                 record.style.filter = "drop-shadow(black 1px 1px 1px)";
-                record.innerHTML = SeasonDivider.innerHTML.substring(10)+": "+wins+" // "+loss;
+                record.innerHTML = "| S"+SeasonDivider.innerHTML.substring(19,21)+'<span style="color: wheat;">'+SeasonDivider.innerHTML.substring(21)+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
                 recorddiv.appendChild(record);
                 
                 wins = 0;
@@ -1535,20 +1562,16 @@ function printToWebsite(dapicksanddabans, something){
     for (let d = 0; d < matchesDivider.children.length-1; d++){
 
         if(document.getElementById("game"+d)){
-            //let storedevents = new Map();
 
             document.getElementById("game"+d).onclick = function(){
 
-                
-                
-                //console.log(dapicksanddabans[d]);
-               
                 moreclicks++;
                 console.log("divider clicked "+moreclicks+" clicks");
                 dividerclicked = !dividerclicked;
-
+                
                 let reverseclick = false;
                 if(dividerclicked){
+                    document.getElementById("RECORDDD").style.transform = "translate(-15px,-110px)";
                     let scores = document.getElementsByClassName("scoreinthescore");
                     for (const score of scores){
                         score.style.transform = "translate(375px,-490px)";
@@ -1570,7 +1593,8 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("tm2pfp").style.transform = "translate(-250px,30px)";
                     let highlightedplayerdiv = document.createElement("div");
                     highlightedplayerdiv.id = "highlightedplayerdiv";
-                    highlightedplayerdiv.style.transform = "translate(340px,130px)";
+                    highlightedplayerdiv.style.position = "absolute";
+                    highlightedplayerdiv.style.transform = "translate(345px,150px)";
                     highlightedplayerdiv.style.webkitFilter = "drop-shadow(1px 1px 1px black)";
                     let highlightedplayertext = document.createElement("div");
                     highlightedplayertext.style.fontSize = "15px";
@@ -1579,22 +1603,20 @@ function printToWebsite(dapicksanddabans, something){
 
                     highlightedplayertext.innerHTML = "HIGHLIGHTED PLAYER:";
                     highlightedplayerdiv.appendChild(highlightedplayertext);
-                    document.getElementById("quickInfo").appendChild(highlightedplayerdiv);
+                    document.getElementById("quickInfo").prepend(highlightedplayerdiv);
                     document.getElementById("quickInfo").style.transform = "translate(260px,280px)";
 
 
                 }
                 else{
-
-                    document.getElementById("tm1nme").style.fontSize = "25px";
-                    document.getElementById("tm1nme").style.transform = "translate(60px,-250px)";
-                    document.getElementById("tm2nme").style.fontSize = "25px";
-                    document.getElementById("tm2nme").style.transform = "translate(300px,-250px)";
-                    
+                    console.log("changing visibility");
+                    recorddiv.style.visibility = "";
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px white)";
                     if (moreclicks >= 2){
                         console.log("fetching last 5 for "+firstMatchID);
+                        
                         fetchLast5Players(firstMatchID,true);
+
                         reverseclick = true;
                         
                     }
@@ -1609,20 +1631,15 @@ function printToWebsite(dapicksanddabans, something){
                         
                     }
                     if (document.getElementById("RECORDDD")){
-                        document.getElementById("RECORDDD").remove();
+                        document.getElementById("RECORDDD").style.visibility = "hidden";
                     }
-                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
                     if(document.getElementById("WHOLEPLAYERDIVIDER")){
                         document.getElementById("WHOLEPLAYERDIVIDER").style.pointerEvents = "auto";
 
                     }
-                    /*
-                    document.getElementById("mtches").querySelectorAll("*").forEach(element =>{
-                        storedevents.set(element,element.onmouseover);
-                        element.onmouseover = null;
-                        
-                    });
-                    */
+
+                   
+                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
                     if(document.getElementById("TEAMPFP"+d)){
 
                         let oldonclick = document.getElementById("TEAMPFP"+d).onclick;
@@ -1676,7 +1693,8 @@ function printToWebsite(dapicksanddabans, something){
                 }
                 else if (moreclicks > 1){
 
-
+                    console.log("changing visibility");
+                    document.getElementById("RECORDDD").style.visibility = "visible";
 
                     /*
                     document.getElementById("mtches").querySelectorAll("*").forEach(element => {
@@ -1688,6 +1706,10 @@ function printToWebsite(dapicksanddabans, something){
 
                     
 
+                }
+                else{
+                    console.log("changing visibility");
+                    document.getElementById("RECORDDD").style.visibility = "visible";
                 }
 
                 
@@ -1718,7 +1740,7 @@ function printToWebsite(dapicksanddabans, something){
             document.getElementById("game"+d).onmouseover = function(){
 
  
-                
+                if (!dividerclicked){
                 quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
                 if (dividerclicked && moreclicks > 0){
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
@@ -1901,7 +1923,7 @@ function printToWebsite(dapicksanddabans, something){
                         tm2pfp.style.transform = "translate(-250px,30px)";
                         let highlightedplayerdiv = document.createElement("div");
                         highlightedplayerdiv.id = "highlightedplayerdiv";
-                        highlightedplayerdiv.style.transform = "translate(340px,130px)";
+                        highlightedplayerdiv.style.transform = "translate(345px,150px)";
                         highlightedplayerdiv.style.webkitFilter = "drop-shadow(1px 1px 1px black)";
                         let highlightedplayertext = document.createElement("div");
                         highlightedplayertext.style.fontSize = "15px";
@@ -1972,10 +1994,15 @@ function printToWebsite(dapicksanddabans, something){
                     
                 
             }
+        }
                 
         document.getElementById("game"+d).onmouseout = function(){
             
             if(!dividerclicked){
+                document.getElementById("tm1nme").style.fontSize = "25px";
+                document.getElementById("tm1nme").style.transform = "translate(60px,-250px)";
+                document.getElementById("tm2nme").style.fontSize = "25px";
+                document.getElementById("tm2nme").style.transform = "translate(300px,-250px)";
                 info.style.transform = "";
                 info.style.fontSize = "20px";
                 document.getElementById("game"+d).style.webkitFilter = "";

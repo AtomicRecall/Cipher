@@ -387,15 +387,15 @@ function YOURSAVEDTEAMS(){
 }
 
 function funnyfunction(dataalolfunny,wheretoadd){
-    console.log(dataalolfunny);
+    //console.log(dataalolfunny);
 
     switch(wheretoadd){
         case "upcomingmatchesdivider":
             let counter = 0;
             let c = 1;
     for (let d = 0; d < dataalolfunny.length; d++){
-        console.log("finding from upcoming: ");
-        console.log(dataalolfunny[d]);
+        //console.log("finding from upcoming: ");
+        //console.log(dataalolfunny[d]);
         if(d === 0 || d % 2 === 0 ){
 
         
@@ -714,13 +714,13 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
             }
             if(lol[space+2] != undefined && lol[space+2] != null){
-                   console.log("GO UNVISIBLE "+lol[space+2].id);
+                  // console.log("GO UNVISIBLE "+lol[space+2].id);
                 document.getElementById(lol[space+2].id).style.transition = "0.5s";
                 document.getElementById(lol[space+2].id).style.opacity = 0;
                 document.getElementById(lol[space+2].id).style.transform+="translateY(-20px)";
             }
             if(lol[space+4]!= undefined && lol[space+4]!= null){
-                   console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+4].id);
+                   //console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+4].id);
                  document.getElementById(lol[space+4].id).style.transition = "0.5s";
                  document.getElementById(lol[space+4].id).style.opacity = 0;
                  document.getElementById(lol[space+4].id).style.transform+="translateY(-20px)";
@@ -816,8 +816,8 @@ function funnyfunction(dataalolfunny,wheretoadd){
             let counterr = 0;
             let cc = 1;
     for (let d = 0; d < dataalolfunny.length; d++){
-        console.log("finding ");
-        console.log(dataalolfunny[d]);
+        //console.log("finding ");
+        //console.log(dataalolfunny[d]);
         fetch('https://open.faceit.com/data/v4/teams/'+dataalolfunny[d], {
         headers: {
             'accept': 'application/json',
@@ -1122,13 +1122,13 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
             }
             if(lol[space+2] != undefined && lol[space+2] != null){
-                   console.log("GO UNVISIBLE "+lol[space+2].id);
+                  // console.log("GO UNVISIBLE "+lol[space+2].id);
                 document.getElementById(lol[space+2].id).style.transition = "0.5s";
                 document.getElementById(lol[space+2].id).style.opacity = 0;
                 document.getElementById(lol[space+2].id).style.transform+="translateY(-20px)";
             }
             if(lol[space+4]!= undefined && lol[space+4]!= null){
-                   console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+4].id);
+                   //console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+4].id);
                  document.getElementById(lol[space+4].id).style.transition = "0.5s";
                  document.getElementById(lol[space+4].id).style.opacity = 0;
                  document.getElementById(lol[space+4].id).style.transform+="translateY(-20px)";
@@ -1652,7 +1652,7 @@ function searchForTeams(teamnme){
 
                 //find space in list from all childs, check if the child accross from it is there, if so do the shit, if not dont do shit
                 if(lol[space+1] != undefined && lol[space+1] != null){
-                    console.log("GO UNVISIBLE "+lol[space+1].id);
+                   // console.log("GO UNVISIBLE "+lol[space+1].id);
                  document.getElementById(lol[space+1].id).style.transition = "0.5s";
                  document.getElementById(lol[space+1].id).style.opacity = 0;
                  document.getElementById(lol[space+1].id).style.transform+="translateY(-100px)";
