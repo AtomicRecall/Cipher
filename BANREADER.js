@@ -9,6 +9,7 @@ function removeElementsByClass(className) {
         elements[0].parentNode.removeChild(elements[0]);
     }
 }
+var count = 0;
 removeElementsByClass("divv");
 document.getElementById("h3").innerHTML = " ";
 document.getElementById(".form-wrapper").style.opacity = "0";
@@ -23,15 +24,10 @@ document.getElementById("srchBtn").style.visibility = "hidden";
 document.getElementById("rtrnBtn").style.visibility = "visible";
 document.getElementById("rtrnBtn").style.transform = "translate(1300px, -3px)";
 var rtrnBtn = document.getElementById("rtrnBtn");
-rtrnBtn.addEventListener('click', () =>{
-    if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
-        document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
-    }
-});
 var lastbooleaniswear = false;
 var ffws = 0;
 var ffws1 = 0;
-
+var dividerclicked = false;
 var defaultimage = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
 //setup image_links
 var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
@@ -41,9 +37,35 @@ loadingimage.style.width = "600px";
 loadingimage.style.height = "200px";
 loadingimage.style.transform = "translate(450px,250px)";
 loadingimage.style.position = "absolute";
-loadingimage.id = "removemepls";
-loadingimage.classList.add("removemepls");
+loadingimage.id = "removemeplss";
+loadingimage.classList.add("removemeplss");
 document.getElementById(".BanFileExplorer").appendChild(loadingimage);
+var stoporgosearch = true;
+var stopButtong = document.createElement("button");
+stopButtong.classList.add("removemeplss");
+stopButtong.id = "stopbutton";
+stopButtong.style.fontSize = "20px";
+stopButtong.style.fontWeight = "bold";
+stopButtong.innerHTML = 'USE THE MATCHES ALREADY FOUND:  <img id="buttonnn" src = "https://atomicrecall.github.io/Cipher/images/STOP.jpg" class = "removemeplss"/>';
+document.getElementById(".BanFileExplorer").appendChild(stopButtong);
+
+stopButtong.addEventListener('click',()=>{
+    console.log("BUTTON CLICKED FDSFDSFDS");
+    removeElementsByClass("removemeplss");
+    var finializing = document.createElement("div");
+    finializing.innerHTML = "FINALIZING......";
+    finializing.style.color = "wheat";
+    finializing.style.fontSize = "45px";
+    finializing.style.transform = "translate(450px,250px)";
+    finializing.style.position = "absolute";
+    finializing.classList.add("removemeplss");
+    document.getElementById(".BanFileExplorer").appendChild(finializing);
+
+    stoporgosearch = false;
+
+});
+
+
 var loadingbar = document.createElement("div");
 loadingbar.innerHTML = "Now Searching: "
 loadingbar.id = "loadingbar";
@@ -137,8 +159,6 @@ var L = new Array(8).fill(0);
 //Train = 7;
 var W = new Array(8).fill(0);
 var picksnbans = [];
-var dividerclicked = false;
-var doitonlyonce = true;
 document.getElementById('h3').style.opacity = 1;
 document.getElementById('h3').onmouseover = function(){
     document.getElementById("h3").style.filter = "drop-shadow(.5px 0.5px 3px white)";
@@ -200,20 +220,20 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     }
 
     document.getElementById(".BanFileExplorer").prepend(teambackgrounddiv);
-    
+
     return GetLeaguePickBans(datan.leader, 0);  // Start fetching match history
+    
 })
 .then(() => {
+
     picksnbans.sort((a, b) => b.finished - a.finished);
     //console.log("Matches sorted:");
     //console.log(picksnbans);
-    if(document.getElementById("removemepls")){
-        var my = document.getElementById("removemepls");
-        my.parentNode.removeChild(my);
-    }
 
+    removeElementsByClass("removemeplss");
     removeElementsByClass("divvv");
     document.getElementById("h3").style.opacity = 1;
+   
     printToWebsite(picksnbans, false);
     
 })
@@ -306,72 +326,10 @@ function GetLeaguePickBans2(teamid, currentssn){
         }
     }
 }
-
-// Function to recursively fetch match history for the leader
-function GetLeaguePickBans(leaderid, offset) {
-   //document.getElementById("rtrnBtn").style.trasnform = "translate(10px,-3px)";
-    return fetch(`https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${offset}&limit=100`, {
-        headers: {
-            'accept': 'application/json',
-            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
-        }
-    }).then((res) => {
-        if (!res.ok) {
-            if (res.status == 404) {
-                //update the loading bar saying like not found or error idk lmfao
-                loadingbar.innerHTML+=`Match not found (404), continuing...`;
-                console.warn(`Match history not found (404), continuing...`);
-                return Promise.resolve(); // Resolve to continue without error
-            }
-            throw new Error("Couldn't fetch that data");
-        }
-        return res.json();
-    })
-    .then((data) => {
-
-        let allMatches = data.items;
-        
-       if (!allMatches || allMatches.length === 0 || offset >= 350) return Promise.resolve(); // End if no more matches
-
-        console.log(`Fetched ${allMatches.length} matches`);
-        //console.log(allMatches);
-        // Process each match and filter
-        let matchPromises = allMatches.map((match) => {
-            //update the loading bar here.
-            var dating = new Date(match.finished_at*1000);
-            //loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
-    
-            if (match.competition_name.includes("ESEA") && !match.competition_name.includes("Qualifier")) {
-                finishedmatchesrealcounter++;
-                finishedtext.innerHTML+=match.competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
-                finishedcounter.innerHTML = finishedmatchesrealcounter;
-
-                    if (doitonlyonce){
-                        console.log("fetching last 5 "+match.match_id);
-                        firstMatchID = match.match_id;
-                        fetchLast5Players(match.match_id, false);
-                        doitonlyonce = false;
-                    }
-                        
-                
-
-                return fetchMatchData(match.match_id, leaderid); // Fetch only non-S48 ESEA matches
-            }
-            return Promise.resolve();
-        });
-
-        // If not S48, fetch the next batch of matches (recursive call)
-        return Promise.all(matchPromises).then(() => GetLeaguePickBans(leaderid, offset + 100));
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-}
-
-function fetchLast5Players(matchid, rcursivecall){
-
+function fetchLast5Players(matchid, rcursivecall,count, callback){
+    if (callback) callback();
     //console.log("feetching last 5 players for "+matchid);
-     fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
+     return fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
         headers: {
             'accept': 'application/json',
             'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
@@ -390,11 +348,11 @@ function fetchLast5Players(matchid, rcursivecall){
         //console.log("HEHEHE");
         //console.log(datan12);
         if (datan12 == undefined){
-            console.log("MATCH WAS NOT REAL");
-            doitonlyonce = true;
+            console.log("MATCH WAS NOT REAL "+matchid);
             return;
         }
         else {
+            
             console.log("MATCH WAS REAL NO WAY");
             doitonlyonce = false;
             let damatchstats = datan12.rounds[0];
@@ -415,11 +373,29 @@ function fetchLast5Players(matchid, rcursivecall){
         if (rcursivecall){
             bigplayerdivider.style.pointerEvents = "auto";
         }
+        else{
+            
+        }
         //console.log("POOPIE POOP");
         //console.log(datan12);
         //console.log(players);
         let counter = 0;
+
         for (const player of players){
+            let playerdivider = document.createElement("div");
+            playerdivider.id = "PLAYERDIVIDER";
+            let pfp = document.createElement("img");
+            pfp.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+            pfp.classList.add("TEAMPFP");
+            pfp.classList.add("LOADING");
+            pfp.style.width = "120px";
+            pfp.style.height = "75px";
+            playerdivider.appendChild(pfp);
+            bigplayerdivider.appendChild(playerdivider);
+            document.getElementById("teambackgrounddiv").appendChild(bigplayerdivider);
+            if (player.nickname === "floridiot"){
+                player.nickname = "malders";
+            }
             fetch('https://open.faceit.com/data/v4/players?nickname='+player.nickname+'&game=cs2', {
                 headers: {
                     'accept': 'application/json',
@@ -435,13 +411,12 @@ function fetchLast5Players(matchid, rcursivecall){
                    // console.log("GET DOWN NOW!");
                     //get information like profile picture, flag, and nickname
                    // console.log(data);
-                    let playerdivider = document.createElement("div");
-                    playerdivider.id = "PLAYERDIVIDER";
-                    let pfp = document.createElement("img");
+                    
+                    
 
-                    pfp.classList.add("TEAMPFP");
+                    
                     pfp.id = "TEAMPFP"+counter;
-                    pfp.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+                    
                     let name = document.createElement("div");
                     name.id = "TEAMPFPNAME"+counter;
                     name.classList.add("TEAMPFPNAME");
@@ -466,8 +441,11 @@ function fetchLast5Players(matchid, rcursivecall){
                             pfp.src = data.avatar;
                             break;
                     }
+                    
                     let pic2 = document.createElement("img");
                     let name2 = document.createElement("div");
+                    pfp.style.width = "75px";
+                    pfp.style.height = "75px";
                     let clicks = 0;
                     pfp.onmouseover = function(){
                         if (clicks <= 0){
@@ -588,19 +566,19 @@ function fetchLast5Players(matchid, rcursivecall){
                         }
                         
                     }
-                    playerdivider.appendChild(pfp);
+                    
                     playerdivider.appendChild(name);
                     if (player.player_id === localStorage.getItem("LeaderID")){
                         playerdivider.appendChild(captain);
                         //localStorage.removeItem("LeaderID");
                     }
-                    bigplayerdivider.appendChild(playerdivider);
+                    
 
                     
                     
                     
                 });
-                document.getElementById("teambackgrounddiv").appendChild(bigplayerdivider);
+                
         }
         
         }
@@ -609,12 +587,78 @@ function fetchLast5Players(matchid, rcursivecall){
 
     });
 }
+// Function to recursively fetch match history for the leader
+function GetLeaguePickBans(leaderid, offset) {
+
+    if (stoporgosearch){
+        return fetch(`https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${offset}&limit=100`, {
+            headers: {
+                'accept': 'application/json',
+                'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
+            }
+        }).then((res) => {
+            if (!res.ok) {
+                if (res.status == 404) {
+                    //update the loading bar saying like not found or error idk lmfao
+                    loadingbar.innerHTML+=`Match not found (404), continuing...`;
+                    console.warn(`Match history not found (404), continuing...`);
+                    return Promise.resolve(); // Resolve to continue without error
+                }
+                throw new Error("Couldn't fetch that data");
+            }
+            return res.json();
+        })
+        .then((data) => {
+    
+            let allMatches = data.items;
+            
+           if (!allMatches || allMatches.length === 0 || offset >= 350) return Promise.resolve(); // End if no more matches
+    
+            console.log(`Fetched ${allMatches.length} matches`);
+            //console.log(allMatches);
+            // Process each match and filter
+
+            let matchPromises = allMatches.map((match) => {
+                
+
+                //update the loading bar here.
+                var dating = new Date(match.finished_at*1000);
+                //loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
+        
+                if (match.competition_name.includes("ESEA") && !match.competition_name.includes("Qualifier")) {
+
+                    finishedmatchesrealcounter++;
+                    finishedtext.innerHTML+=match.competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
+                    finishedcounter.innerHTML = finishedmatchesrealcounter;
+    
+
+
+                            
+                    
+    
+                    return fetchMatchData(match.match_id, leaderid, count); // Fetch only non-S48 ESEA matches
+                }
+                return Promise.resolve();
+            });
+    
+            // If not S48, fetch the next batch of matches (recursive call)
+            return Promise.all(matchPromises).then(() => GetLeaguePickBans(leaderid, offset + 100));
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+    
+}
 
 
 
 
-function fetchMatchData(matchid,leaderid) {
 
+
+function fetchMatchData(matchid,leaderid,count) {
+    
     return fetch(`https://open.faceit.com/data/v4/matches/${matchid}`, {
         headers: {
             'accept': 'application/json',
@@ -741,7 +785,17 @@ function fetchMatchData(matchid,leaderid) {
                     //console.log(team.players);
                     playerStats.push(team.players);
                     
+                }else{
+                    for (const plyr of team.players){
+                    
+                        if (plyr.player_id === leaderid){
+                            THETEAMWEARESEARCHING = team.team_id
+                        }
+                            
+                        
+                    }
                 }
+                
             }
             
             let temp = datan123.rounds[0].teams;
@@ -864,7 +918,11 @@ function fetchMatchData(matchid,leaderid) {
     
 }
 var moreclicks = 0;
+var doitonlyonce = true;
+let wins = 0;
+let loss = 0;
 function printToWebsite(dapicksanddabans, something){
+   
     document.getElementById("teambackgrounddiv").style.opacity = "1";
     if(document.getElementById("WHOLEPLAYERDIVIDER")){
         document.getElementById("WHOLEPLAYERDIVIDER").style.pointerEvents = "auto";
@@ -875,7 +933,7 @@ function printToWebsite(dapicksanddabans, something){
     recorddiv.style.display = "grid";
     recorddiv.style.gridAutoFlow = "column";
     recorddiv.style.color = "white";
-    recorddiv.style.transform = "translate(-25px,-380px)";
+    recorddiv.style.transform = "translate(-25px,-80px)";
     recorddiv.style.filter = "drop-shadow(.1px .1px 5px black)";
     recorddiv.style.fontSize = "30px";
     recorddiv.style.position = "absolute";
@@ -891,13 +949,42 @@ function printToWebsite(dapicksanddabans, something){
     let allInfoDivider = document.createElement('div');
     allInfoDivider.id = "allInfo";
 
-    let wins = 0;
-    let loss = 0;
+
     let coun = 0;
+    let ssnNumCounter = 0;
     let tempor = currentseason;
-
+ 
     for (let d = 0; d < dapicksanddabans.length; d++){
-
+        // find the team you are looking at, look through both teams in dapicksanddabans[d] and make "the team we are looking at" be that team's ID
+        let name = "";
+       // console.log(dapicksanddabans[d].teams);
+        for(let t = 0; t < dapicksanddabans[d].teams.length; t++){
+            for (const INTERLINKED of dapicksanddabans[d].teams[t]){
+               // console.log(INTERLINKED);
+                if (INTERLINKED.toUpperCase() === "CAP"){
+                  //  console.log("CAP FOUND");
+                    let poopfart = dapicksanddabans[d].teams[t];
+                    // console.log("changing the team we are serching to "+poopfart[2]);
+                     name = poopfart[1].toUpperCase();
+                    THETEAMWEARESEARCHING = poopfart[2];
+                }
+            }
+        }
+        if (doitonlyonce) {
+            doitonlyonce = false;
+            fetchLast5Players(dapicksanddabans[d].vote_type, false, count, () => {
+                console.log("did that shit work? " + document.getElementById("teambackgrounddiv").children.length);
+    
+                if (document.getElementById("teambackgrounddiv").children.length >= 1) {
+                    console.log("FETCHLAST5PLAYERS WORKED!");
+                   
+                    firstMatchID = dapicksanddabans[d].vote_type;
+                } else {
+                    console.log("dat shit did nottt workkk");
+                    //doitonlyonce = true;
+                }
+            });
+        }
         let gamediv = document.createElement('div');
         gamediv.id = "game"+d;
         gamediv.style.height = "150px";
@@ -917,21 +1004,7 @@ function printToWebsite(dapicksanddabans, something){
        // console.log(dapicksanddabans[d]);
        // console.log("The winner of the above game is "+dapicksanddabans[d].winnerID);
 
-        // find the team you are looking at, look through both teams in dapicksanddabans[d] and make "the team we are looking at" be that team's ID
-        let name = "";
-       // console.log(dapicksanddabans[d].teams);
-        for(let t = 0; t < dapicksanddabans[d].teams.length; t++){
-            for (const INTERLINKED of dapicksanddabans[d].teams[t]){
-               // console.log(INTERLINKED);
-                if (INTERLINKED.toUpperCase() === "CAP"){
-                  //  console.log("CAP FOUND");
-                    let poopfart = dapicksanddabans[d].teams[t];
-                   // console.log("changing the team we are serching to "+poopfart[2]);
-                   name = poopfart[1].toUpperCase();
-                    //THETEAMWEARESEARCHING = poopfart[2];
-                }
-            }
-        }
+        
         /*
         for (const team in dapicksanddabans[d].teams){
             console.log(team);
@@ -943,10 +1016,43 @@ function printToWebsite(dapicksanddabans, something){
                 }
             }
         }
+
+        
         
        console.log("The team we are looking at is "+THETEAMWEARESEARCHING);
        console.log(dapicksanddabans[d].winnerID+" == "+THETEAMWEARESEARCHING);
        */
+
+        if (coun == 0){
+            ssnNumCounter++;
+            let SeasonDivider = document.createElement('div');
+            SeasonDivider.id = "ssnNum"+ssnNumCounter;
+            SeasonDivider.classList.add("ssnNum");
+            SeasonDivider.style.width = "240px";
+            dapicksanddabans[d].season == "ea" ? SeasonDivider.innerHTML = "----------- Qualifier" : SeasonDivider.innerHTML = "----------- Season "+dapicksanddabans[d].season+" "+dapicksanddabans[d].division;
+            SeasonDivider.style.fontSize = "20px";
+            SeasonDivider.style.transform = "translateX(20px)";
+            matchesDivider.append(SeasonDivider);
+            let record = document.createElement("div");
+            //console.log(dapicksanddabans[d]);
+            if (dapicksanddabans[d-1] && !something){
+                let ssnsnsn;
+                dapicksanddabans[d-1].season == "ea" ? ssnsnsn = "----------- Qualifier" : ssnsnsn = "----------- Season "+dapicksanddabans[d-1].season+" "+dapicksanddabans[d-1].division;
+                
+                record.style.filter = "drop-shadow(black 1px 1px 1px)";
+      
+                record.innerHTML = "| S"+(Number(ssnsnsn.substring(19,21)))+'<span style="color: wheat;">'+ssnsnsn.substring(21)+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
+                recorddiv.appendChild(record);
+                
+                wins = 0;
+                loss = 0;
+                document.getElementById("teambackgrounddiv").appendChild(recorddiv);
+            }
+            
+            coun = coun + 1;
+        }
+
+        coun = coun + 1;
         if(dapicksanddabans[d].winnerID == THETEAMWEARESEARCHING){
             score.style.color = 'chartreuse';
             score.style.webkitFilter = "drop-shadow(0px 0px 10px #1eff00)";
@@ -961,30 +1067,7 @@ function printToWebsite(dapicksanddabans, something){
             
         }
 
-        if (coun == 0){
-            let SeasonDivider = document.createElement('div');
-            SeasonDivider.id = "ssnNum";
-            SeasonDivider.style.width = "240px";
-            dapicksanddabans[d].season == "ea" ? SeasonDivider.innerHTML = "----------- Qualifier" : SeasonDivider.innerHTML = "----------- Season "+dapicksanddabans[d].season+" "+dapicksanddabans[d].division;
-            SeasonDivider.style.fontSize = "20px";
-            SeasonDivider.style.transform = "translateX(20px)";
-            matchesDivider.append(SeasonDivider);
-            //console.log(dapicksanddabans[d]);
-            if (dapicksanddabans[d-1] && !something){
-                
-                let record = document.createElement("div");
-                record.style.filter = "drop-shadow(black 1px 1px 1px)";
-                record.innerHTML = "| S"+SeasonDivider.innerHTML.substring(19,21)+'<span style="color: wheat;">'+SeasonDivider.innerHTML.substring(21)+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
-                recorddiv.appendChild(record);
-                
-                wins = 0;
-                loss = 0;
-            }
-
-            coun = coun + 1;
-        }
-
-        coun = coun + 1;
+       
 
         let somanymaps = document.createElement('div');
         somanymaps.id = "cvr";
@@ -1240,7 +1323,7 @@ function printToWebsite(dapicksanddabans, something){
         }
        }
        matchesDivider.appendChild(gamediv);
-       document.getElementById("teambackgrounddiv").appendChild(recorddiv);
+       
 
     }
 
@@ -1528,6 +1611,14 @@ function printToWebsite(dapicksanddabans, something){
         }
     }
    
+    let endingdivider = document.createElement("div");
+    endingdivider.innerHTML = "----------------------------------------------";
+    endingdivider.id = "endingdivider";
+    endingdivider.style.width = "240px";
+    endingdivider.style.fontSize = "20px";
+    endingdivider.style.transform = "translateX(20px)";
+    endingdivider.style.color = "white";
+    matchesDivider.appendChild(endingdivider);
 
     if(something){
         document.getElementById(".BanFileExplorer").insertBefore(matchesDivider, document.getElementById(".BanFileExplorer").firstChild);
@@ -1547,6 +1638,19 @@ function printToWebsite(dapicksanddabans, something){
          if (childs.id.includes("ssnNum")){
              createToggle(allInfoDivider);
             }
+        }
+        if(THEFINALCOUNTERISWEAR === 1){
+            if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
+                    setTimeout(() => {
+                        document.getElementById("vertigoo").remove();
+                        document.getElementById("verimage").remove();
+                        document.getElementById("trainn").style.transform = "translate(470px,20px)";
+                        document.getElementById("trainimage").style.transform = "translate(470px,20px)";
+                    }, 10);
+                    //console.log("Elements hidden");
+                } else {
+                   // console.log("vertigoo or verimage not found!");
+                }
         }
     }
     
@@ -1574,8 +1678,22 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("RECORDDD").style.transform = "translate(-15px,-110px)";
                     let scores = document.getElementsByClassName("scoreinthescore");
                     for (const score of scores){
-                        score.style.transform = "translate(375px,-490px)";
+                        score.style.transform = "translate(365px,-490px)";
+                        score.style.pointerEvents = "auto";
+                        score.onmouseover = function(){
+                            score.style.filter = "drop-shadow(1px 1px 3px white)";
+
+                        }
+                        score.onmouseout = function(){
+                            score.style.filter = "";
+                        }
+                        score.onclick = function(){
+                            score.style.filter = "drop-shadow(1px 1px 5px orange)";
+                            score.onmouseout = "";
+                        }
+
                     }
+
                     info.style.fontSize = "22px";
                     info.style.transform = "translateY(-190px)";
                     info.style.width = "500px";
@@ -2063,9 +2181,12 @@ var ILIEDLOLL = 3;
     
     
     checkbox.addEventListener("click", () => {
+        
         if (checkbox.checked) {
             ILIEDLOLL-=1;
-            if (label.textContent === "S52" ||THEFINALCOUNTERISWEAR === 0){
+            
+            if (label.textContent === "S52" || THEFINALCOUNTERISWEAR == 1){
+                console.log(THEFINALCOUNTERISWEAR +"= WHAT THE FUCKING SHIT BALLS")
                 if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
                     setTimeout(() => {
                         document.getElementById("vertigoo").style.display = "none";
@@ -2095,9 +2216,24 @@ var ILIEDLOLL = 3;
           document.getElementById("allInfo").style.width = "480px";
           lastbooleaniswear = true;
          // console.log("WTF1 "+ILIEDLOLL);
+         console.log(THEFINALCOUNTERISWEAR +"= OMGOMGOMOMGOMG");
+            if(THEFINALCOUNTERISWEAR == 1){
+                if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
+                    setTimeout(() => {
+                        document.getElementById("vertigoo").remove();
+                        document.getElementById("verimage").remove();
+                        document.getElementById("trainn").style.transform = "translate(470px,20px)";
+                        document.getElementById("trainimage").style.transform = "translate(470px,20px)";
+                    }, 10);
+                    //console.log("Elements hidden");
+                } else {
+                   // console.log("vertigoo or verimage not found!");
+                }
+                console.log("UMMMMJGHKHKJSFHJKHSJHSDGJHKSDFHJKHDFJKGDHSJKHGSSJHDSFGJKH");
+            }
 
         } else {
-
+            
           ILIEDLOLL+=1;
           label.style.color = ""; // Reset text color
           label.style.fontSize = ""; // Reset font size
@@ -2120,7 +2256,17 @@ var ILIEDLOLL = 3;
                 DotheThing(newarray,false);
 
             }
-
+            if(THEFINALCOUNTERISWEAR == 1){
+                console.log("UMMMMJGHKHKJSFHJKHSJHSDGJHKSDFHJKHDFJKGDHSJKHGSSJHDSFGJKH");
+                document.getElementById("vertigoo").remove();
+                document.getElementById("verimage").remove();
+                document.getElementById("trainn").style.transform = "translate(470px,20px)";
+                document.getElementById("trainimage").style.transform = "translate(470px,20px)";
+            }
+            else if (!label.textContent === "S52"){
+                document.getElementById("trainn").remove();
+                document.getElementById("trainimage").remove();
+            }
           //document.getElementById("mtches").style.transform = "translate(-20px, -155px)";
           document.getElementById("allInfo").style.width = "480px";
         }

@@ -20,6 +20,7 @@ body {
   color: white;
   transform: translate(930px,420px);
 }
+
 #ccccc{
   position:absolute;
   font-size: 20px;
@@ -31,7 +32,13 @@ body {
   animation: animate 7s linear infinite;
 
 }
+.removemepls{
+  filter: drop-shadow(1px 0px 1px #000000);
+}
+#removemeplss{
+  filter: drop-shadow(1px 0px 1px #000000);
 
+}
 @keyframes animate {
   100% {
     filter: hue-rotate(360deg);
@@ -247,6 +254,19 @@ body {
 }
 .hidden{
   display: none;
+}
+#stopbutton{
+  background-color: grey;
+  border-color: grey;
+  width: 200px;
+  height: 240px;
+  transition: 2s;
+  position: absolute;
+  transform: translate(650px,500px);
+}
+#buttonnn{
+    width: 130px;
+    height: 180px;
 }
 #instruction{
   transform: translateX(500px);
@@ -555,8 +575,6 @@ transform: translateY(-120px);
 }
 .TEAMPFP{
   position: relative;
-  width: 75px;
-  height: 75px;
   transform: translateX(10px);
   margin: 80px;
   filter: drop-shadow(.5px 0.5px 0.75px black);
@@ -590,7 +608,7 @@ transform: translateY(-120px);
 #WHOLEPLAYERDIVIDER{
   width: 1240px;
   height:280px;
-  transform: translate(-10px,-285px);
+  transform: translate(-10px,-275px);
   display: grid;
   grid-auto-flow: column;
   pointer-events: none;
@@ -620,7 +638,7 @@ transform: translateY(-120px);
   transform: translate(-18px,-18px);
   flex-direction: column-reverse;
 }
-#ssnNum{
+.ssnNum{
   color: white;
 }
 #finishedbar{

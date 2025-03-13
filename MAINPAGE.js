@@ -77,7 +77,7 @@ document.getElementById("poop").innerHTML = name;
 
 let ssn = 10; // dont worry
 ontop();
-YOURSAVEDTEAMS();
+
 
 
 const srchbtn = document.getElementById("srchBtn");
@@ -119,6 +119,14 @@ srchbtn.addEventListener('click', () =>{
         removeElementsByClass("divvv");
         searchForTeams(document.getElementById("srchboxdiv").value);
         srch3.style.transform = "translate(1430px,13px)";
+        window.addEventListener("beforeunload", () => {
+            // Clear all timeouts and intervals
+            let highestTimeoutId = setTimeout(() => {});
+            for (let i = 0; i < highestTimeoutId; i++) {
+                clearTimeout(i);
+                clearInterval(i);
+            }
+        });
 
     });
     document.getElementById(".BanFileExplorer").appendChild(srch3);
@@ -126,7 +134,11 @@ srchbtn.addEventListener('click', () =>{
 });
 
 const rtrnBtn = document.getElementById("rtrnBtn");
+rtrnBtn.addEventListener("click", () => location.reload());
+
+/*
 rtrnBtn.addEventListener('click', () =>{
+    
     removeElementsByClass("divvv");
     if(document.getElementById("teambackgrounddiv")){
         document.getElementById("teambackgrounddiv").remove();
@@ -145,10 +157,11 @@ rtrnBtn.addEventListener('click', () =>{
         }
         document.getElementById(".BanFileExplorer").style.height = "480px";
         
-        YOURSAVEDTEAMS();
+
 
         var upcomingmtches = document.createElement('div');
         upcomingmtches.id = "upcomingmatchesdivider";
+        upcomingmtches.style.opacity = 0;
         upcomingmtches.classList.add("divv");
         var upcomingmatchestag = document.createElement('div');
         upcomingmatchestag.id = "upcomingmatchestag";
@@ -166,6 +179,7 @@ rtrnBtn.addEventListener('click', () =>{
         loadingimage.classList.add("removemepls");
         upcomingmtches.appendChild(loadingimage);
         document.getElementById(".BanFileExplorer").appendChild(upcomingmtches);
+      
     }
     if (localStorage.getItem("savedTeams")!= null){
         YOURSAVEDTEAMS();
@@ -188,6 +202,7 @@ rtrnBtn.addEventListener('click', () =>{
         document.getElementById("srchboxdiv").remove();
     }
     getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
+    
     if(document.getElementById("upcomingmatchesdivider") != null && upcomingmtches.childElementCount <= 1){
 
         document.getElementById("upcomingmatchesdivider").appendChild(loadingimage);
@@ -195,9 +210,11 @@ rtrnBtn.addEventListener('click', () =>{
     document.getElementById("srchBtn").style.visibility = "visible";
     document.getElementById("rtrnBtn").style.visibility = "hidden";
 });
+*/
 
 
 function ontop(){
+  
     if(localStorage.getItem("first-time") == 0){
         console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO it's your first time!!!");
         alert("Hello! Welcome to Cipher, an application that helps you solve the other team. \n\nTo start using it, you can check your team's cipher by clicking on them once the page refreshes. \n\nif you want to delete your team or any team, double click on the respective team name. \n\nIf you want to add more teams, click on the search button on the right. \nGive it a try!");
@@ -209,6 +226,7 @@ function ontop(){
     localStorage.setItem("first-time", 1);
 
     if (localStorage.getItem("NOFACEITACCOUNT") != 1){
+       
         var ref = database.ref('USERS/'+name+'/LastLoggedIn').set(currenttimestring);
         //obtaining faceit information
         fetch('https://open.faceit.com/data/v4/players?nickname='+name+'&game=cs2', {
@@ -277,7 +295,9 @@ function ontop(){
                 loadingimage.classList.add("removemepls");
                 upcomingmtches.appendChild(upcomingmatchestag);
                 upcomingmtches.appendChild(loadingimage);
+                YOURSAVEDTEAMS();
                 document.getElementById(".BanFileExplorer").appendChild(upcomingmtches);
+                
 
                 var teamname = document.createElement('div');
                 teamname.id = "teamname";
@@ -300,10 +320,19 @@ function ontop(){
                 teamname.style.filter = "drop-shadow(0px 0px 2px #000000)";
                 document.getElementById(".form-wrapper").appendChild(teamname);
             }
+            else{
+            }
             teamname.style.opacity = 1;
         });
 }
-    removeElementsByClass("removemepls");  
+else{
+    YOURSAVEDTEAMS();
+}
+    
+    if (document.getElementById("removemepls")){
+        removeElementsByClass("removemepls");  
+
+    }
 }
 function isValidJSON(str) {
     try {
@@ -315,6 +344,7 @@ function isValidJSON(str) {
   }
 function YOURSAVEDTEAMS(){
     console.log("RUNNING YOURSAVEDTEAMS");
+    
     let NONESEALEAGUEPLAYERR3 = -1;
     var NONESEALEAGUEPLAYERREF = database.ref('USERS/'+name).on ('value', function(snapshot){
         var data = snapshot.val();
@@ -1706,7 +1736,9 @@ function searchForTeams(teamnme){
 function getUpcomingMatches(team,season,upcomingdivider){
     
     console.log("division = "+localStorage.getItem("division"));
+
     switch (localStorage.getItem("division")){
+
         case "Main":
         //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
         return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103&limit=20`,{
@@ -1735,60 +1767,63 @@ function getUpcomingMatches(team,season,upcomingdivider){
         })
         .then((data) => {
             if (data != null){
-            let payload = data.payload;
-            console.log(payload.items[payload.items.length-1]);
-            
-            if (payload.items[payload.items.length-1].status === "finished"){
-                let letuserknowitsempty = document.createElement("div");
-                letuserknowitsempty.id = "returnednoupcomingmatches";
-                letuserknowitsempty.innerHTML = "YOU HAVE NO UPCOMING MATCHES";
-                letuserknowitsempty.style.color = "white";
-                letuserknowitsempty.style.transform = "translateY(40px)";
-                letuserknowitsempty.style.fontSize = "35px";
-                letuserknowitsempty.style.width = "700px";
-                if (document.getElementById("upcomingmatchesdivider")){
-                    document.getElementById("upcomingmatchesdivider").appendChild(letuserknowitsempty);
-
-                }
-                document.getElementById("removemepls").remove();
-                return;
-            }
+                let payload = data.payload;
+                console.log(payload.items[payload.items.length-1]);
                 
-            let matches = payload.items;
-            const upcomingteams = [];
-            for (const match of matches){
-
-                if (match.status == "created"){
-                    let matchDate = new Date (match.origin.schedule);
-                    let factions = match.factions;
-                    for (const faction of factions){
-                        if (faction.id != team){
-                            
-                            upcomingteams.push(faction.id);
-                            upcomingteams.push(matchDate.toDateString());
-                            //funnyfunction(upcomingteams,upcomingdivider);
-                            //upcomingteams.pop();
-                        }
+                if (payload.items[payload.items.length-1].status === "finished"){
+                    let letuserknowitsempty = document.createElement("div");
+                    letuserknowitsempty.id = "returnednoupcomingmatches";
+                    letuserknowitsempty.innerHTML = "YOU HAVE NO UPCOMING MATCHES";
+                    letuserknowitsempty.style.color = "white";
+                    letuserknowitsempty.style.transform = "translateY(40px)";
+                    letuserknowitsempty.style.fontSize = "35px";
+                    letuserknowitsempty.style.width = "700px";
+                    if (document.getElementById("upcomingmatchesdivider")){
+                        document.getElementById("upcomingmatchesdivider").appendChild(letuserknowitsempty);
+    
+                    }   
+                    if(document.getElementById("removemepls")){
+                        document.getElementById("removemepls").remove();
                     }
-
-                   
-
                     
-                   // console.log(matchDate);
-
+                    return;
                 }
-                //if(matchDateDiv){
-                    //document.getElementById(upcomingdivider).appendChild(matchDateDiv);
-
-               // }
-
-            }
-            if (upcomingteams){
-                funnyfunction(upcomingteams,upcomingdivider);
+                    
+                let matches = payload.items;
+                const upcomingteams = [];
+                for (const match of matches){
+    
+                    if (match.status == "created"){
+                        let matchDate = new Date (match.origin.schedule);
+                        let factions = match.factions;
+                        for (const faction of factions){
+                            if (faction.id != team){
+                                
+                                upcomingteams.push(faction.id);
+                                upcomingteams.push(matchDate.toDateString());
+                                //funnyfunction(upcomingteams,upcomingdivider);
+                                //upcomingteams.pop();
+                            }
+                        }
+    
+                       
+    
+                        
+                       // console.log(matchDate);
+    
+                    }
+                    //if(matchDateDiv){
+                        //document.getElementById(upcomingdivider).appendChild(matchDateDiv);
+    
+                   // }
+    
+                }
+                if (upcomingteams){
+                    funnyfunction(upcomingteams,upcomingdivider);
+                    
+                }
                 
             }
-            
-        }
         })
         break;
         case "Advanced":
@@ -1819,44 +1854,60 @@ function getUpcomingMatches(team,season,upcomingdivider){
                 })
                 .then((data) => {
                     if (data != null){
-                    let payload = data.payload;
-                    console.log(payload);
-                    
-                    let matches = payload.items;
-                    const upcomingteams = [];
-                    for (const match of matches){
-        
-                        if (match.status == "created"){
-                            let matchDate = new Date (match.origin.schedule);
-                            let factions = match.factions;
-                            for (const faction of factions){
-                                if (faction.id != team){
-                                    
-                                    upcomingteams.push(faction.id);
-                                    upcomingteams.push(matchDate.toDateString());
-                                    //funnyfunction(upcomingteams,upcomingdivider);
-                                    //upcomingteams.pop();
-                                }
+                        let payload = data.payload;
+                        console.log(payload.items[payload.items.length-1]);
+                        
+                        if (payload.items[payload.items.length-1].status === "finished"){
+                            let letuserknowitsempty = document.createElement("div");
+                            letuserknowitsempty.id = "returnednoupcomingmatches";
+                            letuserknowitsempty.innerHTML = "YOU HAVE NO UPCOMING MATCHES";
+                            letuserknowitsempty.style.color = "white";
+                            letuserknowitsempty.style.transform = "translateY(40px)";
+                            letuserknowitsempty.style.fontSize = "35px";
+                            letuserknowitsempty.style.width = "700px";
+                            if (document.getElementById("upcomingmatchesdivider")){
+                                document.getElementById("upcomingmatchesdivider").appendChild(letuserknowitsempty);
+            
                             }
-        
-                           
-        
-                            
-                           // console.log(matchDate);
-        
+                            document.getElementById("removemepls").remove();
+                            return;
                         }
-                        //if(matchDateDiv){
-                            //document.getElementById(upcomingdivider).appendChild(matchDateDiv);
-        
-                       // }
-        
-                    }
-                    if (upcomingteams){
-                        funnyfunction(upcomingteams,upcomingdivider);
+                            
+                        let matches = payload.items;
+                        const upcomingteams = [];
+                        for (const match of matches){
+            
+                            if (match.status == "created"){
+                                let matchDate = new Date (match.origin.schedule);
+                                let factions = match.factions;
+                                for (const faction of factions){
+                                    if (faction.id != team){
+                                        
+                                        upcomingteams.push(faction.id);
+                                        upcomingteams.push(matchDate.toDateString());
+                                        //funnyfunction(upcomingteams,upcomingdivider);
+                                        //upcomingteams.pop();
+                                    }
+                                }
+            
+                               
+            
+                                
+                               // console.log(matchDate);
+            
+                            }
+                            //if(matchDateDiv){
+                                //document.getElementById(upcomingdivider).appendChild(matchDateDiv);
+            
+                           // }
+            
+                        }
+                        if (upcomingteams){
+                            funnyfunction(upcomingteams,upcomingdivider);
+                            
+                        }
                         
                     }
-                    
-                }
                 })
                 break;       
          case "Intermediate":
@@ -1887,44 +1938,60 @@ function getUpcomingMatches(team,season,upcomingdivider){
                 })
                 .then((data) => {
                     if (data != null){
-                    let payload = data.payload;
-                    console.log(payload);
-                    
-                    let matches = payload.items;
-                    const upcomingteams = [];
-                    for (const match of matches){
-        
-                        if (match.status == "created"){
-                            let matchDate = new Date (match.origin.schedule);
-                            let factions = match.factions;
-                            for (const faction of factions){
-                                if (faction.id != team){
-                                    
-                                    upcomingteams.push(faction.id);
-                                    upcomingteams.push(matchDate.toDateString());
-                                    //funnyfunction(upcomingteams,upcomingdivider);
-                                    //upcomingteams.pop();
-                                }
+                        let payload = data.payload;
+                        console.log(payload.items[payload.items.length-1]);
+                        
+                        if (payload.items[payload.items.length-1].status === "finished"){
+                            let letuserknowitsempty = document.createElement("div");
+                            letuserknowitsempty.id = "returnednoupcomingmatches";
+                            letuserknowitsempty.innerHTML = "YOU HAVE NO UPCOMING MATCHES";
+                            letuserknowitsempty.style.color = "white";
+                            letuserknowitsempty.style.transform = "translateY(40px)";
+                            letuserknowitsempty.style.fontSize = "35px";
+                            letuserknowitsempty.style.width = "700px";
+                            if (document.getElementById("upcomingmatchesdivider")){
+                                document.getElementById("upcomingmatchesdivider").appendChild(letuserknowitsempty);
+            
                             }
-        
-                           
-        
-                            
-                           // console.log(matchDate);
-        
+                            document.getElementById("removemepls").remove();
+                            return;
                         }
-                        //if(matchDateDiv){
-                            //document.getElementById(upcomingdivider).appendChild(matchDateDiv);
-        
-                       // }
-        
-                    }
-                    if (upcomingteams){
-                        funnyfunction(upcomingteams,upcomingdivider);
+                            
+                        let matches = payload.items;
+                        const upcomingteams = [];
+                        for (const match of matches){
+            
+                            if (match.status == "created"){
+                                let matchDate = new Date (match.origin.schedule);
+                                let factions = match.factions;
+                                for (const faction of factions){
+                                    if (faction.id != team){
+                                        
+                                        upcomingteams.push(faction.id);
+                                        upcomingteams.push(matchDate.toDateString());
+                                        //funnyfunction(upcomingteams,upcomingdivider);
+                                        //upcomingteams.pop();
+                                    }
+                                }
+            
+                               
+            
+                                
+                               // console.log(matchDate);
+            
+                            }
+                            //if(matchDateDiv){
+                                //document.getElementById(upcomingdivider).appendChild(matchDateDiv);
+            
+                           // }
+            
+                        }
+                        if (upcomingteams){
+                            funnyfunction(upcomingteams,upcomingdivider);
+                            
+                        }
                         
                     }
-                    
-                }
                 })
                 break;
     } 
