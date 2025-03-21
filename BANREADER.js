@@ -392,6 +392,7 @@ function fetchLast5Players(matchid, rcursivecall,count, callback){
             pfp.style.height = "75px";
             playerdivider.appendChild(pfp);
             bigplayerdivider.appendChild(playerdivider);
+            bigplayerdivider.style.pointerEvents = "auto";
             document.getElementById("teambackgrounddiv").appendChild(bigplayerdivider);
             if (player.nickname === "floridiot"){
                 player.nickname = "malders";
@@ -924,10 +925,7 @@ let loss = 0;
 function printToWebsite(dapicksanddabans, something){
    
     document.getElementById("teambackgrounddiv").style.opacity = "1";
-    if(document.getElementById("WHOLEPLAYERDIVIDER")){
-        document.getElementById("WHOLEPLAYERDIVIDER").style.pointerEvents = "auto";
 
-    }
     
     let recorddiv = document.createElement("div");
     recorddiv.style.display = "grid";
@@ -987,6 +985,7 @@ function printToWebsite(dapicksanddabans, something){
         }
         let gamediv = document.createElement('div');
         gamediv.id = "game"+d;
+        gamediv.classList.add("gamediv");
         gamediv.style.height = "150px";
         gamediv.style.width = "250px"
         gamediv.style.paddingTop = "5px";
@@ -1642,6 +1641,7 @@ function printToWebsite(dapicksanddabans, something){
         if(THEFINALCOUNTERISWEAR === 1){
             if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
                     setTimeout(() => {
+                        document.querySelectorAll("#buttonspan").forEach(el => el.remove());
                         document.getElementById("vertigoo").remove();
                         document.getElementById("verimage").remove();
                         document.getElementById("trainn").style.transform = "translate(470px,20px)";
@@ -1662,20 +1662,33 @@ function printToWebsite(dapicksanddabans, something){
    
     info.style.fontSize = "20px";
     info.style.webkitFilter = "drop-shadow(1px 1px 0.1px black)";
-    
+    let shouldbeoff = false;
     for (let d = 0; d < matchesDivider.children.length-1; d++){
-
+        if (!shouldbeoff){
         if(document.getElementById("game"+d)){
 
-            document.getElementById("game"+d).onclick = function(){
 
+            document.getElementById("game"+d).onclick = function(){
+                if (document.getElementById("WHOLEPLAYERDIVIDER")){
+                    document.getElementById("WHOLEPLAYERDIVIDER").remove();
+                }
+                document.querySelectorAll('.gamediv').forEach(element =>{
+                        element.style.filter = "none";
+                });
                 moreclicks++;
                 console.log("divider clicked "+moreclicks+" clicks");
                 dividerclicked = !dividerclicked;
+                shouldbeoff = !shouldbeoff;
                 
                 let reverseclick = false;
-                if(dividerclicked){
-                    document.getElementById("RECORDDD").style.transform = "translate(-15px,-110px)";
+                if(dividerclicked && moreclicks > 0){
+                    document.getElementById("allInfo").style.opacity = "0";
+                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
+                
+                    if (document.getElementById("RECORDDD")){
+                        document.getElementById("RECORDDD").style.transform = "translate(-25px,-80px)";
+
+                    }
                     let scores = document.getElementsByClassName("scoreinthescore");
                     for (const score of scores){
                         score.style.transform = "translate(365px,-490px)";
@@ -1726,20 +1739,8 @@ function printToWebsite(dapicksanddabans, something){
 
 
                 }
-                else{
-                    console.log("changing visibility");
-                    recorddiv.style.visibility = "";
-                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px white)";
-                    if (moreclicks >= 2){
-                        console.log("fetching last 5 for "+firstMatchID);
-                        
-                        fetchLast5Players(firstMatchID,true);
-
-                        reverseclick = true;
-                        
-                    }
-                }
-                if (moreclicks > 0){
+                if (moreclicks > 0 && moreclicks < 2){
+                   //moreclicks = 0;
                     if (!reverseclick){
                         fetchLast5Players(dapicksanddabans[d].vote_type, true);
                     }
@@ -1751,18 +1752,12 @@ function printToWebsite(dapicksanddabans, something){
                     if (document.getElementById("RECORDDD")){
                         document.getElementById("RECORDDD").style.visibility = "hidden";
                     }
-                    if(document.getElementById("WHOLEPLAYERDIVIDER")){
-                        document.getElementById("WHOLEPLAYERDIVIDER").style.pointerEvents = "auto";
-
-                    }
-
-                   
-                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
                     if(document.getElementById("TEAMPFP"+d)){
 
                         let oldonclick = document.getElementById("TEAMPFP"+d).onclick;
                         
                         document.getElementById("TEAMPFP"+d).onclick = function(){
+
                         
                             console.log("PLAYER PF CLICKKEDD");
                             oldonclick.call(this,event);
@@ -1809,11 +1804,16 @@ function printToWebsite(dapicksanddabans, something){
 
                     
                 }
-                else if (moreclicks > 1){
-
+                 if (moreclicks > 1){
+                    if (document.getElementById("WHOLEPLAYERDIVIDER")){
+                        document.getElementById("WHOLEPLAYERDIVIDER").remove();
+                    }
+                    fetchLast5Players(firstMatchID,true);
                     console.log("changing visibility");
-                    document.getElementById("RECORDDD").style.visibility = "visible";
-
+                    document.getElementById("allInfo").style.opacity = "1";
+                    recorddiv.style.visibility = "";
+                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px white)";
+                    moreclicks = 0;
                     /*
                     document.getElementById("mtches").querySelectorAll("*").forEach(element => {
                         if (storedevents.has(element)) {
@@ -1824,10 +1824,6 @@ function printToWebsite(dapicksanddabans, something){
 
                     
 
-                }
-                else{
-                    console.log("changing visibility");
-                    document.getElementById("RECORDDD").style.visibility = "visible";
                 }
 
                 
@@ -1854,13 +1850,13 @@ function printToWebsite(dapicksanddabans, something){
                 */
 
             }
-        
+            
             document.getElementById("game"+d).onmouseover = function(){
 
  
                 if (!dividerclicked){
                 quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
-                if (dividerclicked && moreclicks > 0){
+                if (moreclicks > 0 && moreclicks < 2){
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
                 }
                 else{
@@ -1872,10 +1868,8 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("allInfo").style.transform = "translate(775px,300px)";
                     const butons = document.querySelectorAll('#buttonspan');
                     butons.forEach(element =>{
-                        element.style.transform = "translate(1535px, -450px)"
+                        element.style.transform = "translate(1535px, 20px)"
                     });
-                // quickInfoDivider.innerHTML+='<span class="grey"> '+dapicksanddabans[d].entities[0].selected_by+"</span> VS "+'<span class="grey"> '+dapicksanddabans[d].entities[1].selected_by+"</span>";
-
                 
                     //function that calculates info for current highlighted game (you can get the matchid by getting the vote_type from)
                     //dapicksanddabans[d] returns the correct ban information for that hightlighted map.
@@ -1972,10 +1966,8 @@ function printToWebsite(dapicksanddabans, something){
                             }
                             somanymapss.appendChild(bigimage);
                         }
-                        if (!dividerclicked){
-                            let final = (counter == 7) ? "(LEFT OVER) "+p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>": p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>";
-                            info.innerHTML+=final;
-                        }
+                        let final = (counter == 7) ? "(LEFT OVER) "+p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>": p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>";
+                        info.innerHTML+=final;
 
 
                     }
@@ -2011,6 +2003,8 @@ function printToWebsite(dapicksanddabans, something){
                     tm2nme.style.color = "#ffffff";
                     
                     tm2nme.style.textShadow = "0px 0px 2px "+(( fsdfesfsdf[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
+
+
                     checkImageExists(fsdfesfsdf[0], function(exists) {
                         if (exists) {
                             tm2pfp.src = fsdfesfsdf[0];
@@ -2018,49 +2012,12 @@ function printToWebsite(dapicksanddabans, something){
                             tm2pfp.src = defaultimage; // Use fallback URL if the image doesn't exist
                         }
                     });
-                                        //display score here?
-                                        let VS = document.createElement("div");
-                                        VS.id = "VS";
-                                        VS.innerHTML = "VS";
-                    if(dividerclicked){
-
-                        info.style.fontSize = "22px";
-                        info.style.transform = "translateY(-190px)";
-                        info.style.width = "500px";
-                        tm1nme.style.fontSize = "15px";
-                        tm1nme.style.transform = "translate(30px,-300px)";
-                        tm2nme.style.fontSize = "15px";
-                        tm2nme.style.transform = "translate(250px,-300px)";
-                        VS.style.transform = "translate(145px,-275px)";
-                        VS.style.filter = "drop-shadow(.5px 0.5px 0.1px black)";
-                        tm1pfp.style.transform = "translate(-450px,30px)";
-                        tm1pfp.style.width = "75px";
-                        tm1pfp.style.height = "75px";
-                        tm2pfp.style.width = "75px";
-                        tm2pfp.style.height = "75px";
-                        tm2pfp.style.transform = "translate(-250px,30px)";
-                        let highlightedplayerdiv = document.createElement("div");
-                        highlightedplayerdiv.id = "highlightedplayerdiv";
-                        highlightedplayerdiv.style.transform = "translate(345px,150px)";
-                        highlightedplayerdiv.style.webkitFilter = "drop-shadow(1px 1px 1px black)";
-                        let highlightedplayertext = document.createElement("div");
-                        highlightedplayertext.style.fontSize = "15px";
-                        highlightedplayertext.id = "highlightedplayertext";
-                        highlightedplayertext.style.color = "wheat";
-
-                        highlightedplayertext.innerHTML = "HIGHLIGHTED PLAYER:";
-                        highlightedplayerdiv.appendChild(highlightedplayertext);
-                        document.getElementById("quickInfo").appendChild(highlightedplayerdiv);
 
 
-                    }
-                    else{
-
-                        tm1nme.style.fontSize = "25px";
-                        tm1nme.style.transform = "translate(60px,-250px)";
-                        tm2nme.style.fontSize = "25px";
-                        tm2nme.style.transform = "translate(300px,-250px)";
-                    }
+                    //display score here?
+                    let VS = document.createElement("div");
+                    VS.id = "VS";
+                    VS.innerHTML = "VS";
 
 
                     somanymapss.appendChild(tm1pfp);
@@ -2111,7 +2068,7 @@ function printToWebsite(dapicksanddabans, something){
                     }
                     
                 
-            }
+            } //
         }
                 
         document.getElementById("game"+d).onmouseout = function(){
@@ -2130,8 +2087,9 @@ function printToWebsite(dapicksanddabans, something){
             
             const butons = document.querySelectorAll('#buttonspan');
                     butons.forEach(element =>{
-                        element.style.transform = "translate(960px, -450px)";
+                        element.style.transform = "translate(705px, 20px)";
                     });
+
             info.innerHTML = "";
             const myNode = document.getElementById("quickInfo");
             while (myNode.firstChild) {
@@ -2143,6 +2101,7 @@ function printToWebsite(dapicksanddabans, something){
         else{
            
         }
+    }
     }
     }
     }
@@ -2229,7 +2188,6 @@ var ILIEDLOLL = 3;
                 } else {
                    // console.log("vertigoo or verimage not found!");
                 }
-                console.log("UMMMMJGHKHKJSFHJKHSJHSDGJHKSDFHJKHDFJKGDHSJKHGSSJHDSFGJKH");
             }
 
         } else {
@@ -2272,7 +2230,7 @@ var ILIEDLOLL = 3;
         }
       });
       
-    document.getElementById(".BanFileExplorer").appendChild(span);
+    document.getElementById("allInfo").appendChild(span);
 }
 function checkImageExists(url, callback) {
     const img = new Image();

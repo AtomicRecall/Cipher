@@ -214,7 +214,7 @@ body {
   font-size: 15px;
   color: white;
   font-weight: bold;
-  transform: translate(960px, -450px);
+  transform: translate(705px, 20px);
   transition: .3s
 }
 #spanimg{
@@ -653,7 +653,8 @@ transform: translateY(-120px);
   color: green;
   font-size: 16px;
   width: 100%;
-  overflow : scroll;
+  overflow-y : scroll;
+  overflow-x: hidden;
   height: 730px;
   transform: translate(-9px,-15px);
 }
