@@ -326,8 +326,23 @@ function GetLeaguePickBans2(teamid, currentssn){
         }
     }
 }
+let lastClickTime = 0;
+const clickDelay = 500; // 500ms delay
 function fetchLast5Players(matchid, rcursivecall,count, callback){
+    const now = Date.now();
+    if (now - lastClickTime < clickDelay) return;
+    lastClickTime = now;
     if (callback) callback();
+    var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+var loadingimage = document.createElement("img");
+loadingimage.src = loadGears;
+loadingimage.style.width = "600px";
+loadingimage.style.height = "200px";
+loadingimage.style.transform = "translate(-1000px,30px)";
+loadingimage.style.position = "absolute";
+loadingimage.id = "removemeplsss";
+loadingimage.classList.add("removemepls");
+document.getElementById("teambackgrounddiv").appendChild(loadingimage);
     //console.log("feetching last 5 players for "+matchid);
      return fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
         headers: {
@@ -352,7 +367,7 @@ function fetchLast5Players(matchid, rcursivecall,count, callback){
             return;
         }
         else {
-            
+            document.getElementById("removemeplsss").remove();
             console.log("MATCH WAS REAL NO WAY");
             doitonlyonce = false;
             let damatchstats = datan12.rounds[0];
@@ -394,6 +409,9 @@ function fetchLast5Players(matchid, rcursivecall,count, callback){
             bigplayerdivider.appendChild(playerdivider);
             bigplayerdivider.style.pointerEvents = "auto";
             document.getElementById("teambackgrounddiv").appendChild(bigplayerdivider);
+            if (document.getElementById("mtches").clicked) {
+                return; // Stop function if clicked
+            }
             if (player.nickname === "floridiot"){
                 player.nickname = "malders";
             }
@@ -936,6 +954,7 @@ function printToWebsite(dapicksanddabans, something){
     recorddiv.style.fontSize = "30px";
     recorddiv.style.position = "absolute";
     recorddiv.id = "RECORDDD";
+    recorddiv.style.transition = ".5s"
     recorddiv.style.padding = "20px";
     let matchesDivider = document.createElement('div');
     matchesDivider.id = "mtches";
@@ -971,8 +990,6 @@ function printToWebsite(dapicksanddabans, something){
         if (doitonlyonce) {
             doitonlyonce = false;
             fetchLast5Players(dapicksanddabans[d].vote_type, false, count, () => {
-                console.log("did that shit work? " + document.getElementById("teambackgrounddiv").children.length);
-    
                 if (document.getElementById("teambackgrounddiv").children.length >= 1) {
                     console.log("FETCHLAST5PLAYERS WORKED!");
                    
@@ -1682,7 +1699,13 @@ function printToWebsite(dapicksanddabans, something){
                 
                 let reverseclick = false;
                 if(dividerclicked && moreclicks > 0){
-                    document.getElementById("allInfo").style.opacity = "0";
+                    if (document.getElementById("WHOLEPLAYERDIVIDER")){
+                        document.getElementById("WHOLEPLAYERDIVIDER").remove();
+                        
+                    }
+                    if(document.getElementById("allInfo")){
+                        document.getElementById("allInfo").style.opacity = "0";
+                    }
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
                 
                     if (document.getElementById("RECORDDD")){
@@ -1742,15 +1765,16 @@ function printToWebsite(dapicksanddabans, something){
                 if (moreclicks > 0 && moreclicks < 2){
                    //moreclicks = 0;
                     if (!reverseclick){
+                        if (document.getElementById("WHOLEPLAYERDIVIDER")){
+                            document.getElementById("WHOLEPLAYERDIVIDER").remove();
+                            
+                        }
                         fetchLast5Players(dapicksanddabans[d].vote_type, true);
                     }
           
-                    if (document.getElementById("WHOLEPLAYERDIVIDER")){
-                        document.getElementById("WHOLEPLAYERDIVIDER").remove();
-                        
-                    }
+                    
                     if (document.getElementById("RECORDDD")){
-                        document.getElementById("RECORDDD").style.visibility = "hidden";
+                        document.getElementById("RECORDDD").style.opacity = "0";
                     }
                     if(document.getElementById("TEAMPFP"+d)){
 
@@ -1808,10 +1832,29 @@ function printToWebsite(dapicksanddabans, something){
                     if (document.getElementById("WHOLEPLAYERDIVIDER")){
                         document.getElementById("WHOLEPLAYERDIVIDER").remove();
                     }
+                    console.log("running fetchlast5 from firstmatch id");
                     fetchLast5Players(firstMatchID,true);
                     console.log("changing visibility");
                     document.getElementById("allInfo").style.opacity = "1";
-                    recorddiv.style.visibility = "";
+                    document.getElementById("RECORDDD").style.opacity = "1";
+                    document.getElementById("tm1nme").style.fontSize = "25px";
+                    document.getElementById("tm1nme").style.transform = "translate(50px,-250px)";
+                    document.getElementById("tm1pfp").style.width = "150px";
+                    document.getElementById("tm1pfp").style.height = "150px";
+                    document.getElementById("tm1pfp").style.transform = "translate(-450px, 80px)";
+                    document.getElementById("tm2nme").style.fontSize = "25px";
+                    document.getElementById("tm2nme").style.transform = "translate(290px,-250px)";
+                    document.getElementById("tm2pfp").style.width = "150px";
+                    document.getElementById("tm2pfp").style.height = "150px";
+                    document.getElementById("tm2pfp").style.transform = "translate(-200px, 80px)";
+                    document.getElementById("BANINFOMAN").style.fontSize = "20px";
+                    document.getElementById("BANINFOMAN").style.transform = "translateY(0px)";
+                    document.getElementById("highlightedplayerdiv").style.opacity = "0";
+                    document.getElementById("VS").style.transform = "translate(215px,-180px)";
+                    document.getElementById("VS").style.fontSize = "50px";
+                    document.querySelectorAll(".scoreinthescore").forEach(el => el.style.transform = "translate(380px,-175px)");
+                    
+
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px white)";
                     moreclicks = 0;
                     /*
@@ -1979,7 +2022,8 @@ function printToWebsite(dapicksanddabans, something){
                     tm1nme.innerHTML = fjksdhfksdj[1];
                     tm1nme.id = "tm1nme";
                     tm1nme.style.position = "absolute";
-                    
+                    tm1nme.style.fontSize = "25px";
+                    tm1nme.style.transform = "translate(50px,-250px)";
                     tm1nme.style.color = "#ffffff";
                     
                     tm1nme.style.textShadow = "0px 0px 2px "+(( fjksdhfksdj[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
@@ -1999,6 +2043,8 @@ function printToWebsite(dapicksanddabans, something){
                     tm2nme.innerHTML = fsdfesfsdf[1];
                     tm2nme.id = "tm2nme";
                     tm2nme.style.position = "absolute";
+                    tm2nme.style.fontSize = "25px";
+                    tm2nme.style.transform = "translate(290px,-250px)";
                     
                     tm2nme.style.color = "#ffffff";
                     
@@ -2102,6 +2148,12 @@ function printToWebsite(dapicksanddabans, something){
            
         }
     }
+    document.getElementById("game"+d).addEventListener("dblclick", function(){
+        window.open("https://www.faceit.com/en/cs2/room/"+dapicksanddabans[d].vote_type);
+        if(document.getElementById("WHOLEPLAYERDIVIDER")){
+            document.getElementById("WHOLEPLAYERDIVIDER").remove();
+        }
+    });
     }
     }
     }
@@ -2271,14 +2323,14 @@ function DotheThing (arrayofallmatches2, removeoradd){
     if(removeoradd){
         THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.concat(arrayofallmatches2);
         document.getElementById("mtches").remove();
-        document.getElementById("allInfo").remove();
+        document.querySelectorAll("#allInfo > *:not(#buttonspan)").forEach(el => el.remove());
         document.getElementById("quickInfo").remove();
         printToWebsite(THEFINALARRAYISWEAR, true);
     }
     else{
         THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.filter(item => item.season !== arrayofallmatches2[0].season);
         document.getElementById("mtches").remove();
-        document.getElementById("allInfo").remove();
+        document.querySelectorAll("#allInfo > *:not(#buttonspan)").forEach(el => el.remove());
         document.getElementById("quickInfo").remove();
         printToWebsite(THEFINALARRAYISWEAR, true);
     }

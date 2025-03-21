@@ -39,6 +39,7 @@ body {
   filter: drop-shadow(1px 0px 1px #000000);
 
 }
+
 @keyframes animate {
   100% {
     filter: hue-rotate(360deg);
@@ -258,12 +259,13 @@ body {
 #stopbutton{
   background-color: grey;
   border-color: grey;
-  width: 200px;
+  width: 220px;
   height: 240px;
   transition: 2s;
   position: absolute;
   transform: translate(650px,500px);
 }
+
 #buttonnn{
     width: 130px;
     height: 180px;
@@ -626,6 +628,7 @@ transform: translateY(-120px);
   position: absolute;
   font-size: 50px;
   transform: translate(215px,-180px);
+  filter: drop-shadow(.5px 0.5px 0.1px black);
 }
 
 #loadingbar{
