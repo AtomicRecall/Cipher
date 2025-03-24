@@ -377,7 +377,9 @@ body {
 
 .scoreinthescore{
   position: relative;
-  transform: translate(365px,-165px);
+  
+  transform: translate(365px,-158px);
+  
   font-size: 25px;
 }
 #mtches{
@@ -646,17 +648,22 @@ transform: translateY(-120px);
 #tm1copy{
   position: absolute;
   z-index: 1;
-  transform: translate(-120px,14px);
+  transform: translate(-120px,9px);
+  src: url("https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg");
 }
-#tm1cop{
+#P{
+  width: 10px;
+  height: 10px;
+  font-size: 10px;
   position: absolute;
-  z-index: 1;
-
+  color: white;
+  filter: drop-shadow(1px 0.5px 1px black);
 }
 #tm2copy{
   position: absolute;
   z-index: 1;
-  transform: translate(110px,42px);
+  transform: translate(110px,39px);
+  src: url("https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg");
 }
 #txtt{
   position: inherit;
