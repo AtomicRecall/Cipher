@@ -377,9 +377,8 @@ body {
 
 .scoreinthescore{
   position: relative;
-  transform: translate(380px,-175px);
-  font-size: 40px;
-  filter: drop-shadow(.5px 0.5px 0.1px black);
+  transform: translate(365px,-165px);
+  font-size: 25px;
 }
 #mtches{
   width: 270px;
@@ -417,9 +416,9 @@ h3{
 
 }
 #teamBackground{
-  transform: translate(-10px,-2px);
-  height: 200px;
-  width: 1000px;
+  transform: translate(-10px,-5px);
+  height: 280px;
+  width: 1245px;
   filter: blur(1px);
  
 
@@ -630,7 +629,44 @@ transform: translateY(-120px);
   transform: translate(215px,-180px);
   filter: drop-shadow(.5px 0.5px 0.1px black);
 }
+#EncompassingDivider{
+  width: 730px;
+  height: 470px;
+  transform: translate(755px,-471px);
 
+}
+#imgg{
+  position: inherit;
+  width: 130px;
+  height: 70px;
+  transform: translate(6px,-31.5px);
+  z-index: -2;
+  filter: drop-shadow(.1px 0.5px 3px black);
+}
+#tm1copy{
+  position: absolute;
+  z-index: 1;
+  transform: translate(-120px,14px);
+}
+#tm1cop{
+  position: absolute;
+  z-index: 1;
+
+}
+#tm2copy{
+  position: absolute;
+  z-index: 1;
+  transform: translate(110px,42px);
+}
+#txtt{
+  position: inherit;
+  left: 5px;
+  bottom: -38.5px;
+  background-color: #344A60;
+  padding-left: 25px;
+  padding-right: 25.5px;
+
+}
 #loadingbar{
   display: flex;
   color: white;

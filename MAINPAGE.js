@@ -389,12 +389,26 @@ function YOURSAVEDTEAMS(){
         }
     }
     //console.log("IS THIS PLAYER A ESEA LEAGUE PLAYER? WHAT THE FUCK "+NONESEALEAGUEPLAYERR3);
-    if (NONESEALEAGUEPLAYERR3 != 1 && localStorage.getItem("NOFACEITACCOUNT") != 1){
+    else if (NONESEALEAGUEPLAYERR3 != 1 && localStorage.getItem("NOFACEITACCOUNT") != 1){
         document.getElementById(".BanFileExplorer").appendChild(yoursaveteamsdivider);
         if (localStorage.getItem("NOTEAMALERT") != 0){
             database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
                 var data = snapshot.val();
                 if (data == null){
+                    let letuserknowitsempty = document.createElement("div");
+                    letuserknowitsempty.id = "returnednoupcomingmatches";
+                    letuserknowitsempty.innerHTML = "YOU HAVE NO SAVED TEAMS";
+                    letuserknowitsempty.style.color = "white";
+                    letuserknowitsempty.style.transform = "translateY(40px)";
+                    letuserknowitsempty.style.fontSize = "35px";
+                    letuserknowitsempty.style.width = "700px";
+                    if (document.getElementById("yoursavedteamsdivider")){
+                        document.getElementById("yoursavedteamsdivider").appendChild(letuserknowitsempty);
+    
+                    }   
+                    if(document.getElementById("removemepls1")){
+                        document.getElementById("removemepls1").remove();
+                    }
                     alert("Looks like you have no teams! search for something using the search button!");
                     return;
                 }
@@ -1770,7 +1784,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
                 let payload = data.payload;
                 console.log(payload.items[payload.items.length-1]);
                 
-                if (payload.items[payload.items.length-1].status === "finished"){
+                if (!payload.items[payload.items.length-1] || payload.items[payload.items.length-1].status === "finished"){
                     let letuserknowitsempty = document.createElement("div");
                     letuserknowitsempty.id = "returnednoupcomingmatches";
                     letuserknowitsempty.innerHTML = "YOU HAVE NO UPCOMING MATCHES";
@@ -1857,7 +1871,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
                         let payload = data.payload;
                         console.log(payload.items[payload.items.length-1]);
                         
-                        if (payload.items[payload.items.length-1].status === "finished"){
+                        if (!payload.items[payload.items.length-1] || payload.items[payload.items.length-1].status === "finished"){
                             let letuserknowitsempty = document.createElement("div");
                             letuserknowitsempty.id = "returnednoupcomingmatches";
                             letuserknowitsempty.innerHTML = "YOU HAVE NO UPCOMING MATCHES";
@@ -1939,9 +1953,9 @@ function getUpcomingMatches(team,season,upcomingdivider){
                 .then((data) => {
                     if (data != null){
                         let payload = data.payload;
-                        console.log(payload.items[payload.items.length-1]);
+                        //console.log(payload.items[payload.items.length-1]);
                         
-                        if (payload.items[payload.items.length-1].status === "finished"){
+                        if (!payload.items[payload.items.length-1] || payload.items[payload.items.length-1].status === "finished"){
                             let letuserknowitsempty = document.createElement("div");
                             letuserknowitsempty.id = "returnednoupcomingmatches";
                             letuserknowitsempty.innerHTML = "YOU HAVE NO UPCOMING MATCHES";

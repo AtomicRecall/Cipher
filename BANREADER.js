@@ -1,4 +1,3 @@
-
 console.log("one two three");
 var database = firebase.database();
 var THETEAMWEARESEARCHING = localStorage.getItem("THETEAMWEARESEARCHING");
@@ -50,7 +49,7 @@ stopButtong.innerHTML = 'USE THE MATCHES ALREADY FOUND:  <img id="buttonnn" src 
 document.getElementById(".BanFileExplorer").appendChild(stopButtong);
 
 stopButtong.addEventListener('click',()=>{
-    console.log("BUTTON CLICKED FDSFDSFDS");
+    //console.log("BUTTON CLICKED FDSFDSFDS");
     removeElementsByClass("removemeplss");
     var finializing = document.createElement("div");
     finializing.innerHTML = "FINALIZING......";
@@ -199,7 +198,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     teamBackground.position = "absolute";
     teamBackground.opacity = 0;
     teamBackground.style.height = "280px";
-    teamBackground.style.width = "1240px";
+    teamBackground.style.width = "1245px";
     let teambackgrounddiv = document.createElement("div");
     teambackgrounddiv.classList.add("divv");
     teambackgrounddiv.appendChild(teamBackground);
@@ -363,12 +362,12 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
         //console.log("HEHEHE");
         //console.log(datan12);
         if (datan12 == undefined){
-            console.log("MATCH WAS NOT REAL "+matchid);
+            //console.log("MATCH WAS NOT REAL "+matchid);
             return;
         }
         else {
             document.getElementById("removemeplsss").remove();
-            console.log("MATCH WAS REAL NO WAY");
+            //console.log("MATCH WAS REAL NO WAY");
             doitonlyonce = false;
             let damatchstats = datan12.rounds[0];
         let teams = damatchstats.teams;
@@ -487,6 +486,13 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
                     }
                     
                     pfp.onclick = function(){
+
+
+
+                        //TODO: DELETE HIGHLIGHTED PLAYER DIVIDER AND DO THE UPDATEDPLAYERSTATS.PNG
+
+
+
                         if(dividerclicked){
                             clicks++;
                             
@@ -497,7 +503,7 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
                         console.log("PICTURE CLICKED");
                        
                         if(dividerclicked && clicks === 1){
-                            console.log("HOVER OVER WHILE DIVIDER CLICKED");
+                           // console.log("HOVER OVER WHILE DIVIDER CLICKED");
                                 //console.log(picksnbans);
     
                             /*
@@ -532,6 +538,7 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
                             for (const match of picksnbans){
                                 if (match.vote_type == matchid){
                                     console.log(match);
+                                    /*
                                     for (const player of match.PlayerStats){
                                         for (const play of player){
                                             if (play.nickname === name.innerHTML){
@@ -564,9 +571,11 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
                                             }
                                         }
                                     }
-
+                                    */
                                 }
+                                    
                             }
+                                
                         }
 
                         if (dividerclicked && clicks === 2){
@@ -574,7 +583,9 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
                             if(document.getElementById("quickInfo") && document.getElementById("quickInfo")){
                             document.getElementById("quickInfo").removeChild(pic2);
                             document.getElementById("quickInfo").removeChild(name2);
-                            document.getElementById("quickInfo").removeChild(document.getElementById("OverallDivider"));
+                            if(document.getElementById("OverallDivider")){
+                                document.getElementById("quickInfo").removeChild(document.getElementById("OverallDivider"));
+                            }
                             pfp.style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
                             name.style.filter = "drop-shadow(.5px 0.5px 3px black)";
                             captain.style.filter = "";
@@ -790,31 +801,39 @@ function fetchMatchData(matchid,leaderid,count) {
         })
         .then((datan123) => {
             
-          // console.log("UM WHAT THE CHEESE?");
-           // console.log(datan123);
+            //console.log("UM WHAT THE CHEESE?");
+            //console.log(datan123);
             let playerStats = [];
             let detailedscr = datan123.rounds;
             let scoree = null;
-            //find the team that we are looking at, and send all player stats from that game to picksnbanz
-            let teams = detailedscr[0].teams;
-            for (const team of teams){
+            var counter = 0;
+            for (const round of detailedscr){
+                counter++;
                 
-                if (team.team_id === THETEAMWEARESEARCHING){
-                    //console.log("found for match "+matchid);
-                    //console.log(team.players);
-                    playerStats.push(team.players);
-                    
-                }else{
-                    for (const plyr of team.players){
-                    
-                        if (plyr.player_id === leaderid){
-                            THETEAMWEARESEARCHING = team.team_id
-                        }
-                            
+                //find the team that we are looking at, and send all player stats from that game to picksnbanz
+                let teams = round.teams;
+                playerStats.push("GAME "+counter);
+                for (const team of teams){
+                    var players = team.players;
+                    playerStats.push(players);
+                    if (team.team_id === THETEAMWEARESEARCHING){
+                        //console.log("found for match "+matchid);
+                        //console.log(team.players);
+                        players.push("THIS IS THE TEAM WE ARE SEARCHING");
                         
+                        
+                    }else{
+                        for (const plyr of team.players){
+                        
+                            if (plyr.player_id === leaderid){
+                                THETEAMWEARESEARCHING = team.team_id
+                            }
+                                
+                            
+                        }
                     }
-                }
                 
+                }
             }
             
             let temp = datan123.rounds[0].teams;
@@ -991,11 +1010,11 @@ function printToWebsite(dapicksanddabans, something){
             doitonlyonce = false;
             fetchLast5Players(dapicksanddabans[d].vote_type, false, count, () => {
                 if (document.getElementById("teambackgrounddiv").children.length >= 1) {
-                    console.log("FETCHLAST5PLAYERS WORKED!");
+                    //console.log("FETCHLAST5PLAYERS WORKED!");
                    
                     firstMatchID = dapicksanddabans[d].vote_type;
                 } else {
-                    console.log("dat shit did nottt workkk");
+                    //console.log("dat did nottt workkk");
                     //doitonlyonce = true;
                 }
             });
@@ -1693,12 +1712,14 @@ function printToWebsite(dapicksanddabans, something){
                         element.style.filter = "none";
                 });
                 moreclicks++;
-                console.log("divider clicked "+moreclicks+" clicks");
+                //console.log("divider clicked "+moreclicks+" clicks");
                 dividerclicked = !dividerclicked;
                 shouldbeoff = !shouldbeoff;
                 
                 let reverseclick = false;
                 if(dividerclicked && moreclicks > 0){
+                    //create LeaderBoard
+                    createLeaderBoard(dapicksanddabans[d]);
                     if (document.getElementById("WHOLEPLAYERDIVIDER")){
                         document.getElementById("WHOLEPLAYERDIVIDER").remove();
                         
@@ -1714,18 +1735,43 @@ function printToWebsite(dapicksanddabans, something){
                     }
                     let scores = document.getElementsByClassName("scoreinthescore");
                     for (const score of scores){
-                        score.style.transform = "translate(365px,-490px)";
+                        var scoreclicked = false;
+                        score.style.transform = "translate(360px,-480px)";
+                        /*
+                        let t1cpy = document.createElement("img");
+                        t1cpy.id = "tm1copy";
+                        t1cpy.style.height = "20px";
+                        t1cpy.style.width = "20px";
+                        t1cpy.src = document.getElementById("tm1pfp").src;
+                        let t2cpy = document.createElement("img");
+                        t2cpy.id = "tm2copy";
+                        t2cpy.style.height = "20px";
+                        t2cpy.style.width = "20px";
+                        t2cpy.src = document.getElementById("tm2pfp").src;
+                        score.appendChild(t1cpy);
+                        score.appendChild(t2cpy);
+                        */
                         score.style.pointerEvents = "auto";
                         score.onmouseover = function(){
-                            score.style.filter = "drop-shadow(1px 1px 3px white)";
+                            if(!scoreclicked){
+                                //if no scores are clicked
+                                score.style.filter = "drop-shadow(1px 1px 3px white)";
+                            }
 
                         }
                         score.onmouseout = function(){
-                            score.style.filter = "";
+                            if(!scoreclicked){
+                                //if no scores are clicked, run this
+                                score.style.filter = "";
+                            }
                         }
                         score.onclick = function(){
+                            scoreclicked = !scoreclicked;
                             score.style.filter = "drop-shadow(1px 1px 5px orange)";
-                            score.onmouseout = "";
+                            if (!scoreclicked){
+                                //if no scores are clicked, the onclick will do this
+                                score.style.filter = "drop-shadow(1px 1px 5px white)";
+                            }
                         }
 
                     }
@@ -1745,6 +1791,7 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("tm2pfp").style.width = "75px";
                     document.getElementById("tm2pfp").style.height = "75px";
                     document.getElementById("tm2pfp").style.transform = "translate(-250px,30px)";
+                    /*
                     let highlightedplayerdiv = document.createElement("div");
                     highlightedplayerdiv.id = "highlightedplayerdiv";
                     highlightedplayerdiv.style.position = "absolute";
@@ -1758,17 +1805,19 @@ function printToWebsite(dapicksanddabans, something){
                     highlightedplayertext.innerHTML = "HIGHLIGHTED PLAYER:";
                     highlightedplayerdiv.appendChild(highlightedplayertext);
                     document.getElementById("quickInfo").prepend(highlightedplayerdiv);
+                    */
                     document.getElementById("quickInfo").style.transform = "translate(260px,280px)";
+                    
 
 
                 }
                 if (moreclicks > 0 && moreclicks < 2){
+                    if (document.getElementById("WHOLEPLAYERDIVIDER")){
+                        document.getElementById("WHOLEPLAYERDIVIDER").remove();
+                        
+                    }
                    //moreclicks = 0;
                     if (!reverseclick){
-                        if (document.getElementById("WHOLEPLAYERDIVIDER")){
-                            document.getElementById("WHOLEPLAYERDIVIDER").remove();
-                            
-                        }
                         fetchLast5Players(dapicksanddabans[d].vote_type, true);
                     }
           
@@ -1832,11 +1881,14 @@ function printToWebsite(dapicksanddabans, something){
                     if (document.getElementById("WHOLEPLAYERDIVIDER")){
                         document.getElementById("WHOLEPLAYERDIVIDER").remove();
                     }
-                    console.log("running fetchlast5 from firstmatch id");
+                    //console.log("running fetchlast5 from firstmatch id");
                     fetchLast5Players(firstMatchID,true);
-                    console.log("changing visibility");
+                    //console.log("changing visibility");
                     document.getElementById("allInfo").style.opacity = "1";
-                    document.getElementById("RECORDDD").style.opacity = "1";
+                    if (document.getElementById("RECORDDD")){
+                        document.getElementById("RECORDDD").style.opacity = "1";
+
+                    }
                     document.getElementById("tm1nme").style.fontSize = "25px";
                     document.getElementById("tm1nme").style.transform = "translate(50px,-250px)";
                     document.getElementById("tm1pfp").style.width = "150px";
@@ -1849,10 +1901,10 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("tm2pfp").style.transform = "translate(-200px, 80px)";
                     document.getElementById("BANINFOMAN").style.fontSize = "20px";
                     document.getElementById("BANINFOMAN").style.transform = "translateY(0px)";
-                    document.getElementById("highlightedplayerdiv").style.opacity = "0";
+                    //document.getElementById("highlightedplayerdiv").style.opacity = "0";
                     document.getElementById("VS").style.transform = "translate(215px,-180px)";
                     document.getElementById("VS").style.fontSize = "50px";
-                    document.querySelectorAll(".scoreinthescore").forEach(el => el.style.transform = "translate(380px,-175px)");
+                    document.querySelectorAll(".scoreinthescore").forEach(el => el.style.transform = "translate(365px,-165px)");
                     
 
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px white)";
@@ -2079,27 +2131,190 @@ function printToWebsite(dapicksanddabans, something){
                         if(omfgsomanycounters % 2==0){
                         
                             if (dapicksanddabans[d].detailed_results[omfgsomanycounters] == THETEAMWEARESEARCHING){
-
                                 let somanyscore = document.createElement("div");
                                 somanyscore.classList.add("scoreinthescore")
                                 somanyscore.style.color = 'green';
+                                somanyscore.style.width = "150px";
+                                somanyscore.style.height = "75px";
+                               // console.log(dapicksanddabans[d].detailed_score[omfgsomanycounters/2] +" -  -  - "+dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length);
+                                somanyscore.innerHTML = `<span id = txtt style= padding-right:${dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length >= 7 ? 26 : 41}px;>`+dapicksanddabans[d].detailed_score[omfgsomanycounters/2]+"</span>";
+                                //somanyscoree.push(dapicksanddabans[d].detailed_results[omfgsomanycounters+1]);
                                 if(dividerclicked){
-                                    somanyscore.style.transform = "translate(375px,-490px)";
+                                    somanyscore.style.transform = "translate(360px,-480px)";
                                 }
-                                somanyscore.innerHTML = dapicksanddabans[d].detailed_score[omfgsomanycounters/2];
+
+                                switch(dapicksanddabans[d].detailed_results[omfgsomanycounters+1]){
+                                    case "de_mirage":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[4];
+                                        somanyscore.appendChild(mapimg);
+                                        break;
+                                    case "de_dust2":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[3];
+                                        somanyscore.appendChild(mapimg);
+                                        break;
+                                    case "de_train":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[7];
+                                        somanyscore.appendChild(mapimg);
+                                        break;
+                                    case "de_inferno":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[2];
+                                        somanyscore.appendChild(mapimg);
+                                        break;
+                                    case "de_anubis":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[1];
+                                        somanyscore.appendChild(mapimg);
+                                        break;
+                                    case "de_ancient":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[0];
+                                        somanyscore.appendChild(mapimg);
+                                        break;
+                                    case "de_nuke":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[5];
+                                        somanyscore.appendChild(mapimg);
+                                        break;
+                                    case "de_vertigo":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[6];
+                                        somanyscore.appendChild(mapimg);
+                                        break;
+
+                                }
+                                let t1cpy = document.createElement("img");
+                                t1cpy.id = "tm1copy";
+                                t1cpy.style.zIndex = "1";
+                                t1cpy.style.height = "20px";
+                                t1cpy.style.width = "20px";
+                                t1cpy.src = fjksdhfksdj[0]; 
+                                checkImageExists(t1cpy.src, function(exists) {
+                                    if (exists) {
+                                        t1cpy.src = t1cpy.src;
+                                    } else {
+                                        t1cpy.src = defaultimage; // Use fallback URL if the image doesn't exist
+                                    }
+                                });
+                                
+                               // t1cpy.src = tm1pfp.src;
+                                let t2cpy = document.createElement("img");
+                                t2cpy.id = "tm2copy";
+                                t2cpy.style.height = "20px";
+                                t2cpy.style.width = "20px";
+                                t2cpy.src = fsdfesfsdf[0];
+                                checkImageExists(t2cpy.src, function(exists) {
+                                    if (exists) {
+                                        t2cpy.src = t2cpy.src;
+                                    } else {
+                                        t2cpy.src = defaultimage; // Use fallback URL if the image doesn't exist
+                                    }
+                                });
+                                //t2cpy.src = document.getElementById("tm2pfp").src;
+                                //console.log(t1cpy);
+                                //console.log(t2cpy);
+                               // console.log(tm2pfp);
+                                somanyscore.appendChild(t1cpy);
+                                somanyscore.prepend(t2cpy);
                                 quickInfoDivider.appendChild(somanyscore);
                                 //dascore.style.color = 'green';
-                                //dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #1eff00)";
+                                //dascore.style.webkitFilter = "drop-shadow(0px 0px 2pxrgb(38, 255, 0))";
+                                
                                 
                             }
                             else {
                                 let somanyscoree = document.createElement("div");
                                 somanyscoree.classList.add("scoreinthescore")
                                 somanyscoree.style.color = 'red';
-                                somanyscoree.innerHTML = dapicksanddabans[d].detailed_score[omfgsomanycounters/2];
+                                somanyscoree.style.width = "150px";
+                                somanyscoree.style.height = "75px";
+
+                                somanyscoree.innerHTML = `<span id = txtt style= padding-right:${dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length >= 7 ? 26 : 41}px;>`+dapicksanddabans[d].detailed_score[omfgsomanycounters/2]+"</span>";
+                                //somanyscoree.push(dapicksanddabans[d].detailed_results[omfgsomanycounters+1]);
                                 if(dividerclicked){
-                                    somanyscoree.style.transform = "translate(375px,-490px)";
+                                    somanyscoree.style.transform = "translate(360px,-480px)";
                                 }
+
+                                switch(dapicksanddabans[d].detailed_results[omfgsomanycounters+1]){
+                                    case "de_mirage":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[4];
+                                        somanyscoree.appendChild(mapimg);
+                                        break;
+                                    case "de_dust2":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[3];
+                                        somanyscoree.appendChild(mapimg);
+                                        break;
+                                    case "de_train":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[7];
+                                        somanyscoree.appendChild(mapimg);
+                                        break;
+                                    case "de_inferno":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[2];
+                                        somanyscoree.appendChild(mapimg);
+                                        break;
+                                    case "de_anubis":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[1];
+                                        somanyscoree.appendChild(mapimg);
+                                        break;
+                                    case "de_ancient":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[0];
+                                        somanyscoree.appendChild(mapimg);
+                                        break;
+                                    case "de_nuke":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[5];
+                                        somanyscoree.appendChild(mapimg);
+                                        break;
+                                    case "de_vertigo":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[6];
+                                        somanyscoree.appendChild(mapimg);
+                                        break;
+
+                                }
+                                let t1cpy = document.createElement("img");
+                                t1cpy.id = "tm1copy";
+                                t1cpy.style.zIndex = "1";
+                                t1cpy.style.height = "20px";
+                                t1cpy.style.width = "20px";
+                                t1cpy.src = fjksdhfksdj[0]; 
+                               // t1cpy.src = tm1pfp.src;
+                                let t2cpy = document.createElement("img");
+                                t2cpy.id = "tm2copy";
+                                t2cpy.style.height = "20px";
+                                t2cpy.style.width = "20px";
+                                t2cpy.src = fsdfesfsdf[0];
+                               // t2cpy.src = tm2pfp.src;
+                                //console.log(t1cpy);
+                              //  console.log(tm2pfp);
+                                //console.log(t2cpy);
+                                somanyscoree.appendChild(t1cpy);
+                                somanyscoree.prepend(t2cpy);
                                 quickInfoDivider.appendChild(somanyscoree);
                                 //dascore.style.color = 'red';
                                 //dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #ff0000)";
@@ -2159,6 +2374,71 @@ function printToWebsite(dapicksanddabans, something){
     }
     
 }
+function createLeaderBoard(matchinfo){
+        // d+3 = next game
+        // always two teams (should be lol)
+       // console.log(matchinfo);
+        let amountofgames = 0;
+        let EncompassingDivider = document.createElement("div");
+        EncompassingDivider.id = "EncompassingDivider";
+        let ButtonsDivider = document.createElement("div");
+        ButtonsDivider.id = "ButtonsDivider";
+        EncompassingDivider.appendChild(ButtonsDivider);
+        document.getElementById(".BanFileExplorer").appendChild(EncompassingDivider);
+        let overallPlayerStats = {};
+        let teamnum = -1;
+        matchinfo.PlayerStats.forEach(item =>{
+            if (Array.isArray(item)){
+                teamnum++;
+                //console.log(item);
+                item.forEach(player =>{
+                    if (typeof player === "string"){
+                        return;
+                    }
+                    else{
+                        //STATS I NEED:   KILLS   DEATHS   ASSISTS   ADR   MVPs   HEADSHOTS
+
+                       // console.log(player.nickname);
+                       if (!overallPlayerStats[matchinfo.teams[teamnum][1]]){
+                        overallPlayerStats[matchinfo.teams[teamnum][1]] = {};
+                       }
+                        if (!overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname]){
+                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0};
+                           
+                        }
+                        overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].kills +=Number(player.player_stats.Kills);
+                        overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].deaths+=Number(player.player_stats.Deaths);
+                        overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].assists+=Number(player.player_stats.Assists);
+                        overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].adr+=Number(player.player_stats.ADR);
+                        overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].mvps+=Number(player.player_stats.MVPs);
+                        overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].headshots+=Number(player.player_stats.Headshots);
+                       
+                        
+                    }
+                })
+                if(teamnum === 1){
+                    teamnum = -1;
+                }
+            }
+            else{
+                amountofgames++;
+               // console.log(item);
+            }
+            
+        })
+        
+        for (let team in overallPlayerStats){
+            for (let player in overallPlayerStats[team]){
+                overallPlayerStats[team][player].adr =  overallPlayerStats[team][player].adr/amountofgames
+                //overallPlayerStats[team][player].adr = overallPlayerStats[team][player].adr/amountofgames;
+            }
+        }
+        
+
+
+        //console.log(overallPlayerStats);
+}
+
 var THEFINALCOUNTERISWEAR = 0;
 var ILIEDLOLL = 3;
     function createToggle(allinfodiv){
@@ -2293,6 +2573,15 @@ function checkImageExists(url, callback) {
         callback(false); // Image does not exist
     };
     img.src = url;
+}
+function checktheimagexists(url){
+    checkImageExists(url, function(exists) {
+        if (exists) {
+            return true;
+        } else {
+            return false;// Use fallback URL if the image doesn't exist
+        }
+    });
 }
 
 function getArrayFromSeason(ssn, arrayofallmatchess){
