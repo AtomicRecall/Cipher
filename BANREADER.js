@@ -371,10 +371,10 @@ function GetPlayerInfo(nick , iddd, div){
                     pfp.style.width = "50px";
                     pfp.style.height = "50px";
                     pfp.style.margin = "0px";
-                    pfp.style.transform = "translate(5px,-70px)";
+                    pfp.style.transform = "translate(5px,-65px)";
                     div.style.transform = "translate(0px,5px)";
                     name.style.fontSize = "12px";
-                    name.style.transform = "translate(6px,-73px)";
+                    name.style.transform = "translate(6px,-68px)";
                     div.style.backgroundColor = "#344A60";
                     div.style.filter = "drop-shadow(0px 0px 3px black)";
                    
@@ -454,15 +454,15 @@ function GetPlayerInfo(nick , iddd, div){
                 pfp.style.width = "50px";
                 pfp.style.height = "50px";
                 pfp.style.margin = "0px";
-                pfp.style.transform = "translate(5px,-70px)";
+                pfp.style.transform = "translate(5px,-65px)";
                 div.style.transform = "translate(0px,5px)";
                 name.style.fontSize = "12px";
-                name.style.transform = "translate(6px,-73px)";
+                name.style.transform = "translate(6px,-68px)";
                 div.style.backgroundColor = "#344A60";
                 div.style.filter = "drop-shadow(0px 0px 3px black)";
                 var allInfos = div.querySelectorAll(".infothing");
                 for (var infos of allInfos){
-                    infos.style.transform = "translate(85px,-2px)";
+                    infos.style.transform = "translate(85px,0px)";
                     infos.style.opacity = "1";
                     
                 }
