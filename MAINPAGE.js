@@ -596,8 +596,10 @@ function funnyfunction(dataalolfunny,wheretoadd){
                     timer = setTimeout(function() {
         
                         //perform single-click action
-                        
+                        console.log(dataalolfunny );
+                        console.log("lololol");
                        localStorage.setItem("THETEAMWEARESEARCHING" , dataalolfunny[d]);
+
                        document.getElementById("lgOut").style.transform = "translate(5px,10px)";
                        
                         let js = document.createElement("script");
@@ -1006,8 +1008,9 @@ function funnyfunction(dataalolfunny,wheretoadd){
                     timer = setTimeout(function() {
         
                         //perform single-click action
-                        
+                     
                        localStorage.setItem("THETEAMWEARESEARCHING" , dataalolfunny[d]);
+                       localStorage.setItem("THETEAMWEARESEARCHINGNAME", datan.name);
                        document.getElementById("lgOut").style.transform = "translate(5px,10px)";
                         let js = document.createElement("script");
                         js.type = "text/javascript"; 

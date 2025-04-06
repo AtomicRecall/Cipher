@@ -27,11 +27,7 @@ body {
   color: white;
   transform: translate(1150px,420px);
 }
-.wrapper:hover h2 {
-  color: #FF5500;
-  animation: animate 7s linear infinite;
 
-}
 .removemepls{
   filter: drop-shadow(1px 0px 1px #000000);
 }
@@ -39,21 +35,42 @@ body {
   filter: drop-shadow(1px 0px 1px #000000);
 
 }
+.wrapper {
+  width: 1500px;
+  height: 800px;
+  background: #232828;
+  box-shadow: 0 0 30px #FF5500;
+  border-radius: 45px;
+  padding: 50px;
+  overflow: hidden;
+  animation: glow-out 1s ease forwards;
+}
 
+.wrapper:hover {
+  animation: glow-in 7s linear infinite;
+}
+
+@keyframes glow-in {
+  0%   { box-shadow: 0 0 30px #FF5500; }
+  25%  { box-shadow: 0 0 30px #00FFAA; }
+  50%  { box-shadow: 0 0 30px #0066FF; }
+  75%  { box-shadow: 0 0 30px #AA00FF; }
+  100% { box-shadow: 0 0 30px #FF5500; }
+}
+
+@keyframes glow-out {
+  0%   { box-shadow: 0 0 30px #000000; }
+  100% { box-shadow: 0 0 30px #FF5500; }
+}
+.wrapper:hover h2 {
+  color: #FF5500;
+  animation: animate 7s linear infinite;
+
+}
 @keyframes animate {
   100% {
     filter: hue-rotate(360deg);
   }
-}
-.wrapper {
-    width: 1500px;
-    height: 800px;
-    background: #232828;
-    box-shadow: 0 0 30px #FF5500;
-    border-radius: 45px;
-    padding: 50px;
-    overflow: hidden;
-    
 }
 .winnerdiv{
   font-size: 45px;
@@ -63,7 +80,7 @@ body {
   position: absolute;
   color: rgb(255, 255, 255);
   filter: drop-shadow(3px 0px 1px #000000);
-  transform: translate(-580px,-415px);
+  transform: translate(-680px,-415px);
   font-size: 15px;
   font-family: 'Minecraftia', sans-serif;
 }
@@ -331,6 +348,39 @@ body {
   font-size: 25px
 
 
+
+
+}
+.green2{
+  color: green;
+  font-weight: bolder;
+  filter: drop-shadow(.5px 0.5px 1px black);
+}
+.red2{
+  color: red;
+  font-weight: bolder;
+  filter: drop-shadow(.5px 0.5px 1px black);
+}
+#actualname{
+  filter: drop-shadow(-1px 1px 0px black);
+}
+.yellow2{
+  color: gold;
+  font-weight: bolder;
+  filter: drop-shadow(.5px 0.5px 1px black);
+}
+.PENIS{
+  color: purple;
+}
+.orange2{
+  color: rgb(255, 128, 0);
+  font-weight: bolder;
+  filter: drop-shadow(.5px 0.5px 1px rgb(0, 0, 0));
+}
+.blue2{
+  color: lightblue;
+  font-weight: bolder;
+  filter: drop-shadow(.5px 0.5px 1px rgb(0, 0, 0));
 }
 .greenn1{
   color: green;
@@ -404,6 +454,7 @@ h2{
   font-size : 50px;
   text-align: center;
   transform: translate(550px,-100px);
+  transition: 1s;
 }
 h3{
   color: rgb(255, 255, 255);
@@ -608,6 +659,19 @@ transform: translateY(-120px);
   width: 75px;
   position: relative;
 }
+#PLAYERDIVIDERR{
+  height: 70px;
+  width: 275px;
+  position: relative;
+  transform: translate(-85px,-75px);
+  margin-bottom: 20px;
+}
+.infothing{
+  color: white;
+  font-size: 10px;
+  transform: translate(185px,80px);
+  opacity: 0;
+}
 #WHOLEPLAYERDIVIDER{
   width: 1240px;
   height:280px;
@@ -634,7 +698,8 @@ transform: translateY(-120px);
 #EncompassingDivider{
   width: 730px;
   height: 470px;
-  transform: translate(755px,-471px);
+  transform: translate(755px,-490px);
+  
 
 }
 #imgg{
@@ -722,4 +787,29 @@ transform: translateY(-120px);
   color: white;
   font-size: 20px;
   height: 30px;
+}
+#ActualLeaderboard{
+  width: 600px;
+  height: 457px;
+  transform: translateY(5px);
+  filter: drop-shadow(0px 2px 1px black);
+  display: grid;
+  grid-auto-flow: column;
+}
+#ButtonsDivider{
+  width: 600px;
+  height: 20px;
+  background-color: #344A60;
+  filter: drop-shadow(0px 2px 1px black);
+}
+
+.BoardTeam{
+  height: 457px;
+  width: 275px;
+  background-color: #344A60;
+  filter: drop-shadow(2px 2px 3px black);
+}
+#TeamNameDoc{
+  background-color: black;
+  
 }

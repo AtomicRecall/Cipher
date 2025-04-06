@@ -182,7 +182,6 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     return res.json();
 })
 .then((datan) => {
-    //GetLeaguePickBans2(THETEAMWEARESEARCHING, 52);
    // console.log(datan);
     localStorage.setItem("LeaderID", datan.leader);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
@@ -240,99 +239,17 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     console.error('Error:', error);
 });
 
-
-function GetLeaguePickBans2(teamid, currentssn){
-    let crntssn = parseInt(currentssn);
-    //console.log("RUNNING GETLEAGUEPICKBANS2 TEAMID= "+teamid+" CURRENTSSN= "+crntssn);
-
-    for(let d = 0; d <= 2; d++){
-        console.log("D IS= "+d);
-        switch(d){
-            case 0:
-                console.log("FINDING SEASON 52 MATCHES");
-                 fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${teamid}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103&limit=20&offset=0`,{
-                    method: 'GET',
-                    headers:{
-                        'Access-Control-Allow-Origin' : '*',
-
-                        
-                    }
-                })
-                .then((response) => {
-                    if (response.status === 404) {
-                        console.log( Promise.resolve());
-                    } else if (!response.ok) {
-                        console.log(response);
-                        throw new Error("Couldn't fetch that data");
-                    }
-                    return response.json();
-                })
-                .then((data) => {
-                    let payload = data.payload;
-                    console.log(payload);
-                });
-                break;
-            case 1:
-                console.log("FINDING SEASON 51 MATCHES");
-                 fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${teamid}&participantType=TEAM&championshipId=3501196b-cc9a-4f5d-800b-7e662ff81778&limit=20&offset=0`,{
-                    method: 'GET',
-                    headers:{
-                        'Access-Control-Allow-Origin' : '*',
-
-                        
-                    }
-                })
-                .then((response) => {
-                    if (response.status === 404) {
-                        console.log( Promise.resolve());
-                    } else if (!response.ok) {
-                        console.log(response);
-                        throw new Error("Couldn't fetch that data");
-                    }
-                    return response.json();
-                })
-                .then((data) => {
-                    let payload = data.payload;
-                    console.log(payload);
-                });
-                break;
-            case 2:
-                console.log("FINDING SEASON 50 MATCHES");
-                 fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${teamid}&participantType=TEAM&championshipId=bc96c661-f33a-4193-8754-d7e2914f7bde&limit=20&offset=0`,{
-                    method: 'GET',
-                    headers:{
-                        'Access-Control-Allow-Origin' : '*',
-
-                        
-                    }
-                })
-                .then((response) => {
-                    if (response.status === 404) {
-                        console.log( Promise.resolve());
-                    } else if (!response.ok) {
-                        console.log(response);
-                        throw new Error("Couldn't fetch that data");
-                    }
-                    return response.json();
-                })
-                .then((data) => {
-                    let payload = data.payload;
-                   // console.log(payload);
-                });
-                break;
-
-            
-        }
-    }
-}
 let lastClickTime = 0;
 const clickDelay = 500; // 500ms delay
+
 function fetchLast5Players(matchid, rcursivecall,count, callback){
+
     const now = Date.now();
     if (now - lastClickTime < clickDelay) return;
     lastClickTime = now;
     if (callback) callback();
-    var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+
+var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
 var loadingimage = document.createElement("img");
 loadingimage.src = loadGears;
 loadingimage.style.width = "600px";
@@ -393,18 +310,12 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
         //console.log("POOPIE POOP");
         //console.log(datan12);
         //console.log(players);
-        let counter = 0;
+        
 
         for (const player of players){
             let playerdivider = document.createElement("div");
             playerdivider.id = "PLAYERDIVIDER";
-            let pfp = document.createElement("img");
-            pfp.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
-            pfp.classList.add("TEAMPFP");
-            pfp.classList.add("LOADING");
-            pfp.style.width = "120px";
-            pfp.style.height = "75px";
-            playerdivider.appendChild(pfp);
+
             bigplayerdivider.appendChild(playerdivider);
             bigplayerdivider.style.pointerEvents = "auto";
             document.getElementById("teambackgrounddiv").appendChild(bigplayerdivider);
@@ -414,208 +325,307 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
             if (player.nickname === "floridiot"){
                 player.nickname = "malders";
             }
-            fetch('https://open.faceit.com/data/v4/players?nickname='+player.nickname+'&game=cs2', {
-                headers: {
-                    'accept': 'application/json',
-                    'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
-                }
-                }).then((res) => {
-                    if(!res.ok){
-                        throw new Error("couldnt fetcht");
-                    }
-                    return res.json();
-                })
-                .then((data) =>{
-                   // console.log("GET DOWN NOW!");
-                    //get information like profile picture, flag, and nickname
-                   // console.log(data);
-                    
-                    
+            GetPlayerInfo(player.nickname,player.player_id,playerdivider);
 
-                    
-                    pfp.id = "TEAMPFP"+counter;
-                    
-                    let name = document.createElement("div");
-                    name.id = "TEAMPFPNAME"+counter;
-                    name.classList.add("TEAMPFPNAME");
-                    counter++;
-                    let captain = document.createElement("img");
-                    captain.src = "https://atomicrecall.github.io/Cipher/images/CAPTAIN.png";
-                    captain.id = "captainforthatonethingy";
- 
-                    name.innerHTML = data.nickname;
-
-                    switch(data.avatar){
-                        case undefined:
-                            pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
-                            break;
-                        case null:
-                            pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
-                            break;
-                        case "":
-                            pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
-                            break;
-                        default:
-                            pfp.src = data.avatar;
-                            break;
-                    }
-                    
-                    let pic2 = document.createElement("img");
-                    let name2 = document.createElement("div");
-                    pfp.style.width = "75px";
-                    pfp.style.height = "75px";
-                    let clicks = 0;
-                    pfp.onmouseover = function(){
-                        if (clicks <= 0){
-                        pfp.style.filter = "drop-shadow(.5px 0.5px 3px white)";
-                        name.style.filter = "drop-shadow(.5px 0.5px 3px white)";
-                        captain.style.filter = "drop-shadow(.5px 0.5px 3px white)";
-                        }
-                        
-
-                    }
-                    pfp.onmouseout = function(){
-                        if(clicks <= 0){
-                            pfp.style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
-                            name.style.filter = "drop-shadow(.5px 0.5px 3px black)";
-                            captain.style.filter = "";
-                        }
-                        
-
-
-                    }
-                    
-                    pfp.onclick = function(){
-
-
-
-                        //TODO: DELETE HIGHLIGHTED PLAYER DIVIDER AND DO THE UPDATEDPLAYERSTATS.PNG
-
-
-
-                        if(dividerclicked){
-                            clicks++;
-                            
-                        }
-                        if(document.getElementById("PlayerStatsInfo")){
-                            document.getElementById("PlayerStatsInfo").remove();
-                        }
-                        console.log("PICTURE CLICKED");
-                       
-                        if(dividerclicked && clicks === 1){
-                           // console.log("HOVER OVER WHILE DIVIDER CLICKED");
-                                //console.log(picksnbans);
-    
-                            /*
-                            console.log("GET DOWN");
-                             console.log(JSON.parse(localStorage.getItem("plyrStats")));
-                            for (const players of JSON.parse(localStorage.getItem("plyrStats"))){
-                                console.log(players.nickname);
-                                console.log("//");
-                                console.log(name.innerHTML);
-                                if (players.nickname === name.innerHTML){
-                                    console.log(players);
-                                }
-                            }
-                                */
-                            pfp.style.filter = "drop-shadow(.5px 0.5px 10px orange)";
-                            name.style.filter = "drop-shadow(.5px 0.5px 1px orange)";
-                            captain.style.filter = "drop-shadow(.5px 0.5px 1px orange)";
-                            pic2.src = pfp.src;
-                            pic2.id = "DUPLICATEPIC";
-                            pic2.style.position = "absolute";
-                            pic2.style.width = "75px";
-                            pic2.style.height = "75px";
-                            pic2.style.transform = "translate(400px,180px)";
-                            name2.id = "DUPLICATENAME";
-                            name2.style.position = "absolute";
-                            name2.innerHTML = name.innerHTML;
-                            name2.style.webkitFilter = "drop-shadow(black 1px 1px 0.1px)";
-                            name2.style.transform = "translate(400px,260px)";
-                            name2.style.color = "white";
-                            document.getElementById("quickInfo").prepend(pic2);
-                            document.getElementById("quickInfo").prepend(name2);
-                            for (const match of picksnbans){
-                                if (match.vote_type == matchid){
-                                    console.log(match);
-                                    /*
-                                    for (const player of match.PlayerStats){
-                                        for (const play of player){
-                                            if (play.nickname === name.innerHTML){
-                                                console.log("PLAYER STATS:");
-                                                console.log(play.player_stats);
-                                                let stats = play.player_stats;
-                                                let overallDivider = document.createElement("div");
-                                                overallDivider.id = "OverallDivider";
-                                                overallDivider.style.transform = "translate(10px, 350px)";
-                                                overallDivider.style.width = "490px";
-                                                overallDivider.style.height = "140px";
-                                                overallDivider.style.position = "absolute";
-                                                let playerStatsInfo = document.createElement("div");
-                                                playerStatsInfo.id = "PlayerStatsInfo";
-                                                playerStatsInfo.style.position = "absolute";
-                                                playerStatsInfo.style.color = "white";
-                                                
-                                                playerStatsInfo.innerHTML+="Kills: "+stats.Kills+"<br>";
-                                                playerStatsInfo.innerHTML+="Deaths: "+stats.Deaths+"<br>";
-                                                playerStatsInfo.innerHTML+="Assists: "+stats.Assists+"<br>";
-                                                playerStatsInfo.innerHTML+="ADR: "+stats.ADR+"<br>";
-                                                playerStatsInfo.innerHTML+="MVPs: "+stats.MVPs+"<br>";
-                                                playerStatsInfo.innerHTML+="Headshots: "+stats.Headshots+"<br>";
-                                                console.log(playerStatsInfo.innerHTML);
-                                                let buttondivider = document.createElement("div");
-                                                buttondivider.id = "dabuttondivider";
-                                                console.log("DONE NOW ADDING:");
-                                                overallDivider.appendChild(playerStatsInfo);
-                                                document.getElementById("quickInfo").prepend(overallDivider);
-                                            }
-                                        }
-                                    }
-                                    */
-                                }
-                                    
-                            }
-                                
-                        }
-
-                        if (dividerclicked && clicks === 2){
-                            clicks = 0;
-                            if(document.getElementById("quickInfo") && document.getElementById("quickInfo")){
-                            document.getElementById("quickInfo").removeChild(pic2);
-                            document.getElementById("quickInfo").removeChild(name2);
-                            if(document.getElementById("OverallDivider")){
-                                document.getElementById("quickInfo").removeChild(document.getElementById("OverallDivider"));
-                            }
-                            pfp.style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
-                            name.style.filter = "drop-shadow(.5px 0.5px 3px black)";
-                            captain.style.filter = "";
-                            }
-                        }
-                        else if (!dividerclicked){
-                            window.open("https://www.faceit.com/en/players/"+player.nickname);
-                        }
-                        
-                    }
-                    
-                    playerdivider.appendChild(name);
-                    if (player.player_id === localStorage.getItem("LeaderID")){
-                        playerdivider.appendChild(captain);
-                        //localStorage.removeItem("LeaderID");
-                    }
-                    
-
-                    
-                    
-                    
-                });
                 
         }
         
-        }
+    }
         
         
 
     });
+}
+let counterrrr = 0;
+function GetPlayerInfo(nick , iddd, div){
+
+    let pfp = document.createElement("img");
+    pfp.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+    pfp.classList.add("TEAMPFP");
+    pfp.classList.add("LOADING");
+    pfp.style.pointerEvents = "none";
+    pfp.style.width = "120px";
+    pfp.style.height = "75px";
+    if (div.id === "PLAYERDIVIDERR"){
+        pfp.style.transform = "translateY(-80px)";
+    }
+    div.appendChild(pfp);
+
+    fetch('https://open.faceit.com/data/v4/players?nickname='+nick+'&game=cs2', {
+        headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+        }
+        }).then((res) => {
+            if(!res.ok){
+                
+                pfp.id = "TEAMPFP"+counterrrr;
+                let name = document.createElement("div");
+                name.id = "TEAMPFPNAME"+counterrrr;
+                name.innerHTML = nick;
+                pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
+                name.classList.add("TEAMPFPNAME");
+                div.appendChild(name);
+                if (div.id === "PLAYERDIVIDERR"){
+
+                    pfp.style.width = "50px";
+                    pfp.style.height = "50px";
+                    pfp.style.margin = "0px";
+                    pfp.style.transform = "translate(5px,-70px)";
+                    div.style.transform = "translate(0px,5px)";
+                    name.style.fontSize = "12px";
+                    name.style.transform = "translate(6px,-73px)";
+                    div.style.backgroundColor = "#344A60";
+                    div.style.filter = "drop-shadow(0px 0px 3px black)";
+                   
+                    var allInfos = div.querySelectorAll(".infothing");
+                    for (var infos of allInfos){
+                        infos.style.transform = "translate(85px,-2px)";
+                        infos.style.opacity = "1";
+                        
+                    }
+                  
+                }
+                else{
+                    pfp.style.width = "75px";
+                    pfp.style.height = "75px";
+                }
+                
+                //throw new Error("couldnt fetcht");
+
+            }
+            
+            return res.json();
+        })
+        .then((data) =>{
+           // console.log("GET DOWN NOW!");
+            //get information like profile picture, flag, and nickname
+           // console.log(data);
+            
+            
+
+            
+            pfp.id = "TEAMPFP"+counterrrr;
+            let name = document.createElement("div");
+            name.id = "TEAMPFPNAME"+counterrrr;
+            name.classList.add("TEAMPFPNAME");
+            counterrrr++;
+            
+            let captain = document.createElement("img");
+            captain.src = "https://atomicrecall.github.io/Cipher/images/CAPTAIN.png";
+            captain.id = "captainforthatonethingy";
+
+            //name.innerHTML = data.nickname;
+            div.appendChild(name);
+            switch(data.avatar){
+                case undefined:
+                    pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                    break;
+                case null:
+                    pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                    break;
+                case "":
+                    pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                    break;
+                default:
+                    pfp.src = data.avatar;
+                    break;
+            }
+            switch(data.nickname){
+                case undefined:
+                    name.innerHTML = " ";
+                    break;
+                case null:
+                    name.innerHTML = " ";
+                    break;
+                case "":
+                    name.innerHTML = " ";
+                    break;
+                default:
+                    name.innerHTML = data.nickname;
+                    break;
+            }
+            pfp.style.pointerEvents = "auto";
+            
+            let pic2 = document.createElement("img");
+            let name2 = document.createElement("div");
+
+            if (div.id === "PLAYERDIVIDERR"){
+                pfp.style.width = "50px";
+                pfp.style.height = "50px";
+                pfp.style.margin = "0px";
+                pfp.style.transform = "translate(5px,-70px)";
+                div.style.transform = "translate(0px,5px)";
+                name.style.fontSize = "12px";
+                name.style.transform = "translate(6px,-73px)";
+                div.style.backgroundColor = "#344A60";
+                div.style.filter = "drop-shadow(0px 0px 3px black)";
+                var allInfos = div.querySelectorAll(".infothing");
+                for (var infos of allInfos){
+                    infos.style.transform = "translate(85px,-2px)";
+                    infos.style.opacity = "1";
+                    
+                }
+
+
+            }
+            else{
+                pfp.style.width = "75px";
+                pfp.style.height = "75px";
+            }
+            
+            let clicks = 0;
+            pfp.onmouseover = function(){
+                if (clicks <= 0){
+                pfp.style.filter = "drop-shadow(.5px 0.5px 3px white)";
+                name.style.filter = "drop-shadow(.5px 0.5px 3px white)";
+                captain.style.filter = "drop-shadow(.5px 0.5px 3px white)";
+                }
+                
+
+            }
+            pfp.onmouseout = function(){
+                if(clicks <= 0){
+                    pfp.style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
+                    name.style.filter = "drop-shadow(.5px 0.5px 3px black)";
+                    captain.style.filter = "";
+                }
+                
+
+
+            }
+            
+            pfp.onclick = function(){
+
+
+
+                //TODO: DELETE HIGHLIGHTED PLAYER DIVIDER AND DO THE UPDATEDPLAYERSTATS.PNG
+
+
+
+                if(dividerclicked){
+                    clicks++;
+                    
+                }
+                if(document.getElementById("PlayerStatsInfo")){
+                    document.getElementById("PlayerStatsInfo").remove();
+                }
+                console.log("PICTURE CLICKED");
+               
+                if(dividerclicked && clicks === 1){
+                   // console.log("HOVER OVER WHILE DIVIDER CLICKED");
+                        //console.log(picksnbans);
+
+                    /*
+                    console.log("GET DOWN");
+                     console.log(JSON.parse(localStorage.getItem("plyrStats")));
+                    for (const players of JSON.parse(localStorage.getItem("plyrStats"))){
+                        console.log(players.nickname);
+                        console.log("//");
+                        console.log(name.innerHTML);
+                        if (players.nickname === name.innerHTML){
+                            console.log(players);
+                        }
+                    }
+                        */
+                    pfp.style.filter = "drop-shadow(.5px 0.5px 10px orange)";
+                    name.style.filter = "drop-shadow(.5px 0.5px 1px orange)";
+                    captain.style.filter = "drop-shadow(.5px 0.5px 1px orange)";
+                    pic2.src = pfp.src;
+                    pic2.id = "DUPLICATEPIC";
+                    pic2.style.position = "absolute";
+                    pic2.style.width = "75px";
+                    pic2.style.height = "75px";
+                    pic2.style.transform = "translate(400px,180px)";
+                    name2.id = "DUPLICATENAME";
+                    name2.style.position = "absolute";
+                    name2.innerHTML = name.innerHTML;
+                    name2.style.webkitFilter = "drop-shadow(black 1px 1px 0.1px)";
+                    name2.style.transform = "translate(400px,260px)";
+                    name2.style.color = "white";
+                    document.getElementById("quickInfo").prepend(pic2);
+                    document.getElementById("quickInfo").prepend(name2);
+                    /*
+                    for (const match of picksnbans){
+                        console.log("UMM???");
+                        if (match.vote_type == matchid){
+                           console.log(match);
+                            
+                            for (const player of match.PlayerStats){
+                                for (const play of player){
+                                    if (play.nickname === name.innerHTML){
+                                        console.log("PLAYER STATS:");
+                                        console.log(play.player_stats);
+                                        let stats = play.player_stats;
+                                        let overallDivider = document.createElement("div");
+                                        overallDivider.id = "OverallDivider";
+                                        overallDivider.style.transform = "translate(10px, 350px)";
+                                        overallDivider.style.width = "490px";
+                                        overallDivider.style.height = "140px";
+                                        overallDivider.style.position = "absolute";
+                                        let playerStatsInfo = document.createElement("div");
+                                        playerStatsInfo.id = "PlayerStatsInfo";
+                                        playerStatsInfo.style.position = "absolute";
+                                        playerStatsInfo.style.color = "white";
+                                        
+                                        playerStatsInfo.innerHTML+="Kills: "+stats.Kills+"<br>";
+                                        playerStatsInfo.innerHTML+="Deaths: "+stats.Deaths+"<br>";
+                                        playerStatsInfo.innerHTML+="Assists: "+stats.Assists+"<br>";
+                                        playerStatsInfo.innerHTML+="ADR: "+stats.ADR+"<br>";
+                                        playerStatsInfo.innerHTML+="MVPs: "+stats.MVPs+"<br>";
+                                        playerStatsInfo.innerHTML+="Headshots: "+stats.Headshots+"<br>";
+                                        console.log(playerStatsInfo.innerHTML);
+                                        let buttondivider = document.createElement("div");
+                                        buttondivider.id = "dabuttondivider";
+                                        console.log("DONE NOW ADDING:");
+                                        overallDivider.appendChild(playerStatsInfo);
+                                        document.getElementById("quickInfo").prepend(overallDivider);
+                                    }
+                                }
+                            }
+                            
+                        }
+                            
+                    }
+                    */
+                    
+                        
+                }
+
+                if (dividerclicked && clicks === 2){
+                    clicks = 0;
+                    if(document.getElementById("quickInfo") && document.getElementById("quickInfo")){
+                    document.getElementById("quickInfo").removeChild(pic2);
+                    document.getElementById("quickInfo").removeChild(name2);
+                    if(document.getElementById("OverallDivider")){
+                        document.getElementById("quickInfo").removeChild(document.getElementById("OverallDivider"));
+                    }
+                    pfp.style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
+                    name.style.filter = "drop-shadow(.5px 0.5px 3px black)";
+                    captain.style.filter = "";
+                    }
+                }
+                else if (!dividerclicked){
+                    window.open("https://www.faceit.com/en/players/"+player.nickname);
+                }
+                
+            }
+            
+            
+            if(div.id !== "PLAYERDIVIDERR"){
+                if (iddd === localStorage.getItem("LeaderID")){
+                    div.appendChild(captain);
+                    //localStorage.removeItem("LeaderID");
+                }
+            }
+            
+            
+
+            
+            
+            
+        });
+
 }
 // Function to recursively fetch match history for the leader
 function GetLeaguePickBans(leaderid, offset) {
@@ -642,32 +652,67 @@ function GetLeaguePickBans(leaderid, offset) {
     
             let allMatches = data.items;
             
-           if (!allMatches || allMatches.length === 0 || offset >= 350) return Promise.resolve(); // End if no more matches
+           if (!allMatches || allMatches.length === 0 || offset >= 600) return Promise.resolve(); // End if no more matches
     
             console.log(`Fetched ${allMatches.length} matches`);
             //console.log(allMatches);
             // Process each match and filter
 
             let matchPromises = allMatches.map((match) => {
-                
-
                 //update the loading bar here.
                 var dating = new Date(match.finished_at*1000);
                 //loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
-        
+                //console.log(match.teams);
                 if (match.competition_name.includes("ESEA") && !match.competition_name.includes("Qualifier")) {
+                    let teamsinmatch = match.teams;
+                   // console.log(teamsinmatch);
+                    let tm1 = teamsinmatch.faction1;
+                    let tm2 = teamsinmatch.faction2;
+                    if (tm1.team_id !== localStorage.getItem("THETEAMWEARESEARCHING") &&
+                        tm2.team_id !== localStorage.getItem("THETEAMWEARESEARCHING")) {
+                            stoporgosearch = false;
+                                console.log("Team not found.");
+                                return Promise.resolve(); // Exit early
+                            /*
+                            var isplayerinteam = false;
 
+                        for (let players of tm1.players){
+                            if(players.player_id === leaderid){
+
+                                isplayerinteam = true;
+                            }
+                        }
+                        if(!isplayerinteam){
+                            for (let players of tm2.players){
+                                if(players.player_id === leaderid){
+                                    isplayerinteam = true;
+                                }
+                            }
+                            if (!isplayerinteam){
+                                stoporgosearch = false;
+                                console.log("Team not found.");
+                                return Promise.resolve(); // Exit early
+                            }
+                        }
+                        else{
+
+                        }
+                        */
+                        
+                    }
                     finishedmatchesrealcounter++;
                     finishedtext.innerHTML+=match.competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
                     finishedcounter.innerHTML = finishedmatchesrealcounter;
-    
+                  
+                    
 
 
                             
                     
-    
+                    
                     return fetchMatchData(match.match_id, leaderid, count); // Fetch only non-S48 ESEA matches
                 }
+
                 return Promise.resolve();
             });
     
@@ -812,26 +857,17 @@ function fetchMatchData(matchid,leaderid,count) {
                 
                 //find the team that we are looking at, and send all player stats from that game to picksnbanz
                 let teams = round.teams;
-                playerStats.push("GAME "+counter);
+                  if (!playerStats["GAME" + counter]) {
+                    playerStats["GAME" + counter] = [];
+                  }
+
                 for (const team of teams){
-                    var players = team.players;
-                    playerStats.push(players);
-                    if (team.team_id === THETEAMWEARESEARCHING){
-                        //console.log("found for match "+matchid);
-                        //console.log(team.players);
-                        players.push("THIS IS THE TEAM WE ARE SEARCHING");
-                        
-                        
-                    }else{
-                        for (const plyr of team.players){
-                            if (plyr.player_id === leaderid){
-                                //console.log("CHANGING THETEAMWEARESEARCHING TO "+team.team_id);
-                                //THETEAMWEARESEARCHING = team.team_id
-                            }
-                                
-                            
-                        }
+                    //console.log(team);
+                    if (!playerStats["GAME"+counter][team.team_stats.Team]){
+                        playerStats["GAME"+counter][team.team_stats.Team] = [];
                     }
+                    var players = team.players;
+                    playerStats["GAME" + counter][team.team_stats.Team].push(players);
                 
                 }
             }
@@ -921,28 +957,32 @@ function fetchMatchData(matchid,leaderid,count) {
                 picksnbanz[0]['link'] = faceitlink;
                 picksnbanz[0]['PlayerStats'] = playerStats;
                 picksnbanz[0]['division'] = division;
-                //localStorage.setItem("plyrStats", JSON.stringify(playerStats));
 
                 for (const allTeams of detailedscr){
                     //check each team, once you found the captain, send a variable to the specific team the captain is on, we will use the variable for other stuff later
                     for (const players of allTeams.teams[0].players){
                         if (players.player_id === leaderid){
                             team1.push("CAP");
+                            //console.log(team1);
+                           // THETEAMWEARESEARCHING = team1[2];
                             NOCAP = false;
                             break;
                         }
                         else{
-                            for (const players of allTeams.teams[1].players){
-                                if (players.player_id === leaderid){
-                                    team2.push("CAP");
-                                    NOCAP = false;
-                                    break;
-                                }
-                                else{
-                                    NOCAP = true;
-                                    continue;
-                                }
-                            }
+                            
+                        }
+                    }
+                    for (const players of allTeams.teams[1].players){
+                        if (players.player_id === leaderid){
+                            team2.push("CAP");
+                           // THETEAMWEARESEARCHING = team2[2];
+                            //console.log(team2);
+                            NOCAP = false;
+                            break;
+                        }
+                        else{
+                            NOCAP = true;
+                            continue;
                         }
                     }
                     
@@ -1012,7 +1052,7 @@ function printToWebsite(dapicksanddabans, something){
                   //  console.log("CAP FOUND");
                     let poopfart = dapicksanddabans[d].teams[t];
                     if(THETEAMWEARESEARCHING != poopfart[2]){
-                        //console.log("changing the team we are serching to "+poopfart[2]);
+                       // console.log("changing the team we are serching to "+poopfart[2]);
                         //THETEAMWEARESEARCHING = poopfart[2];
 
                     }
@@ -1044,6 +1084,7 @@ function printToWebsite(dapicksanddabans, something){
         gamediv.style.cursor = "pointer";
         let score = document.createElement('div');
         score.innerHTML = dapicksanddabans[d].score;
+        score.id = "score"+d;
         score.classList.add("scr");
         //update the actual picks and bans here
         //go through dapickanddabans.entities
@@ -1084,7 +1125,8 @@ function printToWebsite(dapicksanddabans, something){
             matchesDivider.append(SeasonDivider);
             let record = document.createElement("div");
             //console.log(dapicksanddabans[d]);
-            if (dapicksanddabans[d-1] && !something){
+            //console.log(ssnNumCounter);
+            if ((dapicksanddabans[d-1] && !something) ){
                 let ssnsnsn;
                 dapicksanddabans[d-1].season == "ea" ? ssnsnsn = "----------- Qualifier" : ssnsnsn = "----------- Season "+dapicksanddabans[d-1].season+" "+dapicksanddabans[d-1].division;
                 
@@ -1733,8 +1775,10 @@ function printToWebsite(dapicksanddabans, something){
                 
                 let reverseclick = false;
                 if(dividerclicked && moreclicks > 0){
+
                     //create LeaderBoard
-                    createLeaderBoard(dapicksanddabans[d]);
+                    createLeaderBoard(dapicksanddabans[d],true);
+
                     if (document.getElementById("WHOLEPLAYERDIVIDER")){
                         document.getElementById("WHOLEPLAYERDIVIDER").remove();
                         
@@ -1742,6 +1786,7 @@ function printToWebsite(dapicksanddabans, something){
                     if(document.getElementById("allInfo")){
                         document.getElementById("allInfo").style.opacity = "0";
                     }
+
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
                 
                     if (document.getElementById("RECORDDD")){
@@ -1781,12 +1826,53 @@ function printToWebsite(dapicksanddabans, something){
                             }
                         }
                         score.onclick = function(){
+
                             scoreclicked = !scoreclicked;
-                            score.style.filter = "drop-shadow(1px 1px 5px orange)";
-                            if (!scoreclicked){
-                                //if no scores are clicked, the onclick will do this
-                                score.style.filter = "drop-shadow(1px 1px 5px white)";
+                            if(scoreclicked){
+                                score.style.filter = "drop-shadow(1px 1px 5px orange)";
+                                //console.log(score);
+                                var teamcounttt = 0;
+                                var allteamnames = document.querySelectorAll("#TeamNameDoc");
+                                for (const teamname of allteamnames){
+                                    teamcounttt++;
+                                    teamname.style.backgroundColor = "";
+                                    //console.log(score.querySelector("#imgg").src);
+                                    var imgag = score.querySelector("#imgg").src;
+                                    teamname.style.backgroundImage  = `url(${imgag})`;
+                                    teamname.style.backgroundPosition = "-50px,-120px";
+                                    teamname.querySelector("#actualname").innerHTML =  dapicksanddabans[d].teams[teamcounttt-1][1]+"   "+(teamcounttt === 1 ? dapicksanddabans[d].detailed_score[Number(score.id)-1].substring(0,2) : dapicksanddabans[d].detailed_score[Number(score.id)-1].substring(4));
+                                   // console.log(dapicksanddabans[d]);
+                                    //console.log("THIS IS GAME "+(Number(score.id)));
+                                    //console.log(dapicksanddabans[d].PlayerStats["GAME1"]);
+                                    //if its game 1, use [1] and [2], if its game 2 use [4] [5], if game 3 use [7] [8]
+                                    //                  score*2-1                       score*2                 score*2+1
+                                    
+                                    createLeaderBoard(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false);
+                                }
                             }
+                           else if (!scoreclicked){
+                                //if no scores are clicked, the onclick will do this
+                                var allteamnames = document.querySelectorAll("#TeamNameDoc");
+                                var teamcounttt = 0;
+                                for (var teamname of allteamnames){
+                                   // console.log(teamname);
+                                    teamcounttt++;
+                                    teamname.style.backgroundImage = "";
+                                    teamname.style.backgroundColor = "black";
+                                    teamname.querySelector("#actualname").innerHTML =  dapicksanddabans[d].teams[teamcounttt-1][1]+"   "+(teamcounttt === 1 ? dapicksanddabans[d].score.substring(0,2) : dapicksanddabans[d].score.substring(4));
+                                    if(document.getElementById("EncompassingDivider")){
+                                        document.getElementById("EncompassingDivider").remove();
+                                    }
+                                    createLeaderBoard(dapicksanddabans[d],true);
+
+                                }
+                                var allscores = document.querySelectorAll(".scoreinthescore");
+                                for (var scorez of allscores){
+                                    scorez.style.filter = " ";
+
+                                }
+                            }
+
                         }
 
                     }
@@ -1847,7 +1933,7 @@ function printToWebsite(dapicksanddabans, something){
                         document.getElementById("TEAMPFP"+d).onclick = function(){
 
                         
-                            console.log("PLAYER PF CLICKKEDD");
+                           // console.log("PLAYER PF CLICKKEDD");
                             oldonclick.call(this,event);
                             //console.log(dapicksanddabans[d].PlayerStats[0]);
 
@@ -1874,7 +1960,7 @@ function printToWebsite(dapicksanddabans, something){
                                     //console.log(playerStatsInfo.innerHTML);
                                     let buttondivider = document.createElement("div");
                                     buttondivider.id = "dabuttondivider";
-                                    console.log("DONE NOW ADDING:");
+                                   // console.log("DONE NOW ADDING:");
                                     overallDivider.appendChild(playerStatsInfo);
                                     document.getElementById("quickInfo").append(overallDivider);
                                     
@@ -1900,9 +1986,14 @@ function printToWebsite(dapicksanddabans, something){
                     fetchLast5Players(firstMatchID,true);
                     //console.log("changing visibility");
                     document.getElementById("allInfo").style.opacity = "1";
+
                     if (document.getElementById("RECORDDD")){
                         document.getElementById("RECORDDD").style.opacity = "1";
 
+                    }
+                    if (document.getElementById("EncompassingDivider")){
+                        document.getElementById("EncompassingDivider").style.transition = "0s";
+                        document.getElementById("EncompassingDivider").remove();
                     }
                     document.getElementById("tm1nme").style.fontSize = "25px";
                     document.getElementById("tm1nme").style.transform = "translate(50px,-250px)";
@@ -2145,10 +2236,12 @@ function printToWebsite(dapicksanddabans, something){
                     for (const stuff of dapicksanddabans[d].detailed_results){
                         if(omfgsomanycounters % 2==0){
                             //console.log(dapicksanddabans[d].detailed_score[omfgsomanycounters/2] +" -  -  - "+dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length);
-                            //console.log("THETEAMWEARESEARCHING = "+THETEAMWEARESEARCHING+" THE WINNING TEAM IS "+dapicksanddabans[d].detailed_results[omfgsomanycounters]);
+                           // console.log("THETEAMWEARESEARCHING = "+THETEAMWEARESEARCHING+" THE WINNING TEAM IS "+dapicksanddabans[d].detailed_results[omfgsomanycounters]);
+                            //console.log(dapicksanddabans[d]);
                             if (dapicksanddabans[d].detailed_results[omfgsomanycounters] === THETEAMWEARESEARCHING){
                                 let somanyscore = document.createElement("div");
-                                somanyscore.classList.add("scoreinthescore")
+                                somanyscore.classList.add("scoreinthescore");
+                                somanyscore.id =  ((omfgsomanycounters/2)+1);
                                 somanyscore.style.color = 'green';
                                 somanyscore.style.width = "150px";
                                 somanyscore.style.height = "75px";
@@ -2377,7 +2470,8 @@ function printToWebsite(dapicksanddabans, something){
                             }
                             else {
                                 let somanyscoree = document.createElement("div");
-                                somanyscoree.classList.add("scoreinthescore")
+                                somanyscoree.classList.add("scoreinthescore");
+                                somanyscoree.id = ((omfgsomanycounters/2)+1);
                                 somanyscoree.style.color = 'red';
                                 somanyscoree.style.width = "150px";
                                 somanyscoree.style.height = "75px";
@@ -2650,70 +2744,311 @@ function printToWebsite(dapicksanddabans, something){
     }
     
 }
-function createLeaderBoard(matchinfo){
-        // d+3 = next game
-        // always two teams (should be lol)
-       // console.log(matchinfo);
+function createLeaderBoard(matchinfo, isOverallLeaderboard){
+
+        //console.log(matchinfo.PlayerStats);
+
+
+
         let amountofgames = 0;
-        let EncompassingDivider = document.createElement("div");
-        EncompassingDivider.id = "EncompassingDivider";
-        let ButtonsDivider = document.createElement("div");
-        ButtonsDivider.id = "ButtonsDivider";
-        EncompassingDivider.appendChild(ButtonsDivider);
-        document.getElementById(".BanFileExplorer").appendChild(EncompassingDivider);
         let overallPlayerStats = {};
         let teamnum = -1;
-        matchinfo.PlayerStats.forEach(item =>{
-            if (Array.isArray(item)){
-                teamnum++;
-                //console.log(item);
-                item.forEach(player =>{
-                    if (typeof player === "string"){
-                        return;
-                    }
-                    else{
-                        //STATS I NEED:   KILLS   DEATHS   ASSISTS   ADR   MVPs   HEADSHOTS
 
-                       // console.log(player.nickname);
-                       if (!overallPlayerStats[matchinfo.teams[teamnum][1]]){
-                        overallPlayerStats[matchinfo.teams[teamnum][1]] = {};
-                       }
-                        if (!overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname]){
-                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0};
-                           
+       // if (isOverallLeaderboard){
+       if (isOverallLeaderboard){
+
+       
+            let EncompassingDivider = document.createElement("div");
+            EncompassingDivider.id = "EncompassingDivider";
+            let ButtonsDivider = document.createElement("div");
+            ButtonsDivider.id = "ButtonsDivider";
+            EncompassingDivider.appendChild(ButtonsDivider);
+            let ActualLeaderboard = document.createElement("div");
+            ActualLeaderboard.id = "ActualLeaderboard";
+            EncompassingDivider.appendChild(ActualLeaderboard);
+            document.getElementById(".BanFileExplorer").appendChild(EncompassingDivider);
+            let team1 = document.createElement("div");
+            team1.id = "BoardTeam1";
+            team1.classList.add("BoardTeam");
+            ActualLeaderboard.appendChild(team1);
+            let team2 = document.createElement("div");
+            team2.id = "BoardTeam2";
+            team2.classList.add("BoardTeam");
+            ActualLeaderboard.appendChild(team2);
+       }
+       else{
+        document.querySelectorAll('#PLAYERDIVIDERR').forEach(el => el.remove());
+
+       }
+            //console.log(matchinfo);
+            var matchobject = matchinfo;
+            
+            if (isOverallLeaderboard){
+                matchobject = matchinfo.PlayerStats;
+            }
+            //console.log(matchobject);
+            Object.keys(matchobject).forEach(item =>{
+                
+                //console.log(item);
+                    amountofgames++;
+                    
+                    var item1 = matchobject[item];
+                   // console.log(matchinfo);
+                    
+                    Object.keys(item1).forEach(team =>{
+                        //console.log("wtafdasdsad");
+                        //console.log(team);
+                        //console.log(item1[team]);
+                        teamnum++;
+                        if(isOverallLeaderboard){
+                            if (!overallPlayerStats[team]){
+                                overallPlayerStats[team] = {};
+                            }
                         }
-                        overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].kills +=Number(player.player_stats.Kills);
-                        overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].deaths+=Number(player.player_stats.Deaths);
-                        overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].assists+=Number(player.player_stats.Assists);
-                        overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].adr+=Number(player.player_stats.ADR);
-                        overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].mvps+=Number(player.player_stats.MVPs);
-                        overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].headshots+=Number(player.player_stats.Headshots);
-                       
-                        
+                        else{
+                            if (!overallPlayerStats[item]){
+                                overallPlayerStats[item] = {};
+                            }
+                        }
+
+                        Object.keys(item1[team]).forEach(player=>{
+                            
+                            var team1 = item1[team];
+                            var players = team1[player];
+                            //console.log(team);
+                            //console.log(players.nickname);
+                            Object.keys(players).forEach(plyr=>{
+                                //console.log(plyr);
+                                var player = players[plyr];
+                                if (typeof player === "string"){
+                                    return;
+                                }
+                                else{
+                                    //this is every single player.
+                                    //STATS I NEED:   KILLS   DEATHS   ASSISTS   ADR   MVPs   HEADSHOTS
+                                    
+                                // console.log(player.nickname);
+                                    
+
+                                    //console.log(players);
+                                    if(isOverallLeaderboard){
+                                        if (!overallPlayerStats[team][player.nickname]){
+                                            overallPlayerStats[team][player.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
+                                        
+                                        }
+                                        overallPlayerStats[team][player.nickname].kills +=Number(player.player_stats.Kills);
+                                        overallPlayerStats[team][player.nickname].deaths+=Number(player.player_stats.Deaths);
+                                        overallPlayerStats[team][player.nickname].assists+=Number(player.player_stats.Assists);
+                                        overallPlayerStats[team][player.nickname].adr+=Number(player.player_stats.ADR);
+                                        overallPlayerStats[team][player.nickname].mvps+=Number(player.player_stats.MVPs);
+                                        overallPlayerStats[team][player.nickname].headshots+=Number(player.player_stats.Headshots);
+                                        overallPlayerStats[team][player.nickname].id = player.player_id;
+                                    }
+                                    else{
+                                        if (!overallPlayerStats[item][players.nickname]){
+                                            overallPlayerStats[item][players.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
+                                        
+                                        }
+                                        overallPlayerStats[item][players.nickname].kills +=Number(player.Kills);
+                                        overallPlayerStats[item][players.nickname].deaths+=Number(player.Deaths);
+                                        overallPlayerStats[item][players.nickname].assists+=Number(player.Assists);
+                                        overallPlayerStats[item][players.nickname].adr+=Number(player.ADR);
+                                        overallPlayerStats[item][players.nickname].mvps+=Number(player.MVPs);
+                                        overallPlayerStats[item][players.nickname].headshots+=Number(player.Headshots);
+                                        overallPlayerStats[item][players.nickname].id = player.player_id;
+                                    }
+                                    
+                                
+                                    
+                                }
+                            })
+                        })
+                    })
+                    if(teamnum === 1){
+                        teamnum = -1;
                     }
-                })
-                if(teamnum === 1){
-                    teamnum = -1;
+                
+                
+            })
+            let teamcounter = 0;
+            
+            for (let team in overallPlayerStats){
+                teamcounter++;
+                //console.log(matchinfo);
+
+
+                if (isOverallLeaderboard){
+                    let teamnamedoc = document.createElement("div");
+                    teamnamedoc.id = "TeamNameDoc";
+                    teamnamedoc.style.color = (matchinfo.winner === team ? "green" : "red");
+                    let actualname = document.createElement("div");
+                    actualname.id = "actualname";
+                    actualname.innerHTML =  team+"   "+(teamcounter === 1 ? matchinfo.score.substring(0,2) : matchinfo.score.substring(4));
+                    teamnamedoc.appendChild(actualname);
+                    document.getElementById("BoardTeam"+teamcounter).appendChild(teamnamedoc);
+
+                }
+               
+                
+
+                for (let player in overallPlayerStats[team]){
+                    //console.log(amountofgames);
+                    overallPlayerStats[team][player].adr =  Number(overallPlayerStats[team][player].adr)/amountofgames;
+                    //this specific player's adr is now finished
+                    let encompassingpicturedivider = document.createElement("div");
+                    encompassingpicturedivider.id = "PLAYERDIVIDERR";
+                    document.getElementById("BoardTeam"+teamcounter).appendChild(encompassingpicturedivider);
+
+                    let kills = document.createElement("div");
+                    kills.innerHTML = "KILLS : <span class = green2>"+overallPlayerStats[team][player].kills+"</span>";
+                    kills.classList.add("infothing");
+                    encompassingpicturedivider.appendChild(kills);
+
+                    let deaths = document.createElement("div");
+                    deaths.innerHTML = "DEATHS : <span class = red2>"+overallPlayerStats[team][player].deaths+"</span>";
+                    deaths.classList.add("infothing");
+                    encompassingpicturedivider.appendChild(deaths);
+                    let assists = document.createElement("div");
+                    assists.innerHTML = "ASSISTS : <span class = yellow2>"+overallPlayerStats[team][player].assists+"</span>";
+                    assists.classList.add("infothing");
+                    encompassingpicturedivider.appendChild(assists);
+                    let adr = document.createElement("div");
+                    adr.innerHTML = "ADR : <span class = blue2>"+parseFloat(overallPlayerStats[team][player].adr.toFixed(2))+"</span>";
+                    adr.classList.add("infothing");
+                    encompassingpicturedivider.appendChild(adr);
+                    let mvps = document.createElement("div");
+                    mvps.innerHTML = "MVPs : <span class = orange2>"+overallPlayerStats[team][player].mvps+"</span>";
+                    mvps.classList.add("infothing");
+                    encompassingpicturedivider.appendChild(mvps);
+                    let headshots = document.createElement("div");
+                    headshots.innerHTML = "HEADSHOTS : <b>"+overallPlayerStats[team][player].headshots+"</b>";
+                    headshots.classList.add("infothing");
+                    encompassingpicturedivider.appendChild(headshots);
+                    GetPlayerInfo(player, overallPlayerStats[team][player].id,encompassingpicturedivider);
+
+
+                    //console.log( overallPlayerStats[team][player]);
+                    
+
+                    
+                    
                 }
             }
-            else{
-                amountofgames++;
-               // console.log(item);
-            }
+            //everything should be properly sorted now
+            //console.log(matchinfo);
+
             
-        })
-        
-        for (let team in overallPlayerStats){
-            for (let player in overallPlayerStats[team]){
-                overallPlayerStats[team][player].adr =  overallPlayerStats[team][player].adr/amountofgames
-                //overallPlayerStats[team][player].adr = overallPlayerStats[team][player].adr/amountofgames;
+    
+       // }
+
+            /*
+        else{
+            console.log("TIME TO FUCK SHIT UP");
+            matchinfo.PlayerStats.forEach(item =>{
+                if (Array.isArray(item)){
+                    teamnum++;
+                    console.log(item);
+                    //console.log(item);
+                    item.forEach(player =>{
+                        if (typeof player === "string"){
+                            return;
+                        }
+                        else{
+                            
+                            //this is every single player.
+                            //STATS I NEED:   KILLS   DEATHS   ASSISTS   ADR   MVPs   HEADSHOTS
+                            
+                           // console.log(player.nickname);
+                           if (!overallPlayerStats[matchinfo.teams[teamnum][1]]){
+                            overallPlayerStats[matchinfo.teams[teamnum][1]] = {};
+                           }
+                            if (!overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname]){
+                                overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
+                               
+                            }
+                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].kills +=Number(player.player_stats.Kills);
+                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].deaths+=Number(player.player_stats.Deaths);
+                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].assists+=Number(player.player_stats.Assists);
+                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].adr+=Number(player.player_stats.ADR);
+                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].mvps+=Number(player.player_stats.MVPs);
+                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].headshots+=Number(player.player_stats.Headshots);
+                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].id = player.player_id;
+                            
+                           
+                            
+                        }
+                    })
+                    if(teamnum === 1){
+                        teamnum = -1;
+                    }
+                }
+                else{
+                    amountofgames++;
+                   // console.log(item);
+                }
+                
+            })
+            let teamcounter = 0;
+            for (let team in overallPlayerStats){
+                teamcounter++;
+                /*
+                console.log(matchinfo);
+                let teamnamedoc = document.createElement("div");
+                teamnamedoc.id = "TeamNameDoc";
+                teamnamedoc.style.color = (matchinfo.winner === team ? "green" : "red");
+                let actualname = document.createElement("div");
+                actualname.id = "actualname";
+                actualname.innerHTML =  team+"   "+(teamcounter === 1 ? matchinfo.score.substring(0,2) : matchinfo.score.substring(4));
+                teamnamedoc.appendChild(actualname);
+                document.getElementById("BoardTeam"+teamcounter).appendChild(teamnamedoc);
+            
+
+                for (let player in overallPlayerStats[team]){
+                   //console.log(matchinfo);
+                    overallPlayerStats[team][player].adr =  overallPlayerStats[team][player].adr/amountofgames;
+                    //this specific player's adr is now finished
+                    let encompassingpicturedivider = document.createElement("div");
+                    encompassingpicturedivider.id = "PLAYERDIVIDERR";
+                    document.getElementById("BoardTeam"+teamcounter).appendChild(encompassingpicturedivider);
+
+                    let kills = document.createElement("div");
+                    kills.innerHTML = "KILLS : <span class = green2>"+overallPlayerStats[team][player].kills+"</span>";
+                    kills.classList.add("infothing");
+                    encompassingpicturedivider.appendChild(kills);
+
+                    let deaths = document.createElement("div");
+                    deaths.innerHTML = "DEATHS : <span class = red2>"+overallPlayerStats[team][player].deaths+"</span>";
+                    deaths.classList.add("infothing");
+                    encompassingpicturedivider.appendChild(deaths);
+                    let assists = document.createElement("div");
+                    assists.innerHTML = "ASSISTS : <span class = yellow2>"+overallPlayerStats[team][player].assists+"</span>";
+                    assists.classList.add("infothing");
+                    encompassingpicturedivider.appendChild(assists);
+                    let adr = document.createElement("div");
+                    adr.innerHTML = "ADR : <span class = blue2>"+parseFloat(overallPlayerStats[team][player].adr.toFixed(2))+"</span>";
+                    adr.classList.add("infothing");
+                    encompassingpicturedivider.appendChild(adr);
+                    let mvps = document.createElement("div");
+                    mvps.innerHTML = "MVPs : <span class = orange2>"+overallPlayerStats[team][player].mvps+"</span>";
+                    mvps.classList.add("infothing");
+                    encompassingpicturedivider.appendChild(mvps);
+                    let headshots = document.createElement("div");
+                    headshots.innerHTML = "HEADSHOTS : <b>"+overallPlayerStats[team][player].headshots+"</b>";
+                    headshots.classList.add("infothing");
+                    encompassingpicturedivider.appendChild(headshots);
+                    GetPlayerInfo(player, overallPlayerStats[team][player].id,encompassingpicturedivider);
+
+
+                    console.log( overallPlayerStats[team][player]);
+                    
+
+                    
+                    
+                }
+                    */
+                //console.log("HOLY SHIT NO FUCKING WAY TIME TO FUCK SHIT UP");
+                //console.log(overallPlayerStats);
             }
-        }
-        
-
-
-        //console.log(overallPlayerStats);
-}
 
 var THEFINALCOUNTERISWEAR = 0;
 var ILIEDLOLL = 3;
@@ -2783,7 +3118,7 @@ var ILIEDLOLL = 3;
           document.getElementById("allInfo").style.width = "480px";
           lastbooleaniswear = true;
          // console.log("WTF1 "+ILIEDLOLL);
-         console.log(THEFINALCOUNTERISWEAR +"= OMGOMGOMOMGOMG");
+         //console.log(THEFINALCOUNTERISWEAR +"= OMGOMGOMOMGOMG");
             if(THEFINALCOUNTERISWEAR == 1){
                 if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
                     setTimeout(() => {
@@ -2823,7 +3158,7 @@ var ILIEDLOLL = 3;
 
             }
             if(THEFINALCOUNTERISWEAR == 1){
-                console.log("UMMMMJGHKHKJSFHJKHSJHSDGJHKSDFHJKHDFJKGDHSJKHGSSJHDSFGJKH");
+               // console.log("UMMMMJGHKHKJSFHJKHSJHSDGJHKSDFHJKHDFJKGDHSJKHGSSJHDSFGJKH");
                 document.getElementById("vertigoo").remove();
                 document.getElementById("verimage").remove();
                 document.getElementById("trainn").style.transform = "translate(470px,20px)";
