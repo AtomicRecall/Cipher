@@ -328,22 +328,22 @@ body {
   object-position: 50%,50%;
 }
 .red {
-  color: red;
+  color: #ff1a1a;
 }
 .redd{
-  color: red;
+  color: #ff1a1a;
   filter: drop-shadow(.5px 0.5px 1px black);
   font-size: 25px;
 }
 .redd1{
-  color: red;
+  color: #ff1a1a;
   filter: drop-shadow(.5px 0.5px 1px black);
 }
 .green {
-  color: green;
+  color: #72ff72;
 }
 .greenn{
-  color: green;
+  color: #72ff72;
   filter: drop-shadow(.5px 0.5px 0.75px black);
   font-size: 25px
 
@@ -352,12 +352,12 @@ body {
 
 }
 .green2{
-  color: green;
+  color: #72ff72;
   font-weight: bolder;
   filter: drop-shadow(.5px 0.5px 1px black);
 }
 .red2{
-  color: red;
+  color: #ff1a1a;
   font-weight: bolder;
   filter: drop-shadow(.5px 0.5px 1px black);
 }

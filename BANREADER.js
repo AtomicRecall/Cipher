@@ -380,7 +380,7 @@ function GetPlayerInfo(nick , iddd, div){
                    
                     var allInfos = div.querySelectorAll(".infothing");
                     for (var infos of allInfos){
-                        infos.style.transform = "translate(85px,-2px)";
+                        infos.style.transform = "translate(85px,0px)";
                         infos.style.opacity = "1";
                         
                     }
