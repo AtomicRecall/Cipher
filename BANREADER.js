@@ -374,7 +374,7 @@ function GetPlayerInfo(nick , iddd, div){
                     //pfp.style.transform = "translate(5px,-65px)";
                     div.style.transform = "translate(0px,5px)";
                     name.style.fontSize = "12px";
-                    name.style.transform = "translate(10px,-71px)";
+                    name.style.transform = "translate(10px,-65px)";
                     div.style.backgroundColor = "#344A60";
                     div.style.filter = "drop-shadow(0px 0px 3px black)";
                    
@@ -460,7 +460,7 @@ function GetPlayerInfo(nick , iddd, div){
                 //pfp.style.transform = "translate(5px,-65px)";
                 div.style.transform = "translate(0px,5px)";
                 name.style.fontSize = "12px";
-                name.style.transform = "translate(10px,-71px)";
+                name.style.transform = "translate(10px,-65px)";
                 div.style.backgroundColor = "#344A60";
                 div.style.filter = "drop-shadow(0px 0px 3px black)";
                 var allInfos = div.querySelectorAll(".infothing");
@@ -1879,7 +1879,7 @@ function printToWebsite(dapicksanddabans, something){
                                     
                                     document.querySelectorAll("#fishking").forEach(el=>{
                                         el.style.opacity = "1";
-                                        el.style.transform = "translate(180px, -140px)";
+                                        el.style.transform = "translate(180px, -135px)";
                                         });
                                 }
                             }
@@ -1915,7 +1915,7 @@ function printToWebsite(dapicksanddabans, something){
                                     
                                     document.querySelectorAll("#fishking").forEach(el=>{
                                         el.style.opacity = "1";
-                                        el.style.transform = "translate(180px, -140px)";
+                                        el.style.transform = "translate(180px, -135px)";
                                         });
                                 }
                                 var allInfos = document.querySelectorAll(".infothing");
@@ -2988,7 +2988,7 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
                     encompassinginfodivider.id = "INFOLOL";
                     
                     if(isOverallLeaderboard && !goingbacktooriginal){
-                        encompassinginfodivider.style.transform = "translateY(-55px)";
+                        encompassinginfodivider.style.transform = "translateY(-52px)";
                         encompassingpicturedivider.classList.add("PLAYERDIVIDERR");
                         encompassingpicturedivider.id = player;
                         document.getElementById("BoardTeam"+teamcounter).appendChild(encompassingpicturedivider);
@@ -3072,7 +3072,7 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
                 fishking.style.height = "70px";
                 fishking.style.width = "50px";
                 fishking.style.position = "absolute";
-                fishking.style.transform = "translate(180px,-126px)";
+                fishking.style.transform = "translate(180px,-120px)";
                 fishking.style.opacity = "0";
                 document.getElementById(bestplayer).appendChild(fishking);
                 
