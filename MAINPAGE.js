@@ -1758,7 +1758,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
 
         case "Main":
         //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
-        return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103&limit=20`,{
+        return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=251a5e40-772f-46b7-ba71-382459449e68&limit=20`,{
             method: 'GET',
             headers:{
                 'Access-Control-Allow-Origin' : '*',
@@ -1845,7 +1845,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
         break;
         case "Advanced":
                 //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
-            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=37fa33a6-5bb5-469d-b83a-d53893a55de4&limit=20`,{
+            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=bb5a00bd-411c-4618-a156-92374635093a&limit=20`,{
                 method: 'GET',
                 headers:{
                     'Access-Control-Allow-Origin' : '*',

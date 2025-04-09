@@ -659,7 +659,7 @@ transform: translateY(-120px);
   width: 75px;
   position: relative;
 }
-#PLAYERDIVIDERR{
+.PLAYERDIVIDERR{
   height: 70px;
   width: 275px;
   position: relative;
@@ -669,7 +669,7 @@ transform: translateY(-120px);
 .infothing{
   color: white;
   font-size: 10px;
-  transform: translate(185px,80px);
+  transform: translateX(90px);
   opacity: 0;
 }
 #WHOLEPLAYERDIVIDER{
@@ -699,7 +699,7 @@ transform: translateY(-120px);
   width: 730px;
   height: 470px;
   transform: translate(755px,-490px);
-  
+  transition: 1s;
 
 }
 #imgg{

@@ -106,7 +106,7 @@ image_links[3] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-
 image_links[4] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/7fb7d725-e44d-4e3c-b557-e1d19b260ab8_1695819144685.jpeg";
 image_links[5] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/7197a969-81e4-4fef-8764-55f46c7cec6e_1695819158849.jpeg";
 image_links[6] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/3bf25224-baee-44c2-bcd4-f1f72d0bbc76_1695819180008.jpeg";
-image_links[7] = "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/3efe2d1d-da1b-4960-a439-daf216f77bb4_1731582328687.png";
+image_links[7] = "https://overgear.com/guides/wp-content/uploads/2025/02/cs2-all-maps.webp";
 
 //ancient = 0;
 //anubis = 1;
@@ -346,8 +346,8 @@ function GetPlayerInfo(nick , iddd, div){
     pfp.style.pointerEvents = "none";
     pfp.style.width = "120px";
     pfp.style.height = "75px";
-    if (div.id === "PLAYERDIVIDERR"){
-        pfp.style.transform = "translateY(-80px)";
+    if (div.classList.item(0) === "PLAYERDIVIDERR"){
+        pfp.style.transform = "translate(10px,5px)";
     }
     div.appendChild(pfp);
 
@@ -366,23 +366,26 @@ function GetPlayerInfo(nick , iddd, div){
                 pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
                 name.classList.add("TEAMPFPNAME");
                 div.appendChild(name);
-                if (div.id === "PLAYERDIVIDERR"){
+                if (div.classList.item(0) === "PLAYERDIVIDERR"){
 
                     pfp.style.width = "50px";
                     pfp.style.height = "50px";
                     pfp.style.margin = "0px";
-                    pfp.style.transform = "translate(5px,-65px)";
+                    //pfp.style.transform = "translate(5px,-65px)";
                     div.style.transform = "translate(0px,5px)";
                     name.style.fontSize = "12px";
-                    name.style.transform = "translate(6px,-68px)";
+                    name.style.transform = "translate(10px,-71px)";
                     div.style.backgroundColor = "#344A60";
                     div.style.filter = "drop-shadow(0px 0px 3px black)";
                    
                     var allInfos = div.querySelectorAll(".infothing");
                     for (var infos of allInfos){
-                        infos.style.transform = "translate(85px,0px)";
+                       // infos.style.transform = "translate(85px,0px)";
                         infos.style.opacity = "1";
                         
+                    }
+                    if ( document.querySelectorAll("#fishking")){
+                        document.querySelectorAll("#fishking").forEach(el =>{el.style.opacity = "1"});
                     }
                   
                 }
@@ -450,23 +453,25 @@ function GetPlayerInfo(nick , iddd, div){
             let pic2 = document.createElement("img");
             let name2 = document.createElement("div");
 
-            if (div.id === "PLAYERDIVIDERR"){
+            if (div.classList.item(0) === "PLAYERDIVIDERR"){
                 pfp.style.width = "50px";
                 pfp.style.height = "50px";
                 pfp.style.margin = "0px";
-                pfp.style.transform = "translate(5px,-65px)";
+                //pfp.style.transform = "translate(5px,-65px)";
                 div.style.transform = "translate(0px,5px)";
                 name.style.fontSize = "12px";
-                name.style.transform = "translate(6px,-68px)";
+                name.style.transform = "translate(10px,-71px)";
                 div.style.backgroundColor = "#344A60";
                 div.style.filter = "drop-shadow(0px 0px 3px black)";
                 var allInfos = div.querySelectorAll(".infothing");
                 for (var infos of allInfos){
-                    infos.style.transform = "translate(85px,0px)";
+                    //infos.style.transform = "translate(100px,-55px)";
                     infos.style.opacity = "1";
                     
                 }
-
+                if ( document.getElementById(nick).querySelector("#fishking")){
+                    document.getElementById(nick).querySelector("#fishking").style.opacity = "1";
+                }
 
             }
             else{
@@ -612,7 +617,7 @@ function GetPlayerInfo(nick , iddd, div){
             }
             
             
-            if(div.id !== "PLAYERDIVIDERR"){
+            if(div.classList.item(0) !== "PLAYERDIVIDERR"){
                 if (iddd === localStorage.getItem("LeaderID")){
                     div.appendChild(captain);
                     //localStorage.removeItem("LeaderID");
@@ -651,7 +656,7 @@ function GetLeaguePickBans(leaderid, offset) {
         .then((data) => {
     
             let allMatches = data.items;
-            
+          
            if (!allMatches || allMatches.length === 0 || offset >= 600) return Promise.resolve(); // End if no more matches
     
             console.log(`Fetched ${allMatches.length} matches`);
@@ -909,6 +914,7 @@ function fetchMatchData(matchid,leaderid,count) {
             })
             .then((data) => {
                 let picksnbanz = [];
+                
                 let payload = data.payload;
                 //console.log("AAAAAAAAAA");
                 //console.log(payload);
@@ -1765,6 +1771,10 @@ function printToWebsite(dapicksanddabans, something){
                 if (document.getElementById("WHOLEPLAYERDIVIDER")){
                     document.getElementById("WHOLEPLAYERDIVIDER").remove();
                 }
+                if (document.getElementById("EncompassingDivider")){
+                    document.getElementById("EncompassingDivider").style.opacity = 0;
+                    document.getElementById("EncompassingDivider").remove();
+                }
                 document.querySelectorAll('.gamediv').forEach(element =>{
                         element.style.filter = "none";
                 });
@@ -1774,9 +1784,11 @@ function printToWebsite(dapicksanddabans, something){
                 shouldbeoff = !shouldbeoff;
                 
                 let reverseclick = false;
+
                 if(dividerclicked && moreclicks > 0){
 
                     //create LeaderBoard
+                    createpicturesonce = true;
                     createLeaderBoard(dapicksanddabans[d],true);
 
                     if (document.getElementById("WHOLEPLAYERDIVIDER")){
@@ -1840,17 +1852,39 @@ function printToWebsite(dapicksanddabans, something){
                                     var imgag = score.querySelector("#imgg").src;
                                     teamname.style.backgroundImage  = `url(${imgag})`;
                                     teamname.style.backgroundPosition = "-50px,-120px";
-                                    teamname.querySelector("#actualname").innerHTML =  dapicksanddabans[d].teams[teamcounttt-1][1]+"   "+(teamcounttt === 1 ? dapicksanddabans[d].detailed_score[Number(score.id)-1].substring(0,2) : dapicksanddabans[d].detailed_score[Number(score.id)-1].substring(4));
+                                    //we know the color of the text corresponds to the color that the home team should be
+                                    //get the team id from local storage, if (dapicksanddabans[d].teams[teamcounttt-1][0]=localStorage.getItem("THETEAMWEARESEARCHING")),
+                                    //make the teamname color the color of the score, however we must know what color to make the other score, meaning we need another if,
+                                    //if the score color is red, the other color is green, vise versa
+                                    console.log(dapicksanddabans[d].teams[teamcounttt-1][2]);
+                                    if (dapicksanddabans[d].teams[teamcounttt-1][2] == localStorage.getItem("THETEAMWEARESEARCHING")){
+                                        teamname.querySelector("#actualname").style.color = score.style.color;
+                                    } 
+                                    else{   
+                                        (score.style.color === "red") ? teamname.querySelector("#actualname").style.color = "green" : teamname.querySelector("#actualname").style.color = "red"; 
+                                    }
+                                    teamname.querySelector("#actualname").innerHTML =  dapicksanddabans[d].teams[teamcounttt-1][1]+   `<span class = "${teamname.querySelector("#actualname").style.color}2">`+" "+(teamcounttt === 1 ? dapicksanddabans[d].detailed_score[Number(score.id)-1].substring(0,2)+"</span>" : dapicksanddabans[d].detailed_score[Number(score.id)-1].substring(4))+"</span>";
                                    // console.log(dapicksanddabans[d]);
                                     //console.log("THIS IS GAME "+(Number(score.id)));
                                     //console.log(dapicksanddabans[d].PlayerStats["GAME1"]);
-                                    //if its game 1, use [1] and [2], if its game 2 use [4] [5], if game 3 use [7] [8]
-                                    //                  score*2-1                       score*2                 score*2+1
+
+                                    //maybe use a function named updateLeaderboard so that it doesnt have to do the api call for finding the picture, and only updates the information
                                     
-                                    createLeaderBoard(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false);
+                                }
+                                 if (document.querySelectorAll("#fishking")){
+                                    document.querySelectorAll("#fishking").forEach(el=>{el.remove()});
+                                }
+                                createLeaderBoard(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false);
+                                if (document.querySelectorAll("#fishking")){
+                                    
+                                    document.querySelectorAll("#fishking").forEach(el=>{
+                                        el.style.opacity = "1";
+                                        el.style.transform = "translate(180px, -140px)";
+                                        });
                                 }
                             }
                            else if (!scoreclicked){
+                            score.style.filter = "drop-shadow(1px 1px 5px white)";
                                 //if no scores are clicked, the onclick will do this
                                 var allteamnames = document.querySelectorAll("#TeamNameDoc");
                                 var teamcounttt = 0;
@@ -1859,12 +1893,36 @@ function printToWebsite(dapicksanddabans, something){
                                     teamcounttt++;
                                     teamname.style.backgroundImage = "";
                                     teamname.style.backgroundColor = "black";
-                                    teamname.querySelector("#actualname").innerHTML =  dapicksanddabans[d].teams[teamcounttt-1][1]+"   "+(teamcounttt === 1 ? dapicksanddabans[d].score.substring(0,2) : dapicksanddabans[d].score.substring(4));
-                                    if(document.getElementById("EncompassingDivider")){
-                                        document.getElementById("EncompassingDivider").remove();
+                                    if (dapicksanddabans[d].teams[teamcounttt-1][2] == localStorage.getItem("THETEAMWEARESEARCHING")){
+                                        teamname.querySelector("#actualname").style.color = score.style.color;
+                                    } 
+                                    else{   
+                                        (score.style.color === "red") ? teamname.querySelector("#actualname").style.color = "green" : teamname.querySelector("#actualname").style.color = "red"; 
                                     }
-                                    createLeaderBoard(dapicksanddabans[d],true);
+                                    teamname.querySelector("#actualname").innerHTML =  dapicksanddabans[d].teams[teamcounttt-1][1]+   `<span class = "${teamname.querySelector("#actualname").style.color}2">`+" "+(teamcounttt === 1 ? dapicksanddabans[d].score.substring(0,2) : dapicksanddabans[d].score.substring(4));
+                                    
+                                    //if(document.getElementById("EncompassingDivider")){
+                                      //  document.getElementById("EncompassingDivider").remove();
+                                    //}
+                                    
 
+                                } 
+                                if (document.querySelectorAll("#fishking")){
+                                    document.querySelectorAll("#fishking").forEach(el=>{el.remove()});
+                                }
+                                createLeaderBoard(dapicksanddabans[d],true,true);
+                                if (document.querySelectorAll("#fishking")){
+                                    
+                                    document.querySelectorAll("#fishking").forEach(el=>{
+                                        el.style.opacity = "1";
+                                        el.style.transform = "translate(180px, -140px)";
+                                        });
+                                }
+                                var allInfos = document.querySelectorAll(".infothing");
+                                for (var infos of allInfos){
+                                // infos.style.transform = "translate(85px,0px)";
+                                    infos.style.opacity = "1";
+                                    
                                 }
                                 var allscores = document.querySelectorAll(".scoreinthescore");
                                 for (var scorez of allscores){
@@ -1883,15 +1941,16 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("tm1nme").style.fontSize = "15px";
                     document.getElementById("tm1nme").style.transform = "translate(50px,-290px)";
                     document.getElementById("tm2nme").style.fontSize = "15px";
-                    document.getElementById("tm2nme").style.transform = "translate(230px,-290px)";
+                    document.getElementById("tm2nme").style.transform = "translate(225px,-290px)";
                     document.getElementById("VS").style.transform = "translate(145px,-275px)";
                     document.getElementById("VS").style.filter = "drop-shadow(.5px 0.5px 0.1px black)";
+                    document.getElementById("VS").style.fontWeight = "bolder";
                     document.getElementById("tm1pfp").style.transform = "translate(-450px,30px)";
                     document.getElementById("tm1pfp").style.width = "75px";
                     document.getElementById("tm1pfp").style.height = "75px";
                     document.getElementById("tm2pfp").style.width = "75px";
                     document.getElementById("tm2pfp").style.height = "75px";
-                    document.getElementById("tm2pfp").style.transform = "translate(-250px,30px)";
+                    document.getElementById("tm2pfp").style.transform = "translate(-275px,30px)";
                     /*
                     let highlightedplayerdiv = document.createElement("div");
                     highlightedplayerdiv.id = "highlightedplayerdiv";
@@ -1992,8 +2051,7 @@ function printToWebsite(dapicksanddabans, something){
 
                     }
                     if (document.getElementById("EncompassingDivider")){
-                        document.getElementById("EncompassingDivider").style.transition = "0s";
-                        document.getElementById("EncompassingDivider").remove();
+                            //document.getElementById("EncompassingDivider").remove();
                     }
                     document.getElementById("tm1nme").style.fontSize = "25px";
                     document.getElementById("tm1nme").style.transform = "translate(50px,-250px)";
@@ -2051,7 +2109,7 @@ function printToWebsite(dapicksanddabans, something){
                 */
 
             }
-            
+
             document.getElementById("game"+d).onmouseover = function(){
 
  
@@ -2744,7 +2802,8 @@ function printToWebsite(dapicksanddabans, something){
     }
     
 }
-function createLeaderBoard(matchinfo, isOverallLeaderboard){
+let createpicturesonce = true;
+function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal){
 
         //console.log(matchinfo.PlayerStats);
 
@@ -2754,19 +2813,18 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard){
         let overallPlayerStats = {};
         let teamnum = -1;
 
-       // if (isOverallLeaderboard){
-       if (isOverallLeaderboard){
-
-       
-            let EncompassingDivider = document.createElement("div");
+        let EncompassingDivider = document.createElement("div");
             EncompassingDivider.id = "EncompassingDivider";
+            
+       // if (isOverallLeaderboard){
+       if (isOverallLeaderboard && !goingbacktooriginal){
+            
             let ButtonsDivider = document.createElement("div");
             ButtonsDivider.id = "ButtonsDivider";
             EncompassingDivider.appendChild(ButtonsDivider);
             let ActualLeaderboard = document.createElement("div");
             ActualLeaderboard.id = "ActualLeaderboard";
             EncompassingDivider.appendChild(ActualLeaderboard);
-            document.getElementById(".BanFileExplorer").appendChild(EncompassingDivider);
             let team1 = document.createElement("div");
             team1.id = "BoardTeam1";
             team1.classList.add("BoardTeam");
@@ -2775,16 +2833,31 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard){
             team2.id = "BoardTeam2";
             team2.classList.add("BoardTeam");
             ActualLeaderboard.appendChild(team2);
+            document.getElementById(".BanFileExplorer").appendChild(EncompassingDivider);
+            
        }
        else{
-        document.querySelectorAll('#PLAYERDIVIDERR').forEach(el => el.remove());
+        document.getElementById("BoardTeam1").querySelectorAll(".PLAYERDIVIDERR").forEach(thing => thing.querySelectorAll('#INFOLOL').forEach(el => el.remove()));
+        document.getElementById("BoardTeam2").querySelectorAll(".PLAYERDIVIDERR").forEach(thing => thing.querySelectorAll('#INFOLOL').forEach(el => el.remove()));
+
+        //document.getElementById("INFOLOL").remove();
 
        }
+       if (goingbacktooriginal){
+        document.getElementById("BoardTeam1").querySelectorAll(".PLAYERDIVIDERR").forEach(thing => thing.querySelectorAll('#INFOLOL').forEach(el => el.remove()));
+        document.getElementById("BoardTeam2").querySelectorAll(".PLAYERDIVIDERR").forEach(thing => thing.querySelectorAll('#INFOLOL').forEach(el => el.remove()));
+        
+       }
+       
+       
+       
+
             //console.log(matchinfo);
             var matchobject = matchinfo;
             
             if (isOverallLeaderboard){
                 matchobject = matchinfo.PlayerStats;
+                
             }
             //console.log(matchobject);
             Object.keys(matchobject).forEach(item =>{
@@ -2831,20 +2904,7 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard){
                                     
 
                                     //console.log(players);
-                                    if(isOverallLeaderboard){
-                                        if (!overallPlayerStats[team][player.nickname]){
-                                            overallPlayerStats[team][player.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
-                                        
-                                        }
-                                        overallPlayerStats[team][player.nickname].kills +=Number(player.player_stats.Kills);
-                                        overallPlayerStats[team][player.nickname].deaths+=Number(player.player_stats.Deaths);
-                                        overallPlayerStats[team][player.nickname].assists+=Number(player.player_stats.Assists);
-                                        overallPlayerStats[team][player.nickname].adr+=Number(player.player_stats.ADR);
-                                        overallPlayerStats[team][player.nickname].mvps+=Number(player.player_stats.MVPs);
-                                        overallPlayerStats[team][player.nickname].headshots+=Number(player.player_stats.Headshots);
-                                        overallPlayerStats[team][player.nickname].id = player.player_id;
-                                    }
-                                    else{
+                                    if(!isOverallLeaderboard){
                                         if (!overallPlayerStats[item][players.nickname]){
                                             overallPlayerStats[item][players.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
                                         
@@ -2856,6 +2916,20 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard){
                                         overallPlayerStats[item][players.nickname].mvps+=Number(player.MVPs);
                                         overallPlayerStats[item][players.nickname].headshots+=Number(player.Headshots);
                                         overallPlayerStats[item][players.nickname].id = player.player_id;
+                                        
+                                    }
+                                    else{
+                                        if (!overallPlayerStats[team][player.nickname]){
+                                            overallPlayerStats[team][player.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
+                                        
+                                        }
+                                        overallPlayerStats[team][player.nickname].kills +=Number(player.player_stats.Kills);
+                                        overallPlayerStats[team][player.nickname].deaths+=Number(player.player_stats.Deaths);
+                                        overallPlayerStats[team][player.nickname].assists+=Number(player.player_stats.Assists);
+                                        overallPlayerStats[team][player.nickname].adr+=Number(player.player_stats.ADR);
+                                        overallPlayerStats[team][player.nickname].mvps+=Number(player.player_stats.MVPs);
+                                        overallPlayerStats[team][player.nickname].headshots+=Number(player.player_stats.Headshots);
+                                        overallPlayerStats[team][player.nickname].id = player.player_id;
                                     }
                                     
                                 
@@ -2870,6 +2944,7 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard){
                 
                 
             })
+           // console.log(overallPlayerStats);
             let teamcounter = 0;
             
             for (let team in overallPlayerStats){
@@ -2877,178 +2952,138 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard){
                 //console.log(matchinfo);
 
 
-                if (isOverallLeaderboard){
+                if (isOverallLeaderboard && !goingbacktooriginal){
                     let teamnamedoc = document.createElement("div");
                     teamnamedoc.id = "TeamNameDoc";
                     teamnamedoc.style.color = (matchinfo.winner === team ? "green" : "red");
                     let actualname = document.createElement("div");
                     actualname.id = "actualname";
-                    actualname.innerHTML =  team+"   "+(teamcounter === 1 ? matchinfo.score.substring(0,2) : matchinfo.score.substring(4));
+
+                    actualname.innerHTML =  team+   `<span class = "${teamnamedoc.style.color}2">`+" "+(teamcounter === 1 ? matchinfo.score.substring(0,2) : matchinfo.score.substring(4));
                     teamnamedoc.appendChild(actualname);
+                    
                     document.getElementById("BoardTeam"+teamcounter).appendChild(teamnamedoc);
+                    
 
                 }
                
                 
-
+                var bestplayer;
+                let mostkils = 0;
                 for (let player in overallPlayerStats[team]){
                     //console.log(amountofgames);
-                    overallPlayerStats[team][player].adr =  Number(overallPlayerStats[team][player].adr)/amountofgames;
+                    
+                    if(isOverallLeaderboard){   
+                        overallPlayerStats[team][player].adr =  Number(overallPlayerStats[team][player].adr)/amountofgames;
+                    }
+                    if (overallPlayerStats[team][player].kills >= mostkils){
+                        mostkils =overallPlayerStats[team][player].kills;
+                        bestplayer = player;
+                    }
                     //this specific player's adr is now finished
+                    //console.log(player);
+                    //console.log(document.getElementById(player));
                     let encompassingpicturedivider = document.createElement("div");
-                    encompassingpicturedivider.id = "PLAYERDIVIDERR";
-                    document.getElementById("BoardTeam"+teamcounter).appendChild(encompassingpicturedivider);
+                    let encompassinginfodivider = document.createElement("div");
+                    encompassinginfodivider.id = "INFOLOL";
+                    
+                    if(isOverallLeaderboard && !goingbacktooriginal){
+                        encompassinginfodivider.style.transform = "translateY(-55px)";
+                        encompassingpicturedivider.classList.add("PLAYERDIVIDERR");
+                        encompassingpicturedivider.id = player;
+                        document.getElementById("BoardTeam"+teamcounter).appendChild(encompassingpicturedivider);
+
+                        if (createpicturesonce){
+                            GetPlayerInfo(player, overallPlayerStats[team][player].id,encompassingpicturedivider);
+                            
+                        }
+                        
+                    }
+                    else{
+                        encompassinginfodivider.style.transform = "translateY(-70px)";
+                        document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translateX(10px)";
+                    }
 
                     let kills = document.createElement("div");
                     kills.innerHTML = "KILLS : <span class = green2>"+overallPlayerStats[team][player].kills+"</span>";
                     kills.classList.add("infothing");
-                    encompassingpicturedivider.appendChild(kills);
+
+                    //document.getElementById(player).insertBefore(kills,document.getElementById(player).firstChild);
+                    encompassinginfodivider.appendChild(kills);
+                    //document.getElementById(player).prepend(kills);
+                    //(isOverallLeaderboard) ? encompassingpicturedivider.appendChild(kills) :document.getElementById(player).appendChild(kills);
 
                     let deaths = document.createElement("div");
                     deaths.innerHTML = "DEATHS : <span class = red2>"+overallPlayerStats[team][player].deaths+"</span>";
                     deaths.classList.add("infothing");
-                    encompassingpicturedivider.appendChild(deaths);
+                    //document.getElementById(player).insertBefore(deaths,document.getElementById(player).firstChild);
+                    //document.getElementById(player).prepend(deaths);
+                    encompassinginfodivider.appendChild(deaths);
+                    //(isOverallLeaderboard) ? document.getElementById(player).appendChild(deaths) : encompassingpicturedivider.appendChild(deaths);
                     let assists = document.createElement("div");
                     assists.innerHTML = "ASSISTS : <span class = yellow2>"+overallPlayerStats[team][player].assists+"</span>";
                     assists.classList.add("infothing");
-                    encompassingpicturedivider.appendChild(assists);
+                    //document.getElementById(player).insertBefore(assists,document.getElementById(player).firstChild);
+                    //document.getElementById(player).prepend(assists);
+                    encompassinginfodivider.appendChild(assists);
+                   // (isOverallLeaderboard) ? document.getElementById(player).appendChild(assists) : encompassingpicturedivider.appendChild(assists);
                     let adr = document.createElement("div");
                     adr.innerHTML = "ADR : <span class = blue2>"+parseFloat(overallPlayerStats[team][player].adr.toFixed(2))+"</span>";
                     adr.classList.add("infothing");
-                    encompassingpicturedivider.appendChild(adr);
+                    //document.getElementById(player).insertBefore(adr,document.getElementById(player).firstChild);
+                    //document.getElementById(player).prepend(adr);
+                    encompassinginfodivider.appendChild(adr);
+                    //(isOverallLeaderboard) ? document.getElementById(player).appendChild(adr) : encompassingpicturedivider.appendChild(adr);
                     let mvps = document.createElement("div");
                     mvps.innerHTML = "MVPs : <span class = orange2>"+overallPlayerStats[team][player].mvps+"</span>";
                     mvps.classList.add("infothing");
-                    encompassingpicturedivider.appendChild(mvps);
+                    //document.getElementById(player).insertBefore(mvps,document.getElementById(player).firstChild);
+                   // document.getElementById(player).prepend(mvps);
+                    encompassinginfodivider.appendChild(mvps);
+                    //(isOverallLeaderboard) ? document.getElementById(player).appendChild(mvps) : encompassingpicturedivider.appendChild(mvps);
                     let headshots = document.createElement("div");
                     headshots.innerHTML = "HEADSHOTS : <b>"+overallPlayerStats[team][player].headshots+"</b>";
                     headshots.classList.add("infothing");
-                    encompassingpicturedivider.appendChild(headshots);
-                    GetPlayerInfo(player, overallPlayerStats[team][player].id,encompassingpicturedivider);
+                    //document.getElementById(player).insertBefore(headshots,document.getElementById(player).firstChild);
+                    //document.getElementById(player).prepend(headshots);
+                    encompassinginfodivider.appendChild(headshots);
+                    //(isOverallLeaderboard) ? document.getElementById(player).appendChild(headshots) : encompassingpicturedivider.appendChild(headshots);
+
 
 
                     //console.log( overallPlayerStats[team][player]);
-                    
+                    if (!isOverallLeaderboard){
+                        var allInfos = encompassinginfodivider.querySelectorAll(".infothing");
+                        for (var infos of allInfos){
+                           // infos.style.transform = "translate(85px,0px)";
+                            infos.style.opacity = "1";
+                            
+                        }
+                        
+                    }
 
-                    
-                    
+
+               // console.log  (encompassinginfodivider);
+                document.getElementById(player).appendChild(encompassinginfodivider);
                 }
+                let fishking = document.createElement("img");
+                fishking.id = "fishking";
+                fishking.src = "https://atomicrecall.github.io/Cipher/images/fishking.png";
+                fishking.style.height = "70px";
+                fishking.style.width = "50px";
+                fishking.style.position = "absolute";
+                fishking.style.transform = "translate(180px,-126px)";
+                fishking.style.opacity = "0";
+                document.getElementById(bestplayer).appendChild(fishking);
+                
             }
+            createpicturesonce = false;
             //everything should be properly sorted now
             //console.log(matchinfo);
 
-            
-    
-       // }
 
-            /*
-        else{
-            console.log("TIME TO FUCK SHIT UP");
-            matchinfo.PlayerStats.forEach(item =>{
-                if (Array.isArray(item)){
-                    teamnum++;
-                    console.log(item);
-                    //console.log(item);
-                    item.forEach(player =>{
-                        if (typeof player === "string"){
-                            return;
-                        }
-                        else{
-                            
-                            //this is every single player.
-                            //STATS I NEED:   KILLS   DEATHS   ASSISTS   ADR   MVPs   HEADSHOTS
-                            
-                           // console.log(player.nickname);
-                           if (!overallPlayerStats[matchinfo.teams[teamnum][1]]){
-                            overallPlayerStats[matchinfo.teams[teamnum][1]] = {};
-                           }
-                            if (!overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname]){
-                                overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
-                               
-                            }
-                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].kills +=Number(player.player_stats.Kills);
-                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].deaths+=Number(player.player_stats.Deaths);
-                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].assists+=Number(player.player_stats.Assists);
-                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].adr+=Number(player.player_stats.ADR);
-                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].mvps+=Number(player.player_stats.MVPs);
-                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].headshots+=Number(player.player_stats.Headshots);
-                            overallPlayerStats[matchinfo.teams[teamnum][1]][player.nickname].id = player.player_id;
-                            
-                           
-                            
-                        }
-                    })
-                    if(teamnum === 1){
-                        teamnum = -1;
-                    }
-                }
-                else{
-                    amountofgames++;
-                   // console.log(item);
-                }
-                
-            })
-            let teamcounter = 0;
-            for (let team in overallPlayerStats){
-                teamcounter++;
-                /*
-                console.log(matchinfo);
-                let teamnamedoc = document.createElement("div");
-                teamnamedoc.id = "TeamNameDoc";
-                teamnamedoc.style.color = (matchinfo.winner === team ? "green" : "red");
-                let actualname = document.createElement("div");
-                actualname.id = "actualname";
-                actualname.innerHTML =  team+"   "+(teamcounter === 1 ? matchinfo.score.substring(0,2) : matchinfo.score.substring(4));
-                teamnamedoc.appendChild(actualname);
-                document.getElementById("BoardTeam"+teamcounter).appendChild(teamnamedoc);
-            
+}
 
-                for (let player in overallPlayerStats[team]){
-                   //console.log(matchinfo);
-                    overallPlayerStats[team][player].adr =  overallPlayerStats[team][player].adr/amountofgames;
-                    //this specific player's adr is now finished
-                    let encompassingpicturedivider = document.createElement("div");
-                    encompassingpicturedivider.id = "PLAYERDIVIDERR";
-                    document.getElementById("BoardTeam"+teamcounter).appendChild(encompassingpicturedivider);
-
-                    let kills = document.createElement("div");
-                    kills.innerHTML = "KILLS : <span class = green2>"+overallPlayerStats[team][player].kills+"</span>";
-                    kills.classList.add("infothing");
-                    encompassingpicturedivider.appendChild(kills);
-
-                    let deaths = document.createElement("div");
-                    deaths.innerHTML = "DEATHS : <span class = red2>"+overallPlayerStats[team][player].deaths+"</span>";
-                    deaths.classList.add("infothing");
-                    encompassingpicturedivider.appendChild(deaths);
-                    let assists = document.createElement("div");
-                    assists.innerHTML = "ASSISTS : <span class = yellow2>"+overallPlayerStats[team][player].assists+"</span>";
-                    assists.classList.add("infothing");
-                    encompassingpicturedivider.appendChild(assists);
-                    let adr = document.createElement("div");
-                    adr.innerHTML = "ADR : <span class = blue2>"+parseFloat(overallPlayerStats[team][player].adr.toFixed(2))+"</span>";
-                    adr.classList.add("infothing");
-                    encompassingpicturedivider.appendChild(adr);
-                    let mvps = document.createElement("div");
-                    mvps.innerHTML = "MVPs : <span class = orange2>"+overallPlayerStats[team][player].mvps+"</span>";
-                    mvps.classList.add("infothing");
-                    encompassingpicturedivider.appendChild(mvps);
-                    let headshots = document.createElement("div");
-                    headshots.innerHTML = "HEADSHOTS : <b>"+overallPlayerStats[team][player].headshots+"</b>";
-                    headshots.classList.add("infothing");
-                    encompassingpicturedivider.appendChild(headshots);
-                    GetPlayerInfo(player, overallPlayerStats[team][player].id,encompassingpicturedivider);
-
-
-                    console.log( overallPlayerStats[team][player]);
-                    
-
-                    
-                    
-                }
-                    */
-                //console.log("HOLY SHIT NO FUCKING WAY TIME TO FUCK SHIT UP");
-                //console.log(overallPlayerStats);
-            }
 
 var THEFINALCOUNTERISWEAR = 0;
 var ILIEDLOLL = 3;
