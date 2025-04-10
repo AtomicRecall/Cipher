@@ -374,7 +374,7 @@ function GetPlayerInfo(nick , iddd, div){
                     //pfp.style.transform = "translate(5px,-65px)";
                     div.style.transform = "translate(0px,5px)";
                     name.style.fontSize = "12px";
-                    name.style.transform = "translate(10px,-65px)";
+                    name.style.transform = "translate(10px,-71px)";
                     div.style.backgroundColor = "#344A60";
                     div.style.filter = "drop-shadow(0px 0px 3px black)";
                    
@@ -460,7 +460,7 @@ function GetPlayerInfo(nick , iddd, div){
                 //pfp.style.transform = "translate(5px,-65px)";
                 div.style.transform = "translate(0px,5px)";
                 name.style.fontSize = "12px";
-                name.style.transform = "translate(10px,-65px)";
+                name.style.transform = "translate(10px,-71px)";
                 div.style.backgroundColor = "#344A60";
                 div.style.filter = "drop-shadow(0px 0px 3px black)";
                 var allInfos = div.querySelectorAll(".infothing");
@@ -1891,7 +1891,7 @@ function printToWebsite(dapicksanddabans, something){
                                     
                                     document.querySelectorAll("#fishking").forEach(el=>{
                                         el.style.opacity = "1";
-                                        el.style.transform = "translate(180px, -135px)";
+                                        el.style.transform = "translate(180px, -127px)";
                                         });
                                 }
                                 document.getElementById("damageInfo").onclick = function(){
@@ -1936,7 +1936,7 @@ function printToWebsite(dapicksanddabans, something){
                                     
                                     document.querySelectorAll("#fishking").forEach(el=>{
                                         el.style.opacity = "1";
-                                        el.style.transform = "translate(180px, -135px)";
+                                        el.style.transform = "translate(180px, -127px)";
                                         });
                                 }
                                 document.getElementById("damageInfo").onclick = function(){
@@ -3105,22 +3105,22 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
             KD.innerHTML = "K/D : <span class = orange2>"+overallPlayerStats[team][player].KD.toFixed(2)+"</span>";
             KD.classList.add("infothing");
             encompassinginfodivider.appendChild(KD);
-            KD.style.transform = "translate(150px,-60px)";
+            KD.style.transform = "translate(150px,-55px)";
             let KR = document.createElement("div");
             KR.innerHTML = "K/R : <span class = orange2>"+overallPlayerStats[team][player].KR.toFixed(2)+"</span>";
             KR.classList.add("infothing");
             encompassinginfodivider.appendChild(KR);
-            KR.style.transform = "translate(150px,-60px)";
+            KR.style.transform = "translate(150px,-55px)";
             //(isOverallLeaderboard) ? document.getElementById(player).appendChild(mvps) : encompassingpicturedivider.appendChild(mvps);
             let headshots = document.createElement("div");
             headshots.innerHTML = "HS : <b>"+overallPlayerStats[team][player].headshots+"</b>";
             headshots.classList.add("infothing");
-            headshots.style.transform = "translate(150px,-60px)";
+            headshots.style.transform = "translate(150px,-55px)";
             encompassinginfodivider.appendChild(headshots);
             let headshotpercent = document.createElement("div");
             headshotpercent.innerHTML = "HS % : <b>"+overallPlayerStats[team][player].headshotpercent+"</b>";
             headshotpercent.classList.add("infothing");
-            headshotpercent.style.transform = "translate(150px,-60px)";
+            headshotpercent.style.transform = "translate(150px,-55px)";
             //document.getElementById(player).insertBefore(headshots,document.getElementById(player).firstChild);
             //document.getElementById(player).prepend(headshots);
             encompassinginfodivider.appendChild(headshotpercent);
@@ -3130,7 +3130,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
                 let doul = document.createElement("div");
                 doul.innerHTML = "2Ks : <b>"+overallPlayerStats[team][player].DoubleK+"</b>";
                 doul.classList.add("infothing");
-                doul.style.transform = "translate(210px,-108px)";
+                doul.style.transform = "translate(210px,-99px)";
                 encompassinginfodivider.appendChild(doul);
                 killsdividercounter++;
             }
@@ -3138,7 +3138,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
                 let trip = document.createElement("div");
                 trip.innerHTML = "3Ks : <b>"+overallPlayerStats[team][player].TripK+"</b>";
                 trip.classList.add("infothing");
-                trip.style.transform = "translate(210px,-108px)";
+                trip.style.transform = "translate(210px,-99px)";
                 encompassinginfodivider.appendChild(trip);
                 killsdividercounter++;
             }
@@ -3146,7 +3146,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
                 let quad = document.createElement("div");
                 quad.innerHTML = "4Ks : <b>"+overallPlayerStats[team][player].QuadK+"</b>";
                 quad.classList.add("infothing");
-                quad.style.transform = "translate(210px,-108px)";
+                quad.style.transform = "translate(210px,-99px)";
                 encompassinginfodivider.appendChild(quad);
                 killsdividercounter++;
             }
@@ -3154,7 +3154,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
                 let fiv = document.createElement("div");
                 fiv.innerHTML = "ACEs : <b>"+overallPlayerStats[team][player].FivK+"</b>";
                 fiv.classList.add("infothing");
-                fiv.style.transform = "translate(210px,-108px)";
+                fiv.style.transform = "translate(210px,-99px)";
                 encompassinginfodivider.appendChild(fiv);
                 killsdividercounter++;
             }
@@ -3167,7 +3167,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
                     amountofpixels = 157;
                     break;
                 case 3:
-                    amountofpixels = 144;
+                    amountofpixels = 133;
                     break;
                 case 2:
                     amountofpixels = 132;
@@ -3222,7 +3222,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
        // console.log  (encompassinginfodivider);
        if(document.getElementById(player)){
         document.getElementById(player).insertBefore(encompassinginfodivider, document.getElementById(player).querySelector(".TEAMPFPNAME"));
-        document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-65px)";
+        document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
        }
 
         }
