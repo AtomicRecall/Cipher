@@ -3593,7 +3593,15 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
         fishking.style.height = "70px";
         fishking.style.width = "50px";
         fishking.style.position = "absolute";
-        fishking.style.transform = "translate(180px,-127px)";
+        if(DONTASKOKAY){
+            fishking.style.transform = "translate(180px,-141px)";
+
+
+        }
+        else{
+            fishking.style.transform = "translate(180px,-127px)";
+
+        }
         fishking.style.opacity = "0";
         console.log(bestplayer);
         console.log(overallPlayerStats);
