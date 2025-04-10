@@ -1926,14 +1926,15 @@ function printToWebsite(dapicksanddabans, something){
                                 }
 
                                 overallLeaderboard(dapicksanddabans[d],true,true);
-                                if (document.querySelectorAll("#fishking")){
-                                    
-                                    document.querySelectorAll("#fishking").forEach(el=>{
-                                        el.style.opacity = "1";
-                                        el.style.transform = "translate(180px, -141px)";
-                                        });
-                                }
+
                                 document.getElementById("damageInfo").onclick = function(){
+                                    if (document.querySelectorAll("#fishking")){
+                                    
+                                        document.querySelectorAll("#fishking").forEach(el=>{
+                                            el.style.opacity = "1";
+                                            el.style.transform = "translate(180px, -141px)";
+                                            });
+                                    }
                                     document.getElementById("damageInfo").style.backgroundColor = "#303030";
                                     damageInfo(dapicksanddabans[d],true,true);
                                 };
@@ -3572,6 +3573,13 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
             if (document.getElementById(player).querySelector(".TEAMPFPNAME")){
                 document.getElementById(player).insertBefore(encompassinginfodivider, document.getElementById(player).querySelector(".TEAMPFPNAME"));
                }
+               if (document.querySelectorAll("#fishking")){
+                                    
+                document.querySelectorAll("#fishking").forEach(el=>{
+                    el.style.opacity = "1";
+                    el.style.transform = "translate(180px, -141px)";
+                    });
+            }
         }
        else{
         document.getElementById(player).appendChild(encompassinginfodivider);
