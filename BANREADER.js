@@ -3573,9 +3573,9 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
             if (document.getElementById(player).querySelector(".TEAMPFPNAME")){
                 document.getElementById(player).insertBefore(encompassinginfodivider, document.getElementById(player).querySelector(".TEAMPFPNAME"));
                }
-               if (document.querySelectorAll("#fishking")){
+               if (document.getElementById(player).querySelector("#fishking")){
                                     
-                document.querySelectorAll("#fishking").forEach(el=>{
+                document.getElementById(player).querySelector("#fishking").forEach(el=>{
                     el.style.opacity = "1";
                     el.style.transform = "translate(180px, -141px)";
                     });
