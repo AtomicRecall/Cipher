@@ -1891,7 +1891,7 @@ function printToWebsite(dapicksanddabans, something){
                                     
                                     document.querySelectorAll("#fishking").forEach(el=>{
                                         el.style.opacity = "1";
-                                        el.style.transform = "translate(180px, -127px)";
+                                        el.style.transform = "translate(180px, -141px)";
                                         });
                                 }
                                 document.getElementById("damageInfo").onclick = function(){
@@ -3501,7 +3501,7 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
             else{
                 encompassinginfodivider.style.transform = "translateY(-66px)";
                 if(document.getElementById(player)){
-                    document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px, 7px)";
+                    document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px, 1px)";
 
                 }
             }
