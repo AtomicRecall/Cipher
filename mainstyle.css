@@ -659,9 +659,13 @@ transform: translateY(-120px);
   width: 75px;
   position: relative;
 }
+#INFOLOL{
+  height: 72px;
+  width: 298px;
+}
 .PLAYERDIVIDERR{
   height: 70px;
-  width: 275px;
+  width: 298px;
   position: relative;
   transform: translate(-85px,-75px);
   margin-bottom: 20px;
@@ -713,7 +717,7 @@ transform: translateY(-120px);
 #tm1copy{
   position: absolute;
   z-index: 1;
-  transform: translate(-120px,9px);
+  transform: translate(-120px,10px);
   src: url("https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg");
 }
 #P{
@@ -805,11 +809,30 @@ transform: translateY(-120px);
 
 .BoardTeam{
   height: 457px;
-  width: 275px;
+  width: 298px;
   background-color: #344A60;
   filter: drop-shadow(2px 2px 3px black);
 }
 #TeamNameDoc{
   background-color: black;
   
+}
+.buttonz{
+  width: 150px;
+  height: 20px;
+  transition-duration: .4s;
+  border-radius: 0px;
+  color: white;
+  border: .1px solid #608cb9;
+  background-color: #344A60;
+  cursor: pointer;
+  font-family: 'Play', sans-serif;
+
+}
+.buttonz:hover{
+  background-color: #444444;
+  
+}
+.buttonz:active{
+  background-color: #303030;
 }

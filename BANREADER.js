@@ -1125,7 +1125,7 @@ function printToWebsite(dapicksanddabans, something){
             SeasonDivider.id = "ssnNum"+ssnNumCounter;
             SeasonDivider.classList.add("ssnNum");
             SeasonDivider.style.width = "240px";
-            dapicksanddabans[d].season == "ea" ? SeasonDivider.innerHTML = "----------- Qualifier" : SeasonDivider.innerHTML = "----------- Season "+dapicksanddabans[d].season+" "+dapicksanddabans[d].division;
+            dapicksanddabans[d].season == "ea" ? SeasonDivider.innerHTML = "----------- Qualifier" : SeasonDivider.innerHTML = "------- Season "+dapicksanddabans[d].season+" "+dapicksanddabans[d].division;
             SeasonDivider.style.fontSize = "20px";
             SeasonDivider.style.transform = "translateX(20px)";
             matchesDivider.append(SeasonDivider);
@@ -1134,11 +1134,11 @@ function printToWebsite(dapicksanddabans, something){
             //console.log(ssnNumCounter);
             if ((dapicksanddabans[d-1] && !something) ){
                 let ssnsnsn;
-                dapicksanddabans[d-1].season == "ea" ? ssnsnsn = "----------- Qualifier" : ssnsnsn = "----------- Season "+dapicksanddabans[d-1].season+" "+dapicksanddabans[d-1].division;
+                dapicksanddabans[d-1].season == "ea" ? ssnsnsn = "----------- Qualifier" : ssnsnsn = "------- Season "+dapicksanddabans[d-1].season+" "+dapicksanddabans[d-1].division;
                 
                 record.style.filter = "drop-shadow(black 1px 1px 1px)";
       
-                record.innerHTML = "| S"+(Number(ssnsnsn.substring(19,21)))+'<span style="color: wheat;">'+ssnsnsn.substring(21)+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
+                record.innerHTML = "| S"+(Number(ssnsnsn.substring(15,17)))+'<span style="color: wheat;">'+ssnsnsn.substring(17)+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
                 recorddiv.appendChild(record);
                 
                 wins = 0;
@@ -1790,7 +1790,10 @@ function printToWebsite(dapicksanddabans, something){
                     //create LeaderBoard
                     createpicturesonce = true;
                     createLeaderBoard(dapicksanddabans[d],true);
-
+                    document.getElementById("damageInfo").onclick = function(){
+                        document.getElementById("damageInfo").style.backgroundColor = "#303030";
+                        damageInfo(dapicksanddabans[d],true);
+                    };
                     if (document.getElementById("WHOLEPLAYERDIVIDER")){
                         document.getElementById("WHOLEPLAYERDIVIDER").remove();
                         
@@ -1839,6 +1842,8 @@ function printToWebsite(dapicksanddabans, something){
                         }
                         score.onclick = function(){
 
+                            var allButtons = document.getElementById("ButtonsDivider").querySelectorAll(".buttonz");
+                            allButtons.forEach(el =>{el.style.backgroundColor = "#344A60"});
                             scoreclicked = !scoreclicked;
                             if(scoreclicked){
                                 score.style.filter = "drop-shadow(1px 1px 5px orange)";
@@ -1851,19 +1856,25 @@ function printToWebsite(dapicksanddabans, something){
                                     //console.log(score.querySelector("#imgg").src);
                                     var imgag = score.querySelector("#imgg").src;
                                     teamname.style.backgroundImage  = `url(${imgag})`;
+                                    teamname.style.backgroundColor = "white";
+
                                     teamname.style.backgroundPosition = "-50px,-120px";
                                     //we know the color of the text corresponds to the color that the home team should be
                                     //get the team id from local storage, if (dapicksanddabans[d].teams[teamcounttt-1][0]=localStorage.getItem("THETEAMWEARESEARCHING")),
                                     //make the teamname color the color of the score, however we must know what color to make the other score, meaning we need another if,
                                     //if the score color is red, the other color is green, vise versa
-                                    console.log(dapicksanddabans[d].teams[teamcounttt-1][2]);
-                                    if (dapicksanddabans[d].teams[teamcounttt-1][2] == localStorage.getItem("THETEAMWEARESEARCHING")){
+                                    //console.log(dapicksanddabans[d].teams[teamcounttt-1][2]);
+                                    if (dapicksanddabans[d].teams[teamcounttt-1] && dapicksanddabans[d].teams[teamcounttt-1][2] === localStorage.getItem("THETEAMWEARESEARCHING")  ){
                                         teamname.querySelector("#actualname").style.color = score.style.color;
                                     } 
                                     else{   
                                         (score.style.color === "red") ? teamname.querySelector("#actualname").style.color = "green" : teamname.querySelector("#actualname").style.color = "red"; 
                                     }
-                                    teamname.querySelector("#actualname").innerHTML =  dapicksanddabans[d].teams[teamcounttt-1][1]+   `<span class = "${teamname.querySelector("#actualname").style.color}2">`+" "+(teamcounttt === 1 ? dapicksanddabans[d].detailed_score[Number(score.id)-1].substring(0,2)+"</span>" : dapicksanddabans[d].detailed_score[Number(score.id)-1].substring(4))+"</span>";
+                                    console.log(teamcounttt);
+                                    if ( dapicksanddabans[d].teams[teamcounttt-1]){
+                                        teamname.querySelector("#actualname").innerHTML =  dapicksanddabans[d].teams[teamcounttt-1][1]+   `<span class = "${teamname.querySelector("#actualname").style.color}2">`+" "+(teamcounttt === 1 ? dapicksanddabans[d].detailed_score[Number(score.id)-1].substring(0,2)+"</span>" : dapicksanddabans[d].detailed_score[Number(score.id)-1].substring(4))+"</span>";
+
+                                    }
                                    // console.log(dapicksanddabans[d]);
                                     //console.log("THIS IS GAME "+(Number(score.id)));
                                     //console.log(dapicksanddabans[d].PlayerStats["GAME1"]);
@@ -1874,7 +1885,8 @@ function printToWebsite(dapicksanddabans, something){
                                  if (document.querySelectorAll("#fishking")){
                                     document.querySelectorAll("#fishking").forEach(el=>{el.remove()});
                                 }
-                                createLeaderBoard(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false);
+
+                                overallLeaderboard(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false);
                                 if (document.querySelectorAll("#fishking")){
                                     
                                     document.querySelectorAll("#fishking").forEach(el=>{
@@ -1882,6 +1894,10 @@ function printToWebsite(dapicksanddabans, something){
                                         el.style.transform = "translate(180px, -135px)";
                                         });
                                 }
+                                document.getElementById("damageInfo").onclick = function(){
+                                    document.getElementById("damageInfo").style.backgroundColor = "#303030";
+                                    damageInfo(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false,false);
+                                };
                             }
                            else if (!scoreclicked){
                             score.style.filter = "drop-shadow(1px 1px 5px white)";
@@ -1893,24 +1909,29 @@ function printToWebsite(dapicksanddabans, something){
                                     teamcounttt++;
                                     teamname.style.backgroundImage = "";
                                     teamname.style.backgroundColor = "black";
-                                    if (dapicksanddabans[d].teams[teamcounttt-1][2] == localStorage.getItem("THETEAMWEARESEARCHING")){
-                                        teamname.querySelector("#actualname").style.color = score.style.color;
-                                    } 
-                                    else{   
-                                        (score.style.color === "red") ? teamname.querySelector("#actualname").style.color = "green" : teamname.querySelector("#actualname").style.color = "red"; 
+                                    if(teamname.querySelector("#actualname").innerHTML.includes(dapicksanddabans[d].winner) ){
+                                        teamname.querySelector("#actualname").style.color = "green";
                                     }
-                                    teamname.querySelector("#actualname").innerHTML =  dapicksanddabans[d].teams[teamcounttt-1][1]+   `<span class = "${teamname.querySelector("#actualname").style.color}2">`+" "+(teamcounttt === 1 ? dapicksanddabans[d].score.substring(0,2) : dapicksanddabans[d].score.substring(4));
-                                    
-                                    //if(document.getElementById("EncompassingDivider")){
-                                      //  document.getElementById("EncompassingDivider").remove();
-                                    //}
+                                    else{
+                                        teamname.querySelector("#actualname").style.color = "red";
+                                    }
+                                    if ( dapicksanddabans[d].teams[teamcounttt-1]){
+                                        teamname.querySelector("#actualname").innerHTML =  dapicksanddabans[d].teams[teamcounttt-1][1]+   `<span class = "${teamname.querySelector("#actualname").style.color}2">`+" "+(teamcounttt === 1 ? dapicksanddabans[d].score.substring(0,2) : dapicksanddabans[d].score.substring(4));
+                                    }
                                     
 
-                                } 
+                                }
+                                var allInfos = document.querySelectorAll(".infothing");
+                                for (var infos of allInfos){
+                                    // infos.style.transform = "translate(85px,0px)";
+                                        infos.remove();
+                                        
+                                    } 
                                 if (document.querySelectorAll("#fishking")){
                                     document.querySelectorAll("#fishking").forEach(el=>{el.remove()});
                                 }
-                                createLeaderBoard(dapicksanddabans[d],true,true);
+
+                                overallLeaderboard(dapicksanddabans[d],true,true);
                                 if (document.querySelectorAll("#fishking")){
                                     
                                     document.querySelectorAll("#fishking").forEach(el=>{
@@ -1918,6 +1939,10 @@ function printToWebsite(dapicksanddabans, something){
                                         el.style.transform = "translate(180px, -135px)";
                                         });
                                 }
+                                document.getElementById("damageInfo").onclick = function(){
+                                    document.getElementById("damageInfo").style.backgroundColor = "#303030";
+                                    damageInfo(dapicksanddabans[d],true,true);
+                                };
                                 var allInfos = document.querySelectorAll(".infothing");
                                 for (var infos of allInfos){
                                 // infos.style.transform = "translate(85px,0px)";
@@ -1925,12 +1950,16 @@ function printToWebsite(dapicksanddabans, something){
                                     
                                 }
                                 var allscores = document.querySelectorAll(".scoreinthescore");
-                                for (var scorez of allscores){
-                                    scorez.style.filter = " ";
 
-                                }
+
+                                
                             }
+                            var allscores = document.querySelectorAll(".scoreinthescore");
+                            for (var scorez of allscores){
+                                scorez.style.filter = " ";
 
+                            }
+                            
                         }
 
                     }
@@ -2050,9 +2079,7 @@ function printToWebsite(dapicksanddabans, something){
                         document.getElementById("RECORDDD").style.opacity = "1";
 
                     }
-                    if (document.getElementById("EncompassingDivider")){
-                            //document.getElementById("EncompassingDivider").remove();
-                    }
+
                     document.getElementById("tm1nme").style.fontSize = "25px";
                     document.getElementById("tm1nme").style.transform = "translate(50px,-250px)";
                     document.getElementById("tm1pfp").style.width = "150px";
@@ -2809,19 +2836,18 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
 
 
 
-        let amountofgames = 0;
-        let overallPlayerStats = {};
-        let teamnum = -1;
+       
+       
 
         let EncompassingDivider = document.createElement("div");
             EncompassingDivider.id = "EncompassingDivider";
-            
-       // if (isOverallLeaderboard){
-       if (isOverallLeaderboard && !goingbacktooriginal){
-            
-            let ButtonsDivider = document.createElement("div");
+        let ButtonsDivider = document.createElement("div");
             ButtonsDivider.id = "ButtonsDivider";
             EncompassingDivider.appendChild(ButtonsDivider);
+     
+       if (isOverallLeaderboard && !goingbacktooriginal){
+            
+            
             let ActualLeaderboard = document.createElement("div");
             ActualLeaderboard.id = "ActualLeaderboard";
             EncompassingDivider.appendChild(ActualLeaderboard);
@@ -2833,6 +2859,29 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
             team2.id = "BoardTeam2";
             team2.classList.add("BoardTeam");
             ActualLeaderboard.appendChild(team2);
+
+            let damageinfo = document.createElement("button");
+            damageinfo.id = "damageInfo";
+            damageinfo.classList.add("buttonz");
+            damageinfo.innerHTML = "Damage Info";
+            ButtonsDivider.appendChild(damageinfo);
+            let ClutchInfo = document.createElement("button");
+            ClutchInfo.id = "ClutchInfo";
+            ClutchInfo.innerHTML = "Clutch Info";
+            ClutchInfo.classList.add("buttonz");
+            ButtonsDivider.appendChild(ClutchInfo);
+            let EntryInfo = document.createElement("button");
+            EntryInfo.id = "EntryInfo";
+            EntryInfo.classList.add("buttonz");
+            EntryInfo.innerHTML = "Entry/ First Kill Info";
+            ButtonsDivider.appendChild(EntryInfo);
+            let UtilityInfo = document.createElement("button");
+            UtilityInfo.id = "UtilityInfo";
+            UtilityInfo.classList.add("buttonz");
+            UtilityInfo.innerHTML = "Utility Info"
+            ButtonsDivider.appendChild(UtilityInfo);
+
+
             document.getElementById(".BanFileExplorer").appendChild(EncompassingDivider);
             
        }
@@ -2840,8 +2889,7 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
         document.getElementById("BoardTeam1").querySelectorAll(".PLAYERDIVIDERR").forEach(thing => thing.querySelectorAll('#INFOLOL').forEach(el => el.remove()));
         document.getElementById("BoardTeam2").querySelectorAll(".PLAYERDIVIDERR").forEach(thing => thing.querySelectorAll('#INFOLOL').forEach(el => el.remove()));
 
-        //document.getElementById("INFOLOL").remove();
-
+        
        }
        if (goingbacktooriginal){
         document.getElementById("BoardTeam1").querySelectorAll(".PLAYERDIVIDERR").forEach(thing => thing.querySelectorAll('#INFOLOL').forEach(el => el.remove()));
@@ -2852,239 +2900,702 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
        
        
 
-            //console.log(matchinfo);
-            var matchobject = matchinfo;
-            
-            if (isOverallLeaderboard){
-                matchobject = matchinfo.PlayerStats;
-                
-            }
-            //console.log(matchobject);
-            Object.keys(matchobject).forEach(item =>{
-                
-                //console.log(item);
-                    amountofgames++;
-                    
-                    var item1 = matchobject[item];
-                   // console.log(matchinfo);
-                    
-                    Object.keys(item1).forEach(team =>{
-                        //console.log("wtafdasdsad");
-                        //console.log(team);
-                        //console.log(item1[team]);
-                        teamnum++;
-                        if(isOverallLeaderboard){
-                            if (!overallPlayerStats[team]){
-                                overallPlayerStats[team] = {};
-                            }
-                        }
-                        else{
-                            if (!overallPlayerStats[item]){
-                                overallPlayerStats[item] = {};
-                            }
-                        }
+        //console.log(matchinfo);
 
-                        Object.keys(item1[team]).forEach(player=>{
-                            
-                            var team1 = item1[team];
-                            var players = team1[player];
-                            //console.log(team);
-                            //console.log(players.nickname);
-                            Object.keys(players).forEach(plyr=>{
-                                //console.log(plyr);
-                                var player = players[plyr];
-                                if (typeof player === "string"){
-                                    return;
-                                }
-                                else{
-                                    //this is every single player.
-                                    //STATS I NEED:   KILLS   DEATHS   ASSISTS   ADR   MVPs   HEADSHOTS
-                                    
-                                // console.log(player.nickname);
-                                    
-
-                                    //console.log(players);
-                                    if(!isOverallLeaderboard){
-                                        if (!overallPlayerStats[item][players.nickname]){
-                                            overallPlayerStats[item][players.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
-                                        
-                                        }
-                                        overallPlayerStats[item][players.nickname].kills +=Number(player.Kills);
-                                        overallPlayerStats[item][players.nickname].deaths+=Number(player.Deaths);
-                                        overallPlayerStats[item][players.nickname].assists+=Number(player.Assists);
-                                        overallPlayerStats[item][players.nickname].adr+=Number(player.ADR);
-                                        overallPlayerStats[item][players.nickname].mvps+=Number(player.MVPs);
-                                        overallPlayerStats[item][players.nickname].headshots+=Number(player.Headshots);
-                                        overallPlayerStats[item][players.nickname].id = player.player_id;
-                                        
-                                    }
-                                    else{
-                                        if (!overallPlayerStats[team][player.nickname]){
-                                            overallPlayerStats[team][player.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
-                                        
-                                        }
-                                        overallPlayerStats[team][player.nickname].kills +=Number(player.player_stats.Kills);
-                                        overallPlayerStats[team][player.nickname].deaths+=Number(player.player_stats.Deaths);
-                                        overallPlayerStats[team][player.nickname].assists+=Number(player.player_stats.Assists);
-                                        overallPlayerStats[team][player.nickname].adr+=Number(player.player_stats.ADR);
-                                        overallPlayerStats[team][player.nickname].mvps+=Number(player.player_stats.MVPs);
-                                        overallPlayerStats[team][player.nickname].headshots+=Number(player.player_stats.Headshots);
-                                        overallPlayerStats[team][player.nickname].id = player.player_id;
-                                    }
-                                    
-                                
-                                    
-                                }
-                            })
-                        })
-                    })
-                    if(teamnum === 1){
-                        teamnum = -1;
-                    }
-                
-                
-            })
-           // console.log(overallPlayerStats);
-            let teamcounter = 0;
-            
-            for (let team in overallPlayerStats){
-                teamcounter++;
-                //console.log(matchinfo);
-
-
-                if (isOverallLeaderboard && !goingbacktooriginal){
-                    let teamnamedoc = document.createElement("div");
-                    teamnamedoc.id = "TeamNameDoc";
-                    teamnamedoc.style.color = (matchinfo.winner === team ? "green" : "red");
-                    let actualname = document.createElement("div");
-                    actualname.id = "actualname";
-
-                    actualname.innerHTML =  team+   `<span class = "${teamnamedoc.style.color}2">`+" "+(teamcounter === 1 ? matchinfo.score.substring(0,2) : matchinfo.score.substring(4));
-                    teamnamedoc.appendChild(actualname);
-                    
-                    document.getElementById("BoardTeam"+teamcounter).appendChild(teamnamedoc);
-                    
-
-                }
-               
-                
-                var bestplayer;
-                let mostkils = 0;
-                for (let player in overallPlayerStats[team]){
-                    //console.log(amountofgames);
-                    
-                    if(isOverallLeaderboard){   
-                        overallPlayerStats[team][player].adr =  Number(overallPlayerStats[team][player].adr)/amountofgames;
-                    }
-                    if (overallPlayerStats[team][player].kills >= mostkils){
-                        mostkils =overallPlayerStats[team][player].kills;
-                        bestplayer = player;
-                    }
-                    //this specific player's adr is now finished
-                    //console.log(player);
-                    //console.log(document.getElementById(player));
-                    let encompassingpicturedivider = document.createElement("div");
-                    let encompassinginfodivider = document.createElement("div");
-                    encompassinginfodivider.id = "INFOLOL";
-                    
-                    if(isOverallLeaderboard && !goingbacktooriginal){
-                        encompassinginfodivider.style.transform = "translateY(-52px)";
-                        encompassingpicturedivider.classList.add("PLAYERDIVIDERR");
-                        encompassingpicturedivider.id = player;
-                        document.getElementById("BoardTeam"+teamcounter).appendChild(encompassingpicturedivider);
-
-                        if (createpicturesonce){
-                            GetPlayerInfo(player, overallPlayerStats[team][player].id,encompassingpicturedivider);
-                            
-                        }
-                        
-                    }
-                    else{
-                        encompassinginfodivider.style.transform = "translateY(-70px)";
-                        document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translateX(10px)";
-                    }
-
-                    let kills = document.createElement("div");
-                    kills.innerHTML = "KILLS : <span class = green2>"+overallPlayerStats[team][player].kills+"</span>";
-                    kills.classList.add("infothing");
-
-                    //document.getElementById(player).insertBefore(kills,document.getElementById(player).firstChild);
-                    encompassinginfodivider.appendChild(kills);
-                    //document.getElementById(player).prepend(kills);
-                    //(isOverallLeaderboard) ? encompassingpicturedivider.appendChild(kills) :document.getElementById(player).appendChild(kills);
-
-                    let deaths = document.createElement("div");
-                    deaths.innerHTML = "DEATHS : <span class = red2>"+overallPlayerStats[team][player].deaths+"</span>";
-                    deaths.classList.add("infothing");
-                    //document.getElementById(player).insertBefore(deaths,document.getElementById(player).firstChild);
-                    //document.getElementById(player).prepend(deaths);
-                    encompassinginfodivider.appendChild(deaths);
-                    //(isOverallLeaderboard) ? document.getElementById(player).appendChild(deaths) : encompassingpicturedivider.appendChild(deaths);
-                    let assists = document.createElement("div");
-                    assists.innerHTML = "ASSISTS : <span class = yellow2>"+overallPlayerStats[team][player].assists+"</span>";
-                    assists.classList.add("infothing");
-                    //document.getElementById(player).insertBefore(assists,document.getElementById(player).firstChild);
-                    //document.getElementById(player).prepend(assists);
-                    encompassinginfodivider.appendChild(assists);
-                   // (isOverallLeaderboard) ? document.getElementById(player).appendChild(assists) : encompassingpicturedivider.appendChild(assists);
-                    let adr = document.createElement("div");
-                    adr.innerHTML = "ADR : <span class = blue2>"+parseFloat(overallPlayerStats[team][player].adr.toFixed(2))+"</span>";
-                    adr.classList.add("infothing");
-                    //document.getElementById(player).insertBefore(adr,document.getElementById(player).firstChild);
-                    //document.getElementById(player).prepend(adr);
-                    encompassinginfodivider.appendChild(adr);
-                    //(isOverallLeaderboard) ? document.getElementById(player).appendChild(adr) : encompassingpicturedivider.appendChild(adr);
-                    let mvps = document.createElement("div");
-                    mvps.innerHTML = "MVPs : <span class = orange2>"+overallPlayerStats[team][player].mvps+"</span>";
-                    mvps.classList.add("infothing");
-                    //document.getElementById(player).insertBefore(mvps,document.getElementById(player).firstChild);
-                   // document.getElementById(player).prepend(mvps);
-                    encompassinginfodivider.appendChild(mvps);
-                    //(isOverallLeaderboard) ? document.getElementById(player).appendChild(mvps) : encompassingpicturedivider.appendChild(mvps);
-                    let headshots = document.createElement("div");
-                    headshots.innerHTML = "HEADSHOTS : <b>"+overallPlayerStats[team][player].headshots+"</b>";
-                    headshots.classList.add("infothing");
-                    //document.getElementById(player).insertBefore(headshots,document.getElementById(player).firstChild);
-                    //document.getElementById(player).prepend(headshots);
-                    encompassinginfodivider.appendChild(headshots);
-                    //(isOverallLeaderboard) ? document.getElementById(player).appendChild(headshots) : encompassingpicturedivider.appendChild(headshots);
-
-
-
-                    //console.log( overallPlayerStats[team][player]);
-                    if (!isOverallLeaderboard){
-                        var allInfos = encompassinginfodivider.querySelectorAll(".infothing");
-                        for (var infos of allInfos){
-                           // infos.style.transform = "translate(85px,0px)";
-                            infos.style.opacity = "1";
-                            
-                        }
-                        
-                    }
-
-
-               // console.log  (encompassinginfodivider);
-                document.getElementById(player).appendChild(encompassinginfodivider);
-                }
-                let fishking = document.createElement("img");
-                fishking.id = "fishking";
-                fishking.src = "https://atomicrecall.github.io/Cipher/images/fishking.png";
-                fishking.style.height = "70px";
-                fishking.style.width = "50px";
-                fishking.style.position = "absolute";
-                fishking.style.transform = "translate(180px,-120px)";
-                fishking.style.opacity = "0";
-                document.getElementById(bestplayer).appendChild(fishking);
-                
-            }
-            createpicturesonce = false;
-            //everything should be properly sorted now
-            //console.log(matchinfo);
-
+        overallLeaderboard(matchinfo,isOverallLeaderboard,goingbacktooriginal);
 
 }
 
+function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
+    var matchobject = matchinfo;
+    console.log("RUNNINGGGGG");
+    if (isOverallLeaderboard){
+        matchobject = matchinfo.PlayerStats;
+        
+    }
 
+    console.log(matchobject);
+    var overallPlayerStats = {};
+    let teamnum = -1;
+    let amountofgames = 0;
+    Object.keys(matchobject).forEach(item =>{
+                
+        //console.log(item);
+            amountofgames++;
+            
+            var item1 = matchobject[item];
+           // console.log(matchinfo);
+            
+            Object.keys(item1).forEach(team =>{
+                //console.log("wtafdasdsad");
+                //console.log(team);
+                //console.log(item1[team]);
+                teamnum++;
+                if(isOverallLeaderboard){
+                    if (!overallPlayerStats[team]){
+                        overallPlayerStats[team] = {};
+                    }
+                }
+                else{
+                    if (!overallPlayerStats[item]){
+                        overallPlayerStats[item] = {};
+                    }
+                }
+
+                Object.keys(item1[team]).forEach(player=>{
+                    
+                    var team1 = item1[team];
+                    var players = team1[player];
+                    //console.log(players);
+                    //console.log(team);
+                    //console.log(players.nickname);
+                    Object.keys(players).forEach(plyr=>{
+                        //console.log(plyr);
+                        var player = players[plyr];
+                        if (typeof player === "string"){
+                            return;
+                        }
+                        else{
+                            //this is every single player.
+                            //STATS I NEED:   KILLS   DEATHS   ASSISTS   ADR   MVPs   HEADSHOTS
+                            
+                        // console.log(player.nickname);
+                            
+
+                            //console.log(players);
+                            if(!isOverallLeaderboard){
+                                if (!overallPlayerStats[item][players.nickname]){
+                                    overallPlayerStats[item][players.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, totDamage: 0, KD: 0, KR: 0, headshots: 0, headshotpercent: 0, DoubleK: 0, TripK: 0, QuadK: 0, FivK: 0, Sniper: 0, Pistol: 0, Knife: 0, Zeus: 0, id: null};
+                                
+                                }
+                                overallPlayerStats[item][players.nickname].kills +=Number(player.Kills);
+                                overallPlayerStats[item][players.nickname].deaths+=Number(player.Deaths);
+                                overallPlayerStats[item][players.nickname].assists+=Number(player.Assists);
+                                overallPlayerStats[item][players.nickname].adr+=Number(player.ADR);
+                                overallPlayerStats[item][players.nickname].totDamage+=Number(player.Damage);
+                                overallPlayerStats[item][players.nickname].KD+=Number(player["K/D Ratio"]);
+                                overallPlayerStats[item][players.nickname].KR+=Number(player["K/R Ratio"]);
+                                overallPlayerStats[item][players.nickname].headshots+=Number(player.Headshots);
+                                overallPlayerStats[item][players.nickname].headshotpercent+=Number(player["Headshots %"]);
+                                overallPlayerStats[item][players.nickname].DoubleK+=Number(player["Double Kills"]);
+                                overallPlayerStats[item][players.nickname].TripK+=Number(player["Triple Kills"]);
+                                overallPlayerStats[item][players.nickname].QuadK+=Number(player["Quadro Kills"]);
+                                overallPlayerStats[item][players.nickname].FivK+=Number(player["Penta Kills"]);
+                                overallPlayerStats[item][players.nickname].Sniper+=Number(player["Sniper Kills"]);
+                                overallPlayerStats[item][players.nickname].Pistol+=Number(player["Pistol Kills"]);
+                                overallPlayerStats[item][players.nickname].Knife+=Number(player["Knife Kills"]);
+                                overallPlayerStats[item][players.nickname].Zeus+=Number(player["Zues Kills"]);
+                                overallPlayerStats[item][players.nickname].id = player.player_id;
+                                
+                            }
+                            else{
+                                if (!overallPlayerStats[team][player.nickname]){
+                                    overallPlayerStats[team][player.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, totDamage: 0, KD: 0, KR: 0, headshots: 0, headshotpercent: 0, DoubleK: 0, TripK: 0, QuadK: 0, FivK: 0, Sniper: 0, Pistol: 0, Knife: 0, Zeus: 0, id: null};
+
+                                }
+                          
+                                overallPlayerStats[team][player.nickname].kills +=Number(player.player_stats.Kills);
+                                overallPlayerStats[team][player.nickname].deaths+=Number(player.player_stats.Deaths);
+                                overallPlayerStats[team][player.nickname].assists+=Number(player.player_stats.Assists);
+                                overallPlayerStats[team][player.nickname].adr+=Number(player.player_stats.ADR);
+                                overallPlayerStats[team][player.nickname].totDamage+=Number(player.player_stats.Damage);
+                                overallPlayerStats[team][player.nickname].KD+=Number(player.player_stats["K/D Ratio"]);
+                                overallPlayerStats[team][player.nickname].KR+=Number(player.player_stats["K/R Ratio"]);
+                                overallPlayerStats[team][player.nickname].headshots+=Number(player.player_stats.Headshots);
+                                overallPlayerStats[team][player.nickname].headshotpercent+=Number(player.player_stats["Headshots %"]);
+                                overallPlayerStats[team][player.nickname].DoubleK+=Number(player.player_stats["Double Kills"]);
+                                overallPlayerStats[team][player.nickname].TripK+=Number(player.player_stats["Triple Kills"]);
+                                overallPlayerStats[team][player.nickname].QuadK+=Number(player.player_stats["Quadro Kills"]);
+                                overallPlayerStats[team][player.nickname].FivK+=Number(player.player_stats["Penta Kills"]);
+                                overallPlayerStats[team][player.nickname].Sniper+=Number(player.player_stats["Sniper Kills"]);
+                                overallPlayerStats[team][player.nickname].Pistol+=Number(player.player_stats["Pistol Kills"]);
+                                overallPlayerStats[team][player.nickname].Knife+=Number(player.player_stats["Knife Kills"]);
+                                overallPlayerStats[team][player.nickname].Zeus+=Number(player.player_stats["Zues Kills"]);
+                                
+
+
+
+
+                                overallPlayerStats[team][player.nickname].id = player.player_id;
+                            }
+                            
+                        
+                            
+                        }
+                    })
+                })
+            })
+            if(teamnum === 1){
+                teamnum = -1;
+            }
+        
+        
+    })
+   
+    let teamcounter = 0;
+    //console.log(overallPlayerStats);
+    for (let team in overallPlayerStats){
+        teamcounter++;
+        
+
+        for (let player in overallPlayerStats[team]){
+            //console.log(amountofgames);
+            if (document.getElementById(player)){
+                if(document.getElementById(player).querySelector("#INFOLOL")){
+                    document.getElementById(player).querySelector("#INFOLOL").remove();
+    
+                }
+                if(document.getElementById(player).querySelector("#fishking")){
+                    document.getElementById(player).querySelector("#fishking").remove();
+    
+                }
+            }
+            
+
+            if(isOverallLeaderboard){   
+                overallPlayerStats[team][player].adr =  Number(overallPlayerStats[team][player].adr)/amountofgames;
+                overallPlayerStats[team][player].totDamage =  Number(overallPlayerStats[team][player].totDamage)/amountofgames;
+                overallPlayerStats[team][player].headshotpercent =  Number(overallPlayerStats[team][player].headshotpercent)/amountofgames;
+            }
+            //this specific player's adr is now finished
+            //console.log(player);
+            //console.log(document.getElementById(player));
+            let encompassinginfodivider = document.createElement("div");
+            encompassinginfodivider.id = "INFOLOL";
+            encompassinginfodivider.style.transform = "translateY(-50px)";
+            if(isOverallLeaderboard && !goingbacktooriginal){
+                encompassinginfodivider.style.transform = "translateY(-52px)";
+            }
+
+            let kills = document.createElement("div");
+            kills.innerHTML = "KILLS : <span class = green2>"+overallPlayerStats[team][player].kills+"</span>";
+            kills.classList.add("infothing");
+
+            //document.getElementById(player).insertBefore(kills,document.getElementById(player).firstChild);
+            encompassinginfodivider.appendChild(kills);
+            //document.getElementById(player).prepend(kills);
+            //(isOverallLeaderboard) ? encompassingpicturedivider.appendChild(kills) :document.getElementById(player).appendChild(kills);
+
+            let deaths = document.createElement("div");
+            deaths.innerHTML = "DEATHS : <span class = red2>"+overallPlayerStats[team][player].deaths+"</span>";
+            deaths.classList.add("infothing");
+            //document.getElementById(player).insertBefore(deaths,document.getElementById(player).firstChild);
+            //document.getElementById(player).prepend(deaths);
+            encompassinginfodivider.appendChild(deaths);
+            //(isOverallLeaderboard) ? document.getElementById(player).appendChild(deaths) : encompassingpicturedivider.appendChild(deaths);
+            let assists = document.createElement("div");
+            assists.innerHTML = "ASSISTS : <span class = yellow2>"+overallPlayerStats[team][player].assists+"</span>";
+            assists.classList.add("infothing");
+            //document.getElementById(player).insertBefore(assists,document.getElementById(player).firstChild);
+            //document.getElementById(player).prepend(assists);
+            encompassinginfodivider.appendChild(assists);
+           // (isOverallLeaderboard) ? document.getElementById(player).appendChild(assists) : encompassingpicturedivider.appendChild(assists);
+            let adr = document.createElement("div");
+            adr.innerHTML = "ADR : <span class = blue2>"+parseFloat(overallPlayerStats[team][player].adr.toFixed(2))+"</span>";
+            adr.classList.add("infothing");
+            //document.getElementById(player).insertBefore(adr,document.getElementById(player).firstChild);
+            //document.getElementById(player).prepend(adr);
+            encompassinginfodivider.appendChild(adr);
+            //(isOverallLeaderboard) ? document.getElementById(player).appendChild(adr) : encompassingpicturedivider.appendChild(adr);
+            let totDam = document.createElement("div");
+            totDam.innerHTML = "Damage : <span class = orange2>"+overallPlayerStats[team][player].totDamage+"</span>";
+            totDam.classList.add("infothing");
+            encompassinginfodivider.appendChild(totDam);
+            let KD = document.createElement("div");
+            KD.innerHTML = "K/D : <span class = orange2>"+overallPlayerStats[team][player].KD.toFixed(2)+"</span>";
+            KD.classList.add("infothing");
+            encompassinginfodivider.appendChild(KD);
+            KD.style.transform = "translate(150px,-60px)";
+            let KR = document.createElement("div");
+            KR.innerHTML = "K/R : <span class = orange2>"+overallPlayerStats[team][player].KR.toFixed(2)+"</span>";
+            KR.classList.add("infothing");
+            encompassinginfodivider.appendChild(KR);
+            KR.style.transform = "translate(150px,-60px)";
+            //(isOverallLeaderboard) ? document.getElementById(player).appendChild(mvps) : encompassingpicturedivider.appendChild(mvps);
+            let headshots = document.createElement("div");
+            headshots.innerHTML = "HS : <b>"+overallPlayerStats[team][player].headshots+"</b>";
+            headshots.classList.add("infothing");
+            headshots.style.transform = "translate(150px,-60px)";
+            encompassinginfodivider.appendChild(headshots);
+            let headshotpercent = document.createElement("div");
+            headshotpercent.innerHTML = "HS % : <b>"+overallPlayerStats[team][player].headshotpercent+"</b>";
+            headshotpercent.classList.add("infothing");
+            headshotpercent.style.transform = "translate(150px,-60px)";
+            //document.getElementById(player).insertBefore(headshots,document.getElementById(player).firstChild);
+            //document.getElementById(player).prepend(headshots);
+            encompassinginfodivider.appendChild(headshotpercent);
+            //(isOverallLeaderboard) ? document.getElementById(player).appendChild(headshots) : encompassingpicturedivider.appendChild(headshots);
+            let killsdividercounter = 0;
+            if(overallPlayerStats[team][player].DoubleK > 0){
+                let doul = document.createElement("div");
+                doul.innerHTML = "2Ks : <b>"+overallPlayerStats[team][player].DoubleK+"</b>";
+                doul.classList.add("infothing");
+                doul.style.transform = "translate(210px,-108px)";
+                encompassinginfodivider.appendChild(doul);
+                killsdividercounter++;
+            }
+            if(overallPlayerStats[team][player].TripK > 0){
+                let trip = document.createElement("div");
+                trip.innerHTML = "3Ks : <b>"+overallPlayerStats[team][player].TripK+"</b>";
+                trip.classList.add("infothing");
+                trip.style.transform = "translate(210px,-108px)";
+                encompassinginfodivider.appendChild(trip);
+                killsdividercounter++;
+            }
+            if(overallPlayerStats[team][player].QuadK > 0){
+                let quad = document.createElement("div");
+                quad.innerHTML = "4Ks : <b>"+overallPlayerStats[team][player].QuadK+"</b>";
+                quad.classList.add("infothing");
+                quad.style.transform = "translate(210px,-108px)";
+                encompassinginfodivider.appendChild(quad);
+                killsdividercounter++;
+            }
+            if(overallPlayerStats[team][player].FivK > 0){
+                let fiv = document.createElement("div");
+                fiv.innerHTML = "ACEs : <b>"+overallPlayerStats[team][player].FivK+"</b>";
+                fiv.classList.add("infothing");
+                fiv.style.transform = "translate(210px,-108px)";
+                encompassinginfodivider.appendChild(fiv);
+                killsdividercounter++;
+            }
+            // 3 = "-146px"
+            // 2 = "-135px"
+            // 1 = "-122px"
+            let amountofpixels = 150;
+            switch(killsdividercounter){
+                case 4:
+                    amountofpixels = 157;
+                    break;
+                case 3:
+                    amountofpixels = 144;
+                    break;
+                case 2:
+                    amountofpixels = 132;
+                    break;
+                case 1:
+                    amountofpixels = 122;
+                    break;
+            }
+            if(overallPlayerStats[team][player].Sniper > 0){
+                let awp = document.createElement("div");
+                awp.innerHTML = "AWP : <b>"+overallPlayerStats[team][player].Sniper+"</b>";
+                awp.classList.add("infothing");
+                awp.style.transform = `translate(250px,-${amountofpixels}px)`;
+                encompassinginfodivider.appendChild(awp);
+            }
+            
+            let pis = document.createElement("div");
+            pis.innerHTML = "Pistol : <b>"+overallPlayerStats[team][player].Pistol+"</b>";
+            pis.classList.add("infothing");
+            pis.style.transform = `translate(250px,-${amountofpixels}px)`;
+            encompassinginfodivider.appendChild(pis);
+
+            if(overallPlayerStats[team][player].Knife > 0){
+                let kneiv = document.createElement("div");
+                kneiv.innerHTML = "Knife : <b>"+overallPlayerStats[team][player].Knife+"</b>";
+                kneiv.classList.add("infothing");
+                kneiv.style.transform = `translate(250px,-${amountofpixels}px)`;
+                encompassinginfodivider.appendChild(kneiv);
+            }
+            if(overallPlayerStats[team][player].Zeus > 0){
+                let zus = document.createElement("div");
+                zus.innerHTML = "Knife : <b>"+overallPlayerStats[team][player].Zeus+"</b>";
+                zus.classList.add("infothing");
+                zus.style.transform = `translate(250px,-${amountofpixels}px)`;
+                encompassinginfodivider.appendChild(zus);
+            }
+
+
+            //console.log( overallPlayerStats[team][player]);
+            if (!isOverallLeaderboard){
+                var allInfos = encompassinginfodivider.querySelectorAll(".infothing");
+                
+                for (var infos of allInfos){
+                   // infos.style.transform = "translate(85px,0px)";
+                    infos.style.opacity = "1";
+                    
+                }
+                
+            }
+
+
+       // console.log  (encompassinginfodivider);
+       if(document.getElementById(player)){
+        document.getElementById(player).insertBefore(encompassinginfodivider, document.getElementById(player).querySelector(".TEAMPFPNAME"));
+        document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-65px)";
+       }
+
+        }
+        
+    }
+    document.querySelectorAll(".infothing").forEach(el =>{el.style.opacity = "1"});
+    document.getElementById("damageInfo").onclick = function(){
+        document.getElementById("damageInfo").style.backgroundColor = "#344A60";
+        console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
+        if(document.getElementById("TeamNameDoc").style.backgroundColor === "white"){
+            overallLeaderboard(matchinfo,true,false,true);
+
+        }
+        else{
+            overallLeaderboard(matchinfo,true,false,false,true);
+
+
+        }
+        document.querySelectorAll(".infothing").forEach(el=>{el.style.opacity = "1"});
+        document.querySelectorAll("#fishking").forEach(el=>{el.style.opacity = "1 "});
+    };
+    
+
+}
+function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal, ummm, DONTASKOKAY){
+    var matchobject = matchinfo;
+    if (isOverallLeaderboard){
+        matchobject = matchinfo.PlayerStats;
+        
+    }
+    if(ummm){
+        matchobject = matchinfo;
+    }
+
+
+
+    //console.log(matchobject);
+    let overallPlayerStats = {};
+    let teamnum = -1;
+    let amountofgames = 0;
+    console.log(matchinfo);
+    console.log(matchobject);
+    
+    Object.keys(matchobject).forEach(item =>{
+                
+        console.log(item);
+            amountofgames++;
+            
+            var item1 = matchobject[item];
+            var team
+           // console.log(matchinfo);
+            if (ummm){
+                console.log(item1);
+                if(ummm){
+                    if (!overallPlayerStats[item]){
+                        overallPlayerStats[item] = {};
+                    }
+                }
+                else if(isOverallLeaderboard){
+                    if (!overallPlayerStats[team]){
+                        overallPlayerStats[team] = {};
+                    }
+                }
+                else{
+                    if (!overallPlayerStats[item]){
+                        overallPlayerStats[item] = {};
+                    }
+                }
+                    item1[0].forEach(plyr=>{
+                        
+                        console.log(plyr);
+                        var player = plyr
+                        
+
+                            //this is every single player.
+                            //STATS I NEED:   KILLS   DEATHS   ASSISTS   ADR   MVPs   HEADSHOTS
+                            
+                        // console.log(player.nickname);
+                            
+
+
+                            if(!isOverallLeaderboard){
+                                if (!overallPlayerStats[item][players.nickname]){
+                                    overallPlayerStats[item][players.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
+                                
+                                }
+                                overallPlayerStats[item][players.nickname].kills +=Number(player.Kills);
+                                overallPlayerStats[item][players.nickname].deaths+=Number(player.Deaths);
+                                overallPlayerStats[item][players.nickname].assists+=Number(player.Assists);
+                                overallPlayerStats[item][players.nickname].adr+=Number(player.ADR);
+                                overallPlayerStats[item][players.nickname].mvps+=Number(player.MVPs);
+                                overallPlayerStats[item][players.nickname].headshots+=Number(player.Headshots);
+                                overallPlayerStats[item][players.nickname].id = player.player_id;
+                                
+                            }
+                            else if (ummm){
+                                if (!overallPlayerStats[item][player.nickname]){
+                                    overallPlayerStats[item][player.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
+                                
+                                }
+                                overallPlayerStats[item][player.nickname].kills +=Number(player.player_stats.Kills);
+                                overallPlayerStats[item][player.nickname].deaths+=Number(player.player_stats.Deaths);
+                                overallPlayerStats[item][player.nickname].assists+=Number(player.player_stats.Assists);
+                                overallPlayerStats[item][player.nickname].adr+=Number(player.player_stats.ADR);
+                                overallPlayerStats[item][player.nickname].mvps+=Number(player.player_stats.MVPs);
+                                overallPlayerStats[item][player.nickname].headshots+=Number(player.player_stats.Headshots);
+                                overallPlayerStats[item][player.nickname].id = player.player_id;
+                            }
+                            else{
+                                if (!overallPlayerStats[team][player.nickname]){
+                                    overallPlayerStats[team][player.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
+                                
+                                }
+                                overallPlayerStats[team][player.nickname].kills +=Number(player.player_stats.Kills);
+                                overallPlayerStats[team][player.nickname].deaths+=Number(player.player_stats.Deaths);
+                                overallPlayerStats[team][player.nickname].assists+=Number(player.player_stats.Assists);
+                                overallPlayerStats[team][player.nickname].adr+=Number(player.player_stats.ADR);
+                                overallPlayerStats[team][player.nickname].mvps+=Number(player.player_stats.MVPs);
+                                overallPlayerStats[team][player.nickname].headshots+=Number(player.player_stats.Headshots);
+                                overallPlayerStats[team][player.nickname].id = player.player_id;
+                            }
+                            
+                        
+                            
+                        
+                    })
+                
+            }
+            else{
+            Object.keys(item1).forEach(team =>{
+                //console.log("wtafdasdsad");
+                //console.log(team);
+                //console.log(item1[team]);
+                teamnum++;
+                if(isOverallLeaderboard){
+                    if (!overallPlayerStats[team]){
+                        overallPlayerStats[team] = {};
+                    }
+                }
+                else{
+                    if (!overallPlayerStats[item]){
+                        overallPlayerStats[item] = {};
+                    }
+                }
+
+                Object.keys(item1[team]).forEach(player=>{
+                    
+                    var team1 = item1[team];
+                    var players = team1[player];
+                    //console.log(team);
+                    //console.log(players.nickname);
+                    Object.keys(players).forEach(plyr=>{
+                        //console.log(plyr);
+                        var player = players[plyr];
+                        if (typeof player === "string"){
+                            return;
+                        }
+                        else{
+                            //this is every single player.
+                            //STATS I NEED:   KILLS   DEATHS   ASSISTS   ADR   MVPs   HEADSHOTS
+                            
+                        // console.log(player.nickname);
+                            
+
+                            
+                            if(!isOverallLeaderboard){
+                                if (!overallPlayerStats[item][players.nickname]){
+                                    overallPlayerStats[item][players.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
+                                
+                                }
+                                overallPlayerStats[item][players.nickname].kills +=Number(player.Kills);
+                                overallPlayerStats[item][players.nickname].deaths+=Number(player.Deaths);
+                                overallPlayerStats[item][players.nickname].assists+=Number(player.Assists);
+                                overallPlayerStats[item][players.nickname].adr+=Number(player.ADR);
+                                overallPlayerStats[item][players.nickname].mvps+=Number(player.MVPs);
+                                overallPlayerStats[item][players.nickname].headshots+=Number(player.Headshots);
+                                overallPlayerStats[item][players.nickname].id = player.player_id;
+                                
+                            }
+                            else{
+                                if (!overallPlayerStats[team][player.nickname]){
+                                    overallPlayerStats[team][player.nickname] = {kills: 0, deaths: 0, assists: 0, adr: 0, mvps: 0, headshots: 0, id: null};
+                                
+                                }
+                                overallPlayerStats[team][player.nickname].kills +=Number(player.player_stats.Kills);
+                                overallPlayerStats[team][player.nickname].deaths+=Number(player.player_stats.Deaths);
+                                overallPlayerStats[team][player.nickname].assists+=Number(player.player_stats.Assists);
+                                overallPlayerStats[team][player.nickname].adr+=Number(player.player_stats.ADR);
+                                overallPlayerStats[team][player.nickname].mvps+=Number(player.player_stats.MVPs);
+                                overallPlayerStats[team][player.nickname].headshots+=Number(player.player_stats.Headshots);
+                                overallPlayerStats[team][player.nickname].id = player.player_id;
+                            }
+                            
+                        
+                            
+                        }
+                    })
+                })
+            })
+            }   
+            if(teamnum === 1){
+                teamnum = -1;
+            }
+        
+        
+    })
+   // console.log(overallPlayerStats);
+    let teamcounter = 0;
+    
+    for (let team in overallPlayerStats){
+        teamcounter++;
+        //console.log(matchinfo);
+
+
+        if (isOverallLeaderboard && !goingbacktooriginal && !ummm){
+            let teamnamedoc = document.createElement("div");
+            teamnamedoc.id = "TeamNameDoc";
+            teamnamedoc.style.color = (matchinfo.winner === team ? "green" : "red");
+            let actualname = document.createElement("div");
+            actualname.id = "actualname";
+
+            actualname.innerHTML =  team+   `<span class = "${teamnamedoc.style.color}2">`+" "+(teamcounter === 1 ? matchinfo.score.substring(0,2) : matchinfo.score.substring(4));
+            teamnamedoc.appendChild(actualname);
+            
+            document.getElementById("BoardTeam"+teamcounter).appendChild(teamnamedoc);
+            
+
+        }
+       
+        
+        var bestplayer;
+        let mostkils = 0;
+        console.log(overallPlayerStats);
+        for (let player in overallPlayerStats[team]){
+            //console.log(amountofgames);
+            if (document.getElementById(player)){
+                if(document.getElementById(player).querySelector("#INFOLOL")){
+                    document.getElementById(player).querySelector("#INFOLOL").remove();
+    
+                }
+                if(document.getElementById(player).querySelector("#fishking")){
+                    document.getElementById(player).querySelector("#fishking").remove();
+    
+                }
+            }
+            
+            if(isOverallLeaderboard){   
+                overallPlayerStats[team][player].adr =  Number(overallPlayerStats[team][player].adr)/amountofgames;
+            }
+
+            console.log(overallPlayerStats[team][player].kills+" VS "+mostkils);
+            if (overallPlayerStats[team][player].kills >= mostkils){
+                console.log("lOL");
+                mostkils = overallPlayerStats[team][player].kills;
+                bestplayer = player;
+            }
+            //this specific player's adr is now finished
+            //console.log(player);
+            //console.log(document.getElementById(player));
+            let encompassingpicturedivider = document.createElement("div");
+            let encompassinginfodivider = document.createElement("div");
+            encompassinginfodivider.id = "INFOLOL";
+            
+            if(isOverallLeaderboard && !goingbacktooriginal){
+                encompassinginfodivider.style.transform = "translateY(-52px)";
+                encompassingpicturedivider.classList.add("PLAYERDIVIDERR");
+                encompassingpicturedivider.id = player;
+                document.getElementById("BoardTeam"+teamcounter).appendChild(encompassingpicturedivider);
+
+                if (createpicturesonce){
+                    GetPlayerInfo(player, overallPlayerStats[team][player].id,encompassingpicturedivider);
+                    
+                }
+                
+            }
+            else{
+                encompassinginfodivider.style.transform = "translateY(-66px)";
+                if(document.getElementById(player)){
+                    document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px, 7px)";
+
+                }
+            }
+
+            let kills = document.createElement("div");
+            kills.innerHTML = "KILLS : <span class = green2>"+overallPlayerStats[team][player].kills+"</span>";
+            kills.classList.add("infothing");
+
+            //document.getElementById(player).insertBefore(kills,document.getElementById(player).firstChild);
+            encompassinginfodivider.appendChild(kills);
+            //document.getElementById(player).prepend(kills);
+            //(isOverallLeaderboard) ? encompassingpicturedivider.appendChild(kills) :document.getElementById(player).appendChild(kills);
+
+            let deaths = document.createElement("div");
+            deaths.innerHTML = "DEATHS : <span class = red2>"+overallPlayerStats[team][player].deaths+"</span>";
+            deaths.classList.add("infothing");
+            //document.getElementById(player).insertBefore(deaths,document.getElementById(player).firstChild);
+            //document.getElementById(player).prepend(deaths);
+            encompassinginfodivider.appendChild(deaths);
+            //(isOverallLeaderboard) ? document.getElementById(player).appendChild(deaths) : encompassingpicturedivider.appendChild(deaths);
+            let assists = document.createElement("div");
+            assists.innerHTML = "ASSISTS : <span class = yellow2>"+overallPlayerStats[team][player].assists+"</span>";
+            assists.classList.add("infothing");
+            //document.getElementById(player).insertBefore(assists,document.getElementById(player).firstChild);
+            //document.getElementById(player).prepend(assists);
+            encompassinginfodivider.appendChild(assists);
+           // (isOverallLeaderboard) ? document.getElementById(player).appendChild(assists) : encompassingpicturedivider.appendChild(assists);
+            let adr = document.createElement("div");
+            adr.innerHTML = "ADR : <span class = blue2>"+parseFloat(overallPlayerStats[team][player].adr.toFixed(2))+"</span>";
+            adr.classList.add("infothing");
+            //document.getElementById(player).insertBefore(adr,document.getElementById(player).firstChild);
+            //document.getElementById(player).prepend(adr);
+            encompassinginfodivider.appendChild(adr);
+            //(isOverallLeaderboard) ? document.getElementById(player).appendChild(adr) : encompassingpicturedivider.appendChild(adr);
+            let mvps = document.createElement("div");
+            mvps.innerHTML = "MVPs : <span class = orange2>"+overallPlayerStats[team][player].mvps+"</span>";
+            mvps.classList.add("infothing");
+            //document.getElementById(player).insertBefore(mvps,document.getElementById(player).firstChild);
+           // document.getElementById(player).prepend(mvps);
+            encompassinginfodivider.appendChild(mvps);
+            //(isOverallLeaderboard) ? document.getElementById(player).appendChild(mvps) : encompassingpicturedivider.appendChild(mvps);
+            let headshots = document.createElement("div");
+            headshots.innerHTML = "HEADSHOTS : <b>"+overallPlayerStats[team][player].headshots+"</b>";
+            headshots.classList.add("infothing");
+            //document.getElementById(player).insertBefore(headshots,document.getElementById(player).firstChild);
+            //document.getElementById(player).prepend(headshots);
+            encompassinginfodivider.appendChild(headshots);
+            //(isOverallLeaderboard) ? document.getElementById(player).appendChild(headshots) : encompassingpicturedivider.appendChild(headshots);
+
+
+
+            //console.log( overallPlayerStats[team][player]);
+            if (!isOverallLeaderboard){
+                var allInfos = encompassinginfodivider.querySelectorAll(".infothing");
+                for (var infos of allInfos){
+                   // infos.style.transform = "translate(85px,0px)";
+                    infos.style.opacity = "1";
+                    
+                }
+                
+            }
+            
+
+
+       // console.log  (encompassinginfodivider);
+        if (ummm || DONTASKOKAY){
+            if (document.getElementById(player).querySelector(".TEAMPFPNAME")){
+                document.getElementById(player).insertBefore(encompassinginfodivider, document.getElementById(player).querySelector(".TEAMPFPNAME"));
+               }
+        }
+       else{
+        document.getElementById(player).appendChild(encompassinginfodivider);
+
+       }
+
+        }
+        let fishking = document.createElement("img");
+        fishking.id = "fishking";
+        fishking.src = "https://atomicrecall.github.io/Cipher/images/fishking.png";
+        fishking.style.height = "70px";
+        fishking.style.width = "50px";
+        fishking.style.position = "absolute";
+        fishking.style.transform = "translate(180px,-120px)";
+        fishking.style.opacity = "0";
+        console.log(bestplayer);
+        console.log(overallPlayerStats);
+        document.getElementById(bestplayer).appendChild(fishking);
+        
+    }
+    createpicturesonce = false;
+    //everything should be properly sorted now
+    //console.log(matchinfo);
+
+}
 var THEFINALCOUNTERISWEAR = 0;
 var ILIEDLOLL = 3;
     function createToggle(allinfodiv){
