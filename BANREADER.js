@@ -3177,6 +3177,8 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
                 case 1:
                     amountofpixels = 110;
                     break;
+                default:
+                    amountofpixels = 99;
             }
             if(overallPlayerStats[team][player].Sniper > 0){
                 let awp = document.createElement("div");
