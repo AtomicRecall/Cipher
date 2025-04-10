@@ -3170,10 +3170,10 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
                     amountofpixels = 133;
                     break;
                 case 2:
-                    amountofpixels = 132;
+                    amountofpixels = 121;
                     break;
                 case 1:
-                    amountofpixels = 122;
+                    amountofpixels = 110;
                     break;
             }
             if(overallPlayerStats[team][player].Sniper > 0){
@@ -3584,7 +3584,7 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
         fishking.style.height = "70px";
         fishking.style.width = "50px";
         fishking.style.position = "absolute";
-        fishking.style.transform = "translate(180px,-120px)";
+        fishking.style.transform = "translate(180px,-127px)";
         fishking.style.opacity = "0";
         console.log(bestplayer);
         console.log(overallPlayerStats);
