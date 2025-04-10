@@ -1936,7 +1936,7 @@ function printToWebsite(dapicksanddabans, something){
                                     
                                     document.querySelectorAll("#fishking").forEach(el=>{
                                         el.style.opacity = "1";
-                                        el.style.transform = "translate(180px, -127px)";
+                                        el.style.transform = "translate(180px, -141px)";
                                         });
                                 }
                                 document.getElementById("damageInfo").onclick = function(){
