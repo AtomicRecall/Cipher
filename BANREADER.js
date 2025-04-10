@@ -1887,13 +1887,7 @@ function printToWebsite(dapicksanddabans, something){
                                 }
 
                                 overallLeaderboard(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false);
-                                if (document.querySelectorAll("#fishking")){
-                                    
-                                    document.querySelectorAll("#fishking").forEach(el=>{
-                                        el.style.opacity = "1";
-                                        el.style.transform = "translate(180px, -141px)";
-                                        });
-                                }
+
                                 document.getElementById("damageInfo").onclick = function(){
                                     document.getElementById("damageInfo").style.backgroundColor = "#303030";
                                     damageInfo(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false,false);
@@ -1953,6 +1947,13 @@ function printToWebsite(dapicksanddabans, something){
 
 
                                 
+                            }
+                            if (document.querySelectorAll("#fishking")){
+                                    
+                                document.querySelectorAll("#fishking").forEach(el=>{
+                                    el.style.opacity = "1";
+                                    el.style.transform = "translate(180px, -141px)";
+                                    });
                             }
                             var allscores = document.querySelectorAll(".scoreinthescore");
                             for (var scorez of allscores){
