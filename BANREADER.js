@@ -1886,7 +1886,7 @@ function printToWebsite(dapicksanddabans, something){
                                     document.querySelectorAll("#fishking").forEach(el=>{el.remove()});
                                 }
 
-                                overallLeaderboard(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false);
+                                overallLeaderboard(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false,false,false,true);
 
                                 document.getElementById("damageInfo").onclick = function(){
                                     document.getElementById("damageInfo").style.backgroundColor = "#303030";
@@ -1925,16 +1925,10 @@ function printToWebsite(dapicksanddabans, something){
                                     document.querySelectorAll("#fishking").forEach(el=>{el.remove()});
                                 }
 
-                                overallLeaderboard(dapicksanddabans[d],true,true);
+                                overallLeaderboard(dapicksanddabans[d],true,true,false,true);
 
                                 document.getElementById("damageInfo").onclick = function(){
-                                    if (document.querySelectorAll("#fishking")){
-                                    
-                                        document.querySelectorAll("#fishking").forEach(el=>{
-                                            el.style.opacity = "1";
-                                            el.style.transform = "translate(180px, -141px)";
-                                            });
-                                    }
+
                                     document.getElementById("damageInfo").style.backgroundColor = "#303030";
                                     damageInfo(dapicksanddabans[d],true,true);
                                 };
@@ -3043,6 +3037,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
         for (let player in overallPlayerStats[team]){
             //console.log(amountofgames);
             if (document.getElementById(player)){
+                //document.getElementById(player).remove
                 if(document.getElementById(player).querySelector("#INFOLOL")){
                     document.getElementById(player).querySelector("#INFOLOL").remove();
     
@@ -3188,11 +3183,14 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
                 encompassinginfodivider.appendChild(awp);
             }
             
-            let pis = document.createElement("div");
-            pis.innerHTML = "Pistol : <b>"+overallPlayerStats[team][player].Pistol+"</b>";
-            pis.classList.add("infothing");
-            pis.style.transform = `translate(250px,-${amountofpixels}px)`;
-            encompassinginfodivider.appendChild(pis);
+            if(overallPlayerStats[team][player].Pistol > 0){
+                let pis = document.createElement("div");
+                pis.innerHTML = "Pistol : <b>"+overallPlayerStats[team][player].Pistol+"</b>";
+                pis.classList.add("infothing");
+                pis.style.transform = `translate(250px,-${amountofpixels}px)`;
+                encompassinginfodivider.appendChild(pis);
+            }
+
 
             if(overallPlayerStats[team][player].Knife > 0){
                 let kneiv = document.createElement("div");
@@ -3241,7 +3239,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
         }
         else{
-            overallLeaderboard(matchinfo,true,false,false,true);
+            overallLeaderboard(matchinfo,true,true,false,true);
 
 
         }
@@ -3252,6 +3250,10 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
 }
 function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal, ummm, DONTASKOKAY){
+   // console.log("isOverallLeaderboard = "+isOverallLeaderboard);
+   // console.log("goingbacktooriginal = "+goingbacktooriginal);
+   // console.log("ummm = "+ummm);
+   // console.log("DONTASKOKAY = "+DONTASKOKAY);
     var matchobject = matchinfo;
     if (isOverallLeaderboard){
         matchobject = matchinfo.PlayerStats;
@@ -3267,19 +3269,19 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
     let overallPlayerStats = {};
     let teamnum = -1;
     let amountofgames = 0;
-    console.log(matchinfo);
-    console.log(matchobject);
+   // console.log(matchinfo);
+  //  console.log(matchobject);
     
     Object.keys(matchobject).forEach(item =>{
                 
-        console.log(item);
+       // console.log(item);
             amountofgames++;
             
             var item1 = matchobject[item];
             var team
            // console.log(matchinfo);
             if (ummm){
-                console.log(item1);
+               // console.log(item1);
                 if(ummm){
                     if (!overallPlayerStats[item]){
                         overallPlayerStats[item] = {};
@@ -3297,7 +3299,7 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
                 }
                     item1[0].forEach(plyr=>{
                         
-                        console.log(plyr);
+                       // console.log(plyr);
                         var player = plyr
                         
 
@@ -3459,7 +3461,7 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
         
         var bestplayer;
         let mostkils = 0;
-        console.log(overallPlayerStats);
+       // console.log(overallPlayerStats);
         for (let player in overallPlayerStats[team]){
             //console.log(amountofgames);
             if (document.getElementById(player)){
@@ -3477,9 +3479,9 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
                 overallPlayerStats[team][player].adr =  Number(overallPlayerStats[team][player].adr)/amountofgames;
             }
 
-            console.log(overallPlayerStats[team][player].kills+" VS "+mostkils);
+            //console.log(overallPlayerStats[team][player].kills+" VS "+mostkils);
             if (overallPlayerStats[team][player].kills >= mostkils){
-                console.log("lOL");
+               // console.log("lOL");
                 mostkils = overallPlayerStats[team][player].kills;
                 bestplayer = player;
             }
@@ -3490,7 +3492,7 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
             let encompassinginfodivider = document.createElement("div");
             encompassinginfodivider.id = "INFOLOL";
             
-            if(isOverallLeaderboard && !goingbacktooriginal){
+            if(isOverallLeaderboard && !goingbacktooriginal && !ummm){
                 encompassinginfodivider.style.transform = "translateY(-52px)";
                 encompassingpicturedivider.classList.add("PLAYERDIVIDERR");
                 encompassingpicturedivider.id = player;
@@ -3503,9 +3505,9 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
                 
             }
             else{
-                encompassinginfodivider.style.transform = "translateY(-66px)";
+                encompassinginfodivider.style.transform = "translateY(-52px)";
                 if(document.getElementById(player)){
-                    document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px, 1px)";
+                    document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px, -71px)";
 
                 }
             }
@@ -3588,7 +3590,9 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
 
        }
 
+
         }
+
         let fishking = document.createElement("img");
         fishking.id = "fishking";
         fishking.src = "https://atomicrecall.github.io/Cipher/images/fishking.png";
@@ -3597,16 +3601,32 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
         fishking.style.position = "absolute";
         if(DONTASKOKAY){
             fishking.style.transform = "translate(180px,-141px)";
+            document.getElementById("damageInfo").onclick = function(){
+
+                document.getElementById("damageInfo").style.backgroundColor = "#303030";
+                damageInfo(matchinfo,true,true);
+            };
+
 
 
         }
         else{
             fishking.style.transform = "translate(180px,-127px)";
+            if(ummm){    
+                fishking.style.transform = "translate(180px,-141px)";
+
+            }
+            document.getElementById("damageInfo").onclick = function(){
+
+                document.getElementById("damageInfo").style.backgroundColor = "#303030";
+                damageInfo(matchinfo,false,true);
+            };
 
         }
+
         fishking.style.opacity = "0";
-        console.log(bestplayer);
-        console.log(overallPlayerStats);
+        //console.log(bestplayer);
+        //console.log(overallPlayerStats);
         document.getElementById(bestplayer).appendChild(fishking);
         
     }
