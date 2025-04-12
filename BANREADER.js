@@ -449,7 +449,7 @@ function GetPlayerInfo(nick , iddd, div){
                     break;
             }
             pfp.style.pointerEvents = "auto";
-            
+
             let pic2 = document.createElement("img");
             let name2 = document.createElement("div");
 
@@ -1768,36 +1768,56 @@ function printToWebsite(dapicksanddabans, something){
 
 
             document.getElementById("game"+d).onclick = function(){
-                if (document.getElementById("WHOLEPLAYERDIVIDER")){
-                    document.getElementById("WHOLEPLAYERDIVIDER").remove();
-                }
-                if (document.getElementById("EncompassingDivider")){
-                    document.getElementById("EncompassingDivider").style.opacity = 0;
-                    document.getElementById("EncompassingDivider").remove();
-                }
-                document.querySelectorAll('.gamediv').forEach(element =>{
-                        element.style.filter = "none";
-                });
+   
                 moreclicks++;
                 //console.log("divider clicked "+moreclicks+" clicks");
                 dividerclicked = !dividerclicked;
                 shouldbeoff = !shouldbeoff;
                 
+
+                if (document.getElementById("EncompassingDivider")){
+                    document.getElementById("EncompassingDivider").style.opacity = 0;
+                    document.getElementById("EncompassingDivider").remove();
+                }
+                if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
+                    document.querySelectorAll(".scoreinthescore").forEach(el=>{el.style.filter = ""})
+        
+                }
+                document.querySelectorAll('.gamediv').forEach(element =>{
+                        element.style.filter = "none";
+                });
+
+                
                 let reverseclick = false;
 
                 if(dividerclicked && moreclicks > 0){
 
+
+                    
                     //create LeaderBoard
                     createpicturesonce = true;
                     createLeaderBoard(dapicksanddabans[d],true);
                     document.getElementById("damageInfo").onclick = function(){
-                        document.getElementById("damageInfo").style.backgroundColor = "#303030";
+                        document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                        document.getElementById("damageInfo").classList.add('selected');
                         damageInfo(dapicksanddabans[d],true);
                     };
-                    if (document.getElementById("WHOLEPLAYERDIVIDER")){
-                        document.getElementById("WHOLEPLAYERDIVIDER").remove();
-                        
-                    }
+                    document.getElementById("ClutchInfo").onclick = function(){
+                        document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                        document.getElementById("ClutchInfo").classList.add("selected");
+                        ClutchInfo(dapicksanddabans[d],true);
+                    };
+                    document.getElementById("EntryInfo").onclick = function(){
+                        document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                        document.getElementById("EntryInfo").classList.add("selected");
+                        EntryInfo(dapicksanddabans[d],true);
+                    };
+                    document.getElementById("UtilityInfo").onclick = function(){
+                        document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                        document.getElementById("UtilityInfo").classList.add("selected");
+                        UtilityInfo(dapicksanddabans[d],true);
+                    };
+
                     if(document.getElementById("allInfo")){
                         document.getElementById("allInfo").style.opacity = "0";
                     }
@@ -1808,26 +1828,20 @@ function printToWebsite(dapicksanddabans, something){
                         document.getElementById("RECORDDD").style.transform = "translate(-25px,-80px)";
 
                     }
+
+
                     let scores = document.getElementsByClassName("scoreinthescore");
+                    if(document.getElementById("quickInfo").querySelectorAll(".scoreinthescore").length === 1){
+                        document.getElementById("quickInfo").querySelector(".scoreinthescore").style.filter = "drop-shadow(1px 1px 5px orange)";
+                    }
                     for (const score of scores){
                         var scoreclicked = false;
                         score.style.transform = "translate(360px,-480px)";
-                        /*
-                        let t1cpy = document.createElement("img");
-                        t1cpy.id = "tm1copy";
-                        t1cpy.style.height = "20px";
-                        t1cpy.style.width = "20px";
-                        t1cpy.src = document.getElementById("tm1pfp").src;
-                        let t2cpy = document.createElement("img");
-                        t2cpy.id = "tm2copy";
-                        t2cpy.style.height = "20px";
-                        t2cpy.style.width = "20px";
-                        t2cpy.src = document.getElementById("tm2pfp").src;
-                        score.appendChild(t1cpy);
-                        score.appendChild(t2cpy);
-                        */
                         score.style.pointerEvents = "auto";
                         score.onmouseover = function(){
+                            if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
+                                return;
+                            }
                             if(!scoreclicked){
                                 //if no scores are clicked
                                 score.style.filter = "drop-shadow(1px 1px 3px white)";
@@ -1835,15 +1849,20 @@ function printToWebsite(dapicksanddabans, something){
 
                         }
                         score.onmouseout = function(){
+                            if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
+                                return;
+                            }
                             if(!scoreclicked){
                                 //if no scores are clicked, run this
                                 score.style.filter = "";
                             }
                         }
                         score.onclick = function(){
-
+                            if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
+                                return;
+                            }
                             var allButtons = document.getElementById("ButtonsDivider").querySelectorAll(".buttonz");
-                            allButtons.forEach(el =>{el.style.backgroundColor = "#344A60"});
+                            allButtons.forEach(el =>{el.classList.remove("selected")});
                             scoreclicked = !scoreclicked;
                             if(scoreclicked){
                                 score.style.filter = "drop-shadow(1px 1px 5px orange)";
@@ -1852,7 +1871,6 @@ function printToWebsite(dapicksanddabans, something){
                                 var allteamnames = document.querySelectorAll("#TeamNameDoc");
                                 for (const teamname of allteamnames){
                                     teamcounttt++;
-                                    teamname.style.backgroundColor = "";
                                     //console.log(score.querySelector("#imgg").src);
                                     var imgag = score.querySelector("#imgg").src;
                                     teamname.style.backgroundImage  = `url(${imgag})`;
@@ -1870,7 +1888,7 @@ function printToWebsite(dapicksanddabans, something){
                                     else{   
                                         (score.style.color === "red") ? teamname.querySelector("#actualname").style.color = "green" : teamname.querySelector("#actualname").style.color = "red"; 
                                     }
-                                    console.log(teamcounttt);
+                                    //console.log(teamcounttt);
                                     if ( dapicksanddabans[d].teams[teamcounttt-1]){
                                         teamname.querySelector("#actualname").innerHTML =  dapicksanddabans[d].teams[teamcounttt-1][1]+   `<span class = "${teamname.querySelector("#actualname").style.color}2">`+" "+(teamcounttt === 1 ? dapicksanddabans[d].detailed_score[Number(score.id)-1].substring(0,2)+"</span>" : dapicksanddabans[d].detailed_score[Number(score.id)-1].substring(4))+"</span>";
 
@@ -1889,8 +1907,24 @@ function printToWebsite(dapicksanddabans, something){
                                 overallLeaderboard(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false,false,false,true);
 
                                 document.getElementById("damageInfo").onclick = function(){
-                                    document.getElementById("damageInfo").style.backgroundColor = "#303030";
+                                    document.querySelectorAll(".buttonz").forEach(el=>{ el.classList.remove("selected")});
+                                    document.getElementById("damageInfo").classList.add("selected");
                                     damageInfo(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false,false);
+                                };
+                                document.getElementById("ClutchInfo").onclick = function(){
+                                    document.querySelectorAll(".buttonz").forEach(el=>{ el.classList.remove("selected")});
+                                    document.getElementById("ClutchInfo").classList.add("selected");
+                                    ClutchInfo(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false,false);
+                                };
+                                document.getElementById("EntryInfo").onclick = function(){
+                                    document.querySelectorAll(".buttonz").forEach(el=>{ el.classList.remove("selected")});
+                                    document.getElementById("EntryInfo").classList.add("selected");
+                                    EntryInfo(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false,false);
+                                };
+                                document.getElementById("UtilityInfo").onclick = function(){
+                                    document.querySelectorAll(".buttonz").forEach(el=>{ el.classList.remove("selected")});
+                                    document.getElementById("UtilityInfo").classList.add("selected");
+                                    UtilityInfo(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false,false);
                                 };
                             }
                            else if (!scoreclicked){
@@ -1928,9 +1962,24 @@ function printToWebsite(dapicksanddabans, something){
                                 overallLeaderboard(dapicksanddabans[d],true,true,false,true);
 
                                 document.getElementById("damageInfo").onclick = function(){
-
-                                    document.getElementById("damageInfo").style.backgroundColor = "#303030";
+                                    document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                                    document.getElementById("damageInfo").classList.add("selected");
                                     damageInfo(dapicksanddabans[d],true,true);
+                                };
+                                document.getElementById("ClutchInfo").onclick = function(){
+                                    document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                                    document.getElementById("ClutchInfo").classList.add("selected");
+                                    ClutchInfo(dapicksanddabans[d],true,true);
+                                };
+                                document.getElementById("EntryInfo").onclick = function(){
+                                    document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                                    document.getElementById("EntryInfo").classList.add("selected");
+                                    EntryInfo(dapicksanddabans[d],true,true);
+                                };
+                                document.getElementById("UtilityInfo").onclick = function(){
+                                    document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                                    document.getElementById("UtilityInfo").classList.add("selected");
+                                    UtilityInfo(dapicksanddabans[d],true,true);
                                 };
                                 var allInfos = document.querySelectorAll(".infothing");
                                 for (var infos of allInfos){
@@ -1976,22 +2025,7 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("tm2pfp").style.width = "75px";
                     document.getElementById("tm2pfp").style.height = "75px";
                     document.getElementById("tm2pfp").style.transform = "translate(-275px,30px)";
-                    /*
-                    let highlightedplayerdiv = document.createElement("div");
-                    highlightedplayerdiv.id = "highlightedplayerdiv";
-                    highlightedplayerdiv.style.position = "absolute";
-                    highlightedplayerdiv.style.transform = "translate(345px,150px)";
-                    highlightedplayerdiv.style.webkitFilter = "drop-shadow(1px 1px 1px black)";
-                    let highlightedplayertext = document.createElement("div");
-                    highlightedplayertext.style.fontSize = "15px";
-                    highlightedplayertext.id = "highlightedplayertext";
-                    highlightedplayertext.style.color = "wheat";
 
-                    highlightedplayertext.innerHTML = "HIGHLIGHTED PLAYER:";
-                    highlightedplayerdiv.appendChild(highlightedplayertext);
-                    document.getElementById("quickInfo").prepend(highlightedplayerdiv);
-                    */
-                    document.getElementById("quickInfo").style.transform = "translate(260px,280px)";
                     
 
 
@@ -2020,37 +2054,6 @@ function printToWebsite(dapicksanddabans, something){
                            // console.log("PLAYER PF CLICKKEDD");
                             oldonclick.call(this,event);
                             //console.log(dapicksanddabans[d].PlayerStats[0]);
-
-                            for (const daplayer of dapicksanddabans[d].PlayerStats[0]){
-                                if(daplayer.nickname === document.getElementById("TEAMPFPNAME"+d).innerHTML){
-
-                                    //console.log("PLAYER STATS:");
-                                    //console.log(daplayer.player_stats);
-                                    
-                                    let stats = daplayer.player_stats;
-                                    let overallDivider = document.createElement("div");
-                                    overallDivider.id = ""
-                                    let playerStatsInfo = document.createElement("div");
-                                    playerStatsInfo.id = "PlayerStatsInfo";
-                                    playerStatsInfo.style.position = "absolute";
-                                    
-                                    playerStatsInfo.innerHTML+="Kills: "+stats.Kills+"<br>";
-                                    playerStatsInfo.innerHTML+="Deaths: "+stats.Deaths+"<br>";
-                                    playerStatsInfo.innerHTML+="Assists: "+stats.Assists+"<br>";
-                                    playerStatsInfo.innerHTML+="ADR: "+stats.ADR+"<br>";
-                                    playerStatsInfo.innerHTML+="MVPs: "+stats.MVPs+"<br>";
-                                    playerStatsInfo.innerHTML+="Headshots: "+stats.Headshots+"<br>";
-                                    
-                                    //console.log(playerStatsInfo.innerHTML);
-                                    let buttondivider = document.createElement("div");
-                                    buttondivider.id = "dabuttondivider";
-                                   // console.log("DONE NOW ADDING:");
-                                    overallDivider.appendChild(playerStatsInfo);
-                                    document.getElementById("quickInfo").append(overallDivider);
-                                    
-                                }
-                                
-                            }
                             
                         }
                             
@@ -2096,41 +2099,8 @@ function printToWebsite(dapicksanddabans, something){
 
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px white)";
                     moreclicks = 0;
-                    /*
-                    document.getElementById("mtches").querySelectorAll("*").forEach(element => {
-                        if (storedevents.has(element)) {
-                            element.onmouseover = storedMouseoverEvents.get(element); // Restore event
-                        }
-                    });
-                    */
-
-                    
-
                 }
-
-                
-
-                
-
-                    
-
-                
-            
-               
-                
-
-                
-                /*
-                document.getElementById("game"+d).onclick = function(){
-                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px white)";
-                    dividerclicked = !dividerclicked;
-                    info.style.fontSize = "20px";
-                    info.style.transform = "";
-                    //window.open(dapicksanddabans[d].link);
-                }
-                //
-                */
-
+  
             }
 
             document.getElementById("game"+d).onmouseover = function(){
@@ -2825,6 +2795,7 @@ function printToWebsite(dapicksanddabans, something){
     }
     
 }
+
 let createpicturesonce = true;
 function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal){
 
@@ -3095,7 +3066,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
             encompassinginfodivider.appendChild(adr);
             //(isOverallLeaderboard) ? document.getElementById(player).appendChild(adr) : encompassingpicturedivider.appendChild(adr);
             let totDam = document.createElement("div");
-            totDam.innerHTML = "Damage : <span class = orange2>"+overallPlayerStats[team][player].totDamage+"</span>";
+            totDam.innerHTML = "DAMAGE : <span class = orange2>"+overallPlayerStats[team][player].totDamage+"</span>";
             totDam.classList.add("infothing");
             encompassinginfodivider.appendChild(totDam);
             let KD = document.createElement("div");
@@ -3164,7 +3135,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
                     amountofpixels = 157;
                     break;
                 case 3:
-                    amountofpixels = 133;
+                    amountofpixels = 132;
                     break;
                 case 2:
                     amountofpixels = 121;
@@ -3232,9 +3203,684 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     }
     document.querySelectorAll(".infothing").forEach(el =>{el.style.opacity = "1"});
     document.getElementById("damageInfo").onclick = function(){
-        document.getElementById("damageInfo").style.backgroundColor = "#344A60";
+        document.getElementById("damageInfo").classList.remove("selected");
         console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
-        if(document.getElementById("TeamNameDoc").style.backgroundColor === "white"){
+        if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
+            overallLeaderboard(matchinfo,true,true,false,true);
+
+        }
+        else if(document.getElementById("TeamNameDoc").style.backgroundColor === "white"){
+            overallLeaderboard(matchinfo,true,false,true);
+
+        }
+
+        else{
+            overallLeaderboard(matchinfo,true,true,false,true);
+
+
+        }
+        
+        document.querySelectorAll(".infothing").forEach(el=>{el.style.opacity = "1"});
+        document.querySelectorAll("#fishking").forEach(el=>{el.style.opacity = "1 "});
+    };
+    
+
+}
+function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
+    var matchobject = matchinfo;
+    console.log("RUNNINGGGGG");
+    if (isOverallLeaderboard){
+        matchobject = matchinfo.PlayerStats;
+        
+    }
+
+    console.log(matchobject);
+    var overallPlayerStats = {};
+    let teamnum = -1;
+    let amountofgames = 0;
+    Object.keys(matchobject).forEach(item =>{
+                
+        //console.log(item);
+            amountofgames++;
+            
+            var item1 = matchobject[item];
+           // console.log(matchinfo);
+            
+            Object.keys(item1).forEach(team =>{
+                //console.log("wtafdasdsad");
+                //console.log(team);
+                //console.log(item1[team]);
+                teamnum++;
+                if(isOverallLeaderboard){
+                    if (!overallPlayerStats[team]){
+                        overallPlayerStats[team] = {};
+                    }
+                }
+                else{
+                    if (!overallPlayerStats[item]){
+                        overallPlayerStats[item] = {};
+                    }
+                }
+
+                Object.keys(item1[team]).forEach(player=>{
+                    
+                    var team1 = item1[team];
+                    var players = team1[player];
+                    //console.log(players);
+                    //console.log(team);
+                    //console.log(players.nickname);
+                    Object.keys(players).forEach(plyr=>{
+                        //console.log(plyr);
+                        var player = players[plyr];
+                        if (typeof player === "string"){
+                            return;
+                        }
+                        else{
+                            //this is every single player.
+                            //STATS I NEED:   KILLS   DEATHS   ASSISTS   ADR   MVPs   HEADSHOTS
+                            
+                        // console.log(player.nickname);
+                            
+
+                            //console.log(players);
+                            if(!isOverallLeaderboard){
+                                if (!overallPlayerStats[item][players.nickname]){
+                                    overallPlayerStats[item][players.nickname] = {ONEW: 0, ONEC: 0, TWOW: 0, TWOC: 0, ONEWR: 0, TWOWR: 0, CLUTCHK: 0, mvps: 0, id: null};
+                                
+                                }
+                                overallPlayerStats[item][players.nickname].ONEW +=Number(player["1v1Wins"]);
+                                overallPlayerStats[item][players.nickname].ONEC+=Number(player["1v1Count"]);
+                                overallPlayerStats[item][players.nickname].TWOW+=Number(player["1v2Wins"]);
+                                overallPlayerStats[item][players.nickname].TWOC+=Number(player["1v2Count"]);
+                                overallPlayerStats[item][players.nickname].ONEWR+=Number(player["Match 1v1 Win Rate"]);
+                                overallPlayerStats[item][players.nickname].TWOWR+=Number(player["Match 1v2 Win Rate"]);
+                                overallPlayerStats[item][players.nickname].CLUTCHK+=Number(player["Clutch Kills"]);
+                                overallPlayerStats[item][players.nickname].mvps+=Number(player["MVPs"]);
+                                overallPlayerStats[item][players.nickname].id = player.player_id;
+                                
+                            }
+                            else{
+                                if (!overallPlayerStats[team][player.nickname]){
+                                    overallPlayerStats[team][player.nickname] = {ONEW: 0, ONEC: 0, TWOW: 0, TWOC: 0, ONEWR: 0, TWOWR: 0, CLUTCHK: 0, mvps: 0, id: null};
+
+                                }
+                          
+                                overallPlayerStats[team][player.nickname].ONEW +=Number(player.player_stats["1v1Wins"]);
+                                overallPlayerStats[team][player.nickname].ONEC+=Number(player.player_stats["1v1Count"]);
+                                overallPlayerStats[team][player.nickname].TWOW+=Number(player.player_stats["1v2Wins"]);
+                                overallPlayerStats[team][player.nickname].TWOC+=Number(player.player_stats["1v2Count"]);
+                                overallPlayerStats[team][player.nickname].ONEWR+=Number(player.player_stats["Match 1v1 Win Rate"]);
+                                overallPlayerStats[team][player.nickname].TWOWR+=Number(player.player_stats["Match 1v2 Win Rate"]);
+                                overallPlayerStats[team][player.nickname].CLUTCHK+=Number(player.player_stats["Clutch Kills"]);
+                                overallPlayerStats[team][player.nickname].mvps+=Number(player.player_stats["MVPs"]);
+
+
+
+
+                                overallPlayerStats[team][player.nickname].id = player.player_id;
+                            }
+                            
+                        
+                            
+                        }
+                    })
+                })
+            })
+            if(teamnum === 1){
+                teamnum = -1;
+            }
+        
+        
+    })
+   
+    let teamcounter = 0;
+    //console.log(overallPlayerStats);
+    for (let team in overallPlayerStats){
+        teamcounter++;
+        
+
+        for (let player in overallPlayerStats[team]){
+            //console.log(amountofgames);
+            if (document.getElementById(player)){
+                //document.getElementById(player).remove
+                if(document.getElementById(player).querySelector("#INFOLOL")){
+                    document.getElementById(player).querySelector("#INFOLOL").remove();
+    
+                }
+                if(document.getElementById(player).querySelector("#fishking")){
+                    document.getElementById(player).querySelector("#fishking").remove();
+    
+                }
+            }
+        
+            let encompassinginfodivider = document.createElement("div");
+            encompassinginfodivider.id = "INFOLOL";
+            encompassinginfodivider.style.transform = "translateY(-50px)";
+            if(isOverallLeaderboard && !goingbacktooriginal){
+                encompassinginfodivider.style.transform = "translateY(-52px)";
+            }
+
+            let ONEW = document.createElement("div");
+            ONEW.innerHTML = "1v1 Wins : <span class = green2>"+overallPlayerStats[team][player].ONEW+"</span>";
+            ONEW.classList.add("infothing");
+            encompassinginfodivider.appendChild(ONEW);
+    
+            let ONEC = document.createElement("div");
+            ONEC.innerHTML = "1v1 Count : <span class = blue2>"+overallPlayerStats[team][player].ONEC+"</span>";
+            ONEC.classList.add("infothing");
+            encompassinginfodivider.appendChild(ONEC);
+
+            let ONEWR = document.createElement("div");
+            ONEWR.innerHTML = "1v1 Win Rate : <span class = yellow2>"+overallPlayerStats[team][player].ONEWR+"</span>";
+            ONEWR.classList.add("infothing");
+            encompassinginfodivider.appendChild(ONEWR);
+
+            let TWOW = document.createElement("div");
+            TWOW.innerHTML = "1v2 Wins : <span class = green2>"+overallPlayerStats[team][player].TWOW+"</span>";
+            TWOW.classList.add("infothing");
+            encompassinginfodivider.appendChild(TWOW);
+            TWOW.style.transform = "translate(235px,-36px)";
+
+            let TWOC = document.createElement("div");
+            TWOC.innerHTML = "1v2 Count : <span class = blue22>"+overallPlayerStats[team][player].TWOC+"</span>";
+            TWOC.classList.add("infothing");
+            encompassinginfodivider.appendChild(TWOC);
+            TWOC.style.transform = "translate(235px,-36px)";
+
+            let TWOWR = document.createElement("div");
+            TWOWR.innerHTML = "1v2 Win Rate : <span class = yellow2>"+overallPlayerStats[team][player].TWOWR+"</span>";
+            TWOWR.classList.add("infothing");
+            encompassinginfodivider.appendChild(TWOWR);
+            TWOWR.style.transform = "translate(220px,-36px)";
+
+            let CLUTCHK = document.createElement("div");
+            CLUTCHK.innerHTML = "Clutch Kills: <span class = orange2>"+overallPlayerStats[team][player].CLUTCHK+"</span>";
+            CLUTCHK.classList.add("infothing");
+            encompassinginfodivider.appendChild(CLUTCHK);
+            CLUTCHK.style.transform = "translate(90px,-20px)";
+
+            let mvps = document.createElement("div");
+            mvps.innerHTML = "MVPs : <span class = orange2>"+overallPlayerStats[team][player].mvps+"</span>";
+            mvps.classList.add("infothing");
+            mvps.style.transform = "translate(255px,-32px)";
+            encompassinginfodivider.appendChild(mvps);
+            
+
+
+            //console.log( overallPlayerStats[team][player]);
+            if (!isOverallLeaderboard){
+                var allInfos = encompassinginfodivider.querySelectorAll(".infothing");
+                
+                for (var infos of allInfos){
+                   // infos.style.transform = "translate(85px,0px)";
+                    infos.style.opacity = "1";
+                    
+                }
+                
+            }
+
+
+       // console.log  (encompassinginfodivider);
+       if(document.getElementById(player)){
+        document.getElementById(player).insertBefore(encompassinginfodivider, document.getElementById(player).querySelector(".TEAMPFPNAME"));
+        document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
+       }
+
+        }
+        
+    }
+    document.querySelectorAll(".infothing").forEach(el =>{el.style.opacity = "1"});
+    document.getElementById("ClutchInfo").onclick = function(){
+        document.getElementById("ClutchInfo").classList.remove("selected");
+        console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
+        if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
+            overallLeaderboard(matchinfo,true,true,false,true);
+
+        }
+        else if(document.getElementById("TeamNameDoc").style.backgroundColor === "white"){
+            overallLeaderboard(matchinfo,true,false,true);
+
+        }
+
+        else{
+            overallLeaderboard(matchinfo,true,true,false,true);
+
+
+        }
+        document.querySelectorAll(".infothing").forEach(el=>{el.style.opacity = "1"});
+        document.querySelectorAll("#fishking").forEach(el=>{el.style.opacity = "1 "});
+    };
+    
+
+}
+function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
+    var matchobject = matchinfo;
+    console.log("RUNNINGGGGG");
+    if (isOverallLeaderboard){
+        matchobject = matchinfo.PlayerStats;
+        
+    }
+
+    console.log(matchobject);
+    var overallPlayerStats = {};
+    let teamnum = -1;
+    let amountofgames = 0;
+    Object.keys(matchobject).forEach(item =>{
+                
+        //console.log(item);
+            amountofgames++;
+            
+            var item1 = matchobject[item];
+           // console.log(matchinfo);
+            
+            Object.keys(item1).forEach(team =>{
+                //console.log("wtafdasdsad");
+                //console.log(team);
+                //console.log(item1[team]);
+                teamnum++;
+                if(isOverallLeaderboard){
+                    if (!overallPlayerStats[team]){
+                        overallPlayerStats[team] = {};
+                    }
+                }
+                else{
+                    if (!overallPlayerStats[item]){
+                        overallPlayerStats[item] = {};
+                    }
+                }
+
+                Object.keys(item1[team]).forEach(player=>{
+                    
+                    var team1 = item1[team];
+                    var players = team1[player];
+                    //console.log(players);
+                    //console.log(team);
+                    //console.log(players.nickname);
+                    Object.keys(players).forEach(plyr=>{
+                        //console.log(plyr);
+                        var player = players[plyr];
+                        if (typeof player === "string"){
+                            return;
+                        }
+                        else{
+                            //this is every single player.
+                            //STATS I NEED:   KILLS   DEATHS   ASSISTS   ADR   MVPs   HEADSHOTS
+                            
+                        // console.log(player.nickname);
+                            
+
+                            //console.log(players);
+                            if(!isOverallLeaderboard){
+                                if (!overallPlayerStats[item][players.nickname]){
+                                    overallPlayerStats[item][players.nickname] = {EntryC: 0, EntryW: 0, FirstK: 0, MatchEntry: 0, MatchEntryS: 0, id: null};
+                                
+                                }
+                                overallPlayerStats[item][players.nickname].EntryC +=Number(player["Entry Count"]);
+                                overallPlayerStats[item][players.nickname].EntryW+=Number(player["Entry Wins"]);
+                                overallPlayerStats[item][players.nickname].FirstK+=Number(player["First Kills"]);
+                                overallPlayerStats[item][players.nickname].MatchEntry+=Number(player["Match Entry Rate"]);
+                                overallPlayerStats[item][players.nickname].MatchEntryS+=Number(player["Match Entry Success Rate"]);
+                                overallPlayerStats[item][players.nickname].id = player.player_id;
+                                
+                            }
+                            else{
+                                if (!overallPlayerStats[team][player.nickname]){
+                                    overallPlayerStats[team][player.nickname] = {EntryC: 0, EntryW: 0, FirstK: 0, MatchEntry: 0, MatchEntryS: 0, id: null};
+
+                                }
+                          
+                                overallPlayerStats[team][player.nickname].EntryC +=Number(player.player_stats["Entry Count"]);
+                                overallPlayerStats[team][player.nickname].EntryW+=Number(player.player_stats["Entry Wins"]);
+                                overallPlayerStats[team][player.nickname].FirstK+=Number(player.player_stats["First Kills"]);
+                                overallPlayerStats[team][player.nickname].MatchEntry+=Number(player.player_stats["Match Entry Rate"]);
+                                overallPlayerStats[team][player.nickname].MatchEntryS+=Number(player.player_stats["Match Entry Success Rate"]);
+
+
+
+
+                                overallPlayerStats[team][player.nickname].id = player.player_id;
+                            }
+                            
+                        
+                            
+                        }
+                    })
+                })
+            })
+            if(teamnum === 1){
+                teamnum = -1;
+            }
+        
+        
+    })
+   
+    let teamcounter = 0;
+    //console.log(overallPlayerStats);
+    for (let team in overallPlayerStats){
+        teamcounter++;
+        
+
+        for (let player in overallPlayerStats[team]){
+            //console.log(amountofgames);
+            if (document.getElementById(player)){
+                //document.getElementById(player).remove
+                if(document.getElementById(player).querySelector("#INFOLOL")){
+                    document.getElementById(player).querySelector("#INFOLOL").remove();
+    
+                }
+                if(document.getElementById(player).querySelector("#fishking")){
+                    document.getElementById(player).querySelector("#fishking").remove();
+    
+                }
+            }
+        
+            let encompassinginfodivider = document.createElement("div");
+            encompassinginfodivider.id = "INFOLOL";
+            encompassinginfodivider.style.transform = "translateY(-50px)";
+            if(isOverallLeaderboard && !goingbacktooriginal){
+                encompassinginfodivider.style.transform = "translateY(-52px)";
+            }
+
+            let EntryC = document.createElement("div");
+            EntryC.innerHTML = "Entry Count : <span class = blue2>"+overallPlayerStats[team][player].EntryC+"</span>";
+            EntryC.classList.add("infothing");
+            encompassinginfodivider.appendChild(EntryC);
+    
+            let EntryW = document.createElement("div");
+            EntryW.innerHTML = "Entry Wins : <span class = green2>"+overallPlayerStats[team][player].EntryW+"</span>";
+            EntryW.classList.add("infothing");
+            encompassinginfodivider.appendChild(EntryW);
+
+            let FirstK = document.createElement("div");
+            FirstK.innerHTML = "First Kills : <span class = green2>"+overallPlayerStats[team][player].FirstK+"</span>";
+            FirstK.classList.add("infothing");
+            encompassinginfodivider.appendChild(FirstK);
+
+            let MatchRate = document.createElement("div");
+            MatchRate.innerHTML = "Match Entry Rate : <span class = yellow2>"+parseFloat(overallPlayerStats[team][player].MatchEntry.toFixed(2))+"</span>";
+            MatchRate.classList.add("infothing");
+            encompassinginfodivider.appendChild(MatchRate);
+            //MatchRate.style.transform = "translate(190px,-36px)";
+
+            let matchrateS = document.createElement("div");
+            matchrateS.innerHTML = "Match Entry Success Rate : <span class = green2>"+parseFloat(overallPlayerStats[team][player].MatchEntryS.toFixed(2))+"</span>";
+            matchrateS.classList.add("infothing");
+            encompassinginfodivider.appendChild(matchrateS);
+           // matchrateS.style.transform = "translate(190px,-36px)";
+            
+
+
+            //console.log( overallPlayerStats[team][player]);
+            if (!isOverallLeaderboard){
+                var allInfos = encompassinginfodivider.querySelectorAll(".infothing");
+                
+                for (var infos of allInfos){
+                   // infos.style.transform = "translate(85px,0px)";
+                    infos.style.opacity = "1";
+                    
+                }
+                
+            }
+
+
+       // console.log  (encompassinginfodivider);
+       if(document.getElementById(player)){
+        document.getElementById(player).insertBefore(encompassinginfodivider, document.getElementById(player).querySelector(".TEAMPFPNAME"));
+        document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
+       }
+
+        }
+        
+    }
+    document.querySelectorAll(".infothing").forEach(el =>{el.style.opacity = "1"});
+    document.getElementById("EntryInfo").onclick = function(){
+        document.getElementById("EntryInfo").classList.remove("selected")
+        console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
+        if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
+            overallLeaderboard(matchinfo,true,true,false,true);
+
+        }
+        else if(document.getElementById("TeamNameDoc").style.backgroundColor === "white"){
+            overallLeaderboard(matchinfo,true,false,true);
+
+        }
+
+        else{
+            overallLeaderboard(matchinfo,true,true,false,true);
+
+
+        }
+        document.querySelectorAll(".infothing").forEach(el=>{el.style.opacity = "1"});
+        document.querySelectorAll("#fishking").forEach(el=>{el.style.opacity = "1 "});
+    };
+    
+
+}
+function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
+    var matchobject = matchinfo;
+    console.log("RUNNINGGGGG");
+    if (isOverallLeaderboard){
+        matchobject = matchinfo.PlayerStats;
+        
+    }
+
+    console.log(matchobject);
+    var overallPlayerStats = {};
+    let teamnum = -1;
+    let amountofgames = 0;
+    Object.keys(matchobject).forEach(item =>{
+                
+        //console.log(item);
+            amountofgames++;
+            
+            var item1 = matchobject[item];
+           // console.log(matchinfo);
+            
+            Object.keys(item1).forEach(team =>{
+                //console.log("wtafdasdsad");
+                //console.log(team);
+                //console.log(item1[team]);
+                teamnum++;
+                if(isOverallLeaderboard){
+                    if (!overallPlayerStats[team]){
+                        overallPlayerStats[team] = {};
+                    }
+                }
+                else{
+                    if (!overallPlayerStats[item]){
+                        overallPlayerStats[item] = {};
+                    }
+                }
+
+                Object.keys(item1[team]).forEach(player=>{
+                    
+                    var team1 = item1[team];
+                    var players = team1[player];
+                    //console.log(players);
+                    //console.log(team);
+                    //console.log(players.nickname);
+                    Object.keys(players).forEach(plyr=>{
+                        //console.log(plyr);
+                        var player = players[plyr];
+                        if (typeof player === "string"){
+                            return;
+                        }
+                        else{
+                            //this is every single player.
+                            //STATS I NEED:   KILLS   DEATHS   ASSISTS   ADR   MVPs   HEADSHOTS
+                            
+                        // console.log(player.nickname);
+                            
+
+                            //console.log(players);
+                            if(!isOverallLeaderboard){
+                                if (!overallPlayerStats[item][players.nickname]){
+                                    overallPlayerStats[item][players.nickname] = {FlashC: 0, FlashS: 0, EnemyFlash: 0, EnemyFlashMatch: 0, UtilC: 0, UtilityUse:0, UtilDam:0, UtilS: 0, UtilDamPerRoundMatch: 0, UtilDamSPerMatch: 0, id: null};
+                                
+                                }
+                                overallPlayerStats[item][players.nickname].FlashC +=Number(player["Flash Count"]);
+                                overallPlayerStats[item][players.nickname].FlashS+=Number(player["Entry Wins"]);
+                                overallPlayerStats[item][players.nickname].EnemyFlash+=Number(player["First Kills"]);
+                                overallPlayerStats[item][players.nickname].EnemyFlashMatch+=Number(player["Enemies Flashed per Round in a Match"]);
+                                overallPlayerStats[item][players.nickname].UtilC+=Number(player["Utility Count"]);
+                                overallPlayerStats[item][players.nickname].UtilityUse+=Number(player["Utility Usage per Round"]);
+                                overallPlayerStats[item][players.nickname].UtilDam+=Number(player["Utility Damage"]);
+                                overallPlayerStats[item][players.nickname].UtilDamPerRoundMatch+=Number(player["Utility Damage per Round in a Match"]);
+                                overallPlayerStats[item][players.nickname].UtilS+=Number(player["Utility Success Rate per Match"]);
+                                overallPlayerStats[item][players.nickname].id = player.player_id;
+                                
+                            }
+                            else{
+                                if (!overallPlayerStats[team][player.nickname]){
+                                    overallPlayerStats[team][player.nickname] = {FlashC: 0, FlashS: 0, EnemyFlash: 0, EnemyFlashMatch: 0, UtilC: 0, UtilityUse:0, UtilDam:0, UtilS: 0, UtilDamPerRoundMatch: 0, UtilDamSPerMatch: 0, id: null};
+
+                                }
+                          
+                                overallPlayerStats[team][player.nickname].FlashC +=Number(player.player_stats["Flash Count"]);
+                                overallPlayerStats[team][player.nickname].FlashS+=Number(player.player_stats["Flash Successes"]);
+                                overallPlayerStats[team][player.nickname].EnemyFlash+=Number(player.player_stats["Enemies Flashed"]);
+                                overallPlayerStats[team][player.nickname].EnemyFlashMatch+=Number(player.player_stats["Enemies Flashed per Round in a Match"]);
+                                overallPlayerStats[team][player.nickname].UtilC+=Number(player.player_stats["Utility Count"]);
+                                overallPlayerStats[team][player.nickname].UtilityUse+=Number(player.player_stats["Utility Usage per Round"]);
+                                overallPlayerStats[team][player.nickname].UtilDam+=Number(player.player_stats["Utility Damage"]);
+                                overallPlayerStats[team][player.nickname].UtilDamPerRoundMatch+=Number(player.player_stats["Utility Damage per Round in a Match"]);
+                                overallPlayerStats[team][player.nickname].UtilS+=Number(player.player_stats["Utility Success Rate per Match"]);
+
+
+
+
+
+                                overallPlayerStats[team][player.nickname].id = player.player_id;
+                            }
+                            
+                        
+                            
+                        }
+                    })
+                })
+            })
+            if(teamnum === 1){
+                teamnum = -1;
+            }
+        
+        
+    })
+   
+    let teamcounter = 0;
+    //console.log(overallPlayerStats);
+    for (let team in overallPlayerStats){
+        teamcounter++;
+        
+
+        for (let player in overallPlayerStats[team]){
+            //console.log(amountofgames);
+            if (document.getElementById(player)){
+                //document.getElementById(player).remove
+                if(document.getElementById(player).querySelector("#INFOLOL")){
+                    document.getElementById(player).querySelector("#INFOLOL").remove();
+    
+                }
+                if(document.getElementById(player).querySelector("#fishking")){
+                    document.getElementById(player).querySelector("#fishking").remove();
+    
+                }
+            }
+        
+            let encompassinginfodivider = document.createElement("div");
+            encompassinginfodivider.id = "INFOLOL";
+            encompassinginfodivider.style.transform = "translateY(-50px)";
+            if(isOverallLeaderboard && !goingbacktooriginal){
+                encompassinginfodivider.style.transform = "translateY(-52px)";
+            }
+            let UtilC = document.createElement("div");
+            UtilC.innerHTML = "Utility Count : <span class = blue2>"+overallPlayerStats[team][player].UtilC+"</span>";
+            UtilC.classList.add("infothing");
+            encompassinginfodivider.appendChild(UtilC);
+            //UtilC.style.transform = "translate(235px,-36px)";
+
+            let UtilS = document.createElement("div");
+            UtilS.innerHTML = "Utility Success : <span class = green2>"+parseFloat(overallPlayerStats[team][player].UtilS.toFixed(2))+"</span>";
+            UtilS.classList.add("infothing");
+            encompassinginfodivider.appendChild(UtilS);
+            //UtilS.style.transform = "translate(235px,-36px)";
+
+            let UtilUse = document.createElement("div");
+            UtilUse.innerHTML = "Utility Usage : <span class = blue2>"+overallPlayerStats[team][player].UtilityUse+"</span>";
+            UtilUse.classList.add("infothing");
+            encompassinginfodivider.appendChild(UtilUse);
+           // UtilUse.style.transform = "translate(235px,-36px)";
+
+            let UtilDam = document.createElement("div");
+            UtilDam.innerHTML = "Utility Damage : <span class = orange2>"+overallPlayerStats[team][player].UtilDam+"</span>";
+            UtilDam.classList.add("infothing");
+            encompassinginfodivider.appendChild(UtilDam);
+           // UtilDam.style.transform = "translate(235px,-36px)";
+
+            let Utildammatch = document.createElement("div");
+            Utildammatch.innerHTML = "Utility Damage per Round : <span class = green2>"+parseFloat(overallPlayerStats[team][player].UtilDamPerRoundMatch.toFixed(2))+"</span>";
+            Utildammatch.classList.add("infothing");
+            encompassinginfodivider.appendChild(Utildammatch);
+            //Utildammatch.style.transform = "translate(235px,-36px)";
+
+            let FlashC = document.createElement("div");
+            FlashC.innerHTML = "Flash Count : <span class = blue2>"+overallPlayerStats[team][player].FlashC+"</span>";
+            FlashC.classList.add("infothing");
+            encompassinginfodivider.appendChild(FlashC);
+            FlashC.style.transform = "translate(223px,-60px)";
+
+            let FlashS = document.createElement("div");
+            FlashS.innerHTML = "Flash Successes : <span class = green2>"+overallPlayerStats[team][player].FlashS+"</span>";
+            FlashS.classList.add("infothing");
+            encompassinginfodivider.appendChild(FlashS);
+            FlashS.style.transform = "translate(204px,-60px)";
+
+            let EnemyFlash = document.createElement("div");
+            EnemyFlash.innerHTML = "Enemies Flashed : <span class = green2>"+overallPlayerStats[team][player].EnemyFlash+"</span>";
+            EnemyFlash.classList.add("infothing");
+            encompassinginfodivider.appendChild(EnemyFlash);
+            EnemyFlash.style.transform = "translate(201px,-60px)";
+
+            let EnemyFlashMatch = document.createElement("div");
+            EnemyFlashMatch.innerHTML = "Enemies Flashed per Round : <span class = yellow2>"+parseFloat(overallPlayerStats[team][player].EnemyFlashMatch.toFixed(2))+"</span>";
+            EnemyFlashMatch.classList.add("infothing");
+            encompassinginfodivider.appendChild(EnemyFlashMatch);
+            EnemyFlashMatch.style.transform = "translate(90px,-35px)";
+            //MatchRate.style.transform = "translate(190px,-36px)";
+
+            
+
+
+            //console.log( overallPlayerStats[team][player]);
+            if (!isOverallLeaderboard){
+                var allInfos = encompassinginfodivider.querySelectorAll(".infothing");
+                
+                for (var infos of allInfos){
+                   // infos.style.transform = "translate(85px,0px)";
+                    infos.style.opacity = "1";
+                    
+                }
+                
+            }
+
+
+       // console.log  (encompassinginfodivider);
+       if(document.getElementById(player)){
+        document.getElementById(player).insertBefore(encompassinginfodivider, document.getElementById(player).querySelector(".TEAMPFPNAME"));
+        document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
+       }
+
+        }
+        
+    }
+    document.querySelectorAll(".infothing").forEach(el =>{el.style.opacity = "1"});
+    document.getElementById("UtilityInfo").onclick = function(){
+        document.getElementById("UtilityInfo").classList.remove("selected")
+        console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
+        if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
+            overallLeaderboard(matchinfo,true,true,false,true);
+
+        }
+        else if(document.getElementById("TeamNameDoc").style.backgroundColor === "white"){
             overallLeaderboard(matchinfo,true,false,true);
 
         }
@@ -3250,6 +3896,8 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
 }
 function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal, ummm, DONTASKOKAY){
+    document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+
    // console.log("isOverallLeaderboard = "+isOverallLeaderboard);
    // console.log("goingbacktooriginal = "+goingbacktooriginal);
    // console.log("ummm = "+ummm);
@@ -3452,7 +4100,11 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
 
             actualname.innerHTML =  team+   `<span class = "${teamnamedoc.style.color}2">`+" "+(teamcounter === 1 ? matchinfo.score.substring(0,2) : matchinfo.score.substring(4));
             teamnamedoc.appendChild(actualname);
-            
+            if(document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){     
+                var imgag = document.getElementById("quickInfo").querySelector(".scoreinthescore").querySelector("#imgg").src;
+                teamnamedoc.style.backgroundImage  = `url(${imgag})`;
+                teamnamedoc.style.backgroundColor = "white";
+            }
             document.getElementById("BoardTeam"+teamcounter).appendChild(teamnamedoc);
             
 
@@ -3602,9 +4254,24 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
         if(DONTASKOKAY){
             fishking.style.transform = "translate(180px,-141px)";
             document.getElementById("damageInfo").onclick = function(){
-
-                document.getElementById("damageInfo").style.backgroundColor = "#303030";
+                document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                document.getElementById("damageInfo").classList.add("selected");
                 damageInfo(matchinfo,true,true);
+            };
+            document.getElementById("ClutchInfo").onclick = function(){
+                document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                document.getElementById("ClutchInfo").classList.add("selected");
+                ClutchInfo(matchinfo,true,true);
+            };
+            document.getElementById("EntryInfo").onclick = function(){
+                document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                document.getElementById("EntryInfo").classList.add("selected");
+                EntryInfo(matchinfo,true,true);
+            };
+            document.getElementById("UtilityInfo").onclick = function(){
+                document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                document.getElementById("UtilityInfo").classList.add("selected");
+                UtilityInfo(matchinfo,true,true);
             };
 
 
@@ -3617,9 +4284,24 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
 
             }
             document.getElementById("damageInfo").onclick = function(){
-
-                document.getElementById("damageInfo").style.backgroundColor = "#303030";
+                document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                document.getElementById("damageInfo").classList.add("selected");
                 damageInfo(matchinfo,false,true);
+            };
+            document.getElementById("ClutchInfo").onclick = function(){
+                document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                document.getElementById("ClutchInfo").classList.add("selected");
+                ClutchInfo(matchinfo,false,true);
+            };
+            document.getElementById("EntryInfo").onclick = function(){
+                document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                document.getElementById("EntryInfo").classList.add("selected");
+                EntryInfo(matchinfo,false,true);
+            };
+            document.getElementById("UtilityInfo").onclick = function(){
+                document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
+                document.getElementById("UtilityInfo").classList.add("selected");
+                UtilityInfo(matchinfo,false,true);
             };
 
         }

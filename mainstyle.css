@@ -80,7 +80,7 @@ body {
   position: absolute;
   color: rgb(255, 255, 255);
   filter: drop-shadow(3px 0px 1px #000000);
-  transform: translate(-680px,-415px);
+  transform: translate(-680px,-420px);
   font-size: 15px;
   font-family: 'Minecraftia', sans-serif;
 }
@@ -466,6 +466,8 @@ h3{
   filter: drop-shadow(2px 0px 2px black);
   opacity: 0;
   cursor: pointer;
+  transition: 1s;
+
 
 }
 #teamBackground{
@@ -473,6 +475,8 @@ h3{
   height: 280px;
   width: 1245px;
   filter: blur(1px);
+  transition: 1s;
+
  
 
 
@@ -633,6 +637,8 @@ transform: translateY(-120px);
   margin: 80px;
   filter: drop-shadow(.5px 0.5px 0.75px black);
   cursor: pointer;
+  width :75px;
+  height: 75px;
 }
 .TEAMPFPNAME{
   transform: translate(90px,-80px);
@@ -691,6 +697,7 @@ transform: translateY(-120px);
   position: absolute;
   transform: translateX(260px);
   opacity: 0;
+  transition: 1s;
   
 }
 #VS{
@@ -832,6 +839,10 @@ transform: translateY(-120px);
 .buttonz:hover{
   background-color: #444444;
   
+}
+/* Persistent "clicked" look */
+.buttonz.selected {
+  background-color: #303030;
 }
 .buttonz:active{
   background-color: #303030;
