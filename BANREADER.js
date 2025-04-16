@@ -208,13 +208,18 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
         teamPfp.src = datan.avatar;
         document.getElementById('h3').prepend(teamPfp);
     }
+    else{
+        teamPfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
+        document.getElementById('h3').prepend(teamPfp);
+    }
+    
     if (datan.cover_image != undefined){
 
         teamBackground.src = datan.cover_image;
        
     }
     else if(datan.cover_image == undefined || datan.cover_image == null || datan.cover_image === ""){
-
+        
         teamBackground.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
     }
 
@@ -355,22 +360,28 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
                         for (var stuff of document.querySelectorAll("#PLAYERDIVIDER")){
                             if (stuff.querySelector(".TEAMPFP").src === "https://atomicrecall.github.io/Cipher/images/gears.gif"){
                                 setTimeout(()=>{
-                                    stuff.querySelector(".TEAMPFPNAME").style.opacity = "0";
+                                    if(stuff.querySelector(".TEAMPFPNAME")){
+                                        stuff.querySelector(".TEAMPFPNAME").style.opacity = "0";
+                                        stuff.querySelector(".TEAMPFPNAME").style.fontSize = "11px";
+                                        stuff.querySelector(".TEAMPFPNAME").style.transform = "translate(10px,0px)";
+                                    }
+                                    
                                     stuff.querySelector(".TEAMPFP").style.opacity = "0";
-                                    stuff.querySelector(".TEAMPFPNAME").style.fontSize = "11px";
-                                    stuff.querySelector(".TEAMPFPNAME").style.transform = "translate(10px,0px)";
                                     stuff.querySelector(".TEAMPFP").style.height = "30px";
                                     stuff.querySelector(".TEAMPFP").style.margin = "0px";
                                     stuff.querySelector(".TEAMPFP").style.transform = "translate(10px,5px)";
                                     stuff.querySelector(".TEAMPFP").style.width = "30px";
-                                },1000);
+                                },500);
                             }
                             else{
-                                stuff.querySelector(".TEAMPFPNAME").style.opacity = "1";
+                                if(stuff.querySelector(".TEAMPFPNAME")){
+                                    stuff.querySelector(".TEAMPFPNAME").style.opacity = "1";
+                                    stuff.querySelector(".TEAMPFPNAME").style.fontSize = "11px";
+                                    stuff.querySelector(".TEAMPFPNAME").style.transform = "translate(10px,0px)";
+                                }
+                                
                                 stuff.querySelector(".TEAMPFP").style.opacity = "1";
                                 stuff.style.transform = "translateX(390px)";
-                                stuff.querySelector(".TEAMPFPNAME").style.fontSize = "11px";
-                                stuff.querySelector(".TEAMPFPNAME").style.transform = "translate(10px,0px)";
                                 stuff.querySelector(".TEAMPFP").style.height = "30px";
                                 stuff.querySelector(".TEAMPFP").style.margin = "0px";
                                 stuff.querySelector(".TEAMPFP").style.transform = "translate(10px,5px)";
@@ -379,7 +390,7 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
 
                         }
                     }
-                }, 2000);
+                }, 3000);
                 document.body.style.cursor = "auto";
                 
             }
@@ -446,7 +457,7 @@ function GetPlayerInfo(nick , iddd, div, callback){
                     if ( document.getElementById(nick) && document.getElementById(nick).querySelector("#INFOLOL") ){
                    
                         document.getElementById(nick).querySelector("#INFOLOL").style.opacity = "1";
-                        console.log(document.getElementById(nick))
+                       // console.log(document.getElementById(nick))
                     
                     //document.querySelectorAll("#fishking").forEach(el =>{el.style.opacity = "1"});
                 }
@@ -686,7 +697,7 @@ function GetPlayerInfo(nick , iddd, div, callback){
                     }
                 }
                 else if (!dividerclicked){
-                    window.open("https://www.faceit.com/en/players/"+player.nickname);
+                    window.open("https://www.faceit.com/en/players/"+nick);
                 }
                 
             }
@@ -1801,8 +1812,8 @@ function printToWebsite(dapicksanddabans, something){
     endingdivider.style.transform = "translateX(20px)";
     endingdivider.style.color = "white";
     matchesDivider.appendChild(endingdivider);
-    console.log(dapicksanddabans[dapicksanddabans.length-1].season);
-    console.log(wins+" // "+loss);
+    //console.log(dapicksanddabans[dapicksanddabans.length-1].season);
+    //console.log(wins+" // "+loss);
     let record = document.createElement("div");
     record.innerHTML = "| S"+(dapicksanddabans[dapicksanddabans.length-1].season)+'<span style="color: wheat;">'+" "+dapicksanddabans[dapicksanddabans.length-1].division+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
     if(document.getElementById("RECORDDD") && !something){document.getElementById("RECORDDD").appendChild(record)};
@@ -1825,12 +1836,14 @@ function printToWebsite(dapicksanddabans, something){
              createToggle(allInfoDivider);
             }
         }
-        if(THEFINALCOUNTERISWEAR === 1){
-            if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
+        var bool = true;
+        document.querySelectorAll("#label").forEach(el=>{if(Number(el.innerHTML.substring(1)) < 52)bool=false;});
+        if (THEFINALCOUNTERISWEAR === 1 || bool){
+                //console.log(THEFINALCOUNTERISWEAR +"= WHAT THE BALLS")
+                if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
                     setTimeout(() => {
-                        document.querySelectorAll("#buttonspan").forEach(el => el.remove());
-                        document.getElementById("vertigoo").remove();
-                        document.getElementById("verimage").remove();
+                        document.getElementById("vertigoo").style.opacity = "0";
+                        document.getElementById("verimage").style.opacity = "0";
                         document.getElementById("trainn").style.transform = "translate(470px,20px)";
                         document.getElementById("trainimage").style.transform = "translate(470px,20px)";
                     }, 10);
@@ -1838,7 +1851,18 @@ function printToWebsite(dapicksanddabans, something){
                 } else {
                    // console.log("vertigoo or verimage not found!");
                 }
-        }
+
+            }
+            else{
+                /*
+                setTimeout(() => {
+                    if(document.getElementById("trainn") && document.getElementById("trainimage")){
+                        document.getElementById("trainn").style.display = "none";
+                        document.getElementById("trainimage").style.display = "none";
+                    }
+                }, 10);
+                */
+            }
     }
     
     document.getElementById(".BanFileExplorer").appendChild(document.getElementById("rtrnBtn"));
@@ -2989,13 +3013,13 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
 
 function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     var matchobject = matchinfo;
-    console.log("RUNNINGGGGG");
+    //console.log("RUNNINGGGGG");
     if (isOverallLeaderboard){
         matchobject = matchinfo.PlayerStats;
         
     }
 
-    console.log(matchobject);
+   // console.log(matchobject);
     var overallPlayerStats = {};
     let teamnum = -1;
     let amountofgames = 0;
@@ -3338,13 +3362,13 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 }
 function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     var matchobject = matchinfo;
-    console.log("RUNNINGGGGG");
+    //console.log("RUNNINGGGGG");
     if (isOverallLeaderboard){
         matchobject = matchinfo.PlayerStats;
         
     }
 
-    console.log(matchobject);
+    //console.log(matchobject);
     var overallPlayerStats = {};
     let teamnum = -1;
     let amountofgames = 0;
@@ -3465,7 +3489,7 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
         
             let encompassinginfodivider = document.createElement("div");
             encompassinginfodivider.id = "INFOLOL";
-            encompassinginfodivider.style.opacity = "1";
+            encompassinginfodivider.style.opacity =  (document.getElementById(player).querySelector(".TEAMPFP").classList.contains("LOADING")) ? "0" : "1";
 
             encompassinginfodivider.style.transform = "translateY(-50px)";
             if(isOverallLeaderboard && !goingbacktooriginal){
@@ -3560,13 +3584,13 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 }
 function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     var matchobject = matchinfo;
-    console.log("RUNNINGGGGG");
+    //console.log("RUNNINGGGGG");
     if (isOverallLeaderboard){
         matchobject = matchinfo.PlayerStats;
         
     }
 
-    console.log(matchobject);
+    //console.log(matchobject);
     var overallPlayerStats = {};
     let teamnum = -1;
     let amountofgames = 0;
@@ -3681,7 +3705,7 @@ function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
         
             let encompassinginfodivider = document.createElement("div");
             encompassinginfodivider.id = "INFOLOL";
-            encompassinginfodivider.style.opacity = "1";
+            encompassinginfodivider.style.opacity =  (document.getElementById(player).querySelector(".TEAMPFP").classList.contains("LOADING")) ? "0" : "1"; 
 
             encompassinginfodivider.style.transform = "translateY(-50px)";
             if(isOverallLeaderboard && !goingbacktooriginal){
@@ -3734,7 +3758,7 @@ function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
   
     document.getElementById("EntryInfo").onclick = function(){
         document.getElementById("EntryInfo").classList.remove("selected")
-        console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
+       // console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
         if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
             overallLeaderboard(matchinfo,true,true,false,true);
 
@@ -3759,13 +3783,13 @@ function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 }
 function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     var matchobject = matchinfo;
-    console.log("RUNNINGGGGG");
+   // console.log("RUNNINGGGGG");
     if (isOverallLeaderboard){
         matchobject = matchinfo.PlayerStats;
         
     }
 
-    console.log(matchobject);
+   // console.log(matchobject);
     var overallPlayerStats = {};
     let teamnum = -1;
     let amountofgames = 0;
@@ -3889,7 +3913,7 @@ function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
         
             let encompassinginfodivider = document.createElement("div");
             encompassinginfodivider.id = "INFOLOL";
-            encompassinginfodivider.style.opacity = "1";
+            encompassinginfodivider.style.opacity =  (document.getElementById(player).querySelector(".TEAMPFP").classList.contains("LOADING")) ? "0" : "1"; 
 
             encompassinginfodivider.style.transform = "translateY(-50px)";
             if(isOverallLeaderboard && !goingbacktooriginal){
@@ -4233,7 +4257,7 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
             //console.log(overallPlayerStats[team][player].kills+" VS "+mostkils);
             if (overallPlayerStats[team][player].kills >= mostkils){
                 if(overallPlayerStats[team][player].kills === mostkils){
-                    console.log(overallPlayerStats[team][bestplayer].adr+" VS "+overallPlayerStats[team][player].adr);
+                    //console.log(overallPlayerStats[team][bestplayer].adr+" VS "+overallPlayerStats[team][player].adr);
                     if(overallPlayerStats[team][bestplayer].adr < overallPlayerStats[team][player].adr){
                         bestplayer = player;
                     }
@@ -4444,6 +4468,7 @@ var ILIEDLOLL = 3;
     imag.style.width = "30px";
     // Create a label element
     const label = document.createElement("label");
+    label.id = "label";
     label.style.cursor = "pointer";
     label.style.filter = "drop-shadow(1px 0px 1px #000000)";
     label.htmlFor = "c"+THEFINALCOUNTERISWEAR; // Associate the label with the checkbox
@@ -4458,16 +4483,15 @@ var ILIEDLOLL = 3;
     
     
     checkbox.addEventListener("click", () => {
-        
+
         if (checkbox.checked) {
             ILIEDLOLL-=1;
-            
-            if (label.textContent === "S52" || THEFINALCOUNTERISWEAR == 1 || label.textContent === "S53"){
+            if (Number(label.textContent.substring(1)) >= 52 || THEFINALCOUNTERISWEAR == 1){
                 //console.log(THEFINALCOUNTERISWEAR +"= WHAT THE BALLS")
                 if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
                     setTimeout(() => {
-                        document.getElementById("vertigoo").style.display = "none";
-                        document.getElementById("verimage").style.display = "none";
+                        document.getElementById("vertigoo").style.opacity = "0";
+                        document.getElementById("verimage").style.opacity = "0";
                         document.getElementById("trainn").style.transform = "translate(470px,20px)";
                         document.getElementById("trainimage").style.transform = "translate(470px,20px)";
                     }, 10);
@@ -4475,7 +4499,7 @@ var ILIEDLOLL = 3;
                 } else {
                    // console.log("vertigoo or verimage not found!");
                 }
-
+    
             }
             else{
                 setTimeout(() => {
@@ -4485,6 +4509,7 @@ var ILIEDLOLL = 3;
                     }
                 }, 10);
             }
+            
           label.style.color = "#0FFF50"; // Change text color
           label.style.fontSize = "30px"; // Change font size
           span.style.height = "45px";
@@ -4496,11 +4521,18 @@ var ILIEDLOLL = 3;
           lastbooleaniswear = true;
          // console.log("WTF1 "+ILIEDLOLL);
          //console.log(THEFINALCOUNTERISWEAR +"= OMGOMGOMOMGOMG");
-            if(THEFINALCOUNTERISWEAR == 1){
+         
+            
+
+        } else {
+            var bool = true;
+            document.querySelectorAll("#label").forEach(el=>{if(Number(el.innerHTML.substring(1)) < 52)bool=false;});
+            if (bool){
+                //console.log(THEFINALCOUNTERISWEAR +"= WHAT THE BALLS")
                 if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
                     setTimeout(() => {
-                        document.getElementById("vertigoo").remove();
-                        document.getElementById("verimage").remove();
+                        document.getElementById("vertigoo").style.opacity = "0";
+                        document.getElementById("verimage").style.opacity = "0";
                         document.getElementById("trainn").style.transform = "translate(470px,20px)";
                         document.getElementById("trainimage").style.transform = "translate(470px,20px)";
                     }, 10);
@@ -4508,10 +4540,12 @@ var ILIEDLOLL = 3;
                 } else {
                    // console.log("vertigoo or verimage not found!");
                 }
+    
+            }
+            else{
+
             }
 
-        } else {
-            
           ILIEDLOLL+=1;
           label.style.color = ""; // Reset text color
           label.style.fontSize = ""; // Reset font size
@@ -4534,17 +4568,7 @@ var ILIEDLOLL = 3;
                 DotheThing(newarray,false);
 
             }
-            if(THEFINALCOUNTERISWEAR == 1){
-               // console.log("UMMMMJGHKHKJSFHJKHSJHSDGJHKSDFHJKHDFJKGDHSJKHGSSJHDSFGJKH");
-                document.getElementById("vertigoo").remove();
-                document.getElementById("verimage").remove();
-                document.getElementById("trainn").style.transform = "translate(470px,20px)";
-                document.getElementById("trainimage").style.transform = "translate(470px,20px)";
-            }
-            else if (!label.textContent === "S52"){
-                document.getElementById("trainn").remove();
-                document.getElementById("trainimage").remove();
-            }
+            
           //document.getElementById("mtches").style.transform = "translate(-20px, -155px)";
           document.getElementById("allInfo").style.width = "480px";
         }
