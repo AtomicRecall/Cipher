@@ -461,7 +461,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
             var div = document.createElement('div');
             div.classList.add("divv");
-            
+
             if (wheretoadd == "yoursavedteamsdivider"){
                 removeElementsByClass("removemepls1");
                 div.id = "div"+d;
@@ -573,7 +573,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
             div.appendChild(avat);
             div.appendChild(Tmne);
             div.appendChild(pfpdiv);
-            console.log("POOP VAGINA "+dataalolfunny[d+1]);
+            
             var matchDateDiv = document.createElement("div");
             matchDateDiv.id = "matchDate"+d;
             matchDateDiv.classList.add("matchDate");
@@ -654,6 +654,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
 
             div.onmouseover = function(){
+                div.style.cursor = "pointer";
             Tmne.innerHTML = datan.name;
             div.style.transition = "2s";
             div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";
@@ -1064,6 +1065,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
 
             div.onmouseover = function(){
+                div.style.cursor = "pointer";
             Tmne.innerHTML = datan.name;
             div.style.transition = "2s";
             div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";

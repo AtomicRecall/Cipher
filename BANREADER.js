@@ -1,7 +1,8 @@
 console.log("one two three");
+document.body.style.cursor = "wait";
 var database = firebase.database();
 var THETEAMWEARESEARCHING = localStorage.getItem("THETEAMWEARESEARCHING");
-var currentseason = 51;
+var currentseason = 53;
 function removeElementsByClass(className) {
     let elements = document.getElementsByClassName(className);
     while(elements.length > 0) {
@@ -225,14 +226,17 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
 .then(() => {
 
     picksnbans.sort((a, b) => b.finished - a.finished);
+    
     //console.log("Matches sorted:");
     //console.log(picksnbans);
 
     removeElementsByClass("removemeplss");
     removeElementsByClass("divvv");
+    
     document.getElementById("h3").style.opacity = 1;
    
     printToWebsite(picksnbans, false);
+    document.body.style.cursor = "not-allowed";
     
 })
 .catch((error) => {
@@ -241,7 +245,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
 
 let lastClickTime = 0;
 const clickDelay = 500; // 500ms delay
-
+let shouldnotwork = false;
 function fetchLast5Players(matchid, rcursivecall,count, callback){
 
     const now = Date.now();
@@ -311,7 +315,7 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
         //console.log(datan12);
         //console.log(players);
         
-
+        var amountcreated = 0;
         for (const player of players){
             let playerdivider = document.createElement("div");
             playerdivider.id = "PLAYERDIVIDER";
@@ -319,15 +323,66 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
             bigplayerdivider.appendChild(playerdivider);
             bigplayerdivider.style.pointerEvents = "auto";
             document.getElementById("teambackgrounddiv").appendChild(bigplayerdivider);
-            if (document.getElementById("mtches").clicked) {
-                return; // Stop function if clicked
-            }
+
             if (player.nickname === "floridiot"){
                 player.nickname = "malders";
             }
-            GetPlayerInfo(player.nickname,player.player_id,playerdivider);
+  
 
+
+            GetPlayerInfo(player.nickname, player.player_id, playerdivider, () => {
+
+                amountcreated++;
                 
+                
+            if (amountcreated >= 5){
+                amountcreated = 0;
+                if(document.getElementById("allInfo").style.opacity === "0"){
+                    document.getElementById("EncompassingDivider").style.opacity = "1";
+
+                }
+                
+                setTimeout(() => {
+                    
+                    if(document.getElementById("allInfo").style.opacity === "0"){
+                        document.getElementById("WHOLEPLAYERDIVIDER").style.height = "50px";
+                        document.getElementById("WHOLEPLAYERDIVIDER").style.transform = "translate(0px,-60px)";
+                        document.getElementById("WHOLEPLAYERDIVIDER").style.gridAutoColumns = "min-content"; 
+                        document.getElementById("WHOLEPLAYERDIVIDER").style.gap = "60px";
+                        
+                        for (var stuff of document.querySelectorAll("#PLAYERDIVIDER")){
+                            if (stuff.querySelector(".TEAMPFP").src === "https://atomicrecall.github.io/Cipher/images/gears.gif"){
+                                setTimeout(()=>{
+                                    stuff.querySelector(".TEAMPFPNAME").style.opacity = "0";
+                                    stuff.querySelector(".TEAMPFP").style.opacity = "0";
+                                    stuff.querySelector(".TEAMPFPNAME").style.fontSize = "11px";
+                                    stuff.querySelector(".TEAMPFPNAME").style.transform = "translate(10px,0px)";
+                                    stuff.querySelector(".TEAMPFP").style.height = "30px";
+                                    stuff.querySelector(".TEAMPFP").style.margin = "0px";
+                                    stuff.querySelector(".TEAMPFP").style.transform = "translate(10px,5px)";
+                                    stuff.querySelector(".TEAMPFP").style.width = "30px";
+                                },1000);
+                            }
+                            else{
+                                stuff.querySelector(".TEAMPFPNAME").style.opacity = "1";
+                                stuff.querySelector(".TEAMPFP").style.opacity = "1";
+                                stuff.style.transform = "translateX(390px)";
+                                stuff.querySelector(".TEAMPFPNAME").style.fontSize = "11px";
+                                stuff.querySelector(".TEAMPFPNAME").style.transform = "translate(10px,0px)";
+                                stuff.querySelector(".TEAMPFP").style.height = "30px";
+                                stuff.querySelector(".TEAMPFP").style.margin = "0px";
+                                stuff.querySelector(".TEAMPFP").style.transform = "translate(10px,5px)";
+                                stuff.querySelector(".TEAMPFP").style.width = "30px";
+                            }
+
+                        }
+                    }
+                }, 2000);
+                document.body.style.cursor = "auto";
+                
+            }
+            });
+            
         }
         
     }
@@ -337,8 +392,8 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
     });
 }
 let counterrrr = 0;
-function GetPlayerInfo(nick , iddd, div){
-
+function GetPlayerInfo(nick , iddd, div, callback){
+    
     let pfp = document.createElement("img");
     pfp.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
     pfp.classList.add("TEAMPFP");
@@ -377,23 +432,32 @@ function GetPlayerInfo(nick , iddd, div){
                     name.style.transform = "translate(10px,-71px)";
                     div.style.backgroundColor = "#344A60";
                     div.style.filter = "drop-shadow(0px 0px 3px black)";
+                    
+
+                    if ( document.getElementById(nick) && document.getElementById(nick).querySelector("#fishking") ){
                    
-                    var allInfos = div.querySelectorAll(".infothing");
-                    for (var infos of allInfos){
-                       // infos.style.transform = "translate(85px,0px)";
-                        infos.style.opacity = "1";
+                            document.getElementById(nick).querySelector("#fishking").style.opacity = "1";
                         
+                        
+                        //document.querySelectorAll("#fishking").forEach(el =>{el.style.opacity = "1"});
                     }
-                    if ( document.querySelectorAll("#fishking")){
-                        document.querySelectorAll("#fishking").forEach(el =>{el.style.opacity = "1"});
-                    }
+                    if ( document.getElementById(nick) && document.getElementById(nick).querySelector("#INFOLOL") ){
+                   
+                        document.getElementById(nick).querySelector("#INFOLOL").style.opacity = "1";
+                        console.log(document.getElementById(nick))
+                    
+                    //document.querySelectorAll("#fishking").forEach(el =>{el.style.opacity = "1"});
+                }
+
                   
                 }
                 else{
+                    
                     pfp.style.width = "75px";
                     pfp.style.height = "75px";
+
                 }
-                
+                pfp.classList.remove("LOADING");
                 //throw new Error("couldnt fetcht");
 
             }
@@ -434,6 +498,8 @@ function GetPlayerInfo(nick , iddd, div){
                     pfp.src = data.avatar;
                     break;
             }
+            pfp.classList.remove("LOADING");
+
             switch(data.nickname){
                 case undefined:
                     name.innerHTML = " ";
@@ -449,7 +515,9 @@ function GetPlayerInfo(nick , iddd, div){
                     break;
             }
             pfp.style.pointerEvents = "auto";
-
+            if (document.getElementById("mtches").querySelectorAll(".gamediv").clicked) {
+                return; // Stop function if clicked
+            }
             let pic2 = document.createElement("img");
             let name2 = document.createElement("div");
 
@@ -463,14 +531,19 @@ function GetPlayerInfo(nick , iddd, div){
                 name.style.transform = "translate(10px,-71px)";
                 div.style.backgroundColor = "#344A60";
                 div.style.filter = "drop-shadow(0px 0px 3px black)";
-                var allInfos = div.querySelectorAll(".infothing");
-                for (var infos of allInfos){
-                    //infos.style.transform = "translate(100px,-55px)";
-                    infos.style.opacity = "1";
-                    
+
+                if ( document.getElementById(nick)){
+                    if(document.getElementById(nick).querySelector("#fishking")){
+                        document.getElementById(nick).querySelector("#fishking").style.opacity = "1";
+
+                    }
                 }
-                if ( document.getElementById(nick).querySelector("#fishking")){
-                    document.getElementById(nick).querySelector("#fishking").style.opacity = "1";
+                if ( document.getElementById(nick) && document.getElementById(nick).querySelector("#INFOLOL") ){
+                   
+                    document.getElementById(nick).querySelector("#INFOLOL").style.opacity = "1";
+                    
+                
+                //document.querySelectorAll("#fishking").forEach(el =>{el.style.opacity = "1"});
                 }
 
             }
@@ -630,6 +703,14 @@ function GetPlayerInfo(nick , iddd, div){
             
             
         });
+
+        if(callback){
+            setTimeout(() => {
+                // Do something...
+                callback(); // call when done
+            }, 10);
+        }
+        
 
 }
 // Function to recursively fetch match history for the leader
@@ -1017,7 +1098,7 @@ var doitonlyonce = true;
 let wins = 0;
 let loss = 0;
 function printToWebsite(dapicksanddabans, something){
-   
+    document.body.style.cursor = "auto";
     document.getElementById("teambackgrounddiv").style.opacity = "1";
 
     
@@ -1150,6 +1231,12 @@ function printToWebsite(dapicksanddabans, something){
         }
 
         coun = coun + 1;
+        if((d+1) < dapicksanddabans.length){  
+            if(dapicksanddabans[d+1].season < tempor){
+                coun = 0;
+                tempor = dapicksanddabans[d+1].season;
+            }
+        }
        // console.log(dapicksanddabans[d].winnerID\)
         if(dapicksanddabans[d].winnerID === THETEAMWEARESEARCHING){
             score.style.color = 'chartreuse';
@@ -1413,13 +1500,7 @@ function printToWebsite(dapicksanddabans, something){
         gamediv.appendChild(somanymaps);
         gamediv.appendChild(score);
 
-        //what the fuck???
-       if((d+1) < dapicksanddabans.length){
-        if ((dapicksanddabans[d+1]!= undefined) && (dapicksanddabans[d+1].season == tempor-1 || dapicksanddabans[d+1].season == tempor)){
-            coun = 0;
-            tempor = tempor - 1;
-        }
-       }
+
        matchesDivider.appendChild(gamediv);
        
 
@@ -1717,7 +1798,11 @@ function printToWebsite(dapicksanddabans, something){
     endingdivider.style.transform = "translateX(20px)";
     endingdivider.style.color = "white";
     matchesDivider.appendChild(endingdivider);
-
+    console.log(dapicksanddabans[dapicksanddabans.length-1].season);
+    console.log(wins+" // "+loss);
+    let record = document.createElement("div");
+    record.innerHTML = "| S"+(dapicksanddabans[dapicksanddabans.length-1].season)+'<span style="color: wheat;">'+" "+dapicksanddabans[dapicksanddabans.length-1].division+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
+    document.getElementById("RECORDDD").appendChild(record);
     if(something){
         document.getElementById(".BanFileExplorer").insertBefore(matchesDivider, document.getElementById(".BanFileExplorer").firstChild);
         document.getElementById(".BanFileExplorer").insertBefore(quickInfoDivider, document.getElementById(".BanFileExplorer").firstChild);
@@ -1756,9 +1841,6 @@ function printToWebsite(dapicksanddabans, something){
     document.getElementById(".BanFileExplorer").appendChild(document.getElementById("rtrnBtn"));
     let info = document.createElement("div");
     info.id = "BANINFOMAN";
-                       
-                    //info.style.transform = "translateY(190px)"
-   
     info.style.fontSize = "20px";
     info.style.webkitFilter = "drop-shadow(1px 1px 0.1px black)";
     let shouldbeoff = false;
@@ -1768,7 +1850,15 @@ function printToWebsite(dapicksanddabans, something){
 
 
             document.getElementById("game"+d).onclick = function(){
-   
+                document.body.style.cursor = "not-allowed";
+                document.getElementById("quickInfo").style.transform = "translate(260px,50px)";
+                document.getElementById("teambackgrounddiv").style.height = "50px";
+                document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "50px";
+                document.getElementById("h3").querySelector("#teamPfp").style.height = "30px";
+                document.getElementById("h3").querySelector("#teamPfp").style.width = "30px";
+                document.getElementById("h3").style.transform = "translate(300px,-40px)";
+                
+
                 moreclicks++;
                 //console.log("divider clicked "+moreclicks+" clicks");
                 dividerclicked = !dividerclicked;
@@ -1776,8 +1866,10 @@ function printToWebsite(dapicksanddabans, something){
                 
 
                 if (document.getElementById("EncompassingDivider")){
-                    document.getElementById("EncompassingDivider").style.opacity = 0;
                     document.getElementById("EncompassingDivider").remove();
+                }
+                if (document.getElementById("WHOLEPLAYERDIVIDER")){
+                    document.getElementById("WHOLEPLAYERDIVIDER").remove();
                 }
                 if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
                     document.querySelectorAll(".scoreinthescore").forEach(el=>{el.style.filter = ""})
@@ -1791,9 +1883,8 @@ function printToWebsite(dapicksanddabans, something){
                 let reverseclick = false;
 
                 if(dividerclicked && moreclicks > 0){
+                    document.getElementById("allInfo").style.transition = ".3s";
 
-
-                    
                     //create LeaderBoard
                     createpicturesonce = true;
                     createLeaderBoard(dapicksanddabans[d],true);
@@ -1861,10 +1952,11 @@ function printToWebsite(dapicksanddabans, something){
                             if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
                                 return;
                             }
-                            var allButtons = document.getElementById("ButtonsDivider").querySelectorAll(".buttonz");
-                            allButtons.forEach(el =>{el.classList.remove("selected")});
+                            document.getElementById("ButtonsDivider").querySelectorAll(".buttonz").forEach(el =>{el.classList.remove("selected")});;
+                            document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').forEach(el =>{el.style.filter = ""});
                             scoreclicked = !scoreclicked;
                             if(scoreclicked){
+
                                 score.style.filter = "drop-shadow(1px 1px 5px orange)";
                                 //console.log(score);
                                 var teamcounttt = 0;
@@ -1903,7 +1995,7 @@ function printToWebsite(dapicksanddabans, something){
                                  if (document.querySelectorAll("#fishking")){
                                     document.querySelectorAll("#fishking").forEach(el=>{el.remove()});
                                 }
-
+                    
                                 overallLeaderboard(dapicksanddabans[d].PlayerStats["GAME"+(Number(score.id))],false,false,false,true);
 
                                 document.getElementById("damageInfo").onclick = function(){
@@ -1928,6 +2020,7 @@ function printToWebsite(dapicksanddabans, something){
                                 };
                             }
                            else if (!scoreclicked){
+
                             score.style.filter = "drop-shadow(1px 1px 5px white)";
                                 //if no scores are clicked, the onclick will do this
                                 var allteamnames = document.querySelectorAll("#TeamNameDoc");
@@ -1981,17 +2074,14 @@ function printToWebsite(dapicksanddabans, something){
                                     document.getElementById("UtilityInfo").classList.add("selected");
                                     UtilityInfo(dapicksanddabans[d],true,true);
                                 };
-                                var allInfos = document.querySelectorAll(".infothing");
-                                for (var infos of allInfos){
-                                // infos.style.transform = "translate(85px,0px)";
-                                    infos.style.opacity = "1";
-                                    
-                                }
-                                var allscores = document.querySelectorAll(".scoreinthescore");
+
+
+                                
 
 
                                 
                             }
+                            /*
                             if (document.querySelectorAll("#fishking")){
                                     
                                 document.querySelectorAll("#fishking").forEach(el=>{
@@ -1999,6 +2089,7 @@ function printToWebsite(dapicksanddabans, something){
                                     el.style.transform = "translate(180px, -141px)";
                                     });
                             }
+                                    */
                             var allscores = document.querySelectorAll(".scoreinthescore");
                             for (var scorez of allscores){
                                 scorez.style.filter = " ";
@@ -2027,6 +2118,10 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("tm2pfp").style.transform = "translate(-275px,30px)";
 
                     
+                    
+
+
+
 
 
                 }
@@ -2066,12 +2161,19 @@ function printToWebsite(dapicksanddabans, something){
                     
                 }
                  if (moreclicks > 1){
+                    document.getElementById("quickInfo").style.transform = "translate(260px,280px)";
+                    document.getElementById("teambackgrounddiv").style.height = "280px";
+                    document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "280px";
+                    document.getElementById("h3").querySelector("#teamPfp").style.height = "30px";
+                    document.getElementById("h3").querySelector("#teamPfp").style.width = "30px";
+                    document.getElementById("h3").style.transform = "translate(600px,-40px)";
                     if (document.getElementById("WHOLEPLAYERDIVIDER")){
                         document.getElementById("WHOLEPLAYERDIVIDER").remove();
                     }
                     //console.log("running fetchlast5 from firstmatch id");
                     fetchLast5Players(firstMatchID,true);
                     //console.log("changing visibility");
+                    document.getElementById("allInfo").style.transition = "1s";
                     document.getElementById("allInfo").style.opacity = "1";
 
                     if (document.getElementById("RECORDDD")){
@@ -2091,7 +2193,6 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("tm2pfp").style.transform = "translate(-200px, 80px)";
                     document.getElementById("BANINFOMAN").style.fontSize = "20px";
                     document.getElementById("BANINFOMAN").style.transform = "translateY(0px)";
-                    //document.getElementById("highlightedplayerdiv").style.opacity = "0";
                     document.getElementById("VS").style.transform = "translate(215px,-180px)";
                     document.getElementById("VS").style.fontSize = "50px";
                     document.querySelectorAll(".scoreinthescore").forEach(el => el.style.transform = "translate(365px,-158px)");
@@ -2099,6 +2200,10 @@ function printToWebsite(dapicksanddabans, something){
 
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px white)";
                     moreclicks = 0;
+                }
+                if(document.getElementById("EncompassingDivider")){
+                    document.getElementById("EncompassingDivider").style.transform = "translate(755px,-718px)";
+
                 }
   
             }
@@ -2113,6 +2218,7 @@ function printToWebsite(dapicksanddabans, something){
                 }
                 else{
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px white)";
+                    //document.getElementById("game"+d).style.cursor = "pointer";
                 }
                         
                         
@@ -3008,6 +3114,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
         for (let player in overallPlayerStats[team]){
             //console.log(amountofgames);
             if (document.getElementById(player)){
+
                 //document.getElementById(player).remove
                 if(document.getElementById(player).querySelector("#INFOLOL")){
                     document.getElementById(player).querySelector("#INFOLOL").remove();
@@ -3030,11 +3137,11 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
             //console.log(document.getElementById(player));
             let encompassinginfodivider = document.createElement("div");
             encompassinginfodivider.id = "INFOLOL";
+            encompassinginfodivider.style.opacity = (document.getElementById(player).querySelector(".TEAMPFP").classList.contains("LOADING")) ? "0" : "1"; 
             encompassinginfodivider.style.transform = "translateY(-50px)";
             if(isOverallLeaderboard && !goingbacktooriginal){
                 encompassinginfodivider.style.transform = "translateY(-52px)";
             }
-
             let kills = document.createElement("div");
             kills.innerHTML = "KILLS : <span class = green2>"+overallPlayerStats[team][player].kills+"</span>";
             kills.classList.add("infothing");
@@ -3073,22 +3180,22 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
             KD.innerHTML = "K/D : <span class = orange2>"+overallPlayerStats[team][player].KD.toFixed(2)+"</span>";
             KD.classList.add("infothing");
             encompassinginfodivider.appendChild(KD);
-            KD.style.transform = "translate(150px,-55px)";
+            KD.style.transform = "translate(155px,-55px)";
             let KR = document.createElement("div");
             KR.innerHTML = "K/R : <span class = orange2>"+overallPlayerStats[team][player].KR.toFixed(2)+"</span>";
             KR.classList.add("infothing");
             encompassinginfodivider.appendChild(KR);
-            KR.style.transform = "translate(150px,-55px)";
+            KR.style.transform = "translate(155px,-55px)";
             //(isOverallLeaderboard) ? document.getElementById(player).appendChild(mvps) : encompassingpicturedivider.appendChild(mvps);
             let headshots = document.createElement("div");
             headshots.innerHTML = "HS : <b>"+overallPlayerStats[team][player].headshots+"</b>";
             headshots.classList.add("infothing");
-            headshots.style.transform = "translate(150px,-55px)";
+            headshots.style.transform = "translate(155px,-55px)";
             encompassinginfodivider.appendChild(headshots);
             let headshotpercent = document.createElement("div");
             headshotpercent.innerHTML = "HS % : <b>"+overallPlayerStats[team][player].headshotpercent+"</b>";
             headshotpercent.classList.add("infothing");
-            headshotpercent.style.transform = "translate(150px,-55px)";
+            headshotpercent.style.transform = "translate(155px,-55px)";
             //document.getElementById(player).insertBefore(headshots,document.getElementById(player).firstChild);
             //document.getElementById(player).prepend(headshots);
             encompassinginfodivider.appendChild(headshotpercent);
@@ -3180,31 +3287,24 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
 
             //console.log( overallPlayerStats[team][player]);
-            if (!isOverallLeaderboard){
-                var allInfos = encompassinginfodivider.querySelectorAll(".infothing");
-                
-                for (var infos of allInfos){
-                   // infos.style.transform = "translate(85px,0px)";
-                    infos.style.opacity = "1";
-                    
-                }
-                
-            }
+
 
 
        // console.log  (encompassinginfodivider);
        if(document.getElementById(player)){
         document.getElementById(player).insertBefore(encompassinginfodivider, document.getElementById(player).querySelector(".TEAMPFPNAME"));
-        document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
+        if (document.getElementById(player).querySelector(".TEAMPFPNAME")){
+            document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
+        }
        }
 
         }
         
     }
-    document.querySelectorAll(".infothing").forEach(el =>{el.style.opacity = "1"});
+
+
     document.getElementById("damageInfo").onclick = function(){
         document.getElementById("damageInfo").classList.remove("selected");
-        console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
         if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
             overallLeaderboard(matchinfo,true,true,false,true);
 
@@ -3220,8 +3320,10 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
         }
         
-        document.querySelectorAll(".infothing").forEach(el=>{el.style.opacity = "1"});
+        
+        /*
         document.querySelectorAll("#fishking").forEach(el=>{el.style.opacity = "1 "});
+        */
     };
     
 
@@ -3355,6 +3457,8 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
         
             let encompassinginfodivider = document.createElement("div");
             encompassinginfodivider.id = "INFOLOL";
+            encompassinginfodivider.style.opacity = "1";
+
             encompassinginfodivider.style.transform = "translateY(-50px)";
             if(isOverallLeaderboard && !goingbacktooriginal){
                 encompassinginfodivider.style.transform = "translateY(-52px)";
@@ -3379,19 +3483,19 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
             TWOW.innerHTML = "1v2 Wins : <span class = green2>"+overallPlayerStats[team][player].TWOW+"</span>";
             TWOW.classList.add("infothing");
             encompassinginfodivider.appendChild(TWOW);
-            TWOW.style.transform = "translate(235px,-36px)";
+            TWOW.style.transform = "translate(235.5px,-33px)";
 
             let TWOC = document.createElement("div");
             TWOC.innerHTML = "1v2 Count : <span class = blue22>"+overallPlayerStats[team][player].TWOC+"</span>";
             TWOC.classList.add("infothing");
             encompassinginfodivider.appendChild(TWOC);
-            TWOC.style.transform = "translate(235px,-36px)";
+            TWOC.style.transform = "translate(232.3px,-33px)";
 
             let TWOWR = document.createElement("div");
             TWOWR.innerHTML = "1v2 Win Rate : <span class = yellow2>"+overallPlayerStats[team][player].TWOWR+"</span>";
             TWOWR.classList.add("infothing");
             encompassinginfodivider.appendChild(TWOWR);
-            TWOWR.style.transform = "translate(220px,-36px)";
+            TWOWR.style.transform = "translate(218px,-33px)";
 
             let CLUTCHK = document.createElement("div");
             CLUTCHK.innerHTML = "Clutch Kills: <span class = orange2>"+overallPlayerStats[team][player].CLUTCHK+"</span>";
@@ -3408,28 +3512,20 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
 
             //console.log( overallPlayerStats[team][player]);
-            if (!isOverallLeaderboard){
-                var allInfos = encompassinginfodivider.querySelectorAll(".infothing");
-                
-                for (var infos of allInfos){
-                   // infos.style.transform = "translate(85px,0px)";
-                    infos.style.opacity = "1";
-                    
-                }
-                
-            }
+
 
 
        // console.log  (encompassinginfodivider);
        if(document.getElementById(player)){
         document.getElementById(player).insertBefore(encompassinginfodivider, document.getElementById(player).querySelector(".TEAMPFPNAME"));
-        document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
-       }
+        if (document.getElementById(player).querySelector(".TEAMPFPNAME")){
+            document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
+        }       }
 
         }
         
     }
-    document.querySelectorAll(".infothing").forEach(el =>{el.style.opacity = "1"});
+    
     document.getElementById("ClutchInfo").onclick = function(){
         document.getElementById("ClutchInfo").classList.remove("selected");
         console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
@@ -3447,8 +3543,9 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
 
         }
-        document.querySelectorAll(".infothing").forEach(el=>{el.style.opacity = "1"});
+       /*
         document.querySelectorAll("#fishking").forEach(el=>{el.style.opacity = "1 "});
+        */
     };
     
 
@@ -3576,6 +3673,8 @@ function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
         
             let encompassinginfodivider = document.createElement("div");
             encompassinginfodivider.id = "INFOLOL";
+            encompassinginfodivider.style.opacity = "1";
+
             encompassinginfodivider.style.transform = "translateY(-50px)";
             if(isOverallLeaderboard && !goingbacktooriginal){
                 encompassinginfodivider.style.transform = "translateY(-52px)";
@@ -3611,28 +3710,20 @@ function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
 
             //console.log( overallPlayerStats[team][player]);
-            if (!isOverallLeaderboard){
-                var allInfos = encompassinginfodivider.querySelectorAll(".infothing");
-                
-                for (var infos of allInfos){
-                   // infos.style.transform = "translate(85px,0px)";
-                    infos.style.opacity = "1";
-                    
-                }
-                
-            }
+
 
 
        // console.log  (encompassinginfodivider);
        if(document.getElementById(player)){
         document.getElementById(player).insertBefore(encompassinginfodivider, document.getElementById(player).querySelector(".TEAMPFPNAME"));
-        document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
-       }
+        if (document.getElementById(player).querySelector(".TEAMPFPNAME")){
+            document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
+        }       }
 
         }
         
     }
-    document.querySelectorAll(".infothing").forEach(el =>{el.style.opacity = "1"});
+  
     document.getElementById("EntryInfo").onclick = function(){
         document.getElementById("EntryInfo").classList.remove("selected")
         console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
@@ -3650,8 +3741,10 @@ function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
 
         }
-        document.querySelectorAll(".infothing").forEach(el=>{el.style.opacity = "1"});
+        
+        /*
         document.querySelectorAll("#fishking").forEach(el=>{el.style.opacity = "1 "});
+        */
     };
     
 
@@ -3788,6 +3881,8 @@ function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
         
             let encompassinginfodivider = document.createElement("div");
             encompassinginfodivider.id = "INFOLOL";
+            encompassinginfodivider.style.opacity = "1";
+
             encompassinginfodivider.style.transform = "translateY(-50px)";
             if(isOverallLeaderboard && !goingbacktooriginal){
                 encompassinginfodivider.style.transform = "translateY(-52px)";
@@ -3826,53 +3921,45 @@ function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
             FlashC.innerHTML = "Flash Count : <span class = blue2>"+overallPlayerStats[team][player].FlashC+"</span>";
             FlashC.classList.add("infothing");
             encompassinginfodivider.appendChild(FlashC);
-            FlashC.style.transform = "translate(223px,-60px)";
+            FlashC.style.transform = "translate(223px,-55px)";
 
             let FlashS = document.createElement("div");
             FlashS.innerHTML = "Flash Successes : <span class = green2>"+overallPlayerStats[team][player].FlashS+"</span>";
             FlashS.classList.add("infothing");
             encompassinginfodivider.appendChild(FlashS);
-            FlashS.style.transform = "translate(204px,-60px)";
+            FlashS.style.transform = "translate(204px,-55px)";
 
             let EnemyFlash = document.createElement("div");
             EnemyFlash.innerHTML = "Enemies Flashed : <span class = green2>"+overallPlayerStats[team][player].EnemyFlash+"</span>";
             EnemyFlash.classList.add("infothing");
             encompassinginfodivider.appendChild(EnemyFlash);
-            EnemyFlash.style.transform = "translate(201px,-60px)";
+            EnemyFlash.style.transform = "translate(201px,-55px)";
 
             let EnemyFlashMatch = document.createElement("div");
             EnemyFlashMatch.innerHTML = "Enemies Flashed per Round : <span class = yellow2>"+parseFloat(overallPlayerStats[team][player].EnemyFlashMatch.toFixed(2))+"</span>";
             EnemyFlashMatch.classList.add("infothing");
             encompassinginfodivider.appendChild(EnemyFlashMatch);
-            EnemyFlashMatch.style.transform = "translate(90px,-35px)";
+            EnemyFlashMatch.style.transform = "translate(90px,-33px)";
             //MatchRate.style.transform = "translate(190px,-36px)";
 
             
 
 
             //console.log( overallPlayerStats[team][player]);
-            if (!isOverallLeaderboard){
-                var allInfos = encompassinginfodivider.querySelectorAll(".infothing");
-                
-                for (var infos of allInfos){
-                   // infos.style.transform = "translate(85px,0px)";
-                    infos.style.opacity = "1";
-                    
-                }
-                
-            }
+
 
 
        // console.log  (encompassinginfodivider);
        if(document.getElementById(player)){
         document.getElementById(player).insertBefore(encompassinginfodivider, document.getElementById(player).querySelector(".TEAMPFPNAME"));
-        document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
-       }
+        if (document.getElementById(player).querySelector(".TEAMPFPNAME")){
+            document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
+        }       }
 
         }
         
     }
-    document.querySelectorAll(".infothing").forEach(el =>{el.style.opacity = "1"});
+   
     document.getElementById("UtilityInfo").onclick = function(){
         document.getElementById("UtilityInfo").classList.remove("selected")
         console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
@@ -3889,13 +3976,16 @@ function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
 
         }
-        document.querySelectorAll(".infothing").forEach(el=>{el.style.opacity = "1"});
+       
+        /*
         document.querySelectorAll("#fishking").forEach(el=>{el.style.opacity = "1 "});
+        */
     };
     
 
 }
 function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal, ummm, DONTASKOKAY){
+    //console.log(isOverallLeaderboard+" , "+goingbacktooriginal+" , "+ummm+" , "+DONTASKOKAY);
     document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
 
    // console.log("isOverallLeaderboard = "+isOverallLeaderboard);
@@ -4085,7 +4175,6 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
     })
    // console.log(overallPlayerStats);
     let teamcounter = 0;
-    
     for (let team in overallPlayerStats){
         teamcounter++;
         //console.log(matchinfo);
@@ -4113,7 +4202,9 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
         
         var bestplayer;
         let mostkils = 0;
+        var amountofcreated = 0;
        // console.log(overallPlayerStats);
+       
         for (let player in overallPlayerStats[team]){
             //console.log(amountofgames);
             if (document.getElementById(player)){
@@ -4133,9 +4224,18 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
 
             //console.log(overallPlayerStats[team][player].kills+" VS "+mostkils);
             if (overallPlayerStats[team][player].kills >= mostkils){
+                if(overallPlayerStats[team][player].kills === mostkils){
+                    console.log(overallPlayerStats[team][bestplayer].adr+" VS "+overallPlayerStats[team][player].adr);
+                    if(overallPlayerStats[team][bestplayer].adr < overallPlayerStats[team][player].adr){
+                        bestplayer = player;
+                    }
+                }
+                else{
+                    mostkils = overallPlayerStats[team][player].kills;
+                    bestplayer = player;
+                }
                // console.log("lOL");
-                mostkils = overallPlayerStats[team][player].kills;
-                bestplayer = player;
+
             }
             //this specific player's adr is now finished
             //console.log(player);
@@ -4143,7 +4243,8 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
             let encompassingpicturedivider = document.createElement("div");
             let encompassinginfodivider = document.createElement("div");
             encompassinginfodivider.id = "INFOLOL";
-            
+            encompassinginfodivider.style.opacity = 0;
+
             if(isOverallLeaderboard && !goingbacktooriginal && !ummm){
                 encompassinginfodivider.style.transform = "translateY(-52px)";
                 encompassingpicturedivider.classList.add("PLAYERDIVIDERR");
@@ -4151,17 +4252,24 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
                 document.getElementById("BoardTeam"+teamcounter).appendChild(encompassingpicturedivider);
 
                 if (createpicturesonce){
-                    GetPlayerInfo(player, overallPlayerStats[team][player].id,encompassingpicturedivider);
+                    
+                    GetPlayerInfo(player, overallPlayerStats[team][player].id,encompassingpicturedivider, () => {
+
+                        
+                    });
                     
                 }
+
                 
             }
             else{
                 encompassinginfodivider.style.transform = "translateY(-52px)";
-                if(document.getElementById(player)){
-                    document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px, -71px)";
-
+                if(document.getElementById(player) && document.getElementById(player).querySelector(".TEAMPFPNAME")){
+                   
+                        document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
+                    
                 }
+
             }
 
             let kills = document.createElement("div");
@@ -4211,16 +4319,7 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
 
 
 
-            //console.log( overallPlayerStats[team][player]);
-            if (!isOverallLeaderboard){
-                var allInfos = encompassinginfodivider.querySelectorAll(".infothing");
-                for (var infos of allInfos){
-                   // infos.style.transform = "translate(85px,0px)";
-                    infos.style.opacity = "1";
-                    
-                }
-                
-            }
+
             
 
 
@@ -4229,13 +4328,7 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
             if (document.getElementById(player).querySelector(".TEAMPFPNAME")){
                 document.getElementById(player).insertBefore(encompassinginfodivider, document.getElementById(player).querySelector(".TEAMPFPNAME"));
                }
-               if (document.getElementById(player).querySelector("#fishking")){
-                                    
-                document.getElementById(player).querySelector("#fishking").forEach(el=>{
-                    el.style.opacity = "1";
-                    el.style.transform = "translate(180px, -141px)";
-                    });
-            }
+               
         }
        else{
         document.getElementById(player).appendChild(encompassinginfodivider);
@@ -4251,6 +4344,9 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
         fishking.style.height = "70px";
         fishking.style.width = "50px";
         fishking.style.position = "absolute";
+        fishking.style.opacity = (createpicturesonce) ? "0" : "1" ;
+
+        document.getElementById(bestplayer).appendChild(fishking);
         if(DONTASKOKAY){
             fishking.style.transform = "translate(180px,-141px)";
             document.getElementById("damageInfo").onclick = function(){
@@ -4306,13 +4402,16 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
 
         }
 
-        fishking.style.opacity = "0";
         //console.log(bestplayer);
         //console.log(overallPlayerStats);
-        document.getElementById(bestplayer).appendChild(fishking);
-        
+
+    }
+
+    if ((isOverallLeaderboard && goingbacktooriginal && !ummm) || (isOverallLeaderboard && !goingbacktooriginal && ummm && !DONTASKOKAY ) || (!isOverallLeaderboard && !goingbacktooriginal && !ummm && DONTASKOKAY)){
+        document.querySelectorAll("#INFOLOL").forEach(el =>{el.style.opacity = "1"});
     }
     createpicturesonce = false;
+
     //everything should be properly sorted now
     //console.log(matchinfo);
 
@@ -4337,6 +4436,7 @@ var ILIEDLOLL = 3;
     imag.style.width = "30px";
     // Create a label element
     const label = document.createElement("label");
+    label.style.cursor = "pointer";
     label.style.filter = "drop-shadow(1px 0px 1px #000000)";
     label.htmlFor = "c"+THEFINALCOUNTERISWEAR; // Associate the label with the checkbox
     label.textContent = "S"+(52-(THEFINALCOUNTERISWEAR-1)); // Set the label text
