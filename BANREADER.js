@@ -2170,8 +2170,10 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("quickInfo").style.transform = "translate(260px,280px)";
                     document.getElementById("teambackgrounddiv").style.height = "280px";
                     document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "280px";
+                    if(document.getElementById("h3").querySelector("#teamPfp")){
                     document.getElementById("h3").querySelector("#teamPfp").style.height = "30px";
                     document.getElementById("h3").querySelector("#teamPfp").style.width = "30px";
+                    }
                     document.getElementById("h3").style.transform = "translate(600px,-40px)";
                     if (document.getElementById("WHOLEPLAYERDIVIDER")){
                         document.getElementById("WHOLEPLAYERDIVIDER").remove();
