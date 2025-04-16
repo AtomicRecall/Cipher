@@ -337,7 +337,7 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
                 
             if (amountcreated >= 5){
                 amountcreated = 0;
-                if(document.getElementById("allInfo").style.opacity === "0"){
+                if(document.getElementById("allInfo") && document.getElementById("allInfo").style.opacity === "0"){
                     document.getElementById("EncompassingDivider").style.opacity = "1";
 
                 }
@@ -345,10 +345,12 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
                 setTimeout(() => {
                     
                     if(document.getElementById("allInfo").style.opacity === "0"){
-                        document.getElementById("WHOLEPLAYERDIVIDER").style.height = "50px";
-                        document.getElementById("WHOLEPLAYERDIVIDER").style.transform = "translate(0px,-60px)";
-                        document.getElementById("WHOLEPLAYERDIVIDER").style.gridAutoColumns = "min-content"; 
-                        document.getElementById("WHOLEPLAYERDIVIDER").style.gap = "60px";
+                        if(document.getElementById("WHOLEPLAYERDIVIDER")){  
+                            document.getElementById("WHOLEPLAYERDIVIDER").style.height = "50px";
+                            document.getElementById("WHOLEPLAYERDIVIDER").style.transform = "translate(0px,-60px)";
+                            document.getElementById("WHOLEPLAYERDIVIDER").style.gridAutoColumns = "min-content"; 
+                            document.getElementById("WHOLEPLAYERDIVIDER").style.gap = "60px";
+                    }
                         
                         for (var stuff of document.querySelectorAll("#PLAYERDIVIDER")){
                             if (stuff.querySelector(".TEAMPFP").src === "https://atomicrecall.github.io/Cipher/images/gears.gif"){
@@ -515,7 +517,7 @@ function GetPlayerInfo(nick , iddd, div, callback){
                     break;
             }
             pfp.style.pointerEvents = "auto";
-            if (document.getElementById("mtches").querySelectorAll(".gamediv").clicked) {
+            if (document.getElementById("mtches") && document.getElementById("mtches").querySelectorAll(".gamediv").clicked) {
                 return; // Stop function if clicked
             }
             let pic2 = document.createElement("img");
@@ -1126,7 +1128,7 @@ function printToWebsite(dapicksanddabans, something){
 
     let coun = 0;
     let ssnNumCounter = 0;
-    let tempor = currentseason;
+    let tempor = dapicksanddabans[0].season;
  
     for (let d = 0; d < dapicksanddabans.length; d++){
         // find the team you are looking at, look through both teams in dapicksanddabans[d] and make "the team we are looking at" be that team's ID
@@ -1231,7 +1233,8 @@ function printToWebsite(dapicksanddabans, something){
         }
 
         coun = coun + 1;
-        if((d+1) < dapicksanddabans.length){  
+        if((d+1) < dapicksanddabans.length){ 
+
             if(dapicksanddabans[d+1].season < tempor){
                 coun = 0;
                 tempor = dapicksanddabans[d+1].season;
@@ -1802,7 +1805,7 @@ function printToWebsite(dapicksanddabans, something){
     console.log(wins+" // "+loss);
     let record = document.createElement("div");
     record.innerHTML = "| S"+(dapicksanddabans[dapicksanddabans.length-1].season)+'<span style="color: wheat;">'+" "+dapicksanddabans[dapicksanddabans.length-1].division+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
-    document.getElementById("RECORDDD").appendChild(record);
+    if(document.getElementById("RECORDDD")){document.getElementById("RECORDDD").appendChild(record)};
     if(something){
         document.getElementById(".BanFileExplorer").insertBefore(matchesDivider, document.getElementById(".BanFileExplorer").firstChild);
         document.getElementById(".BanFileExplorer").insertBefore(quickInfoDivider, document.getElementById(".BanFileExplorer").firstChild);
