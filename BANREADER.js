@@ -1128,7 +1128,7 @@ function printToWebsite(dapicksanddabans, something){
 
     let coun = 0;
     let ssnNumCounter = 0;
-    let tempor = dapicksanddabans[0].season;
+    let tempor = (dapicksanddabans[0]) ? dapicksanddabans[0].season : currentseason;
  
     for (let d = 0; d < dapicksanddabans.length; d++){
         // find the team you are looking at, look through both teams in dapicksanddabans[d] and make "the team we are looking at" be that team's ID
@@ -1805,7 +1805,7 @@ function printToWebsite(dapicksanddabans, something){
     console.log(wins+" // "+loss);
     let record = document.createElement("div");
     record.innerHTML = "| S"+(dapicksanddabans[dapicksanddabans.length-1].season)+'<span style="color: wheat;">'+" "+dapicksanddabans[dapicksanddabans.length-1].division+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
-    if(document.getElementById("RECORDDD")){document.getElementById("RECORDDD").appendChild(record)};
+    if(document.getElementById("RECORDDD") && !something){document.getElementById("RECORDDD").appendChild(record)};
     if(something){
         document.getElementById(".BanFileExplorer").insertBefore(matchesDivider, document.getElementById(".BanFileExplorer").firstChild);
         document.getElementById(".BanFileExplorer").insertBefore(quickInfoDivider, document.getElementById(".BanFileExplorer").firstChild);
@@ -4447,7 +4447,7 @@ var ILIEDLOLL = 3;
     label.style.cursor = "pointer";
     label.style.filter = "drop-shadow(1px 0px 1px #000000)";
     label.htmlFor = "c"+THEFINALCOUNTERISWEAR; // Associate the label with the checkbox
-    label.textContent = "S"+(52-(THEFINALCOUNTERISWEAR-1)); // Set the label text
+    label.textContent = "S"+(52-(THEFINALCOUNTERISWEAR-2)); // Set the label text
    // label.fontSize = "10px";
 
     // Append the checkbox and label to the span
@@ -4479,8 +4479,10 @@ var ILIEDLOLL = 3;
             }
             else{
                 setTimeout(() => {
-                    document.getElementById("trainn").style.display = "none";
-                    document.getElementById("trainimage").style.display = "none";
+                    if(document.getElementById("trainn") && document.getElementById("trainimage")){
+                        document.getElementById("trainn").style.display = "none";
+                        document.getElementById("trainimage").style.display = "none";
+                    }
                 }, 10);
             }
           label.style.color = "#0FFF50"; // Change text color
@@ -4599,16 +4601,23 @@ function DotheThing (arrayofallmatches2, removeoradd){
    // console.log("???? "+removeoradd);
     if(removeoradd){
         THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.concat(arrayofallmatches2);
-        document.getElementById("mtches").remove();
+        if(document.getElementById("mtches") && document.getElementById("quickInfo")){
+            document.getElementById("mtches").remove();
+            document.getElementById("quickInfo").remove();
+        }
+        
         document.querySelectorAll("#allInfo > *:not(#buttonspan)").forEach(el => el.remove());
-        document.getElementById("quickInfo").remove();
+        
         printToWebsite(THEFINALARRAYISWEAR, true);
     }
     else{
         THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.filter(item => item.season !== arrayofallmatches2[0].season);
-        document.getElementById("mtches").remove();
+        if(document.getElementById("mtches") && document.getElementById("quickInfo")){
+            document.getElementById("mtches").remove();
+            document.getElementById("quickInfo").remove();
+        }
         document.querySelectorAll("#allInfo > *:not(#buttonspan)").forEach(el => el.remove());
-        document.getElementById("quickInfo").remove();
+        
         printToWebsite(THEFINALARRAYISWEAR, true);
     }
 
