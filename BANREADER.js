@@ -4462,7 +4462,7 @@ var ILIEDLOLL = 3;
         if (checkbox.checked) {
             ILIEDLOLL-=1;
             
-            if (label.textContent === "S52" || THEFINALCOUNTERISWEAR == 1){
+            if (label.textContent === "S52" || THEFINALCOUNTERISWEAR == 1 || label.textContent === "S53"){
                 //console.log(THEFINALCOUNTERISWEAR +"= WHAT THE BALLS")
                 if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
                     setTimeout(() => {
