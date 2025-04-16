@@ -1854,8 +1854,11 @@ function printToWebsite(dapicksanddabans, something){
                 document.getElementById("quickInfo").style.transform = "translate(260px,50px)";
                 document.getElementById("teambackgrounddiv").style.height = "50px";
                 document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "50px";
-                document.getElementById("h3").querySelector("#teamPfp").style.height = "30px";
-                document.getElementById("h3").querySelector("#teamPfp").style.width = "30px";
+                if(document.getElementById("h3").querySelector("#teamPfp")){
+                    document.getElementById("h3").querySelector("#teamPfp").style.height = "30px";
+                    document.getElementById("h3").querySelector("#teamPfp").style.width = "30px";
+                }
+        
                 document.getElementById("h3").style.transform = "translate(300px,-40px)";
                 
 
