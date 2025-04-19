@@ -76,7 +76,7 @@ document.getElementById("smokewed").onclick = function(){
         case 1:
             var audio = new Audio('https://atomicrecall.github.io/Cipher/images/thomassmokeweed.mp3');
             audio.play();
-            audio.volume = 0.5;
+            audio.volume = 0.3;
             audio.onended = () =>{
                 wedsmoke.remove();
             }
