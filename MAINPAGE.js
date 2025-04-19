@@ -22,7 +22,71 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
+var RNG = Math.floor(Math.random()*10)+1;
 
+console.log(RNG);
+switch(true){
+    case (RNG <=8):
+        var rngintherng =  Math.floor(Math.random()*3)+1;
+        console.log(rngintherng);
+        switch(rngintherng){
+            case 1:
+                document.getElementById("smokewed").src = "https://atomicrecall.github.io/Cipher/images/callingcard1.png";
+                break;
+            case 2:
+                document.getElementById("smokewed").src = "https://atomicrecall.github.io/Cipher/images/callingcard2.png"
+                break;
+            case 3:
+                document.getElementById("smokewed").src = "https://images-ext-1.discordapp.net/external/UGq1am2iPDuxXp0XpDj3jbbWy1FQ6_5ZkTbGRjsGtD4/%3Fcb%3D20091121002433/https/static.wikia.nocookie.net/callofduty/images/f/f1/JointOps.jpg/revision/latest?format=webp&width=376&height=80"
+                break;
+        }
+        break;
+    case (RNG === 9):
+        document.getElementById("smokewed").src = "https://atomicrecall.github.io/Cipher/images/dewthedew.gif";
+        break;
+    case (RNG === 10):
+
+        document.getElementById("smokewed").src = "https://atomicrecall.github.io/Cipher/images/whatisyourproblem.gif";
+        document.getElementById("smokewed").style.width = "400px";
+        document.getElementById("smokewed").style.height = "90px";
+
+        break;
+}
+document.getElementById("smokewed").onmouseover = function(){
+    document.body.style.cursor = "url('https://images-ext-1.discordapp.net/external/cFjcHBzNOzy-VsQMfdxB_Q_g4YV5RPJgT97j18iZxXY/%3Fcb%3D20130610195923/https/static.wikia.nocookie.net/callofduty/images/4/45/Weed_emblem_MW2.png/revision/latest?format=webp&width=128&height=128'), auto";
+
+}
+document.getElementById("smokewed").onmouseout = function(){
+    document.body.style.cursor = "default";
+
+}
+document.getElementById("smokewed").onclick = function(){
+    var RNG = Math.floor(Math.random()*2)+1;
+    console.log(RNG);
+    var wedsmoke = document.createElement("img");
+    wedsmoke.src = "https://atomicrecall.github.io/Cipher/images/wedsmoke.gif";
+    wedsmoke.style.width = "1600px";
+    wedsmoke.style.height = "900px";
+    wedsmoke.style.position = "absolute";
+    document.body.appendChild(wedsmoke);
+    switch (RNG){
+        case 1:
+            var audio = new Audio('https://atomicrecall.github.io/Cipher/images/thomassmokeweed.mp3');
+            audio.play();
+            audio.onended = () =>{
+                wedsmoke.remove();
+            }
+            break;
+        case 2:
+            var audio = new Audio('https://atomicrecall.github.io/Cipher/images/smoke-weed-everyday-zelda.mp3');
+            audio.play();
+            audio.onended = () =>{
+                wedsmoke.remove();
+            }
+            break;
+
+    }
+}
 let name = localStorage.getItem("faceit-name"); 
 
 if (name === "null" || name == undefined || name === ""){
@@ -36,12 +100,12 @@ if (name === "null" || name == undefined || name === ""){
     document.getElementById(".BanFileExplorer").prepend(instruction);
     document.getElementById(".form-wrapper").style.opacity = "0";
     document.getElementById(".BanFileExplorer").style.height = "750px";
-    document.getElementById(".BanFileExplorer").style.transform = "translateY(-100px)";
+    document.getElementById(".BanFileExplorer").style.transform = "translateY(-140px)";
     document.getElementById("h3").style.transform = "translate(600px,-40px)";
     document.getElementById("h3").style.position = "absolute";
     document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"));
     document.getElementById("lgOut").innerHTML = "Log In?";
-    document.getElementById("lgOut").style.transform = "translate(5px,10px)";
+    document.getElementById("lgOut").style.transform = "translate(5px,0px)";
     document.getElementById("redirect").href = "LoginPage.html";
     localStorage.setItem("NOFACEITACCOUNT", 1);
     localStorage.setItem("NOTEAMALERT", 0);
@@ -71,7 +135,9 @@ var NONESEALEAGUEPLAYERREF = database.ref('USERS/'+name).on ('value', function(s
 
 
 document.getElementById("poop").innerHTML = name;
-
+if(name === null || name === ""){
+    document.getElementById("poop").innerHTML = "Demo User";
+}
 
 
 
@@ -86,10 +152,13 @@ srchbtn.addEventListener('click', () =>{
     
     removeElementsByClass("divv");
     removeElementsByClass("divvv");
+    removeElementsByClass("divFart");
     document.getElementById("h3").innerHTML = "SEARCH";
     document.getElementById("srchBtn").style.visibility = "hidden";
     document.getElementById("rtrnBtn").style.visibility = "visible";
     document.getElementById("rtrnBtn").style.transform = "translate(10px, -5px)";
+    document.getElementById("h1").innerHTML = "Searching for Teams I see,";
+    if (document.getElementById("h2").innerHTML){ document.getElementById("h2").innerHTML = document.getElementById("h2").innerHTML+"?"};
 
     const srch3 = document.createElement('button');
     srch3.classList.add("input-group");
@@ -231,8 +300,9 @@ function ontop(){
         //obtaining faceit information
         fetch('https://open.faceit.com/data/v4/players?nickname='+name+'&game=cs2', {
         headers: {
+
             'accept': 'application/json',
-            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
         }
         }).then((res) => {
             if(!res.ok){
@@ -271,20 +341,65 @@ function ontop(){
             img.width = 150;
             img.style.filter = "drop-shadow(0px 0px 2px #000000)";
             document.getElementById('.form-wrapper').appendChild(img);
+            var region = document.createElement("img");
+
             var elo = document.createElement('div');
-            elo.innerHTML = ("ELO: "+data.games.cs2.faceit_elo);
+            elo.innerHTML = ('\xa0'+data.games.cs2.faceit_elo);
             elo.id = "elo";
             elo.style.filter = "drop-shadow(0px 0px 2px #000000)";
+            var lvl =  document.createElement("img");
+            console.log(data);
+            lvl.style.height = "30px";
+            lvl.style.width = "30px";
+            lvl.style.transform = "translate(0px,7px)";
+            switch(data.games.cs2.skill_level){
+                case 1:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525200575516";
+                    break;
+                case 2:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525189649308";
+                    break;
+                case 3:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525200576796";
+                    break;
+                case 4:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525185037724";
+                    break;
+                case 5:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525215800860";
+                    break;
+                case 6:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525245409692";
+                    break;
+                case 7:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525185034012";
+                    break;
+                case 8:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525189648796";
+                    break;
+                case 9:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525200576028";
+                    break;
+                case 10:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525189646876";
+                    break;
+                default:
+                    lvl.src= "https://support.faceit.com/hc/article_attachments/10525185033372";
+                    break;
+                    
+            }
+            elo.prepend(lvl);
             document.getElementById(".form-wrapper").appendChild(elo);
+
            // console.log("IS THIS PLAYER A ESEA LEAGUE PLAYER? "+NONESEALEAGUEPLAYERR);
             if (NONESEALEAGUEPLAYERR != 1){
                 var upcomingmtches = document.createElement('div');
                 upcomingmtches.id = "upcomingmatchesdivider";
-                upcomingmtches.classList.add("divv");
+                upcomingmtches.classList.add("divFart");
                 var upcomingmatchestag = document.createElement('div');
                 upcomingmatchestag.id = "upcomingmatchestag";
-                upcomingmatchestag.classList.add("divv");
-                upcomingmatchestag.innerHTML = "YOUR NEXT OPPONENTS:";
+                upcomingmatchestag.classList.add("divFart");
+                upcomingmatchestag.innerHTML = String(localStorage.getItem("danameyo")).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+localStorage.getItem("daseasonyo")+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
 
                 var loadingimage = document.createElement("img");
                 loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
@@ -302,14 +417,7 @@ function ontop(){
                 var teamname = document.createElement('div');
                 teamname.id = "teamname";
                 teamname.style.opacity = 0;
-                if(localStorage.getItem("division")){
-                    teamname.innerHTML = "Season "+localStorage.getItem("daseasonyo")+" for "+localStorage.getItem("danameyo")+"\n In division "+localStorage.getItem("division");
-
-                }
-                else{
-                    teamname.innerHTML = "Season "+localStorage.getItem("daseasonyo")+" for "+localStorage.getItem("danameyo");
-
-                }
+                teamname.innerHTML = "LAST PLAYED FOR: "+localStorage.getItem("danameyo");
                 if(localStorage.getItem('team-id') != null){
                     getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
                 }
@@ -322,7 +430,7 @@ function ontop(){
             }
             else{
             }
-            teamname.style.opacity = 1;
+            //teamname.style.opacity = 1;
         });
 }
 else{
@@ -359,10 +467,10 @@ function YOURSAVEDTEAMS(){
     removeElementsByClass("divvv");
     var yoursaveteamsdivider = document.createElement('div');
     yoursaveteamsdivider.id = "yoursavedteamsdivider";
-    yoursaveteamsdivider.classList.add("divv");
+    yoursaveteamsdivider.classList.add("divFart");
     var yoursaveteamsdividertag = document.createElement('div');
     yoursaveteamsdividertag.id = "yoursavedteamss";
-    yoursaveteamsdividertag.classList.add("divv");
+    yoursaveteamsdividertag.classList.add("divFart");
     yoursaveteamsdividertag.innerHTML = "YOUR SAVED TEAMS: ";
     yoursaveteamsdivider.appendChild(yoursaveteamsdividertag);
     var loadingimage = document.createElement("img");
@@ -446,7 +554,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
         fetch('https://open.faceit.com/data/v4/teams/'+dataalolfunny[d], {
         headers: {
             'accept': 'application/json',
-            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
         }
         }).then((res) => {
             if(!res.ok){
@@ -580,7 +688,9 @@ function funnyfunction(dataalolfunny,wheretoadd){
             //document.querySelectorAll(".match-container").querySelector("#matchdate")
             matchDateDiv.innerHTML = "Next Match: "
             matchDateDiv.innerHTML+=dataalolfunny[d+1];
-            div.appendChild(matchDateDiv);
+            matchDateDiv.style.opacity = "0";
+            
+            div.insertBefore(matchDateDiv, div.children[1]);
             if(document.getElementById(wheretoadd)){
                 document.getElementById(wheretoadd).appendChild(div);
 
@@ -599,8 +709,8 @@ function funnyfunction(dataalolfunny,wheretoadd){
                         console.log(dataalolfunny );
                         console.log("lololol");
                        localStorage.setItem("THETEAMWEARESEARCHING" , dataalolfunny[d]);
-
-                       document.getElementById("lgOut").style.transform = "translate(5px,10px)";
+                       localStorage.setItem("THETEAMWEARESEARCHINGNAME", datan.name);
+                       document.getElementById("lgOut").style.transform = "translate(5px,0px)";
                        
                         let js = document.createElement("script");
                         js.type = "text/javascript"; 
@@ -654,6 +764,9 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
 
             div.onmouseover = function(){
+                //upcoming matches divider
+                div.style.width = "500px";
+                cvrimg.style.width = "500px";
                 div.style.cursor = "pointer";
             Tmne.innerHTML = datan.name;
             div.style.transition = "2s";
@@ -726,15 +839,21 @@ function funnyfunction(dataalolfunny,wheretoadd){
             document.getElementById(datan.nickname+"pfp").style.filter = "drop-shadow(0px 0px 2px #ffffff)";
                 
 
-            document.getElementById("matchDate"+d).style.opacity = 1;
-            document.getElementById("matchDate"+d).style.transform = "translate(240px,-200px)";
+    
+                
             document.getElementById("matchDate"+d).style.transition = "2s";
+            document.getElementById("matchDate"+d).style.opacity = "1";// call when done
+            document.getElementById("matchDate"+d).style.transform = "translate(240px,-50px)";
+
+      
+               
+           
+        
                 
 
             //d is current child; lol holds all childs.
             //find space in list from all childs, check if the child accross from it is there, if so do the shit, if not dont do shit
             let lol = document.getElementById(wheretoadd).children;
-            
                 // console.log(document.getElementById("div"+d));
 
             for (let l = 1; l < lol.length; l++){
@@ -792,16 +911,20 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 }
                 div.style.filter = "";
                 
-                cvrimg.width = 200;
+               
                 cvrimg.style.filter = "blur(2px)";
-    
+                div.style.width = "200px";
+                cvrimg.style.width = "200px";
                 let fds = datan.nickname+"pfp";
                 document.getElementById(fds).height = 0;
                 document.getElementById(fds).width = 0;
-                console.log("matchDate"+d);
-                document.getElementById("matchDate"+d).style.opacity = 0;
-                document.getElementById("matchDate"+d).style.transform = "translate(200px,-200px)";
-                document.getElementById("matchDate"+d).style.transition = "0.5s";
+                
+                document.getElementById("matchDate"+d).style.transform = "translate(180px,-50px)";
+                document.getElementById("matchDate"+d).style.transition = ".8s";
+            
+                    document.getElementById("matchDate"+d).style.opacity = "0";// call when done
+               
+                
                 
                 pfpdiv.style.filter = "blur(100px)";
                 pfpdiv.style.width = 200;
@@ -883,7 +1006,9 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
             var div = document.createElement('div');
             div.classList.add("divv");
-            
+            if(document.getElementById(wheretoadd)){
+                document.getElementById(wheretoadd).appendChild(div);
+                }
             if (wheretoadd == "yoursavedteamsdivider"){
                 removeElementsByClass("removemepls1");
                 div.id = "div"+d;
@@ -995,9 +1120,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
             div.appendChild(avat);
             div.appendChild(Tmne);
             div.appendChild(pfpdiv);
-            if(document.getElementById(wheretoadd)){
-            document.getElementById(wheretoadd).appendChild(div);
-            }
+
             div.addEventListener('dblclick', () => {
                 
             });
@@ -1012,7 +1135,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                      
                        localStorage.setItem("THETEAMWEARESEARCHING" , dataalolfunny[d]);
                        localStorage.setItem("THETEAMWEARESEARCHINGNAME", datan.name);
-                       document.getElementById("lgOut").style.transform = "translate(5px,10px)";
+                       document.getElementById("lgOut").style.transform = "translate(5px,0px)";
                         let js = document.createElement("script");
                         js.type = "text/javascript"; 
                         js.src = "BANREADER.js";
@@ -1069,8 +1192,8 @@ function funnyfunction(dataalolfunny,wheretoadd){
             Tmne.innerHTML = datan.name;
             div.style.transition = "2s";
             div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";
-            
-            cvrimg.width = 500;
+            div.style.width = "500px";
+            cvrimg.style.width = "500px";
             cvrimg.style.removeProperty('filter');
 
             pfpdiv.style.transition = ".9s";
@@ -1201,8 +1324,9 @@ function funnyfunction(dataalolfunny,wheretoadd){
                     Tmne.innerHTML = datan.name;
                 }
                 div.style.filter = "";
-                
-                cvrimg.width = 200;
+                div.style.width = "200px";
+                cvrimg.style.width = "200px";
+                div.style.transition = ".5s";
                 cvrimg.style.filter = "blur(2px)";
     
                 let fds = datan.nickname+"pfp";
@@ -1217,12 +1341,15 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
                 //if(document.getElementById(wheretoadd).children > 3){
                     if(document.getElementById(wheretoadd).children[space+2] != undefined || document.getElementById(wheretoadd).children[space+2] != null){
-                        document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.opacity = 1;
+                        document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.opacity = "1";
+                        document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.transition = "1s";
                         document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.transform+="translateY(20px)";
                     }
                     else {}
                     if(document.getElementById(wheretoadd).children[space+4]!= undefined || document.getElementById(wheretoadd).children[space+4] != null){
-                        document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.opacity = 1;
+                        document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.opacity = "1";
+                        document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.transition = "1s";
+
                         document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.transform+="translateY(20px)";
                     }
                     else {
@@ -1391,9 +1518,10 @@ function searchForTeams(teamnme){
         fetch('https://open.faceit.com/data/v4/search/teams?nickname='+cocksucker+'&game=cs2&offset=0&limit=6', {
         headers: {
             'accept': 'application/json',
-            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
         }
         }).then((res) => {
+
             if(!res.ok){
                 console.log("HOLY FUCK");
                 throw new Error("couldnt fetcht that shit");
@@ -1420,7 +1548,7 @@ function searchForTeams(teamnme){
                     fetch('https://open.faceit.com/data/v4/teams/'+datan.team_id, {
                         headers: {
                             'accept': 'application/json',
-                            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+                            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
                         }
                         }).then((res) => {
                             if(!res.ok){

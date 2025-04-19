@@ -1,4 +1,6 @@
 console.log("one two three");
+document.body.appendChild(document.getElementById("smokewed"));
+document.getElementById("smokewed").style.transform = "translate(550px,-390px)";
 document.body.style.cursor = "wait";
 var database = firebase.database();
 var THETEAMWEARESEARCHING = localStorage.getItem("THETEAMWEARESEARCHING");
@@ -11,6 +13,8 @@ function removeElementsByClass(className) {
 }
 var count = 0;
 removeElementsByClass("divv");
+removeElementsByClass("divFart");
+
 document.getElementById("h3").innerHTML = " ";
 document.getElementById(".form-wrapper").style.opacity = "0";
 document.getElementById(".BanFileExplorer").style.height = "750px";
@@ -22,7 +26,7 @@ document.getElementById("h3").style.position = "absolute";
 document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"));
 document.getElementById("srchBtn").style.visibility = "hidden";
 document.getElementById("rtrnBtn").style.visibility = "visible";
-document.getElementById("rtrnBtn").style.transform = "translate(1300px, -3px)";
+document.getElementById("rtrnBtn").style.transform = "translate(-650px,-375px)";
 var rtrnBtn = document.getElementById("rtrnBtn");
 var lastbooleaniswear = false;
 var ffws = 0;
@@ -53,10 +57,11 @@ stopButtong.addEventListener('click',()=>{
     //console.log("BUTTON CLICKED FDSFDSFDS");
     removeElementsByClass("removemeplss");
     var finializing = document.createElement("div");
+    finializing.id = "finalizing";
     finializing.innerHTML = "FINALIZING......";
     finializing.style.color = "wheat";
     finializing.style.fontSize = "45px";
-    finializing.style.transform = "translate(450px,250px)";
+    finializing.style.transform = "translate(550px,250px)";
     finializing.style.position = "absolute";
     finializing.classList.add("removemeplss");
     document.getElementById(".BanFileExplorer").appendChild(finializing);
@@ -186,6 +191,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
    // console.log(datan);
     localStorage.setItem("LeaderID", datan.leader);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
+    document.getElementById("h1").innerHTML = datan.name+"'s Cipher awaits, ";
     document.getElementById("h3").onclick = function(){
         let faceitlinkk = datan.faceit_url.replace("{lang}", '');
         window.open(faceitlinkk);
@@ -287,7 +293,7 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
     .then((datan12) => {
         //console.log("HEHEHE");
         //console.log(datan12);
-        if (datan12 == undefined){
+        if (datan12 == undefined || datan12 == null || datan12 == ""){
             //console.log("MATCH WAS NOT REAL "+matchid);
             return;
         }
@@ -361,17 +367,17 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
                             if (stuff.querySelector(".TEAMPFP").src === "https://atomicrecall.github.io/Cipher/images/gears.gif"){
                                 setTimeout(()=>{
                                     if(stuff.querySelector(".TEAMPFPNAME")){
-                                        stuff.querySelector(".TEAMPFPNAME").style.opacity = "0";
+                                        //stuff.querySelector(".TEAMPFPNAME").style.opacity = "0";
                                         stuff.querySelector(".TEAMPFPNAME").style.fontSize = "11px";
                                         stuff.querySelector(".TEAMPFPNAME").style.transform = "translate(10px,0px)";
                                     }
                                     
-                                    stuff.querySelector(".TEAMPFP").style.opacity = "0";
+                                   // stuff.querySelector(".TEAMPFP").style.opacity = "0";
                                     stuff.querySelector(".TEAMPFP").style.height = "30px";
                                     stuff.querySelector(".TEAMPFP").style.margin = "0px";
                                     stuff.querySelector(".TEAMPFP").style.transform = "translate(10px,5px)";
                                     stuff.querySelector(".TEAMPFP").style.width = "30px";
-                                },500);
+                                },3000);
                             }
                             else{
                                 if(stuff.querySelector(".TEAMPFPNAME")){
@@ -463,6 +469,18 @@ function GetPlayerInfo(nick , iddd, div, callback){
                 }
 
                   
+                }
+                else if(dividerclicked){
+                    div.style.transform = "translateX(390px)";
+                    pfp.style.width = "30px";
+                    pfp.style.height = "30px";
+                    pfp.style.margin = "0px";
+                    pfp.style.transform = "translate(10px,5px)";
+                    name.style.fontSize = "11px";
+                    name.style.transform = "translate(10px)";
+                    pfp.style.opacity = "1";
+                    name.style.opacity = "1";
+
                 }
                 else{
                     
@@ -558,6 +576,16 @@ function GetPlayerInfo(nick , iddd, div, callback){
                 
                 //document.querySelectorAll("#fishking").forEach(el =>{el.style.opacity = "1"});
                 }
+
+            }
+            else if(dividerclicked){
+                div.style.transform = "translateX(390px)";
+                pfp.style.width = "30px";
+                pfp.style.height = "30px";
+                pfp.style.margin = "0px";
+                pfp.style.transform = "translate(10px,5px)";
+                name.style.fontSize = "11px";
+                name.style.transform = "translate(10px)";
 
             }
             else{
@@ -1106,6 +1134,636 @@ function fetchMatchData(matchid,leaderid,count) {
     });
     
 }
+
+
+function createCover(dapicksanddabans, d,info,quickInfoDivider){
+                        //function that calculates info for current highlighted game (you can get the matchid by getting the vote_type from)
+                    //dapicksanddabans[d] returns the correct ban information for that hightlighted map.
+                    //we want the pick ban process, so take the array that's in picksandbans[d] and display what the info is ex. Spin da Block banned de_vertigo
+                    //                                                                                                           PIG Gaming banned de_nuke
+                    //                                                                                                           PIG Gaming banned de_inferno
+                    //                                                                                                           Spin da Block banned de_mirage
+                    //                                                                                                           Spind da Block banned de_dust2
+                    //                                                                                                           PIG Gaming banned de_ancient
+                    //                                                                                                           Left over but picked by PIG Gaming
+                    let somanymapss = document.createElement('div');
+                    somanymapss.id = "cvr";
+                    somanymapss.style.width = "600px";
+                    let counter = 0;
+                    for (const p of dapicksanddabans[d].entities){
+                        counter = counter+1;
+                        if (p.status == "pick"){
+                            let bigimage = document.createElement('img');
+                            bigimage.id = "image";
+                            bigimage.classList.add("cvr");
+
+                            if(dapicksanddabans[d].entity_type >= 2){
+                                bigimage.style.height = "300px";
+                                bigimage.style.width = "167px";
+                                switch (p.guid){
+                                    case "de_train":
+                                        bigimage.src = image_links[7];
+                                        break;
+                                    case "de_ancient":
+                                        bigimage.src = image_links[0];
+                                        break;
+                                    case "de_anubis":
+                                        bigimage.src = image_links[1];
+                                        break;
+                                    case "de_inferno":
+                                        bigimage.src = image_links[2];
+                                        break;
+                                    case "de_dust2":
+                                        bigimage.src = image_links[3];
+                                        break;
+                                    case "de_mirage":
+                                        bigimage.src = image_links[4];
+                                        break;
+                                    case "de_nuke":
+                                        bigimage.src = image_links[5];
+                                        break;
+                                    case "de_vertigo":
+                                        bigimage.src = image_links[6];
+                                        break;
+                                    default:
+                                        bigimage.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                                        break;
+                                }
+                                if(dapicksanddabans[d].entity_type > 3){
+                                    bigimage.classList.remove("cvr");
+                                    bigimage.classList.add("dvr");
+                                    bigimage.style.width = "100px";
+                                }
+                            }
+                            else{
+                                bigimage.classList.remove("cvr");
+                                bigimage.classList.add("pvr");
+                                bigimage.style.height = "300px";
+                                bigimage.style.width = "500px";
+                                switch (p.guid){
+                                    case "de_train":
+                                        bigimage.src = image_links[7];
+                                        break;
+                                    case "de_ancient":
+                                        bigimage.src = image_links[0];
+                                        break;
+                                    case "de_anubis":
+                                        bigimage.src = image_links[1];
+                                        break;
+                                    case "de_inferno":
+                                        bigimage.src = image_links[2];
+                                        break;
+                                    case "de_dust2":
+                                        bigimage.src = image_links[3];
+                                        break;
+                                    case "de_mirage":
+                                        bigimage.src = image_links[4];
+                                        break;
+                                    case "de_nuke":
+                                        bigimage.src = image_links[5];
+                                        break;
+                                    case "de_vertigo":
+                                        bigimage.src = image_links[6];
+                                        break;
+                                    default:
+                                        bigimage.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                                        break;
+                                }
+                            }
+                            somanymapss.appendChild(bigimage);
+                        }
+                        let final = (counter == 7) ? "(LEFT OVER) "+p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>": p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>";
+                        info.innerHTML+=final;
+
+
+                    }
+
+                    let tm1pfp = document.createElement("img");
+                    tm1pfp.id = "tm1pfp";
+                    let fjksdhfksdj = dapicksanddabans[d].teams[0];
+                    let tm1nme = document.createElement("div");
+                    tm1nme.innerHTML = fjksdhfksdj[1];
+                    tm1nme.id = "tm1nme";
+                    tm1nme.style.position = "absolute";
+                    tm1nme.style.fontSize = "25px";
+                    tm1nme.style.transform = "translate(50px,-250px)";
+                    tm1nme.style.color = "#ffffff";
+                    
+                    tm1nme.style.textShadow = "0px 0px 2px "+(( fjksdhfksdj[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
+                    checkImageExists(fjksdhfksdj[0], function(exists) {
+                        if (exists) {
+                            tm1pfp.src = fjksdhfksdj[0];
+                        } else {
+                            tm1pfp.src = defaultimage// Use fallback URL if the image doesn't exist
+                        }
+                    });
+
+                    // Creating the second image element
+                    let tm2pfp = document.createElement("img");
+                    tm2pfp.id = "tm2pfp";
+                    let fsdfesfsdf = dapicksanddabans[d].teams[1];
+                    let tm2nme = document.createElement("div");
+                    tm2nme.innerHTML = fsdfesfsdf[1];
+                    tm2nme.id = "tm2nme";
+                    tm2nme.style.position = "absolute";
+                    tm2nme.style.fontSize = "25px";
+                    tm2nme.style.transform = "translate(290px,-250px)";
+                    
+                    tm2nme.style.color = "#ffffff";
+                    
+                    tm2nme.style.textShadow = "0px 0px 2px "+(( fsdfesfsdf[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
+
+
+                    checkImageExists(fsdfesfsdf[0], function(exists) {
+                        if (exists) {
+                            tm2pfp.src = fsdfesfsdf[0];
+                        } else {
+                            tm2pfp.src = defaultimage; // Use fallback URL if the image doesn't exist
+                        }
+                    });
+
+
+                    //display score here?
+                    let VS = document.createElement("div");
+                    VS.id = "VS";
+                    VS.innerHTML = "VS";
+
+
+                    somanymapss.appendChild(tm1pfp);
+                    somanymapss.appendChild(tm1nme);
+                    somanymapss.appendChild(tm2pfp);
+                    somanymapss.appendChild(tm2nme);
+                    somanymapss.appendChild(VS);
+                    quickInfoDivider.appendChild(somanymapss);
+                    quickInfoDivider.appendChild(info);
+
+                    let omfgsomanycounters = 0;
+                    for (const stuff of dapicksanddabans[d].detailed_results){
+                        if(omfgsomanycounters % 2==0){
+                            //console.log(dapicksanddabans[d].detailed_score[omfgsomanycounters/2] +" -  -  - "+dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length);
+                           // console.log("THETEAMWEARESEARCHING = "+THETEAMWEARESEARCHING+" THE WINNING TEAM IS "+dapicksanddabans[d].detailed_results[omfgsomanycounters]);
+                            //console.log(dapicksanddabans[d]);
+                            if (dapicksanddabans[d].detailed_results[omfgsomanycounters] === THETEAMWEARESEARCHING){
+                                let somanyscore = document.createElement("div");
+                                somanyscore.classList.add("scoreinthescore");
+                                somanyscore.id =  ((omfgsomanycounters/2)+1);
+                                somanyscore.style.color = 'green';
+                                somanyscore.style.width = "150px";
+                                somanyscore.style.height = "75px";
+                                somanyscore.innerHTML = `<span id = txtt style= "padding-left:${dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length >= 7 ? 24 : 33.5}px; padding-right:${dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length >= 7 ? 27 : 32}px;">`+dapicksanddabans[d].detailed_score[omfgsomanycounters/2]+"</span>";
+                                //somanyscoree.push(dapicksanddabans[d].detailed_results[omfgsomanycounters+1]);
+                               //console.log(dapicksanddabans[d]);
+                                switch(dapicksanddabans[d].detailed_results[omfgsomanycounters+1]){
+                                    case "de_mirage":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[4];
+                                        somanyscore.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_mirage" && entity.status === "pick"){
+                                               // console.log(entity.selected_by +"////// OUR TEAM = "+document.getElementById("tm1nme").innerHTML +" FUCKING OR .//// "+document.getElementById("tm2nme").innerHTML);
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscore.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_dust2":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[3];
+                                        somanyscore.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_dust2" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscore.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_train":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[7];
+                                        somanyscore.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_train" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscore.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_inferno":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[2];
+                                        somanyscore.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_inferno" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscore.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_anubis":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[1];
+                                        somanyscore.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_anubis" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscore.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_ancient":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[0];
+                                        somanyscore.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_ancient" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscore.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_nuke":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[5];
+                                        somanyscore.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_nuke" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscore.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_vertigo":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[6];
+                                        somanyscore.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_vertigo" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscore.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+
+                                }
+                                let t1cpy = document.createElement("img");
+                                t1cpy.id = "tm1copy";
+                                t1cpy.style.zIndex = "1";
+                                t1cpy.style.height = "20px";
+                                t1cpy.style.width = "20px";
+                                checkImageExists(fjksdhfksdj[0], function(exists) {
+                                    if (exists) {
+                                        
+                                        t1cpy.src = fjksdhfksdj[0];
+                                    } else {
+                                        t1cpy.src = defaultimage; // Use fallback URL if the image doesn't exist
+                                    }
+                                });
+                                
+                               // t1cpy.src = tm1pfp.src;
+                                let t2cpy = document.createElement("img");
+                                t2cpy.id = "tm2copy";
+                                t2cpy.style.height = "20px";
+                                t2cpy.style.width = "20px";
+                         
+                                checkImageExists(fsdfesfsdf[0], function(exists) {
+                                    if (exists) {
+                                        
+                                        t2cpy.src = fsdfesfsdf[0];
+                                    } else {
+                                        t2cpy.src = defaultimage; // Use fallback URL if the image doesn't exist
+                                    }
+                                });
+                                //t2cpy.src = document.getElementById("tm2pfp").src;
+                                //console.log(t1cpy);
+                                //console.log(t2cpy);
+                               // console.log(tm2pfp);
+                                somanyscore.appendChild(t1cpy);
+                                somanyscore.prepend(t2cpy);
+                                quickInfoDivider.appendChild(somanyscore);
+                                //dascore.style.color = 'green';
+                                //dascore.style.webkitFilter = "drop-shadow(0px 0px 2pxrgb(38, 255, 0))";
+                                
+                                
+                            }
+                            else {
+                                let somanyscoree = document.createElement("div");
+                                somanyscoree.classList.add("scoreinthescore");
+                                somanyscoree.id = ((omfgsomanycounters/2)+1);
+                                somanyscoree.style.color = 'red';
+                                somanyscoree.style.width = "150px";
+                                somanyscoree.style.height = "75px";
+
+                                somanyscoree.innerHTML = `<span id = txtt style= "padding-left:${dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length >= 7 ? 24 : 33.5}px; padding-right:${dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length >= 7 ? 27 : 32}px;">`+dapicksanddabans[d].detailed_score[omfgsomanycounters/2]+"</span>";
+                                //somanyscoree.push(dapicksanddabans[d].detailed_results[omfgsomanycounters+1]);
+
+                                switch(dapicksanddabans[d].detailed_results[omfgsomanycounters+1]){
+                                    case "de_mirage":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[4];
+                                        somanyscoree.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_mirage" && entity.status === "pick"){
+                                               // console.log(entity.selected_by +"////// OUR TEAM = "+document.getElementById("tm1nme").innerHTML +" FUCKING OR .//// "+document.getElementById("tm2nme").innerHTML);
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscoree.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_dust2":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[3];
+                                        somanyscoree.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_dust2" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscoree.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_train":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[7];
+                                        somanyscoree.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_train" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscoree.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_inferno":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[2];
+                                        somanyscoree.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_inferno" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscoree.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_anubis":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[1];
+                                        somanyscoree.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_anubis" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscoree.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_ancient":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[0];
+                                        somanyscoree.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_ancient" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscoree.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_nuke":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[5];
+                                        somanyscoree.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_nuke" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscoree.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case "de_vertigo":
+                                        var mapimg = document.createElement("img");
+                                        mapimg.id = "imgg";
+                                        mapimg.src = image_links[6];
+                                        somanyscoree.appendChild(mapimg);
+                                        for (const entity of dapicksanddabans[d].entities){
+                                            if (entity.guid === "de_vertigo" && entity.status === "pick"){
+                                                let P = document.createElement("div");
+                                                P.innerHTML = "P";
+                                                P.id = "P";
+                                                somanyscoree.appendChild(P);
+                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
+
+                                                    P.style.transform = "translate(17px,-48px)";
+                                                }
+                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
+                                                    
+                                                    P.style.transform = "translate(118px,-48px)";
+                                                }
+                                            }
+                                        }
+                                        break;
+
+                                }
+                                let t1cpy = document.createElement("img");
+                                t1cpy.id = "tm1copy";
+                                t1cpy.style.height = "20px";
+                                t1cpy.style.width = "20px";
+                                t1cpy.src = fjksdhfksdj[0]; 
+                               // t1cpy.src = tm1pfp.src;
+                                let t2cpy = document.createElement("img");
+                                t2cpy.id = "tm2copy";
+                                t2cpy.style.height = "20px";
+                                t2cpy.style.width = "20px";
+                                checkImageExists(fsdfesfsdf[0], function(exists) {
+                                    if (exists) {
+                                        
+                                        t2cpy.src = fsdfesfsdf[0];
+                                    } else {
+                                        t2cpy.src = defaultimage; // Use fallback URL if the image doesn't exist
+                                    }
+                                });
+                               // t2cpy.src = fsdfesfsdf[0];
+
+                               // t2cpy.src = tm2pfp.src;
+                                //console.log(t1cpy);
+                              //  console.log(tm2pfp);
+                                //console.log(t2cpy);
+                                somanyscoree.appendChild(t1cpy);
+                                somanyscoree.prepend(t2cpy);
+                                quickInfoDivider.appendChild(somanyscoree);
+                                //dascore.style.color = 'red';
+                                //dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #ff0000)";
+                                
+                            }
+
+                        }
+                        else {
+
+                        }
+                        omfgsomanycounters++;
+                    }
+}
+
 var moreclicks = 0;
 var doitonlyonce = true;
 let wins = 0;
@@ -1865,7 +2523,8 @@ function printToWebsite(dapicksanddabans, something){
             }
     }
     
-    document.getElementById(".BanFileExplorer").appendChild(document.getElementById("rtrnBtn"));
+    document.body.appendChild(document.getElementById("rtrnBtn"));
+
     let info = document.createElement("div");
     info.id = "BANINFOMAN";
     info.style.fontSize = "20px";
@@ -1877,16 +2536,8 @@ function printToWebsite(dapicksanddabans, something){
 
 
             document.getElementById("game"+d).onclick = function(){
-                document.body.style.cursor = "not-allowed";
-                document.getElementById("quickInfo").style.transform = "translate(260px,50px)";
-                document.getElementById("teambackgrounddiv").style.height = "50px";
-                document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "50px";
-                if(document.getElementById("h3").querySelector("#teamPfp")){
-                    document.getElementById("h3").querySelector("#teamPfp").style.height = "30px";
-                    document.getElementById("h3").querySelector("#teamPfp").style.width = "30px";
-                }
-        
-                document.getElementById("h3").style.transform = "translate(300px,-40px)";
+
+                
                 
 
                 moreclicks++;
@@ -1911,8 +2562,18 @@ function printToWebsite(dapicksanddabans, something){
 
                 
                 let reverseclick = false;
-
+     
                 if(dividerclicked && moreclicks > 0){
+                    document.body.style.cursor = "not-allowed";
+                    document.getElementById("quickInfo").style.transform = "translate(260px,50px)";
+                    document.getElementById("teambackgrounddiv").style.height = "50px";
+                    document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "50px";
+                    if(document.getElementById("h3").querySelector("#teamPfp")){
+                        document.getElementById("h3").querySelector("#teamPfp").style.height = "30px";
+                        document.getElementById("h3").querySelector("#teamPfp").style.width = "30px";
+                }
+                document.getElementById("h3").style.transform = "translate(300px,-40px)";
+
                     document.getElementById("allInfo").style.transition = ".3s";
 
                     //create LeaderBoard
@@ -1957,7 +2618,7 @@ function printToWebsite(dapicksanddabans, something){
                     }
                     for (const score of scores){
                         var scoreclicked = false;
-                        score.style.transform = "translate(360px,-480px)";
+                        score.style.transform = "translate(360px,-472px)";
                         score.style.pointerEvents = "auto";
                         score.onmouseover = function(){
                             if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
@@ -2130,23 +2791,54 @@ function printToWebsite(dapicksanddabans, something){
 
                     }
 
-                    info.style.fontSize = "22px";
+                    info.style.fontSize = "21px";
                     info.style.transform = "translateY(-190px)";
-                    info.style.width = "510px";
-                    document.getElementById("tm1nme").style.fontSize = "15px";
-                    document.getElementById("tm1nme").style.transform = "translate(50px,-290px)";
-                    document.getElementById("tm2nme").style.fontSize = "15px";
-                    document.getElementById("tm2nme").style.transform = "translate(225px,-290px)";
-                    document.getElementById("VS").style.transform = "translate(145px,-275px)";
-                    document.getElementById("VS").style.filter = "drop-shadow(.5px 0.5px 0.1px black)";
-                    document.getElementById("VS").style.fontWeight = "bolder";
-                    document.getElementById("tm1pfp").style.transform = "translate(-450px,30px)";
-                    document.getElementById("tm1pfp").style.width = "75px";
-                    document.getElementById("tm1pfp").style.height = "75px";
-                    document.getElementById("tm2pfp").style.width = "75px";
-                    document.getElementById("tm2pfp").style.height = "75px";
-                    document.getElementById("tm2pfp").style.transform = "translate(-275px,30px)";
+                    info.style.width = "520px";
 
+                    if (document.getElementById("tm1nme") && document.getElementById("tm2nme") && document.getElementById("VS") && document.getElementById("tm1pfp") && document.getElementById("tm2pfp")){
+                        document.getElementById("tm1nme").style.fontSize = "15px";
+                        document.getElementById("tm1nme").style.transform = "translate(50px,-290px)";
+                        document.getElementById("tm2nme").style.fontSize = "15px";
+                        document.getElementById("tm2nme").style.transform = "translate(225px,-290px)";
+                        document.getElementById("VS").style.transform = "translate(145px,-275px)";
+                        document.getElementById("VS").style.filter = "drop-shadow(.5px 0.5px 0.1px black)";
+                        document.getElementById("VS").style.fontWeight = "bolder";
+                        document.getElementById("tm1pfp").style.transform = "translate(-450px,30px)";
+                        document.getElementById("tm1pfp").style.width = "75px";
+                        document.getElementById("tm1pfp").style.height = "75px";
+                        document.getElementById("tm2pfp").style.width = "75px";
+                        document.getElementById("tm2pfp").style.height = "75px";
+                        document.getElementById("tm2pfp").style.transform = "translate(-275px,30px)";
+                    }
+                    else{
+                        createCover(dapicksanddabans,d,info,quickInfoDivider);
+                        document.getElementById("tm1nme").style.fontSize = "15px";
+                        document.getElementById("tm1nme").style.transform = "translate(50px,-290px)";
+                        document.getElementById("tm2nme").style.fontSize = "15px";
+                        document.getElementById("tm2nme").style.transform = "translate(225px,-290px)";
+                        document.getElementById("VS").style.transform = "translate(145px,-275px)";
+                        document.getElementById("VS").style.filter = "drop-shadow(.5px 0.5px 0.1px black)";
+                        document.getElementById("VS").style.fontWeight = "bolder";
+                        document.getElementById("tm1pfp").style.transform = "translate(-450px,30px)";
+                        document.getElementById("tm1pfp").style.width = "75px";
+                        document.getElementById("tm1pfp").style.height = "75px";
+                        document.getElementById("tm2pfp").style.width = "75px";
+                        document.getElementById("tm2pfp").style.height = "75px";
+                        document.getElementById("tm2pfp").style.transform = "translate(-275px,30px)";
+                        document.querySelector("#quickInfo").querySelectorAll(".scoreinthescore").forEach(el=>{el.style.transform = "translate(360px,-472px)"});
+
+                        if(document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){ 
+                            document.getElementById("quickInfo").querySelector('.scoreinthescore').style.filter = "drop-shadow(1px 1px 5px orange)";
+                            var imgag = document.getElementById("quickInfo").querySelector(".scoreinthescore").querySelector("#imgg").src;
+
+                            document.querySelectorAll(".BoardTeam").forEach(el=>{
+                                el.querySelector("#TeamNameDoc").style.backgroundImage  = `url(${imgag})`;
+                                el.querySelector("#TeamNameDoc").style.backgroundColor = "white";
+
+                            });
+                     
+                        }
+                    }
                     
                     
 
@@ -2191,6 +2883,7 @@ function printToWebsite(dapicksanddabans, something){
                     
                 }
                  if (moreclicks > 1){
+
                     document.getElementById("quickInfo").style.transform = "translate(260px,280px)";
                     document.getElementById("teambackgrounddiv").style.height = "280px";
                     document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "280px";
@@ -2202,10 +2895,11 @@ function printToWebsite(dapicksanddabans, something){
                     if (document.getElementById("WHOLEPLAYERDIVIDER")){
                         document.getElementById("WHOLEPLAYERDIVIDER").remove();
                     }
+                    document.getElementById("allInfo").style.transform = "translate(260px,300px)";
                     //console.log("running fetchlast5 from firstmatch id");
                     fetchLast5Players(firstMatchID,true);
                     //console.log("changing visibility");
-                    document.getElementById("allInfo").style.transition = "1s";
+                    document.getElementById("allInfo").style.transition = ".3s";
                     document.getElementById("allInfo").style.opacity = "1";
 
                     if (document.getElementById("RECORDDD")){
@@ -2213,6 +2907,7 @@ function printToWebsite(dapicksanddabans, something){
 
                     }
 
+                    /*
                     document.getElementById("tm1nme").style.fontSize = "25px";
                     document.getElementById("tm1nme").style.transform = "translate(50px,-250px)";
                     document.getElementById("tm1pfp").style.width = "150px";
@@ -2229,8 +2924,19 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("VS").style.fontSize = "50px";
                     document.querySelectorAll(".scoreinthescore").forEach(el => el.style.transform = "translate(365px,-158px)");
                     
+                    */
+                    const butons = document.querySelectorAll('#buttonspan');
+                    butons.forEach(element =>{
+                        element.style.transform = "translate(705px, 20px)";
+                    });
 
-                    document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px white)";
+                    info.innerHTML = "";
+                    const myNode = document.getElementById("quickInfo");
+                    while (myNode.firstChild) {
+                        myNode.removeChild(myNode.lastChild);
+                    }
+                    quickInfoDivider.innerHTML = "PLEASE HOVER OVER A GAME";
+                    document.getElementById("game"+d).style.webkitFilter = " ";
                     moreclicks = 0;
                 }
                 if(document.getElementById("EncompassingDivider")){
@@ -2261,632 +2967,7 @@ function printToWebsite(dapicksanddabans, something){
                         element.style.transform = "translate(1535px, 20px)"
                     });
                 
-                    //function that calculates info for current highlighted game (you can get the matchid by getting the vote_type from)
-                    //dapicksanddabans[d] returns the correct ban information for that hightlighted map.
-                    //we want the pick ban process, so take the array that's in picksandbans[d] and display what the info is ex. Spin da Block banned de_vertigo
-                    //                                                                                                           PIG Gaming banned de_nuke
-                    //                                                                                                           PIG Gaming banned de_inferno
-                    //                                                                                                           Spin da Block banned de_mirage
-                    //                                                                                                           Spind da Block banned de_dust2
-                    //                                                                                                           PIG Gaming banned de_ancient
-                    //                                                                                                           Left over but picked by PIG Gaming
-                    let somanymapss = document.createElement('div');
-                    somanymapss.id = "cvr";
-                    somanymapss.style.width = "600px";
-                    let counter = 0;
-                    for (const p of dapicksanddabans[d].entities){
-                        counter = counter+1;
-                        if (p.status == "pick"){
-                            let bigimage = document.createElement('img');
-                            bigimage.id = "image";
-                            bigimage.classList.add("cvr");
-
-                            if(dapicksanddabans[d].entity_type >= 2){
-                                bigimage.style.height = "300px";
-                                bigimage.style.width = "167px";
-                                switch (p.guid){
-                                    case "de_train":
-                                        bigimage.src = image_links[7];
-                                        break;
-                                    case "de_ancient":
-                                        bigimage.src = image_links[0];
-                                        break;
-                                    case "de_anubis":
-                                        bigimage.src = image_links[1];
-                                        break;
-                                    case "de_inferno":
-                                        bigimage.src = image_links[2];
-                                        break;
-                                    case "de_dust2":
-                                        bigimage.src = image_links[3];
-                                        break;
-                                    case "de_mirage":
-                                        bigimage.src = image_links[4];
-                                        break;
-                                    case "de_nuke":
-                                        bigimage.src = image_links[5];
-                                        break;
-                                    case "de_vertigo":
-                                        bigimage.src = image_links[6];
-                                        break;
-                                    default:
-                                        bigimage.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
-                                        break;
-                                }
-                                if(dapicksanddabans[d].entity_type > 3){
-                                    bigimage.classList.remove("cvr");
-                                    bigimage.classList.add("dvr");
-                                    bigimage.style.width = "100px";
-                                }
-                            }
-                            else{
-                                bigimage.classList.remove("cvr");
-                                bigimage.classList.add("pvr");
-                                bigimage.style.height = "300px";
-                                bigimage.style.width = "500px";
-                                switch (p.guid){
-                                    case "de_train":
-                                        bigimage.src = image_links[7];
-                                        break;
-                                    case "de_ancient":
-                                        bigimage.src = image_links[0];
-                                        break;
-                                    case "de_anubis":
-                                        bigimage.src = image_links[1];
-                                        break;
-                                    case "de_inferno":
-                                        bigimage.src = image_links[2];
-                                        break;
-                                    case "de_dust2":
-                                        bigimage.src = image_links[3];
-                                        break;
-                                    case "de_mirage":
-                                        bigimage.src = image_links[4];
-                                        break;
-                                    case "de_nuke":
-                                        bigimage.src = image_links[5];
-                                        break;
-                                    case "de_vertigo":
-                                        bigimage.src = image_links[6];
-                                        break;
-                                    default:
-                                        bigimage.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
-                                        break;
-                                }
-                            }
-                            somanymapss.appendChild(bigimage);
-                        }
-                        let final = (counter == 7) ? "(LEFT OVER) "+p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>": p.selected_by+" "+(p.status=="drop" ? '<span class="red"> banned' : '<span class="green"> picked')+"</span> "+p.guid+".<br/>";
-                        info.innerHTML+=final;
-
-
-                    }
-
-                    let tm1pfp = document.createElement("img");
-                    tm1pfp.id = "tm1pfp";
-                    let fjksdhfksdj = dapicksanddabans[d].teams[0];
-                    let tm1nme = document.createElement("div");
-                    tm1nme.innerHTML = fjksdhfksdj[1];
-                    tm1nme.id = "tm1nme";
-                    tm1nme.style.position = "absolute";
-                    tm1nme.style.fontSize = "25px";
-                    tm1nme.style.transform = "translate(50px,-250px)";
-                    tm1nme.style.color = "#ffffff";
-                    
-                    tm1nme.style.textShadow = "0px 0px 2px "+(( fjksdhfksdj[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
-                    checkImageExists(fjksdhfksdj[0], function(exists) {
-                        if (exists) {
-                            tm1pfp.src = fjksdhfksdj[0];
-                        } else {
-                            tm1pfp.src = defaultimage// Use fallback URL if the image doesn't exist
-                        }
-                    });
-
-                    // Creating the second image element
-                    let tm2pfp = document.createElement("img");
-                    tm2pfp.id = "tm2pfp";
-                    let fsdfesfsdf = dapicksanddabans[d].teams[1];
-                    let tm2nme = document.createElement("div");
-                    tm2nme.innerHTML = fsdfesfsdf[1];
-                    tm2nme.id = "tm2nme";
-                    tm2nme.style.position = "absolute";
-                    tm2nme.style.fontSize = "25px";
-                    tm2nme.style.transform = "translate(290px,-250px)";
-                    
-                    tm2nme.style.color = "#ffffff";
-                    
-                    tm2nme.style.textShadow = "0px 0px 2px "+(( fsdfesfsdf[2] == dapicksanddabans[d].winnerID) ? "green" : "red");
-
-
-                    checkImageExists(fsdfesfsdf[0], function(exists) {
-                        if (exists) {
-                            tm2pfp.src = fsdfesfsdf[0];
-                        } else {
-                            tm2pfp.src = defaultimage; // Use fallback URL if the image doesn't exist
-                        }
-                    });
-
-
-                    //display score here?
-                    let VS = document.createElement("div");
-                    VS.id = "VS";
-                    VS.innerHTML = "VS";
-
-
-                    somanymapss.appendChild(tm1pfp);
-                    somanymapss.appendChild(tm1nme);
-                    somanymapss.appendChild(tm2pfp);
-                    somanymapss.appendChild(tm2nme);
-                    somanymapss.appendChild(VS);
-                    quickInfoDivider.appendChild(somanymapss);
-                    quickInfoDivider.appendChild(info);
-
-                    let omfgsomanycounters = 0;
-                    for (const stuff of dapicksanddabans[d].detailed_results){
-                        if(omfgsomanycounters % 2==0){
-                            //console.log(dapicksanddabans[d].detailed_score[omfgsomanycounters/2] +" -  -  - "+dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length);
-                           // console.log("THETEAMWEARESEARCHING = "+THETEAMWEARESEARCHING+" THE WINNING TEAM IS "+dapicksanddabans[d].detailed_results[omfgsomanycounters]);
-                            //console.log(dapicksanddabans[d]);
-                            if (dapicksanddabans[d].detailed_results[omfgsomanycounters] === THETEAMWEARESEARCHING){
-                                let somanyscore = document.createElement("div");
-                                somanyscore.classList.add("scoreinthescore");
-                                somanyscore.id =  ((omfgsomanycounters/2)+1);
-                                somanyscore.style.color = 'green';
-                                somanyscore.style.width = "150px";
-                                somanyscore.style.height = "75px";
-                                somanyscore.innerHTML = `<span id = txtt style= "padding-left:${dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length >= 7 ? 24 : 33.5}px; padding-right:${dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length >= 7 ? 27 : 32}px;">`+dapicksanddabans[d].detailed_score[omfgsomanycounters/2]+"</span>";
-                                //somanyscoree.push(dapicksanddabans[d].detailed_results[omfgsomanycounters+1]);
-                               //console.log(dapicksanddabans[d]);
-                                switch(dapicksanddabans[d].detailed_results[omfgsomanycounters+1]){
-                                    case "de_mirage":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[4];
-                                        somanyscore.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_mirage" && entity.status === "pick"){
-                                               // console.log(entity.selected_by +"////// OUR TEAM = "+document.getElementById("tm1nme").innerHTML +" FUCKING OR .//// "+document.getElementById("tm2nme").innerHTML);
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscore.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_dust2":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[3];
-                                        somanyscore.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_dust2" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscore.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_train":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[7];
-                                        somanyscore.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_train" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscore.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_inferno":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[2];
-                                        somanyscore.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_inferno" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscore.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_anubis":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[1];
-                                        somanyscore.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_anubis" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscore.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_ancient":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[0];
-                                        somanyscore.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_ancient" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscore.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_nuke":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[5];
-                                        somanyscore.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_nuke" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscore.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_vertigo":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[6];
-                                        somanyscore.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_vertigo" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscore.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-
-                                }
-                                let t1cpy = document.createElement("img");
-                                t1cpy.id = "tm1copy";
-                                t1cpy.style.zIndex = "1";
-                                t1cpy.style.height = "20px";
-                                t1cpy.style.width = "20px";
-                                checkImageExists(fjksdhfksdj[0], function(exists) {
-                                    if (exists) {
-                                        
-                                        t1cpy.src = fjksdhfksdj[0];
-                                    } else {
-                                        t1cpy.src = defaultimage; // Use fallback URL if the image doesn't exist
-                                    }
-                                });
-                                
-                               // t1cpy.src = tm1pfp.src;
-                                let t2cpy = document.createElement("img");
-                                t2cpy.id = "tm2copy";
-                                t2cpy.style.height = "20px";
-                                t2cpy.style.width = "20px";
-                         
-                                checkImageExists(fsdfesfsdf[0], function(exists) {
-                                    if (exists) {
-                                        
-                                        t2cpy.src = fsdfesfsdf[0];
-                                    } else {
-                                        t2cpy.src = defaultimage; // Use fallback URL if the image doesn't exist
-                                    }
-                                });
-                                //t2cpy.src = document.getElementById("tm2pfp").src;
-                                //console.log(t1cpy);
-                                //console.log(t2cpy);
-                               // console.log(tm2pfp);
-                                somanyscore.appendChild(t1cpy);
-                                somanyscore.prepend(t2cpy);
-                                quickInfoDivider.appendChild(somanyscore);
-                                //dascore.style.color = 'green';
-                                //dascore.style.webkitFilter = "drop-shadow(0px 0px 2pxrgb(38, 255, 0))";
-                                
-                                
-                            }
-                            else {
-                                let somanyscoree = document.createElement("div");
-                                somanyscoree.classList.add("scoreinthescore");
-                                somanyscoree.id = ((omfgsomanycounters/2)+1);
-                                somanyscoree.style.color = 'red';
-                                somanyscoree.style.width = "150px";
-                                somanyscoree.style.height = "75px";
-
-                                somanyscoree.innerHTML = `<span id = txtt style= "padding-left:${dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length >= 7 ? 24 : 33.5}px; padding-right:${dapicksanddabans[d].detailed_score[omfgsomanycounters/2].length >= 7 ? 27 : 32}px;">`+dapicksanddabans[d].detailed_score[omfgsomanycounters/2]+"</span>";
-                                //somanyscoree.push(dapicksanddabans[d].detailed_results[omfgsomanycounters+1]);
-
-                                switch(dapicksanddabans[d].detailed_results[omfgsomanycounters+1]){
-                                    case "de_mirage":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[4];
-                                        somanyscoree.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_mirage" && entity.status === "pick"){
-                                               // console.log(entity.selected_by +"////// OUR TEAM = "+document.getElementById("tm1nme").innerHTML +" FUCKING OR .//// "+document.getElementById("tm2nme").innerHTML);
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscoree.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_dust2":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[3];
-                                        somanyscoree.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_dust2" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscoree.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_train":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[7];
-                                        somanyscoree.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_train" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscoree.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_inferno":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[2];
-                                        somanyscoree.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_inferno" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscoree.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_anubis":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[1];
-                                        somanyscoree.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_anubis" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscoree.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_ancient":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[0];
-                                        somanyscoree.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_ancient" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscoree.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_nuke":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[5];
-                                        somanyscoree.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_nuke" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscoree.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "de_vertigo":
-                                        var mapimg = document.createElement("img");
-                                        mapimg.id = "imgg";
-                                        mapimg.src = image_links[6];
-                                        somanyscoree.appendChild(mapimg);
-                                        for (const entity of dapicksanddabans[d].entities){
-                                            if (entity.guid === "de_vertigo" && entity.status === "pick"){
-                                                let P = document.createElement("div");
-                                                P.innerHTML = "P";
-                                                P.id = "P";
-                                                somanyscoree.appendChild(P);
-                                                if (entity.selected_by === document.getElementById("tm1nme").innerHTML){
-
-                                                    P.style.transform = "translate(17px,-48px)";
-                                                }
-                                                else if (entity.selected_by === document.getElementById("tm2nme").innerHTML){
-                                                    
-                                                    P.style.transform = "translate(118px,-48px)";
-                                                }
-                                            }
-                                        }
-                                        break;
-
-                                }
-                                let t1cpy = document.createElement("img");
-                                t1cpy.id = "tm1copy";
-                                t1cpy.style.height = "20px";
-                                t1cpy.style.width = "20px";
-                                t1cpy.src = fjksdhfksdj[0]; 
-                               // t1cpy.src = tm1pfp.src;
-                                let t2cpy = document.createElement("img");
-                                t2cpy.id = "tm2copy";
-                                t2cpy.style.height = "20px";
-                                t2cpy.style.width = "20px";
-                                checkImageExists(fsdfesfsdf[0], function(exists) {
-                                    if (exists) {
-                                        
-                                        t2cpy.src = fsdfesfsdf[0];
-                                    } else {
-                                        t2cpy.src = defaultimage; // Use fallback URL if the image doesn't exist
-                                    }
-                                });
-                               // t2cpy.src = fsdfesfsdf[0];
-
-                               // t2cpy.src = tm2pfp.src;
-                                //console.log(t1cpy);
-                              //  console.log(tm2pfp);
-                                //console.log(t2cpy);
-                                somanyscoree.appendChild(t1cpy);
-                                somanyscoree.prepend(t2cpy);
-                                quickInfoDivider.appendChild(somanyscoree);
-                                //dascore.style.color = 'red';
-                                //dascore.style.webkitFilter = "drop-shadow(0px 0px 2px #ff0000)";
-                                
-                            }
-
-                        }
-                        else {
-
-                        }
-                        omfgsomanycounters++;
-                    }
-                    
+                    createCover(dapicksanddabans, d,info,quickInfoDivider);
                 
             } //
         }
@@ -2894,15 +2975,16 @@ function printToWebsite(dapicksanddabans, something){
         document.getElementById("game"+d).onmouseout = function(){
             
             if(!dividerclicked){
-                document.getElementById("tm1nme").style.fontSize = "25px";
-                document.getElementById("tm1nme").style.transform = "translate(60px,-250px)";
-                document.getElementById("tm2nme").style.fontSize = "25px";
-                document.getElementById("tm2nme").style.transform = "translate(300px,-250px)";
-                info.style.transform = "";
-                info.style.fontSize = "20px";
-                document.getElementById("game"+d).style.webkitFilter = "";
-                document.getElementById("allInfo").style.transform = "translate(260px,300px)";
-
+                if(document.getElementById("tm1nme") &&  document.getElementById("tm2nme") && document.getElementById("game"+d) && document.getElementById("allInfo")){
+                    document.getElementById("tm1nme").style.fontSize = "25px";
+                    document.getElementById("tm1nme").style.transform = "translate(60px,-250px)";
+                    document.getElementById("tm2nme").style.fontSize = "25px";
+                    document.getElementById("tm2nme").style.transform = "translate(300px,-250px)";
+                    info.style.transform = "";
+                    info.style.fontSize = "20px";
+                    document.getElementById("game"+d).style.webkitFilter = "";
+                    document.getElementById("allInfo").style.transform = "translate(260px,300px)";
+                }
 
             
             const butons = document.querySelectorAll('#buttonspan');
@@ -2931,7 +3013,16 @@ function printToWebsite(dapicksanddabans, something){
     }
     }
     }
-    
+    if (document.getElementById("RECORDDD")){
+        if (document.getElementById("RECORDDD").children.length === 5){
+            document.getElementById("RECORDDD").style.fontSize = "28px";
+        }
+        else if (document.getElementById("RECORDDD").children.length > 5){
+            document.getElementById("RECORDDD").style.fontSize = "20px";
+
+        }
+    }
+    console.log(document.getElementById("RECORDDD").children.length);
 }
 
 let createpicturesonce = true;

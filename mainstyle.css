@@ -82,7 +82,7 @@ body {
   position: absolute;
   color: rgb(255, 255, 255);
   filter: drop-shadow(3px 0px 1px #000000);
-  transform: translate(-680px,-420px);
+  transform: translate(-670px,-420px);
   font-size: 15px;
   font-family: 'Minecraftia', sans-serif;
 }
@@ -275,6 +275,37 @@ body {
 }
 #lgOut:hover {
   text-decoration: underline;
+}
+#smokewed{
+  position: absolute;
+  z-index: 1;
+  transform: translate(200px,15px);
+  width: auto;
+  height: 80px;
+  border-radius: 18px;
+  animation: greenSmoke 2.5s infinite ease-in-out;
+
+}
+@keyframes greenSmoke {
+  0% {
+    box-shadow:
+      0 0 10px black,
+      0 0 0px rgba(0, 255, 0, 0),
+      0 0 0px rgba(0, 255, 0, 0);
+  }
+  50% {
+    box-shadow:
+      0 0 10px black,
+      0 0 10px rgba(0, 255, 0, 0.1),
+      0 0 25px rgba(0, 255, 0, 0.2),
+      0 0 40px rgba(0, 255, 0, 0.3);
+  }
+  100% {
+    box-shadow:
+      0 0 10px black,
+      0 0 0px rgba(0, 255, 0, 0),
+      0 0 0px rgba(0, 255, 0, 0);
+  }
 }
 .hidden{
   display: none;
@@ -529,7 +560,7 @@ h3{
 #elo{
   font-size: 25px;
   color: #ffffff;
-  transform: translate(12%,-100px);
+  transform: translate(12%,-45px);
 }
 #teamname{
   font-size: 25px;
@@ -602,6 +633,13 @@ transform: translateY(-120px);
   padding: 5px;
   width: 200px;
   height: 80px;
+  overflow: hidden;
+  
+}
+.divFart{
+  padding: 5px;
+  width: 200px;
+  height: 80px;
 }
 
 .input-group {
@@ -635,9 +673,8 @@ transform: translateY(-120px);
   width: 500px;
   filter: drop-shadow(.1px .1px 2px black);
   filter: drop-shadow(.1px .1px 2px black);
-  transform: translate(200px,-200px);
+  transform: translate(180px,-50px);
   opacity: 0;
-
   font-size: 17px;
   pointer-events: none;
 }
@@ -811,7 +848,7 @@ transform: translateY(-120px);
   color: green;
   font-size: 16px;
   width: 100%;
-  overflow-y : scroll;
+  overflow-y : auto;
   overflow-x: hidden;
   height: 730px;
   transform: translate(-9px,-15px);
@@ -824,7 +861,7 @@ transform: translateY(-120px);
   height: 30px;
 }
 #upcomingmatchestag{
-  width:280px;
+  width:650px;
   height: 30px;
 
 }
