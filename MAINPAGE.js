@@ -60,6 +60,7 @@ document.getElementById("smokewed").onmouseout = function(){
     document.body.style.cursor = "default";
 
 }
+
 document.getElementById("smokewed").onclick = function(){
     var RNG = Math.floor(Math.random()*3)+1;
     console.log(RNG);
@@ -89,7 +90,7 @@ document.getElementById("smokewed").onclick = function(){
             }
             break;
         case 3:
-            var audio = new AudioBuffer('https://atomicrecall.github.io/Cipher/images/smoke-weed.mp3');
+            var audio = new Audio ('https://atomicrecall.github.io/Cipher/images/smoke-weed.mp3');
             audio.play();
             audio.volume = 0.5;
             audio.onended = () =>{
