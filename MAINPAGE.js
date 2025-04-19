@@ -75,6 +75,7 @@ document.getElementById("smokewed").onclick = function(){
         case 1:
             var audio = new Audio('https://atomicrecall.github.io/Cipher/images/thomassmokeweed.mp3');
             audio.play();
+            audio.volume = 0.5;
             audio.onended = () =>{
                 wedsmoke.remove();
             }
@@ -82,6 +83,7 @@ document.getElementById("smokewed").onclick = function(){
         case 2:
             var audio = new Audio('https://atomicrecall.github.io/Cipher/images/smoke-weed-everyday-zelda.mp3');
             audio.play();
+            audio.volume = 0.5;
             audio.onended = () =>{
                 wedsmoke.remove();
             }
@@ -89,6 +91,7 @@ document.getElementById("smokewed").onclick = function(){
         case 3:
             var audio = new AudioBuffer('https://atomicrecall.github.io/Cipher/images/smoke-weed.mp3');
             audio.play();
+            audio.volume = 0.5;
             audio.onended = () =>{
                 wedsmoke.remove();
             }
