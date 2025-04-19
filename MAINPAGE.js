@@ -61,13 +61,15 @@ document.getElementById("smokewed").onmouseout = function(){
 
 }
 document.getElementById("smokewed").onclick = function(){
-    var RNG = Math.floor(Math.random()*2)+1;
+    var RNG = Math.floor(Math.random()*3)+1;
     console.log(RNG);
     var wedsmoke = document.createElement("img");
     wedsmoke.src = "https://atomicrecall.github.io/Cipher/images/wedsmoke.gif";
     wedsmoke.style.width = "1600px";
     wedsmoke.style.height = "900px";
     wedsmoke.style.position = "absolute";
+    wedsmoke.style.cursor =  "url('https://images-ext-1.discordapp.net/external/cFjcHBzNOzy-VsQMfdxB_Q_g4YV5RPJgT97j18iZxXY/%3Fcb%3D20130610195923/https/static.wikia.nocookie.net/callofduty/images/4/45/Weed_emblem_MW2.png/revision/latest?format=webp&width=128&height=128'),auto";
+
     document.body.appendChild(wedsmoke);
     switch (RNG){
         case 1:
@@ -79,6 +81,13 @@ document.getElementById("smokewed").onclick = function(){
             break;
         case 2:
             var audio = new Audio('https://atomicrecall.github.io/Cipher/images/smoke-weed-everyday-zelda.mp3');
+            audio.play();
+            audio.onended = () =>{
+                wedsmoke.remove();
+            }
+            break;
+        case 3:
+            var audio = new AudioBuffer('https://atomicrecall.github.io/Cipher/images/smoke-weed.mp3');
             audio.play();
             audio.onended = () =>{
                 wedsmoke.remove();
