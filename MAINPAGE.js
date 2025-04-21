@@ -230,10 +230,10 @@ else{
               });
             break;
         case 4:
-            typeWriter(document.getElementById("h1"), "Sir, the toilet is overflowing please help clean this mess up,", 100, () => {
+            typeWriter(document.getElementById("h1"), "Sir, the toilet is overflowing could you help me,", 100, () => {
                 document.getElementById("poop").style.visibility = "visible";
                 
-                    typeWriter(document.getElementById("poop"), String(name), 100);
+                    typeWriter(document.getElementById("poop"), String(name)+"?", 100);
             
                 
               });
