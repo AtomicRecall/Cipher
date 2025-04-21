@@ -2566,7 +2566,7 @@ function printToWebsite(dapicksanddabans, something){
 
             document.getElementById("game"+d).onclick = function(){
 
-                
+                document.querySelectorAll("#buttonspan").forEach(el =>{el.style.opacity = "1"});
                 
 
                 moreclicks++;
