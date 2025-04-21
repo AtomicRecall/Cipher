@@ -3422,7 +3422,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
                 let pis = document.createElement("div");
                 pis.innerHTML = "Pistol : <b>"+overallPlayerStats[team][player].Pistol+"</b>";
                 pis.classList.add("infothing");
-                pis.style.transform = `translate(250px,-${amountofpixels}px)`;
+                pis.style.transform = `translate(245px,-${amountofpixels}px)`;
                 encompassinginfodivider.appendChild(pis);
             }
 
@@ -3431,14 +3431,14 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
                 let kneiv = document.createElement("div");
                 kneiv.innerHTML = "Knife : <b>"+overallPlayerStats[team][player].Knife+"</b>";
                 kneiv.classList.add("infothing");
-                kneiv.style.transform = `translate(250px,-${amountofpixels}px)`;
+                kneiv.style.transform = `translate(245px,-${amountofpixels}px)`;
                 encompassinginfodivider.appendChild(kneiv);
             }
             if(overallPlayerStats[team][player].Zeus > 0){
                 let zus = document.createElement("div");
                 zus.innerHTML = "Knife : <b>"+overallPlayerStats[team][player].Zeus+"</b>";
                 zus.classList.add("infothing");
-                zus.style.transform = `translate(250px,-${amountofpixels}px)`;
+                zus.style.transform = `translate(245px,-${amountofpixels}px)`;
                 encompassinginfodivider.appendChild(zus);
             }
 
@@ -4078,19 +4078,19 @@ function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
             FlashC.innerHTML = "Flash Count : <span class = blue2>"+overallPlayerStats[team][player].FlashC+"</span>";
             FlashC.classList.add("infothing");
             encompassinginfodivider.appendChild(FlashC);
-            FlashC.style.transform = "translate(223px,-55px)";
+            FlashC.style.transform = "translate(213px,-55px)";
 
             let FlashS = document.createElement("div");
             FlashS.innerHTML = "Flash Successes : <span class = green2>"+overallPlayerStats[team][player].FlashS+"</span>";
             FlashS.classList.add("infothing");
             encompassinginfodivider.appendChild(FlashS);
-            FlashS.style.transform = "translate(204px,-55px)";
+            FlashS.style.transform = "translate(194px,-55px)";
 
             let EnemyFlash = document.createElement("div");
             EnemyFlash.innerHTML = "Enemies Flashed : <span class = green2>"+overallPlayerStats[team][player].EnemyFlash+"</span>";
             EnemyFlash.classList.add("infothing");
             encompassinginfodivider.appendChild(EnemyFlash);
-            EnemyFlash.style.transform = "translate(201px,-55px)";
+            EnemyFlash.style.transform = "translate(191px,-55px)";
 
             let EnemyFlashMatch = document.createElement("div");
             EnemyFlashMatch.innerHTML = "Enemies Flashed per Round : <span class = yellow2>"+parseFloat(overallPlayerStats[team][player].EnemyFlashMatch.toFixed(2))+"</span>";
