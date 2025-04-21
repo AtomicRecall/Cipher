@@ -1,3 +1,26 @@
+var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+var loadingimage = document.createElement("img");
+loadingimage.src = loadGears;
+loadingimage.style.width = "1200px";
+loadingimage.style.height = "400px";
+loadingimage.style.position = "absolute";
+loadingimage.id = "removemepls";
+loadingimage.style.transform = "translate(100px,70px)";
+loadingimage.classList.add("removemepls");
+
+
+var notice = document.createElement("div");
+notice.id = "instruction";
+notice.innerHTML = "LOADING YOUR PROFILE...";
+notice.classList.add("removemepls");
+notice.style.fontSize = "80px";
+notice.style.textAlign = "center";
+notice.style.width = "1500px";
+notice.style.transform = "translate(0px)";
+document.getElementById(".BanFileExplorer").appendChild(notice);
+document.getElementById(".BanFileExplorer").appendChild(loadingimage);
+//document.getElementById(".BanFileExplorer")
+
 const firebaseConfig = {
 
     apiKey: "AIzaSyBMfwV_EUEk52tI3RtymT3OGLT9cVeq2O0",
@@ -22,6 +45,9 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
+
+
+
 var RNG = Math.floor(Math.random()*10)+1;
 
 console.log(RNG);
@@ -120,6 +146,7 @@ if (name === "null" || name == undefined || name === ""){
     document.getElementById("lgOut").innerHTML = "Log In?";
     document.getElementById("lgOut").style.transform = "translate(5px,0px)";
     document.getElementById("redirect").href = "LoginPage.html";
+    document.getElementById("lgOut").style.transform = "translate(5px,20px)";
     localStorage.setItem("NOFACEITACCOUNT", 1);
     localStorage.setItem("NOTEAMALERT", 0);
 
@@ -145,12 +172,77 @@ var NONESEALEAGUEPLAYERREF = database.ref('USERS/'+name).on ('value', function(s
     NONESEALEAGUEPLAYERR = thingy;
    // console.log(NONESEALEAGUEPLAYERR);
 });
-
-
-document.getElementById("poop").innerHTML = name;
+function typeWriter(element, text, delay = 100, callback) {
+    let i = 0;
+    element.classList.add("typing");
+  
+    function type() {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+        setTimeout(type, delay);
+      } else {
+        element.classList.remove("typing");
+        if (callback) callback();
+      }
+    }
+  
+    type();
+  }
+//document.getElementById("h1").innerHTML = "Your Cipher awaits,";
+//document.getElementById("poop").innerHTML = name;
 if(name === null || name === ""){
-    document.getElementById("poop").innerHTML = "Demo User";
+    typeWriter(document.getElementById("h1"), "Hmm I dont recognize you, so im gonna call you....", 100, () => {
+        document.getElementById("poop").style.visibility = "visible";
+        typeWriter(document.getElementById("poop"),  "Demo User", 100);    
+        
+      });
+    
 }
+else{
+    var RNG = Math.floor(Math.random()*4)+1;
+    switch(RNG){
+        case 1:
+            typeWriter(document.getElementById("h1"), "Welcome back,", 100, () => {
+                document.getElementById("poop").style.visibility = "visible";
+                
+                    typeWriter(document.getElementById("poop"), String(name), 100);
+            
+                
+              });
+            break;
+        case 2:
+            typeWriter(document.getElementById("h1"), "Your Cipher awaits,", 100, () => {
+                document.getElementById("poop").style.visibility = "visible";
+                
+                    typeWriter(document.getElementById("poop"), String(name), 100);
+            
+                
+              });
+            break;
+        case 3:
+            typeWriter(document.getElementById("h1"), "Good to see you again,", 100, () => {
+                document.getElementById("poop").style.visibility = "visible";
+                
+                    typeWriter(document.getElementById("poop"), String(name), 100);
+            
+                
+              });
+            break;
+        case 4:
+            typeWriter(document.getElementById("h1"), "Sir, the toilet is overflowing please help clean this mess up,", 100, () => {
+                document.getElementById("poop").style.visibility = "visible";
+                
+                    typeWriter(document.getElementById("poop"), String(name), 100);
+            
+                
+              });
+            break;
+    }
+    
+}
+
+
 
 
 
@@ -167,11 +259,23 @@ srchbtn.addEventListener('click', () =>{
     removeElementsByClass("divvv");
     removeElementsByClass("divFart");
     document.getElementById("h3").innerHTML = "SEARCH";
+    document.getElementById("h1").innerHTML = "";
+    document.getElementById("poop").innerHTML = "";
     document.getElementById("srchBtn").style.visibility = "hidden";
     document.getElementById("rtrnBtn").style.visibility = "visible";
     document.getElementById("rtrnBtn").style.transform = "translate(10px, -5px)";
-    document.getElementById("h1").innerHTML = "Searching for Teams I see,";
-    if (document.getElementById("h2").innerHTML){ document.getElementById("h2").innerHTML = document.getElementById("h2").innerHTML+"?"};
+    typeWriter(document.getElementById("h1"), "Searching for Teams I see,", 100, () => {
+        if (name === "null" || name == undefined || name === ""){
+            typeWriter(document.getElementById("poop"), "Demo User?", 100);
+
+        }
+        else{
+            typeWriter(document.getElementById("poop"), localStorage.getItem("faceit-name")+"?", 100);
+
+        }
+        
+      });
+
 
     const srch3 = document.createElement('button');
     srch3.classList.add("input-group");
@@ -294,6 +398,29 @@ rtrnBtn.addEventListener('click', () =>{
 });
 */
 
+const regionFlags = {
+    NA: "🌎", // North America
+    EU: "🇪🇺", // European Union
+    AS: "🌏", // Asia (general)
+    SA: "🌍", // South America
+    OC: "🇦🇺", // Oceania (Australia as rep)
+    AF: "🌍", // Africa
+    AN: "🇦🇶", // Antarctica
+  };
+  
+  function getFlag(code) {
+    if (code.length === 2 && /^[a-zA-Z]{2}$/.test(code)) {
+      return countryCodeToFlagEmoji(code);
+    } else {
+      return regionFlags[code.toUpperCase()] || "❓";
+    }
+  }
+  function countryCodeToFlagEmoji(code) {
+    return code
+      .replace(/./g, char =>
+        String.fromCodePoint(char.charCodeAt(0) + 127397)
+      );
+  }
 
 function ontop(){
   
@@ -354,14 +481,15 @@ function ontop(){
             img.width = 150;
             img.style.filter = "drop-shadow(0px 0px 2px #000000)";
             document.getElementById('.form-wrapper').appendChild(img);
-            var region = document.createElement("img");
-
+            var region = document.createElement("div");
+            region.id = "region";
+            region.innerHTML = getFlag(String(data.country).toUpperCase());
+            document.getElementById(".form-wrapper").appendChild(region);
             var elo = document.createElement('div');
             elo.innerHTML = ('\xa0'+data.games.cs2.faceit_elo);
             elo.id = "elo";
             elo.style.filter = "drop-shadow(0px 0px 2px #000000)";
             var lvl =  document.createElement("img");
-            console.log(data);
             lvl.style.height = "30px";
             lvl.style.width = "30px";
             lvl.style.transform = "translate(0px,7px)";
@@ -412,7 +540,6 @@ function ontop(){
                 var upcomingmatchestag = document.createElement('div');
                 upcomingmatchestag.id = "upcomingmatchestag";
                 upcomingmatchestag.classList.add("divFart");
-                upcomingmatchestag.innerHTML = String(localStorage.getItem("danameyo")).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+localStorage.getItem("daseasonyo")+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
 
                 var loadingimage = document.createElement("img");
                 loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
@@ -429,10 +556,12 @@ function ontop(){
 
                 var teamname = document.createElement('div');
                 teamname.id = "teamname";
-                teamname.style.opacity = 0;
-                teamname.innerHTML = "LAST PLAYED FOR: "+localStorage.getItem("danameyo");
+                teamname.style.opacity = 1;
+                teamname.innerHTML = "LAST PLAYED FOR: "+localStorage.getItem("danameyo")+" in division "+localStorage.getItem("division");
                 if(localStorage.getItem('team-id') != null){
                     getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
+                    upcomingmatchestag.innerHTML = String(localStorage.getItem("danameyo")).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+localStorage.getItem("daseasonyo")+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
+
                 }
                 else{
                     getTeamNameDoc(data.player_id,0,"teamname",upcomingmtches);
@@ -450,10 +579,7 @@ else{
     YOURSAVEDTEAMS();
 }
     
-    if (document.getElementById("removemepls")){
-        removeElementsByClass("removemepls");  
 
-    }
 }
 function isValidJSON(str) {
     try {
@@ -465,7 +591,10 @@ function isValidJSON(str) {
   }
 function YOURSAVEDTEAMS(){
     console.log("RUNNING YOURSAVEDTEAMS");
-    
+    if (document.getElementById("removemepls")){
+        removeElementsByClass("removemepls");  
+
+    }
     let NONESEALEAGUEPLAYERR3 = -1;
     var NONESEALEAGUEPLAYERREF = database.ref('USERS/'+name).on ('value', function(snapshot){
         var data = snapshot.val();
@@ -497,7 +626,7 @@ function YOURSAVEDTEAMS(){
    
     if(localStorage.getItem("NOFACEITACCOUNT") == 1 && localStorage.getItem("NOTEAMALERT")==0){
             dataa11 = JSON.parse(localStorage.getItem("savedTeams"));
-        
+
         
        // console.log(dataa11);
         if(dataa11 != null){
@@ -558,9 +687,12 @@ function funnyfunction(dataalolfunny,wheretoadd){
         case "upcomingmatchesdivider":
             let counter = 0;
             let c = 1;
+            console.log(dataalolfunny);
+
     for (let d = 0; d < dataalolfunny.length; d++){
         //console.log("finding from upcoming: ");
         //console.log(dataalolfunny[d]);
+        console.log(d);
         if(d === 0 || d % 2 === 0 ){
 
         
@@ -576,6 +708,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
             return res.json();
         })
         .then((datan) =>{ 
+            console.log(datan);
             counter++;
             let leaderid = datan.leader;
             //avatar and cover image in the right spot, will have to figure out how to do this automatically with lots of mother fucking entries
@@ -896,14 +1029,13 @@ function funnyfunction(dataalolfunny,wheretoadd){
                   // console.log("GO UNVISIBLE "+lol[space+2].id);
                 document.getElementById(lol[space+2].id).style.transition = "0.5s";
                 document.getElementById(lol[space+2].id).style.opacity = 0;
-                document.getElementById(lol[space+2].id).style.transform+="translateY(-20px)";
+                updateTransformY(document.getElementById(lol[space+2].id), -20);            
             }
             if(lol[space+4]!= undefined && lol[space+4]!= null){
                    //console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+4].id);
                  document.getElementById(lol[space+4].id).style.transition = "0.5s";
                  document.getElementById(lol[space+4].id).style.opacity = 0;
-                 document.getElementById(lol[space+4].id).style.transform+="translateY(-20px)";
-
+                 updateTransformY(document.getElementById(lol[space+4].id), -20);
             }
             else {
               //  console.log("DO NOTHING");
@@ -998,13 +1130,17 @@ function funnyfunction(dataalolfunny,wheretoadd){
         case "yoursavedteamsdivider":
             let counterr = 0;
             let cc = 1;
+
+
     for (let d = 0; d < dataalolfunny.length; d++){
+
         //console.log("finding ");
         //console.log(dataalolfunny[d]);
+        
         fetch('https://open.faceit.com/data/v4/teams/'+dataalolfunny[d], {
         headers: {
             'accept': 'application/json',
-            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
         }
         }).then((res) => {
             if(!res.ok){
@@ -1016,12 +1152,12 @@ function funnyfunction(dataalolfunny,wheretoadd){
             counterr++;
             let leaderid = datan.leader;
             //avatar and cover image in the right spot, will have to figure out how to do this automatically with lots of mother fucking entries
-
             var div = document.createElement('div');
             div.classList.add("divv");
             if(document.getElementById(wheretoadd)){
                 document.getElementById(wheretoadd).appendChild(div);
                 }
+ 
             if (wheretoadd == "yoursavedteamsdivider"){
                 removeElementsByClass("removemepls1");
                 div.id = "div"+d;
@@ -1310,14 +1446,13 @@ function funnyfunction(dataalolfunny,wheretoadd){
                   // console.log("GO UNVISIBLE "+lol[space+2].id);
                 document.getElementById(lol[space+2].id).style.transition = "0.5s";
                 document.getElementById(lol[space+2].id).style.opacity = 0;
-                document.getElementById(lol[space+2].id).style.transform+="translateY(-20px)";
-            }
+                updateTransformY(document.getElementById(lol[space+2].id), -20);
+                        }
             if(lol[space+4]!= undefined && lol[space+4]!= null){
                    //console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+4].id);
                  document.getElementById(lol[space+4].id).style.transition = "0.5s";
                  document.getElementById(lol[space+4].id).style.opacity = 0;
-                 document.getElementById(lol[space+4].id).style.transform+="translateY(-20px)";
-
+                 updateTransformY(document.getElementById(lol[space+4].id), -20);
             }
             else {
               //  console.log("DO NOTHING");
@@ -1356,14 +1491,16 @@ function funnyfunction(dataalolfunny,wheretoadd){
                     if(document.getElementById(wheretoadd).children[space+2] != undefined || document.getElementById(wheretoadd).children[space+2] != null){
                         document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.opacity = "1";
                         document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.transition = "1s";
-                        document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.transform+="translateY(20px)";
+                        updateTransformY(document.getElementById(document.getElementById(wheretoadd).children[space+2].id), 0);
+
                     }
                     else {}
                     if(document.getElementById(wheretoadd).children[space+4]!= undefined || document.getElementById(wheretoadd).children[space+4] != null){
                         document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.opacity = "1";
                         document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.transition = "1s";
-
                         document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.transform+="translateY(20px)";
+                     
+                        updateTransformY(document.getElementById(document.getElementById(wheretoadd).children[space+4].id), 0);
                     }
                     else {
                         //DO NOTHING
@@ -1410,6 +1547,13 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
 
 }
+
+function updateTransformY(element, newY) {
+    const current = element.style.transform || "";
+    const cleaned = current.replace(/translateY\([^)]+\)/g, "").trim(); // remove old Y
+    element.style.transform = `${cleaned} translateY(${newY}px)`;
+  }
+
 function moveColumn(fart,c,colms){
     //every 4, increases X by 120, increases y by 400
     if(colms == 4){
@@ -1439,8 +1583,8 @@ function getTeamNameDoc(name, offsett, docelement){
     }
     fetch('https://open.faceit.com/data/v4/players/'+name+'/history?game=cs2&offset='+offsett+'&limit=20', {
     headers: {
-        'accept': 'application/json',
-        'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+            'accept': 'application/json',
+            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
     }
 }).then((res) => {
         if(!res.ok){
@@ -1451,7 +1595,7 @@ function getTeamNameDoc(name, offsett, docelement){
     })
   .then((data) =>{
     console.log(data);
-    document.getElementById(docelement).style.opacity = 0;
+
     for(let key = 0; key < data.items.length; key++){
         // if the "items' competition_name has something to do with esea
         if(data.items[key].competition_name.includes("ESEA") && !data.items[key].competition_name.includes("Qualifier")){
@@ -1464,7 +1608,7 @@ function getTeamNameDoc(name, offsett, docelement){
                 division = "Advanced";
             }
             else if (division.includes("Open")){
-                division = "Open";
+                division = division;
             }
             else if (division.includes("Intermediate")){
                 division = "Intermediate";
@@ -1483,7 +1627,9 @@ function getTeamNameDoc(name, offsett, docelement){
                             console.log("ohhh you in team1 big boy :)");
                             console.log(data.items[key]);
                             //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction1.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
-                            document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction1.nickname+"\n In division "+localStorage.getItem("division");
+                            document.getElementById(docelement).innerHTML="LAST PLAYED FOR: "+data.items[key].teams.faction1.nickname+"\n in division "+localStorage.getItem("division");
+                            document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction1.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+ssn+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
+
                             localStorage.setItem("danameyo",data.items[key].teams.faction1.nickname);
                             localStorage.setItem('team-id', data.items[key].teams.faction1.team_id);
                             getUpcomingMatches(data.items[key].teams.faction1.team_id,52,"upcomingmatchesdivider");
@@ -1495,7 +1641,9 @@ function getTeamNameDoc(name, offsett, docelement){
                     }
                     console.log("just guessing, you probably in team2 right now big boy :)");
                     //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction2.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
-                    document.getElementById(docelement).innerHTML="Season "+ssn+" for "+data.items[key].teams.faction2.nickname+"\n In division "+localStorage.getItem("division");
+                    document.getElementById(docelement).innerHTML="LAST PLAYED FOR: "+data.items[key].teams.faction2.nickname+"\n in division "+localStorage.getItem("division");
+                    document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction2.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+ssn+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
+
                     localStorage.setItem("danameyo",data.items[key].teams.faction2.nickname);
                     localStorage.setItem('team-id', data.items[key].teams.faction2.team_id);
                     getUpcomingMatches(data.items[key].teams.faction2.team_id,52,"upcomingmatchesdivider");
@@ -1509,13 +1657,16 @@ function getTeamNameDoc(name, offsett, docelement){
                 }
                 
             }
-            document.getElementById(docelement).style.opacity = 1;
-
+         
+            
             //console.log("done with loop");
             
         }
     }
-    getTeamNameDoc(name,offsett+20,docelement);
+    if (!document.getElementById(docelement).innerHTML){
+        getTeamNameDoc(name,offsett+20,docelement);
+
+    }
     return;
   });
 }

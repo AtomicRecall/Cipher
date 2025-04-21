@@ -14,6 +14,23 @@ function removeElementsByClass(className) {
 var count = 0;
 removeElementsByClass("divv");
 removeElementsByClass("divFart");
+function typeWriter(element, text, delay = 100, callback) {
+    let i = 0;
+    element.classList.add("typing");
+  
+    function type() {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+        setTimeout(type, delay);
+      } else {
+        element.classList.remove("typing");
+        if (callback) callback();
+      }
+    }
+  
+    type();
+  }
 
 document.getElementById("h3").innerHTML = " ";
 document.getElementById(".form-wrapper").style.opacity = "0";
@@ -27,6 +44,8 @@ document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"
 document.getElementById("srchBtn").style.visibility = "hidden";
 document.getElementById("rtrnBtn").style.visibility = "visible";
 document.getElementById("rtrnBtn").style.transform = "translate(-650px,-375px)";
+document.body.appendChild(document.getElementById("rtrnBtn"));
+
 var rtrnBtn = document.getElementById("rtrnBtn");
 var lastbooleaniswear = false;
 var ffws = 0;
@@ -174,8 +193,8 @@ document.getElementById('h3').onmouseout = function(){
 // Main function to fetch team and leader data
 fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     headers: {
-        'accept': 'application/json',
-        'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
+            'accept': 'application/json',
+            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
     }
 }).then((res) => {
     if (!res.ok) {
@@ -191,7 +210,9 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
    // console.log(datan);
     localStorage.setItem("LeaderID", datan.leader);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
-    document.getElementById("h1").innerHTML = datan.name+"'s Cipher awaits, ";
+    document.getElementById("h1").innerHTML = " ";
+    document.getElementById("h3").style.cursor= "pointer";
+typeWriter(document.getElementById("h1"), datan.name+"'s Cipher awaits, ", 100);
     document.getElementById("h3").onclick = function(){
         let faceitlinkk = datan.faceit_url.replace("{lang}", '');
         window.open(faceitlinkk);
@@ -428,7 +449,7 @@ function GetPlayerInfo(nick , iddd, div, callback){
     fetch('https://open.faceit.com/data/v4/players?nickname='+nick+'&game=cs2', {
         headers: {
             'accept': 'application/json',
-            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
         }
         }).then((res) => {
             if(!res.ok){
@@ -1137,6 +1158,8 @@ function fetchMatchData(matchid,leaderid,count) {
 
 
 function createCover(dapicksanddabans, d,info,quickInfoDivider){
+ 
+                    quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
                         //function that calculates info for current highlighted game (you can get the matchid by getting the vote_type from)
                     //dapicksanddabans[d] returns the correct ban information for that hightlighted map.
                     //we want the pick ban process, so take the array that's in picksandbans[d] and display what the info is ex. Spin da Block banned de_vertigo
@@ -2487,13 +2510,20 @@ function printToWebsite(dapicksanddabans, something){
     }
     
     const childdddrr = matchesDivider.childNodes;
+    var overallButtonDivider = document.createElement("div");
+    overallButtonDivider.style.transform = "translate(250px,-470px)";
+    overallButtonDivider.style.height = "0px";
     if(!something){
        // console.log(childdddrr);
         for(const childs of childdddrr){
          if (childs.id.includes("ssnNum")){
-             createToggle(allInfoDivider);
+             createToggle(overallButtonDivider);
             }
         }
+
+        document.getElementById(".BanFileExplorer").append(overallButtonDivider);
+
+
         var bool = true;
         document.querySelectorAll("#label").forEach(el=>{if(Number(el.innerHTML.substring(1)) < 52)bool=false;});
         if (THEFINALCOUNTERISWEAR === 1 || bool){
@@ -2523,7 +2553,6 @@ function printToWebsite(dapicksanddabans, something){
             }
     }
     
-    document.body.appendChild(document.getElementById("rtrnBtn"));
 
     let info = document.createElement("div");
     info.id = "BANINFOMAN";
@@ -2812,6 +2841,7 @@ function printToWebsite(dapicksanddabans, something){
                     }
                     else{
                         createCover(dapicksanddabans,d,info,quickInfoDivider);
+                       
                         document.getElementById("tm1nme").style.fontSize = "15px";
                         document.getElementById("tm1nme").style.transform = "translate(50px,-290px)";
                         document.getElementById("tm2nme").style.fontSize = "15px";
@@ -2825,6 +2855,11 @@ function printToWebsite(dapicksanddabans, something){
                         document.getElementById("tm2pfp").style.width = "75px";
                         document.getElementById("tm2pfp").style.height = "75px";
                         document.getElementById("tm2pfp").style.transform = "translate(-275px,30px)";
+                        const butons = document.querySelectorAll('#buttonspan');
+                        butons.forEach(element =>{
+                            element.style.transform = "translate(1245px, 20px)";
+                            element.style.opacity = "0";
+                        });
                         document.querySelector("#quickInfo").querySelectorAll(".scoreinthescore").forEach(el=>{el.style.transform = "translate(360px,-472px)"});
 
                         if(document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){ 
@@ -2964,9 +2999,8 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("allInfo").style.transform = "translate(775px,300px)";
                     const butons = document.querySelectorAll('#buttonspan');
                     butons.forEach(element =>{
-                        element.style.transform = "translate(1535px, 20px)"
+                        element.style.transform = "translate(1240px, 20px)"
                     });
-                
                     createCover(dapicksanddabans, d,info,quickInfoDivider);
                 
             } //
@@ -3263,7 +3297,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
             encompassinginfodivider.style.opacity = (document.getElementById(player).querySelector(".TEAMPFP").classList.contains("LOADING")) ? "0" : "1"; 
             encompassinginfodivider.style.transform = "translateY(-50px)";
             if(isOverallLeaderboard && !goingbacktooriginal){
-                encompassinginfodivider.style.transform = "translateY(-52px)";
+                encompassinginfodivider.style.transform = "translate(10px,-52px)";
             }
             let kills = document.createElement("div");
             kills.innerHTML = "KILLS : <span class = green2>"+overallPlayerStats[team][player].kills+"</span>";
@@ -3584,7 +3618,7 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
             encompassinginfodivider.style.transform = "translateY(-50px)";
             if(isOverallLeaderboard && !goingbacktooriginal){
-                encompassinginfodivider.style.transform = "translateY(-52px)";
+                encompassinginfodivider.style.transform = "translate(10px,-52px)";
             }
 
             let ONEW = document.createElement("div");
@@ -3800,7 +3834,7 @@ function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
             encompassinginfodivider.style.transform = "translateY(-50px)";
             if(isOverallLeaderboard && !goingbacktooriginal){
-                encompassinginfodivider.style.transform = "translateY(-52px)";
+                encompassinginfodivider.style.transform = "translate(10px,-52px)";
             }
 
             let EntryC = document.createElement("div");
@@ -4008,7 +4042,7 @@ function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
             encompassinginfodivider.style.transform = "translateY(-50px)";
             if(isOverallLeaderboard && !goingbacktooriginal){
-                encompassinginfodivider.style.transform = "translateY(-52px)";
+                encompassinginfodivider.style.transform = "translate(10px,-52px)";
             }
             let UtilC = document.createElement("div");
             UtilC.innerHTML = "Utility Count : <span class = blue2>"+overallPlayerStats[team][player].UtilC+"</span>";
@@ -4369,7 +4403,7 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
             encompassinginfodivider.style.opacity = 0;
 
             if(isOverallLeaderboard && !goingbacktooriginal && !ummm){
-                encompassinginfodivider.style.transform = "translateY(-52px)";
+                encompassinginfodivider.style.transform = "translate(10px,-52px)";
                 encompassingpicturedivider.classList.add("PLAYERDIVIDERR");
                 encompassingpicturedivider.id = player;
                 document.getElementById("BoardTeam"+teamcounter).appendChild(encompassingpicturedivider);
@@ -4386,7 +4420,7 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
                 
             }
             else{
-                encompassinginfodivider.style.transform = "translateY(-52px)";
+                encompassinginfodivider.style.transform = "translate(10px,-52px)";
                 if(document.getElementById(player) && document.getElementById(player).querySelector(".TEAMPFPNAME")){
                    
                         document.getElementById(player).querySelector(".TEAMPFPNAME").style.transform = "translate(10px,-71px)";
@@ -4557,12 +4591,13 @@ var ILIEDLOLL = 3;
     imag.src = "https://atomicrecall.github.io/Cipher/images/button.png"
     imag.style.height = "30px";
     imag.style.width = "30px";
+    imag.htmlFor =" c"+THEFINALCOUNTERISWEAR;
     // Create a label element
     const label = document.createElement("label");
     label.id = "label";
     label.style.cursor = "pointer";
     label.style.filter = "drop-shadow(1px 0px 1px #000000)";
-    label.htmlFor = "c"+THEFINALCOUNTERISWEAR; // Associate the label with the checkbox
+    //label.htmlFor = "c"+THEFINALCOUNTERISWEAR; // Associate the label with the checkbox
     label.textContent = "S"+(52-(THEFINALCOUNTERISWEAR-2)); // Set the label text
    // label.fontSize = "10px";
 
@@ -4571,7 +4606,10 @@ var ILIEDLOLL = 3;
     span.appendChild(label);
     //span.style.backgroundImage(`url(${imag.src})`);
 
-    
+    span.addEventListener("click", function () {
+        checkbox.checked = !checkbox.checked; // toggle checkbox state
+        checkbox.dispatchEvent(new Event("click")); // trigger checkbox click event
+    });
     
     checkbox.addEventListener("click", () => {
 
@@ -4608,7 +4646,7 @@ var ILIEDLOLL = 3;
           var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
           DotheThing(newarray,true);
           //span.style.transform = "translate(730px,160px)";
-          document.getElementById("allInfo").style.width = "480px";
+          //document.getElementById("allInfo").style.width = "480px";
           lastbooleaniswear = true;
          // console.log("WTF1 "+ILIEDLOLL);
          //console.log(THEFINALCOUNTERISWEAR +"= OMGOMGOMOMGOMG");
@@ -4661,11 +4699,11 @@ var ILIEDLOLL = 3;
             }
             
           //document.getElementById("mtches").style.transform = "translate(-20px, -155px)";
-          document.getElementById("allInfo").style.width = "480px";
+          //document.getElementById("allInfo").style.width = "480px";
         }
       });
       
-    document.getElementById("allInfo").appendChild(span);
+    allinfodiv.appendChild(span);
 }
 function checkImageExists(url, callback) {
     const img = new Image();
@@ -4716,24 +4754,17 @@ function DotheThing (arrayofallmatches2, removeoradd){
    // console.log("???? "+removeoradd);
     if(removeoradd){
         THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.concat(arrayofallmatches2);
-        if(document.getElementById("mtches") && document.getElementById("quickInfo")){
-            document.getElementById("mtches").remove();
-            document.getElementById("quickInfo").remove();
-        }
-        
-        document.querySelectorAll("#allInfo > *:not(#buttonspan)").forEach(el => el.remove());
-        
-        printToWebsite(THEFINALARRAYISWEAR, true);
     }
     else{
         THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.filter(item => item.season !== arrayofallmatches2[0].season);
-        if(document.getElementById("mtches") && document.getElementById("quickInfo")){
-            document.getElementById("mtches").remove();
-            document.getElementById("quickInfo").remove();
-        }
-        document.querySelectorAll("#allInfo > *:not(#buttonspan)").forEach(el => el.remove());
-        
-        printToWebsite(THEFINALARRAYISWEAR, true);
     }
+    if(document.getElementById("mtches") && document.getElementById("quickInfo")){
+        document.getElementById("mtches").remove();
+        document.getElementById("quickInfo").remove();
+    }
+    
+    document.querySelectorAll("#allInfo > *:not(#buttonspan)").forEach(el => el.remove());
+    
+    printToWebsite(THEFINALARRAYISWEAR, true);
 
 }
