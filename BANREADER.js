@@ -3640,19 +3640,19 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
             TWOW.innerHTML = "1v2 Wins : <span class = green2>"+overallPlayerStats[team][player].TWOW+"</span>";
             TWOW.classList.add("infothing");
             encompassinginfodivider.appendChild(TWOW);
-            TWOW.style.transform = "translate(235.5px,-33px)";
+            TWOW.style.transform = "translate(230px,-33px)";
 
             let TWOC = document.createElement("div");
             TWOC.innerHTML = "1v2 Count : <span class = blue22>"+overallPlayerStats[team][player].TWOC+"</span>";
             TWOC.classList.add("infothing");
             encompassinginfodivider.appendChild(TWOC);
-            TWOC.style.transform = "translate(232.3px,-33px)";
+            TWOC.style.transform = "translate(226px,-33px)";
 
             let TWOWR = document.createElement("div");
             TWOWR.innerHTML = "1v2 Win Rate : <span class = yellow2>"+overallPlayerStats[team][player].TWOWR+"</span>";
             TWOWR.classList.add("infothing");
             encompassinginfodivider.appendChild(TWOWR);
-            TWOWR.style.transform = "translate(218px,-33px)";
+            TWOWR.style.transform = "translate(212px,-33px)";
 
             let CLUTCHK = document.createElement("div");
             CLUTCHK.innerHTML = "Clutch Kills: <span class = orange2>"+overallPlayerStats[team][player].CLUTCHK+"</span>";
@@ -3663,7 +3663,7 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
             let mvps = document.createElement("div");
             mvps.innerHTML = "MVPs : <span class = orange2>"+overallPlayerStats[team][player].mvps+"</span>";
             mvps.classList.add("infothing");
-            mvps.style.transform = "translate(255px,-32px)";
+            mvps.style.transform = "translate(246px,-32px)";
             encompassinginfodivider.appendChild(mvps);
             
 
