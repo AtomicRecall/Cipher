@@ -294,7 +294,7 @@ body {
 #smokewed{
   position: absolute;
   z-index: 1;
-  transform: translate(1150px,-100px);
+  transform: translate(1100px,-100px);
   width: auto;
   height: 80px;
   border-radius: 18px;
