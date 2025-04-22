@@ -407,20 +407,14 @@ const regionFlags = {
     AF: "🌍", // Africa
     AN: "🇦🇶", // Antarctica
   };
-  
-  function getFlag(code) {
-    if (code.length === 2 && /^[a-zA-Z]{2}$/.test(code)) {
-      return countryCodeToFlagEmoji(code);
-    } else {
-      return regionFlags[code.toUpperCase()] || "❓";
-    }
+
+  function getFlagImageSvgUrl(code) {
+    const upperCode = code.toUpperCase();
+    const isValidCode = /^[A-Z]{2}$/.test(upperCode);
+    const countryCode = isValidCode ? upperCode : "US";
+    return `https://flagcdn.com/${countryCode.toLowerCase()}.svg`;
   }
-  function countryCodeToFlagEmoji(code) {
-    return code
-      .replace(/./g, char =>
-        String.fromCodePoint(char.charCodeAt(0) + 127397)
-      );
-  }
+
 
 function ontop(){
   
@@ -481,10 +475,10 @@ function ontop(){
             img.width = 150;
             img.style.filter = "drop-shadow(0px 0px 2px #000000)";
             document.getElementById('.form-wrapper').appendChild(img);
-            var region = document.createElement("div");
+            var region = document.createElement("img");
             region.id = "region";
             region.classList.add("emoji-flag");
-            region.innerHTML = getFlag(String(data.country).toUpperCase());
+            region.src = getFlagImageSvgUrl(String(data.country).toUpperCase());
             document.getElementById(".form-wrapper").appendChild(region);
             var elo = document.createElement('div');
             elo.innerHTML = ('\xa0'+data.games.cs2.faceit_elo);
