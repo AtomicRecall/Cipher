@@ -483,6 +483,7 @@ function ontop(){
             document.getElementById('.form-wrapper').appendChild(img);
             var region = document.createElement("div");
             region.id = "region";
+            region.classList.add("emoji-flag");
             region.innerHTML = getFlag(String(data.country).toUpperCase());
             document.getElementById(".form-wrapper").appendChild(region);
             var elo = document.createElement('div');
