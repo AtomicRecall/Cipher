@@ -294,7 +294,7 @@ body {
 #smokewed{
   position: absolute;
   z-index: 1;
-  transform: translate(1100px,-100px);
+  transform: translate(310px,20px);
   width: auto;
   height: 80px;
   border-radius: 18px;
@@ -574,10 +574,10 @@ h3{
 #elo{
   font-size: 25px;
   color: #ffffff;
-  transform: translate(21%,-105px);
+  transform: translate(12%,-80px);
 }
 #region{
-  transform: translate(35px,60px);
+  transform: translate(35px,20px);
   font-size: 130px;
   position: absolute;
   width: 100px;
@@ -585,7 +585,7 @@ h3{
 #teamname{
   font-size: 25px;
   color: #ffffff;
-  transform: translate(21%,-100px)
+  transform: translate(12%,-70px)
 }
 #accountCreated{
   font-size: 25px;

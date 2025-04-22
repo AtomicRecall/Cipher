@@ -189,6 +189,11 @@ function typeWriter(element, text, delay = 100, callback) {
   
     type();
   }
+  function getCurrentPeriod() {
+    const now = new Date();
+    const hours = now.getHours();
+    return hours >= 12 ? 'pm' : 'am';
+  }
 //document.getElementById("h1").innerHTML = "Your Cipher awaits,";
 //document.getElementById("poop").innerHTML = name;
 if(name === null || name === ""){
@@ -200,44 +205,99 @@ if(name === null || name === ""){
     
 }
 else{
-    var RNG = Math.floor(Math.random()*4)+1;
-    switch(RNG){
-        case 1:
-            typeWriter(document.getElementById("h1"), "Welcome back,", 100, () => {
+    document.getElementById("h1").textContent = "";
+    document.getElementById("poop").textContent = "";
+    var RNG = Math.floor(Math.random()*11)+1;
+    switch(true){
+        case (RNG <= 7):
+            var rngintherng = Math.floor(Math.random()*4)+1;
+            switch(rngintherng){
+                case 1:
+                    typeWriter(document.getElementById("h1"), "Welcome back,", 100, () => {
+                        document.getElementById("poop").style.visibility = "visible";
+                        
+                            typeWriter(document.getElementById("poop"), String(name), 100);
+                    
+                        
+                    });
+                    break;
+                case 2:
+                    typeWriter(document.getElementById("h1"), "Your Cipher awaits,", 100, () => {
+                        document.getElementById("poop").style.visibility = "visible";
+                        
+                            typeWriter(document.getElementById("poop"), String(name), 100);
+                    
+                        
+                    });
+                    break;
+                case 3:
+                    typeWriter(document.getElementById("h1"), "Good to see you again,", 100, () => {
+                        document.getElementById("poop").style.visibility = "visible";
+                        
+                            typeWriter(document.getElementById("poop"), String(name), 100);
+                    
+                        
+                    });
+                    break;
+                case 4:
+
+                        typeWriter(document.getElementById("h1"), `Good `+((getCurrentPeriod === 'am') ?`Morning, ` : `Afternoon, `), 100, () => {
+                            document.getElementById("poop").style.visibility = "visible";
+                            
+                                typeWriter(document.getElementById("poop"), String(name), 100);
+                        
+                            
+                        });
+                        break;
+            }
+            break;
+        case(RNG === 8):
+            typeWriter(document.getElementById("h1"), "Did you leave the oven on", 100, () => {
+                document.getElementById("poop").style.visibility = "visible";
+                
+                    typeWriter(document.getElementById("poop"), String(name)+"?", 100);
+            
+                
+            });
+            break;
+        case(RNG === 9):
+            typeWriter(document.getElementById("h1"), "You're doing great. Wait. No you're not. Sorry,", 100, () => {
                 document.getElementById("poop").style.visibility = "visible";
                 
                     typeWriter(document.getElementById("poop"), String(name), 100);
             
                 
-              });
+            });
             break;
-        case 2:
-            typeWriter(document.getElementById("h1"), "Your Cipher awaits,", 100, () => {
+        case(RNG === 10):
+            typeWriter(document.getElementById("h1"), "Uhh, the toilet's overflowing again. Was it you", 100, () => {
+                document.getElementById("poop").style.visibility = "visible";
+                
+                    typeWriter(document.getElementById("poop"), String(name)+"?", 100);
+            
+                
+            });
+            break;
+        case(RNG === 11):
+            typeWriter(document.getElementById("h1"), "You've got this. But if you don't, that's ok too,", 100, () => {
                 document.getElementById("poop").style.visibility = "visible";
                 
                     typeWriter(document.getElementById("poop"), String(name), 100);
             
                 
-              });
+            });
             break;
-        case 3:
-            typeWriter(document.getElementById("h1"), "Good to see you again,", 100, () => {
+        case(RNG === 12):
+            typeWriter(document.getElementById("h1"), "You just broke your record for Most Blinks Per Session in 2025 (+12.05),", 100, () => {
                 document.getElementById("poop").style.visibility = "visible";
                 
                     typeWriter(document.getElementById("poop"), String(name), 100);
             
                 
-              });
+            });
             break;
-        case 4:
-            typeWriter(document.getElementById("h1"), "Uhh, the toilet is overflowing again. Please help me,", 100, () => {
-                document.getElementById("poop").style.visibility = "visible";
-                
-                    typeWriter(document.getElementById("poop"), String(name), 100);
             
-                
-              });
-            break;
+       
     }
     
 }

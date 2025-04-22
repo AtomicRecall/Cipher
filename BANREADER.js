@@ -1311,7 +1311,39 @@ function createCover(dapicksanddabans, d,info,quickInfoDivider){
                     VS.id = "VS";
                     VS.innerHTML = "VS";
 
+                    tm1pfp.onmouseover = function(){
+                        tm1pfp.style.filter = "drop-shadow(.1px 0px 5px white)";
+                        tm1pfp.style.cursor = "pointer";
+                        tm1nme.style.filter = "drop-shadow(.1px 0px 5px white)";
+                        tm1nme.style.cursor = "pointer";
+                    }
+                    tm1pfp.onmouseout = function(){
+                        tm1pfp.style.filter = "";
+                        tm1pfp.style.cursor = "default";
+                        tm1nme.style.filter = "";
+                        tm1nme.style.cursor = "default";
+                    }
+                    tm1pfp.onclick = function(){
+                        
+                        window.open("https://www.faceit.com/en/teams/"+fjksdhfksdj[2]);
+                    }
 
+                    tm2pfp.onmouseover = function(){
+                        tm2pfp.style.filter = "drop-shadow(.1px 0px 5px white)";
+                        tm2pfp.style.cursor = "pointer";
+                        tm2nme.style.filter = "drop-shadow(.1px 0px 5px white)";
+                        tm2nme.style.cursor = "pointer";
+                    }
+                    tm2pfp.onmouseout = function(){
+                        tm2pfp.style.filter = "";
+                        tm2pfp.style.cursor = "default";
+                        tm2nme.style.filter = "";
+                        tm2nme.style.cursor = "default";
+                    }
+                    tm2pfp.onclick = function(){
+                      
+                        window.open("https://www.faceit.com/en/teams/"+fsdfesfsdf[2]);
+                    }
                     somanymapss.appendChild(tm1pfp);
                     somanymapss.appendChild(tm1nme);
                     somanymapss.appendChild(tm2pfp);
