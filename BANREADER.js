@@ -3323,12 +3323,16 @@ function createChart(type){
     if (!type){
         grph.height = chartHeight;
         console.log(grph.height);
+        if(chartHeight <= 100){
+            grph.height = 150;
+        }
     }
     else{
         grph.height = 400;
 
     }
-    console.log(grph.height+" AND "+type)
+
+
         new Chart(grph, {
               type: (type)? type :"horizontalBar",
               data: {
@@ -3435,13 +3439,16 @@ function createWinsChart(type){
     const chartHeight = xArray.length * rowHeight;
     if (!type){
         grph.height = chartHeight;
-        console.log(grph.height);
+        if(chartHeight <= 100){
+            grph.height = 150;
+        }
     }
     else{
         grph.height = 400;
 
     }
     
+
         new Chart(grph, {
               type: (type)? type :"horizontalBar",
               data: {
@@ -3549,12 +3556,15 @@ function createLossChart(type){
     console.log(chartHeight);
     if (!type){
         grph.height = chartHeight;
-        console.log(grph.height);
+        if(chartHeight <= 100){
+            grph.height = 150;
+        }
     }
     else{
         grph.height = 400;
 
     }
+   
         new Chart(grph, {
               type: (type)? type :"horizontalBar",
               data: {
