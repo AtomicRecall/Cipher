@@ -3290,8 +3290,8 @@ function createChart(type){
     var grph = document.createElement("canvas");
     grph.id = "graph";
     grph.classList.add("Default");
-    grph.width = 500;
-    grph.height = 500;
+    grph.width = 400;
+   
 
     var yArray = [played[7], played[4], played[2], played[1], played[5],played[3],played[0]];
     var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
@@ -3320,8 +3320,15 @@ function createChart(type){
     }
     const rowHeight = 50; // Adjust as needed
     const chartHeight = xArray.length * rowHeight;
-    grph.height = chartHeight;
-    grph.width = 450;
+    if (!type){
+        grph.height = chartHeight;
+        console.log(grph.height);
+    }
+    else{
+        grph.height = 400;
+
+    }
+    console.log(grph.height+" AND "+type)
         new Chart(grph, {
               type: (type)? type :"horizontalBar",
               data: {
@@ -3397,9 +3404,7 @@ function createWinsChart(type){
     var grph = document.createElement("canvas");
     grph.id = "graph";
     grph.classList.add("Wins");
-
-    grph.width = 500;
-    grph.height = 500;
+    grph.width = 400;
 
     var yArray = [W[7], W[4], W[2], W[1], W[5],W[3],W[0]];
     var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
@@ -3428,8 +3433,15 @@ function createWinsChart(type){
     }
     const rowHeight = 50; // Adjust as needed
     const chartHeight = xArray.length * rowHeight;
-    grph.height = chartHeight;
-    grph.width = 450;
+    if (!type){
+        grph.height = chartHeight;
+        console.log(grph.height);
+    }
+    else{
+        grph.height = 400;
+
+    }
+    
         new Chart(grph, {
               type: (type)? type :"horizontalBar",
               data: {
@@ -3505,9 +3517,7 @@ function createLossChart(type){
     var grph = document.createElement("canvas");
     grph.id = "graph";
     grph.classList.add("Loss");
-
-    grph.width = 500;
-    grph.height = 500;
+    grph.width = 400;
 
     var yArray = [L[7], L[4], L[2], L[1], L[5],L[3],L[0]];
     var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
@@ -3536,8 +3546,15 @@ function createLossChart(type){
     }
     const rowHeight = 50; // Adjust as needed
     const chartHeight = xArray.length * rowHeight;
-    grph.height = chartHeight;
-    grph.width = 450;
+    console.log(chartHeight);
+    if (!type){
+        grph.height = chartHeight;
+        console.log(grph.height);
+    }
+    else{
+        grph.height = 400;
+
+    }
         new Chart(grph, {
               type: (type)? type :"horizontalBar",
               data: {
