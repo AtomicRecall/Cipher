@@ -8,7 +8,17 @@ loadingimage.id = "removemepls";
 loadingimage.style.transform = "translate(100px,70px)";
 loadingimage.classList.add("removemepls");
 
-
+let typewriterTimeouts = [];
+function killAllTimeouts() {
+    let id = window.setTimeout(() => {}, 0);
+    while (id--) {
+      window.clearTimeout(id);
+    }
+  }
+function cancelTyping() {
+  typewriterTimeouts.forEach(clearTimeout);
+  typewriterTimeouts = [];
+}
 var notice = document.createElement("div");
 notice.id = "instruction";
 notice.innerHTML = "LOADING YOUR PROFILE...";
@@ -172,17 +182,24 @@ var NONESEALEAGUEPLAYERREF = database.ref('USERS/'+name).on ('value', function(s
     NONESEALEAGUEPLAYERR = thingy;
    // console.log(NONESEALEAGUEPLAYERR);
 });
+
 function typeWriter(element, text, delay = 100, callback) {
+    cancelTyping(); // start fresh
+  
+    if (!element) return;
+  
+    element.textContent = "";
     let i = 0;
-    element.classList.add("typing");
   
     function type() {
+      if (!document.body.contains(element)) return;
+  
       if (i < text.length) {
         element.textContent += text.charAt(i);
+        const timeout = setTimeout(type, delay);
+        typewriterTimeouts.push(timeout);
         i++;
-        setTimeout(type, delay);
       } else {
-        element.classList.remove("typing");
         if (callback) callback();
       }
     }
@@ -319,7 +336,9 @@ srchbtn.addEventListener('click', () =>{
     removeElementsByClass("divvv");
     removeElementsByClass("divFart");
     document.getElementById("h3").innerHTML = "SEARCH";
-    document.getElementById("h1").innerHTML = "";
+
+    document.getElementById("h1").innerHTML = " ";
+    cancelTyping();
     document.getElementById("poop").innerHTML = "";
     document.getElementById("srchBtn").style.visibility = "hidden";
     document.getElementById("rtrnBtn").style.visibility = "visible";
@@ -901,6 +920,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
             });
             var DELAY = 200, clicks = 0, timer = null;
             div.addEventListener('click', ()=> {
+
                 clicks++;
                 if(clicks === 1) {
 
@@ -912,7 +932,10 @@ function funnyfunction(dataalolfunny,wheretoadd){
                        localStorage.setItem("THETEAMWEARESEARCHING" , dataalolfunny[d]);
                        localStorage.setItem("THETEAMWEARESEARCHINGNAME", datan.name);
                        document.getElementById("lgOut").style.transform = "translate(5px,0px)";
-                       
+
+                       cancelTyping();
+                       killAllTimeouts();
+                       document.getElementById("h1").innerHTML = " ";
                         let js = document.createElement("script");
                         js.type = "text/javascript"; 
                         js.src = "BANREADER.js";

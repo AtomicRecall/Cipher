@@ -38,6 +38,12 @@ body {
   filter: drop-shadow(1px 0px 1px #000000);
 
 }
+
+#graphdiv{
+  position: absolute;
+  transform: translate(1040px,340px);
+  transition: .8s;
+}
 .wrapper {
   width: 1500px;
   height: 800px;

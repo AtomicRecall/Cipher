@@ -14,23 +14,41 @@ function removeElementsByClass(className) {
 var count = 0;
 removeElementsByClass("divv");
 removeElementsByClass("divFart");
-function typeWriter(element, text, delay = 100, callback) {
-    let i = 0;
-    element.classList.add("typing");
-  
-    function type() {
-      if (i < text.length) {
-        element.textContent += text.charAt(i);
-        i++;
-        setTimeout(type, delay);
-      } else {
-        element.classList.remove("typing");
-        if (callback) callback();
-      }
+let typewriterTimeouts = [];
+function killAllTimeouts() {
+    let id = window.setTimeout(() => {}, 0);
+    while (id--) {
+      window.clearTimeout(id);
     }
-  
-    type();
   }
+function cancelTyping() {
+  // Stop all timeouts set by the typewriter
+  typewriterTimeouts.forEach(clearTimeout);
+  typewriterTimeouts = [];
+}
+
+function typeWriter(element, text, delay = 100, callback) {
+  cancelTyping(); // Start clean each time
+
+  element.textContent = "";
+  let i = 0;
+
+  function type() {
+    // If element is removed, stop typing
+    if (!document.body.contains(element)) return;
+
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      const timeout = setTimeout(type, delay);
+      typewriterTimeouts.push(timeout);
+      i++;
+    } else {
+      if (callback) callback();
+    }
+  }
+
+  type();
+}
 
 document.getElementById("h3").innerHTML = " ";
 document.getElementById(".form-wrapper").style.opacity = "0";
@@ -210,9 +228,20 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
    // console.log(datan);
     localStorage.setItem("LeaderID", datan.leader);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
+    cancelTyping();
+    killAllTimeouts();
     document.getElementById("h1").innerHTML = " ";
+    document.getElementById("poop").innerHTML = " ";
+   
     document.getElementById("h3").style.cursor= "pointer";
-typeWriter(document.getElementById("h1"), datan.name+"'s Cipher awaits, ", 100);
+    document.getElementById("h1").textContent= " ";
+    typeWriter(document.getElementById("h1"), datan.name+"'s Cipher awaits, ", 100, () => {
+        document.getElementById("poop").style.visibility = "visible";
+        
+            typeWriter(document.getElementById("poop"), String(localStorage.getItem("faceit-name"))+".", 100);
+    
+        
+    });
     document.getElementById("h3").onclick = function(){
         let faceitlinkk = datan.faceit_url.replace("{lang}", '');
         window.open(faceitlinkk);
@@ -2347,7 +2376,7 @@ function printToWebsite(dapicksanddabans, something){
                 d2image.style.position = "absolute";
                 let mapidentifier3 = document.createElement("div");
                 mapidentifier3.style.fontSize = "25px";
-                mapidentifier3.innerHTML = "Dust2";
+                mapidentifier3.innerHTML = "Dust II";
                 mapidentifier3.id = "de_dust2";
                 let d2bans = document.createElement("div");
                 d2bans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[3]+((bans[3] > 1|| bans[3] == 0) ? " times" : " time")+".";
@@ -2528,7 +2557,8 @@ function printToWebsite(dapicksanddabans, something){
     //console.log(dapicksanddabans[dapicksanddabans.length-1].season);
     //console.log(wins+" // "+loss);
     let record = document.createElement("div");
-    record.innerHTML = "| S"+(dapicksanddabans[dapicksanddabans.length-1].season)+'<span style="color: wheat;">'+" "+dapicksanddabans[dapicksanddabans.length-1].division+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
+    record.style.filter = "drop-shadow(black 1px 1px 1px)";
+    record.innerHTML = "| S"+((dapicksanddabans[dapicksanddabans.length-1].season) ? dapicksanddabans[dapicksanddabans.length-1].season :currentseason)+'<span style="color: wheat;">'+" "+dapicksanddabans[dapicksanddabans.length-1].division+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
     if(document.getElementById("RECORDDD") && !something){document.getElementById("RECORDDD").appendChild(record)};
     if(something){
         document.getElementById(".BanFileExplorer").insertBefore(matchesDivider, document.getElementById(".BanFileExplorer").firstChild);
@@ -2599,7 +2629,7 @@ function printToWebsite(dapicksanddabans, something){
             document.getElementById("game"+d).onclick = function(){
 
                 document.querySelectorAll("#buttonspan").forEach(el =>{el.style.opacity = "1"});
-                
+
 
                 moreclicks++;
                 //console.log("divider clicked "+moreclicks+" clicks");
@@ -2613,6 +2643,7 @@ function printToWebsite(dapicksanddabans, something){
                 if (document.getElementById("WHOLEPLAYERDIVIDER")){
                     document.getElementById("WHOLEPLAYERDIVIDER").remove();
                 }
+
                 if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
                     document.querySelectorAll(".scoreinthescore").forEach(el=>{el.style.filter = ""})
         
@@ -2626,6 +2657,9 @@ function printToWebsite(dapicksanddabans, something){
      
                 if(dividerclicked && moreclicks > 0){
                     document.body.style.cursor = "not-allowed";
+                    if(document.getElementById("graphdiv")){
+                        document.getElementById("graphdiv").style.opacity = "0";
+                    }
                     document.getElementById("quickInfo").style.transform = "translate(260px,50px)";
                     document.getElementById("teambackgrounddiv").style.height = "50px";
                     document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "50px";
@@ -2660,9 +2694,12 @@ function printToWebsite(dapicksanddabans, something){
                         document.getElementById("UtilityInfo").classList.add("selected");
                         UtilityInfo(dapicksanddabans[d],true);
                     };
-
+                    
                     if(document.getElementById("allInfo")){
                         document.getElementById("allInfo").style.opacity = "0";
+                    }
+                    if(document.getElementById("graphdiv")){
+                        document.getElementById("graphdiv").style.transform = "translate(1500px, 340px)";
                     }
 
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
@@ -2873,7 +2910,7 @@ function printToWebsite(dapicksanddabans, something){
                     }
                     else{
                         createCover(dapicksanddabans,d,info,quickInfoDivider);
-                       
+
                         document.getElementById("tm1nme").style.fontSize = "15px";
                         document.getElementById("tm1nme").style.transform = "translate(50px,-290px)";
                         document.getElementById("tm2nme").style.fontSize = "15px";
@@ -2892,6 +2929,7 @@ function printToWebsite(dapicksanddabans, something){
                             element.style.transform = "translate(1245px, 20px)";
                             element.style.opacity = "0";
                         });
+   
                         document.querySelector("#quickInfo").querySelectorAll(".scoreinthescore").forEach(el=>{el.style.transform = "translate(360px,-472px)"});
 
                         if(document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){ 
@@ -2918,6 +2956,9 @@ function printToWebsite(dapicksanddabans, something){
                     if (document.getElementById("WHOLEPLAYERDIVIDER")){
                         document.getElementById("WHOLEPLAYERDIVIDER").remove();
                         
+                    }
+                    if(document.getElementById("graphdiv")){
+                        document.getElementById("graphdiv").style.opacity = "1";
                     }
                    //moreclicks = 0;
                     if (!reverseclick){
@@ -2963,12 +3004,15 @@ function printToWebsite(dapicksanddabans, something){
                         document.getElementById("WHOLEPLAYERDIVIDER").remove();
                     }
                     document.getElementById("allInfo").style.transform = "translate(260px,300px)";
+                    document.getElementById("graphdiv").style.transform = "translate(1040px, 340px)";
+
                     //console.log("running fetchlast5 from firstmatch id");
                     fetchLast5Players(firstMatchID,true);
                     //console.log("changing visibility");
                     document.getElementById("allInfo").style.transition = ".3s";
                     document.getElementById("allInfo").style.opacity = "1";
-
+                    document.getElementById("graphdiv").style.opacity = "1";
+   
                     if (document.getElementById("RECORDDD")){
                         document.getElementById("RECORDDD").style.opacity = "1";
 
@@ -3017,6 +3061,7 @@ function printToWebsite(dapicksanddabans, something){
 
  
                 if (!dividerclicked){
+
                 quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
                 if (moreclicks > 0 && moreclicks < 2){
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
@@ -3027,7 +3072,7 @@ function printToWebsite(dapicksanddabans, something){
                 }
                         
                         
-
+                    document.getElementById("graphdiv").style.transform = "translate(1500px, 340px)";
                     document.getElementById("allInfo").style.transform = "translate(775px,300px)";
                     const butons = document.querySelectorAll('#buttonspan');
                     butons.forEach(element =>{
@@ -3050,6 +3095,8 @@ function printToWebsite(dapicksanddabans, something){
                     info.style.fontSize = "20px";
                     document.getElementById("game"+d).style.webkitFilter = "";
                     document.getElementById("allInfo").style.transform = "translate(260px,300px)";
+                    document.getElementById("graphdiv").style.transform = "translate(1040px, 340px)";
+
                 }
 
             
@@ -3088,9 +3135,466 @@ function printToWebsite(dapicksanddabans, something){
 
         }
     }
-    console.log(document.getElementById("RECORDDD").children.length);
-}
+    if(document.getElementById("graphdiv")){
+        document.getElementById("graphdiv").remove();
+    }
+    var newgraph = document.createElement("div");
+    newgraph.id = "graphdiv";
+    
+    document.getElementById(".BanFileExplorer").append(newgraph);
+    var Bars = document.createElement("button");
+    Bars.id = "Barsbuton";
+    Bars.innerHTML = "Bars"
+    Bars.onclick = function(){
+        switch(document.getElementById("graph").classList[0]){
+            case "Wins":
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createWinsChart();
+                break;
+            case "Loss":
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createLossChart();
+                break;
+            default:
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createChart();
+                break;
+        }
+    }
+    var Doughnut = document.createElement("button");
+    Doughnut.id = "Dogbutton";
+    Doughnut.innerHTML = "Doughnut"
+    Doughnut.onclick = function(){
+        switch(document.getElementById("graph").classList[0]){
+            case "Wins":
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createWinsChart("doughnut");
+                break;
+            case "Loss":
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createLossChart("doughnut");
+                break;
+            default:
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createChart("doughnut");
+                break;
+        }
 
+    }
+    var Polar = document.createElement("button");
+    Polar.id = "PolarButton";
+    Polar.innerHTML = "Polar";
+    Polar.onclick = function(){
+        console.log(document.getElementById("graph").classList[0]);
+        switch(document.getElementById("graph").classList[0]){
+            case "Wins":
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createWinsChart("polarArea");
+                break;
+            case "Loss":
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createLossChart("polarArea");
+                break;
+            default:
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createChart("polarArea");
+                break;
+        }
+    }
+    newgraph.appendChild(Bars);
+    newgraph.appendChild(Doughnut);
+    newgraph.appendChild(Polar);
+
+    var gobackdefault = document.createElement("button");
+    gobackdefault.id = "back";
+    gobackdefault.innerHTML = "GO BACK TO PLAYED MAPS";
+    gobackdefault.style.opacity = "0";
+    gobackdefault.style.transform = "translate(-270px,-25px)";
+    var Wins = document.createElement("button");
+    Wins.id = "WinsBut";
+    Wins.innerHTML = "CHANGE TO WINS";
+    newgraph.appendChild(Wins);
+    Wins.onclick = function(){
+        Wins.style.opacity = "0";
+        Losses.style.opacity = "1";
+        gobackdefault.style.opacity = "1";
+        if(document.getElementById("graph")){
+            document.getElementById("graph").remove();
+        }
+        createWinsChart();
+    }
+    
+    var Losses = document.createElement("button");
+    Losses.id = "LossBut";
+    Losses.innerHTML = "CHANGE TO LOSSES";
+    newgraph.appendChild(Losses);   
+    Losses.onclick = function(){
+        Losses.style.opacity = "0";
+        Wins.style.opacity = "1";
+        gobackdefault.style.opacity = "1";
+        
+        if(document.getElementById("graph")){
+            document.getElementById("graph").remove();
+        }
+        createLossChart();
+    }
+    gobackdefault.onclick = function(){
+        Wins.style.opacity = "1";
+        Losses.style.opacity = "1";
+        gobackdefault.style.opacity = "0";
+        if(document.getElementById("graph")){
+            document.getElementById("graph").remove();
+        }
+        createChart();
+    }
+    
+    newgraph.appendChild(gobackdefault);
+
+   createChart();
+    
+   // console.log(document.getElementById("RECORDDD").children.length);
+}
+function createChart(type){
+
+    Chart.plugins.register({
+        beforeDraw: function(chart) {
+          const ctx = chart.chart.ctx;
+          ctx.save();
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+          ctx.shadowBlur = 4;
+          ctx.shadowOffsetX = 2;
+          ctx.shadowOffsetY = 2;
+        },
+        afterDraw: function(chart) {
+          chart.chart.ctx.restore();
+        }
+      });
+    var grph = document.createElement("canvas");
+    grph.id = "graph";
+    grph.classList.add("Default");
+    grph.width = 500;
+    grph.height = 500;
+
+    var yArray = [played[7], played[4], played[2], played[1], played[5],played[3],played[0]];
+    var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
+    var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
+
+      if(!(String(type) === "polarArea")){
+        // Step 1: Zip label, value, and color together
+        var zipped = xArray.map((label, index) => ({
+            label: label,
+            value: yArray[index],
+            color: barColors[index]
+        }));
+    
+        // Step 2: Sort by value (descending)
+        zipped.sort((a, b) => b.value - a.value);
+        
+        // Step 3: Unzip back into separate arrays
+        xArray = zipped.map(item => item.label);
+        yArray = zipped.map(item => item.value);
+        barColors = zipped.map(item => item.color);
+        // Sort the data descending
+        var zipped = xArray.map((label, index) => ({ label, value: yArray[index] }));
+        zipped.sort((a, b) => b.value - a.value);
+        xArray = zipped.map(item => item.label);
+        yArray = zipped.map(item => item.value);
+    }
+    const rowHeight = 50; // Adjust as needed
+    const chartHeight = xArray.length * rowHeight;
+    grph.height = chartHeight;
+    grph.width = 450;
+        new Chart(grph, {
+              type: (type)? type :"horizontalBar",
+              data: {
+                labels: xArray,
+                datasets: [{
+                  backgroundColor: barColors,
+                  data: yArray,
+                    borderWidth: 1,
+                    barPercentage: .6,       // Controls bar thickness relative to the category
+                    categoryPercentage: 0.6,  // Controls spacing between bars
+                }],
+                
+              },
+              options: {
+                responsive: false,
+                maintainAspectRatio: false,
+
+                legend: {display: false},
+                title:{
+
+                    display: true,
+                    text: "Distribution Of Played Maps",
+                    fontSize: 30,
+                    fontFamily: "'Play', sans-serif",
+                    fontStyle: 'bold'
+                },
+                layout: {
+                    padding: {
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        display: ((type === "doughnut")|| (type === "polarArea")) ? false : true,
+
+                      ticks: {
+                        beginAtZero: true,
+                        fontSize: 18,
+                        fontFamily: "'Play', sans-serif"
+                      }
+                    }],
+                    yAxes: [{
+                        display: ((type === "doughnut") || (type === "polarArea")) ? false : true,
+
+                      ticks: {
+                        fontSize: 15,
+                        fontFamily: "'Play', sans-serif"
+                      }
+                    }]
+                  }
+            }
+            });
+        document.getElementById("graphdiv").append(grph);
+}
+function createWinsChart(type){
+
+    Chart.plugins.register({
+        beforeDraw: function(chart) {
+          const ctx = chart.chart.ctx;
+          ctx.save();
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+          ctx.shadowBlur = 4;
+          ctx.shadowOffsetX = 2;
+          ctx.shadowOffsetY = 2;
+        },
+        afterDraw: function(chart) {
+          chart.chart.ctx.restore();
+        }
+      });
+    var grph = document.createElement("canvas");
+    grph.id = "graph";
+    grph.classList.add("Wins");
+
+    grph.width = 500;
+    grph.height = 500;
+
+    var yArray = [W[7], W[4], W[2], W[1], W[5],W[3],W[0]];
+    var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
+    var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
+
+      if(!(String(type) === "polarArea")){
+        // Step 1: Zip label, value, and color together
+        var zipped = xArray.map((label, index) => ({
+            label: label,
+            value: yArray[index],
+            color: barColors[index]
+        }));
+        zipped = zipped.filter(item => item.value !== 0);
+        // Step 2: Sort by value (descending)
+        zipped.sort((a, b) => b.value - a.value);
+        
+        // Step 3: Unzip back into separate arrays
+        xArray = zipped.map(item => item.label);
+        yArray = zipped.map(item => item.value);
+        barColors = zipped.map(item => item.color);
+        // Sort the data descending
+        var zipped = xArray.map((label, index) => ({ label, value: yArray[index] }));
+        zipped.sort((a, b) => b.value - a.value);
+        xArray = zipped.map(item => item.label);
+        yArray = zipped.map(item => item.value);
+    }
+    const rowHeight = 50; // Adjust as needed
+    const chartHeight = xArray.length * rowHeight;
+    grph.height = chartHeight;
+    grph.width = 450;
+        new Chart(grph, {
+              type: (type)? type :"horizontalBar",
+              data: {
+                labels: xArray,
+                datasets: [{
+                  backgroundColor: barColors,
+                  data: yArray,
+                    borderWidth: 1,
+                    barPercentage: .6,       // Controls bar thickness relative to the category
+                    categoryPercentage: 0.6,  // Controls spacing between bars
+                }],
+                
+              },
+              options: {
+                responsive: false,
+                maintainAspectRatio: false,
+
+                legend: {display: false},
+                title:{
+
+                    display: true,
+                    text: "Distribution Of Map Wins",
+                    fontSize: 30,
+                    fontFamily: "'Play', sans-serif",
+                    fontStyle: 'bold'
+                },
+                layout: {
+                    padding: {
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        display: ((type === "doughnut")|| (type === "polarArea")) ? false : true,
+
+                      ticks: {
+                        beginAtZero: true,
+                        fontSize: 18,
+                        fontFamily: "'Play', sans-serif"
+                      }
+                    }],
+                    yAxes: [{
+                        display: ((type === "doughnut") || (type === "polarArea")) ? false : true,
+
+                      ticks: {
+                        fontSize: 15,
+                        fontFamily: "'Play', sans-serif"
+                      }
+                    }]
+                  }
+            }
+            });
+        document.getElementById("graphdiv").append(grph);
+}
+function createLossChart(type){
+
+    Chart.plugins.register({
+        beforeDraw: function(chart) {
+          const ctx = chart.chart.ctx;
+          ctx.save();
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+          ctx.shadowBlur = 4;
+          ctx.shadowOffsetX = 2;
+          ctx.shadowOffsetY = 2;
+        },
+        afterDraw: function(chart) {
+          chart.chart.ctx.restore();
+        }
+      });
+    var grph = document.createElement("canvas");
+    grph.id = "graph";
+    grph.classList.add("Loss");
+
+    grph.width = 500;
+    grph.height = 500;
+
+    var yArray = [L[7], L[4], L[2], L[1], L[5],L[3],L[0]];
+    var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
+    var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
+
+      if(!(String(type) === "polarArea")){
+        // Step 1: Zip label, value, and color together
+        var zipped = xArray.map((label, index) => ({
+            label: label,
+            value: yArray[index],
+            color: barColors[index]
+        }));
+        zipped = zipped.filter(item => item.value !== 0);
+        // Step 2: Sort by value (descending)
+        zipped.sort((a, b) => b.value - a.value);
+        
+        // Step 3: Unzip back into separate arrays
+        xArray = zipped.map(item => item.label);
+        yArray = zipped.map(item => item.value);
+        barColors = zipped.map(item => item.color);
+        // Sort the data descending
+        var zipped = xArray.map((label, index) => ({ label, value: yArray[index] }));
+        zipped.sort((a, b) => b.value - a.value);
+        xArray = zipped.map(item => item.label);
+        yArray = zipped.map(item => item.value);
+    }
+    const rowHeight = 50; // Adjust as needed
+    const chartHeight = xArray.length * rowHeight;
+    grph.height = chartHeight;
+    grph.width = 450;
+        new Chart(grph, {
+              type: (type)? type :"horizontalBar",
+              data: {
+                labels: xArray,
+                datasets: [{
+                  backgroundColor: barColors,
+                  data: yArray,
+                    borderWidth: 1,
+                    barPercentage: .6,       // Controls bar thickness relative to the category
+                    categoryPercentage: 0.6,  // Controls spacing between bars
+                }],
+                
+              },
+              options: {
+                responsive: false,
+                maintainAspectRatio: false,
+
+                legend: {display: false},
+                title:{
+
+                    display: true,
+                    text: "Distribution Of Map Losses",
+                    fontSize: 30,
+                    fontFamily: "'Play', sans-serif",
+                    fontStyle: 'bold'
+                },
+                layout: {
+                    padding: {
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        display: ((type === "doughnut")|| (type === "polarArea")) ? false : true,
+
+                      ticks: {
+                        beginAtZero: true,
+                        fontSize: 18,
+                        fontFamily: "'Play', sans-serif"
+                      }
+                    }],
+                    yAxes: [{
+                        display: ((type === "doughnut") || (type === "polarArea")) ? false : true,
+
+                      ticks: {
+                        fontSize: 15,
+                        fontFamily: "'Play', sans-serif"
+                      }
+                    }]
+                  }
+            }
+            });
+        document.getElementById("graphdiv").append(grph);
+}
 let createpicturesonce = true;
 function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal){
 
@@ -3163,6 +3667,7 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
        
 
         //console.log(matchinfo);
+
 
         overallLeaderboard(matchinfo,isOverallLeaderboard,goingbacktooriginal);
 
