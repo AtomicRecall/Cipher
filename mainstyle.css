@@ -38,11 +38,29 @@ body {
   filter: drop-shadow(1px 0px 1px #000000);
 
 }
-
+#titlebut{
+  font-size: 30px;
+  font-family: 'Play', sans-serif;
+  filter: drop-shadow(1px 0px 1px #000000);
+  transform: translateX(30px);
+}
 #graphdiv{
   position: absolute;
-  transform: translate(1040px,340px);
+  transform: translate(1040px,290px);
   transition: .8s;
+  color: white;
+}
+.buttonstyle{
+  font-size: 25px;
+  transform: translateX(100px);
+}
+#changebut{
+  font-size: 30px;
+  background: none;
+  border: none;
+  color: white;
+  transform: translate(-5px,2px);
+  filter: drop-shadow(1px 0px 1px #000000);
 }
 .wrapper {
   width: 1500px;

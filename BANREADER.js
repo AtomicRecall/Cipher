@@ -2699,7 +2699,7 @@ function printToWebsite(dapicksanddabans, something){
                         document.getElementById("allInfo").style.opacity = "0";
                     }
                     if(document.getElementById("graphdiv")){
-                        document.getElementById("graphdiv").style.transform = "translate(1500px, 340px)";
+                        document.getElementById("graphdiv").style.transform = "translate(1500px, 290px)";
                     }
 
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
@@ -3004,7 +3004,7 @@ function printToWebsite(dapicksanddabans, something){
                         document.getElementById("WHOLEPLAYERDIVIDER").remove();
                     }
                     document.getElementById("allInfo").style.transform = "translate(260px,300px)";
-                    document.getElementById("graphdiv").style.transform = "translate(1040px, 340px)";
+                    document.getElementById("graphdiv").style.transform = "translate(1040px, 290px)";
 
                     //console.log("running fetchlast5 from firstmatch id");
                     fetchLast5Players(firstMatchID,true);
@@ -3072,7 +3072,7 @@ function printToWebsite(dapicksanddabans, something){
                 }
                         
                         
-                    document.getElementById("graphdiv").style.transform = "translate(1500px, 340px)";
+                    document.getElementById("graphdiv").style.transform = "translate(1500px, 290px)";
                     document.getElementById("allInfo").style.transform = "translate(775px,300px)";
                     const butons = document.querySelectorAll('#buttonspan');
                     butons.forEach(element =>{
@@ -3095,7 +3095,7 @@ function printToWebsite(dapicksanddabans, something){
                     info.style.fontSize = "20px";
                     document.getElementById("game"+d).style.webkitFilter = "";
                     document.getElementById("allInfo").style.transform = "translate(260px,300px)";
-                    document.getElementById("graphdiv").style.transform = "translate(1040px, 340px)";
+                    document.getElementById("graphdiv").style.transform = "translate(1040px, 290px)";
 
                 }
 
@@ -3144,6 +3144,7 @@ function printToWebsite(dapicksanddabans, something){
     document.getElementById(".BanFileExplorer").append(newgraph);
     var Bars = document.createElement("button");
     Bars.id = "Barsbuton";
+    Bars.classList.add("buttonstyle")
     Bars.innerHTML = "Bars"
     Bars.onclick = function(){
         switch(document.getElementById("graph").classList[0]){
@@ -3159,6 +3160,18 @@ function printToWebsite(dapicksanddabans, something){
                 }
                 createLossChart();
                 break;
+            case "Bans":
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createBannedChart();
+                break;
+            case "Picks":
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createPickChart();
+                break;
             default:
                 if(document.getElementById("graph")){
                     document.getElementById("graph").remove();
@@ -3170,6 +3183,7 @@ function printToWebsite(dapicksanddabans, something){
     var Doughnut = document.createElement("button");
     Doughnut.id = "Dogbutton";
     Doughnut.innerHTML = "Doughnut"
+    Doughnut.classList.add("buttonstyle")
     Doughnut.onclick = function(){
         switch(document.getElementById("graph").classList[0]){
             case "Wins":
@@ -3184,6 +3198,18 @@ function printToWebsite(dapicksanddabans, something){
                 }
                 createLossChart("doughnut");
                 break;
+            case "Bans":
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createBannedChart("doughnut");
+                break;
+            case "Picks":
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createPickChart("doughnut");
+                break;
             default:
                 if(document.getElementById("graph")){
                     document.getElementById("graph").remove();
@@ -3196,6 +3222,7 @@ function printToWebsite(dapicksanddabans, something){
     var Polar = document.createElement("button");
     Polar.id = "PolarButton";
     Polar.innerHTML = "Polar";
+    Polar.classList.add("buttonstyle");
     Polar.onclick = function(){
         console.log(document.getElementById("graph").classList[0]);
         switch(document.getElementById("graph").classList[0]){
@@ -3211,6 +3238,18 @@ function printToWebsite(dapicksanddabans, something){
                 }
                 createLossChart("polarArea");
                 break;
+            case "Bans":
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createBannedChart("polarArea");
+                break;
+            case "Picks":
+                if(document.getElementById("graph")){
+                    document.getElementById("graph").remove();
+                }
+                createPickChart("polarArea");
+                break;
             default:
                 if(document.getElementById("graph")){
                     document.getElementById("graph").remove();
@@ -3222,55 +3261,53 @@ function printToWebsite(dapicksanddabans, something){
     newgraph.appendChild(Bars);
     newgraph.appendChild(Doughnut);
     newgraph.appendChild(Polar);
-
-    var gobackdefault = document.createElement("button");
-    gobackdefault.id = "back";
-    gobackdefault.innerHTML = "GO BACK TO PLAYED MAPS";
-    gobackdefault.style.opacity = "0";
-    gobackdefault.style.transform = "translate(-270px,-25px)";
-    var Wins = document.createElement("button");
-    Wins.id = "WinsBut";
-    Wins.innerHTML = "CHANGE TO WINS";
-    newgraph.appendChild(Wins);
-    Wins.onclick = function(){
-        Wins.style.opacity = "0";
-        Losses.style.opacity = "1";
-        gobackdefault.style.opacity = "1";
-        if(document.getElementById("graph")){
-            document.getElementById("graph").remove();
-        }
-        createWinsChart();
-    }
     
-    var Losses = document.createElement("button");
-    Losses.id = "LossBut";
-    Losses.innerHTML = "CHANGE TO LOSSES";
-    newgraph.appendChild(Losses);   
-    Losses.onclick = function(){
-        Losses.style.opacity = "0";
-        Wins.style.opacity = "1";
-        gobackdefault.style.opacity = "1";
-        
-        if(document.getElementById("graph")){
-            document.getElementById("graph").remove();
-        }
-        createLossChart();
-    }
-    gobackdefault.onclick = function(){
-        Wins.style.opacity = "1";
-        Losses.style.opacity = "1";
-        gobackdefault.style.opacity = "0";
-        if(document.getElementById("graph")){
-            document.getElementById("graph").remove();
-        }
-        createChart();
-    }
+    //newgraph.appendChild(gobackdefault);
+    var titlebutalsobutton = document.createElement("div");
+    titlebutalsobutton.id = "titlebut";
+    var changebutton = document.createElement("select");
+    changebutton.id = "changebut";
     
-    newgraph.appendChild(gobackdefault);
-
+    const dropdownOptions = ["Played","Won", "Lost", "Banned", "Picked"];
+    dropdownOptions.forEach(optionText => {
+        const option = document.createElement("option");
+        option.value = optionText;
+        option.text = optionText;
+        changebutton.appendChild(option);
+      });
+      changebutton.addEventListener('change', function() {
+        const selectedValue = changebutton.value;
+        if(document.getElementById("graph")){
+            document.getElementById("graph").remove();
+        }
+        dropdownButton(selectedValue);
+      });    
+    titlebutalsobutton.innerHTML = "Distribution of Maps ";
+    titlebutalsobutton.appendChild(changebutton);
+    newgraph.appendChild(titlebutalsobutton);
    createChart();
     
    // console.log(document.getElementById("RECORDDD").children.length);
+}
+function dropdownButton(selectedValue){
+    switch(selectedValue){
+        case "Played":
+            createChart();
+            break;
+        case "Won":
+            createWinsChart();
+            break;
+        case "Lost":
+            createLossChart();
+            break;
+        case "Banned":
+            createBannedChart();
+            break;
+        case "Picked":
+            createPickChart();
+            break;
+
+    }
 }
 function createChart(type){
 
@@ -3328,7 +3365,7 @@ function createChart(type){
         }
     }
     else{
-        grph.height = 400;
+        grph.height = 350;
 
     }
 
@@ -3353,7 +3390,7 @@ function createChart(type){
                 legend: {display: false},
                 title:{
 
-                    display: true,
+                    display: false,
                     text: "Distribution Of Played Maps",
                     fontSize: 30,
                     fontFamily: "'Play', sans-serif",
@@ -3444,7 +3481,7 @@ function createWinsChart(type){
         }
     }
     else{
-        grph.height = 400;
+        grph.height = 350;
 
     }
     
@@ -3469,7 +3506,7 @@ function createWinsChart(type){
                 legend: {display: false},
                 title:{
 
-                    display: true,
+                    display: false,
                     text: "Distribution Of Map Wins",
                     fontSize: 30,
                     fontFamily: "'Play', sans-serif",
@@ -3561,7 +3598,7 @@ function createLossChart(type){
         }
     }
     else{
-        grph.height = 400;
+        grph.height = 350;
 
     }
    
@@ -3585,8 +3622,356 @@ function createLossChart(type){
                 legend: {display: false},
                 title:{
 
-                    display: true,
+                    display: false,
                     text: "Distribution Of Map Losses",
+                    fontSize: 30,
+                    fontFamily: "'Play', sans-serif",
+                    fontStyle: 'bold'
+                },
+                layout: {
+                    padding: {
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        display: ((type === "doughnut")|| (type === "polarArea")) ? false : true,
+
+                      ticks: {
+                        beginAtZero: true,
+                        fontSize: 18,
+                        fontFamily: "'Play', sans-serif"
+                      }
+                    }],
+                    yAxes: [{
+                        display: ((type === "doughnut") || (type === "polarArea")) ? false : true,
+
+                      ticks: {
+                        fontSize: 15,
+                        fontFamily: "'Play', sans-serif"
+                      }
+                    }]
+                  }
+            }
+            });
+        document.getElementById("graphdiv").append(grph);
+}
+function createBannedChart(type){
+
+    Chart.plugins.register({
+        beforeDraw: function(chart) {
+          const ctx = chart.chart.ctx;
+          ctx.save();
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+          ctx.shadowBlur = 4;
+          ctx.shadowOffsetX = 2;
+          ctx.shadowOffsetY = 2;
+        },
+        afterDraw: function(chart) {
+          chart.chart.ctx.restore();
+        }
+      });
+    var grph = document.createElement("canvas");
+    grph.id = "graph";
+    grph.classList.add("Bans");
+    grph.width = 400;
+
+    var yArray = [bans[7], bans[4], bans[2], bans[1], bans[5],bans[3],bans[0]];
+    var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
+    var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
+
+      if(!(String(type) === "polarArea")){
+        // Step 1: Zip label, value, and color together
+        var zipped = xArray.map((label, index) => ({
+            label: label,
+            value: yArray[index],
+            color: barColors[index]
+        }));
+        zipped = zipped.filter(item => item.value !== 0);
+        // Step 2: Sort by value (descending)
+        zipped.sort((a, b) => b.value - a.value);
+        
+        // Step 3: Unzip back into separate arrays
+        xArray = zipped.map(item => item.label);
+        yArray = zipped.map(item => item.value);
+        barColors = zipped.map(item => item.color);
+        // Sort the data descending
+        var zipped = xArray.map((label, index) => ({ label, value: yArray[index] }));
+        zipped.sort((a, b) => b.value - a.value);
+        xArray = zipped.map(item => item.label);
+        yArray = zipped.map(item => item.value);
+    }
+    const rowHeight = 50; // Adjust as needed
+    const chartHeight = xArray.length * rowHeight;
+    console.log(chartHeight);
+    if (!type){
+        grph.height = chartHeight;
+        if(chartHeight <= 100){
+            grph.height = 150;
+        }
+    }
+    else{
+        grph.height = 350;
+
+    }
+   
+        new Chart(grph, {
+              type: (type)? type :"horizontalBar",
+              data: {
+                labels: xArray,
+                datasets: [{
+                  backgroundColor: barColors,
+                  data: yArray,
+                    borderWidth: 1,
+                    barPercentage: .6,       // Controls bar thickness relative to the category
+                    categoryPercentage: 0.6,  // Controls spacing between bars
+                }],
+                
+              },
+              options: {
+                responsive: false,
+                maintainAspectRatio: false,
+
+                legend: {display: false},
+                title:{
+
+                    display: false,
+                    text: "Distribution Of Map Losses",
+                    fontSize: 30,
+                    fontFamily: "'Play', sans-serif",
+                    fontStyle: 'bold'
+                },
+                layout: {
+                    padding: {
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        display: ((type === "doughnut")|| (type === "polarArea")) ? false : true,
+
+                      ticks: {
+                        beginAtZero: true,
+                        fontSize: 18,
+                        fontFamily: "'Play', sans-serif"
+                      }
+                    }],
+                    yAxes: [{
+                        display: ((type === "doughnut") || (type === "polarArea")) ? false : true,
+
+                      ticks: {
+                        fontSize: 15,
+                        fontFamily: "'Play', sans-serif"
+                      }
+                    }]
+                  }
+            }
+            });
+        document.getElementById("graphdiv").append(grph);
+}
+function createPickChart(type){
+
+    Chart.plugins.register({
+        beforeDraw: function(chart) {
+          const ctx = chart.chart.ctx;
+          ctx.save();
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+          ctx.shadowBlur = 4;
+          ctx.shadowOffsetX = 2;
+          ctx.shadowOffsetY = 2;
+        },
+        afterDraw: function(chart) {
+          chart.chart.ctx.restore();
+        }
+      });
+    var grph = document.createElement("canvas");
+    grph.id = "graph";
+    grph.classList.add("Picks");
+    grph.width = 400;
+
+    var yArray = [picks[7], picks[4], picks[2], picks[1], picks[5],picks[3],picks[0]];
+    var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
+    var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
+
+      if(!(String(type) === "polarArea")){
+        // Step 1: Zip label, value, and color together
+        var zipped = xArray.map((label, index) => ({
+            label: label,
+            value: yArray[index],
+            color: barColors[index]
+        }));
+        zipped = zipped.filter(item => item.value !== 0);
+        // Step 2: Sort by value (descending)
+        zipped.sort((a, b) => b.value - a.value);
+        
+        // Step 3: Unzip back into separate arrays
+        xArray = zipped.map(item => item.label);
+        yArray = zipped.map(item => item.value);
+        barColors = zipped.map(item => item.color);
+        // Sort the data descending
+        var zipped = xArray.map((label, index) => ({ label, value: yArray[index] }));
+        zipped.sort((a, b) => b.value - a.value);
+        xArray = zipped.map(item => item.label);
+        yArray = zipped.map(item => item.value);
+    }
+    const rowHeight = 50; // Adjust as needed
+    const chartHeight = xArray.length * rowHeight;
+    console.log(chartHeight);
+    if (!type){
+        grph.height = chartHeight;
+        if(chartHeight <= 100){
+            grph.height = 150;
+        }
+    }
+    else{
+        grph.height = 350;
+
+    }
+   
+        new Chart(grph, {
+              type: (type)? type :"horizontalBar",
+              data: {
+                labels: xArray,
+                datasets: [{
+                  backgroundColor: barColors,
+                  data: yArray,
+                    borderWidth: 1,
+                    barPercentage: .6,       // Controls bar thickness relative to the category
+                    categoryPercentage: 0.6,  // Controls spacing between bars
+                }],
+                
+              },
+              options: {
+                responsive: false,
+                maintainAspectRatio: false,
+
+                legend: {display: false},
+                title:{
+
+                    display: false,
+                    text: "Distribution Of Map Losses",
+                    fontSize: 30,
+                    fontFamily: "'Play', sans-serif",
+                    fontStyle: 'bold'
+                },
+                layout: {
+                    padding: {
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        display: ((type === "doughnut")|| (type === "polarArea")) ? false : true,
+
+                      ticks: {
+                        beginAtZero: true,
+                        fontSize: 18,
+                        fontFamily: "'Play', sans-serif"
+                      }
+                    }],
+                    yAxes: [{
+                        display: ((type === "doughnut") || (type === "polarArea")) ? false : true,
+
+                      ticks: {
+                        fontSize: 15,
+                        fontFamily: "'Play', sans-serif"
+                      }
+                    }]
+                  }
+            }
+            });
+        document.getElementById("graphdiv").append(grph);
+}
+function createPickChart(type){
+
+    Chart.plugins.register({
+        beforeDraw: function(chart) {
+          const ctx = chart.chart.ctx;
+          ctx.save();
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+          ctx.shadowBlur = 4;
+          ctx.shadowOffsetX = 2;
+          ctx.shadowOffsetY = 2;
+        },
+        afterDraw: function(chart) {
+          chart.chart.ctx.restore();
+        }
+      });
+    var grph = document.createElement("canvas");
+    grph.id = "graph";
+    grph.classList.add("Picks");
+    grph.width = 400;
+
+    var yArray = [picks[7], picks[4], picks[2], picks[1], picks[5],picks[3],picks[0]];
+    var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
+    var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
+
+      if(!(String(type) === "polarArea")){
+        // Step 1: Zip label, value, and color together
+        var zipped = xArray.map((label, index) => ({
+            label: label,
+            value: yArray[index],
+            color: barColors[index]
+        }));
+        zipped = zipped.filter(item => item.value !== 0);
+        // Step 2: Sort by value (descending)
+        zipped.sort((a, b) => b.value - a.value);
+        
+        // Step 3: Unzip back into separate arrays
+        xArray = zipped.map(item => item.label);
+        yArray = zipped.map(item => item.value);
+        barColors = zipped.map(item => item.color);
+        // Sort the data descending
+        var zipped = xArray.map((label, index) => ({ label, value: yArray[index] }));
+        zipped.sort((a, b) => b.value - a.value);
+        xArray = zipped.map(item => item.label);
+        yArray = zipped.map(item => item.value);
+    }
+    const rowHeight = 50; // Adjust as needed
+    const chartHeight = xArray.length * rowHeight;
+    if (!type){
+        grph.height = chartHeight;
+        if(chartHeight <= 100){
+            grph.height = 150;
+        }
+    }
+    else{
+        grph.height = 350;
+
+    }
+    
+
+        new Chart(grph, {
+              type: (type)? type :"horizontalBar",
+              data: {
+                labels: xArray,
+                datasets: [{
+                  backgroundColor: barColors,
+                  data: yArray,
+                    borderWidth: 1,
+                    barPercentage: .6,       // Controls bar thickness relative to the category
+                    categoryPercentage: 0.6,  // Controls spacing between bars
+                }],
+                
+              },
+              options: {
+                responsive: false,
+                maintainAspectRatio: false,
+
+                legend: {display: false},
+                title:{
+
+                    display: false,
+                    text: "Distribution Of Map Wins",
                     fontSize: 30,
                     fontFamily: "'Play', sans-serif",
                     fontStyle: 'bold'
