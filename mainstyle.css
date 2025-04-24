@@ -59,8 +59,7 @@ body {
   background: none;
   border: none;
   color: white;
-  transform: translate(-5px,2px);
-  filter: drop-shadow(1px 0px 1px #000000);
+  transform: translate(-6px,0px);
 }
 .wrapper {
   width: 1500px;
