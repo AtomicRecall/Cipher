@@ -3273,6 +3273,7 @@ function printToWebsite(dapicksanddabans, something){
         const option = document.createElement("option");
         option.value = optionText;
         option.text = optionText;
+        option.style.backgroundColor = "black";
         changebutton.appendChild(option);
       });
       changebutton.addEventListener('change', function() {
