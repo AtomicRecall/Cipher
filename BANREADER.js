@@ -3299,6 +3299,11 @@ function printToWebsite(dapicksanddabans, something){
     titlebutalsobutton.appendChild(changebutton);
     newgraph.appendChild(titlebutalsobutton);
    createChart();
+   
+    var incrementCounter = firebase.database().ref('/USERS/');
+    incrementCounter.update({
+        TimesUserUsedBar: firebase.database.ServerValue.increment(1)
+    });
     
    // console.log(document.getElementById("RECORDDD").children.length);
 }
