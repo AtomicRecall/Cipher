@@ -3145,8 +3145,12 @@ function printToWebsite(dapicksanddabans, something){
     var Bars = document.createElement("button");
     Bars.id = "Barsbuton";
     Bars.classList.add("buttonstyle")
-    Bars.innerHTML = "Bars"
+    Bars.innerHTML = "Bars";
     Bars.onclick = function(){
+        var incrementCounter = firebase.database().ref('/USERS/');
+        incrementCounter.update({
+            TimesUserUsedBar: firebase.database.ServerValue.increment(1)
+        });
         switch(document.getElementById("graph").classList[0]){
             case "Wins":
                 if(document.getElementById("graph")){
@@ -3185,6 +3189,10 @@ function printToWebsite(dapicksanddabans, something){
     Doughnut.innerHTML = "Doughnut"
     Doughnut.classList.add("buttonstyle")
     Doughnut.onclick = function(){
+        var incrementCounter = firebase.database().ref('/USERS/');
+        incrementCounter.update({
+            TimesUserUsedDoughnut: firebase.database.ServerValue.increment(1)
+        });
         switch(document.getElementById("graph").classList[0]){
             case "Wins":
                 if(document.getElementById("graph")){
@@ -3224,6 +3232,10 @@ function printToWebsite(dapicksanddabans, something){
     Polar.innerHTML = "Polar";
     Polar.classList.add("buttonstyle");
     Polar.onclick = function(){
+        var incrementCounter = firebase.database().ref('/USERS/');
+        incrementCounter.update({
+            TimesUserUsedPolar: firebase.database.ServerValue.increment(1)
+        });
         console.log(document.getElementById("graph").classList[0]);
         switch(document.getElementById("graph").classList[0]){
             case "Wins":
