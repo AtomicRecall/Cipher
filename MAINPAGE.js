@@ -57,7 +57,7 @@ firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 
-
+/*
 var RNG = Math.floor(Math.random()*10)+1;
 
 console.log(RNG);
@@ -136,6 +136,7 @@ document.getElementById("smokewed").onclick = function(){
 
     }
 }
+    */
 let name = localStorage.getItem("faceit-name"); 
 
 if (name === "null" || name == undefined || name === ""){
@@ -1026,7 +1027,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                         pfpdiv.style.transform = "translate(150px, -125px)";
                         break;
                     case 10:
-                        pfpdiv.style.transform = "translate(160px, -125px)";
+                        pfpdiv.style.transform = "translate(170px, -125px)";
                         break;
                     case 11:
                         pfpdiv.style.transform = "translate(160px, -125px)";
@@ -1067,7 +1068,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 
             document.getElementById("matchDate"+d).style.transition = "2s";
             document.getElementById("matchDate"+d).style.opacity = "1";// call when done
-            document.getElementById("matchDate"+d).style.transform = "translate(240px,-50px)";
+            document.getElementById("matchDate"+d).style.transform = "translate(265px,-50px)";
 
       
                
@@ -1450,7 +1451,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                         pfpdiv.style.transform = "translate(150px, -125px)";
                         break;
                     case 10:
-                        pfpdiv.style.transform = "translate(160px, -125px)";
+                        pfpdiv.style.transform = "translate(170px, -125px)";
                         break;
                     case 11:
                         pfpdiv.style.transform = "translate(160px, -125px)";

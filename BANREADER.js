@@ -1,6 +1,6 @@
 console.log("one two three");
-document.body.appendChild(document.getElementById("smokewed"));
-document.getElementById("smokewed").style.transform = "translate(550px,-390px)";
+//document.body.appendChild(document.getElementById("smokewed"));
+//document.getElementById("smokewed").style.transform = "translate(550px,-390px)";
 document.body.style.cursor = "wait";
 var database = firebase.database();
 var THETEAMWEARESEARCHING = localStorage.getItem("THETEAMWEARESEARCHING");
@@ -297,7 +297,6 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     document.getElementById("h3").style.opacity = 1;
    
     printToWebsite(picksnbans, false);
-    document.body.style.cursor = "not-allowed";
     
 })
 .catch((error) => {
@@ -405,10 +404,10 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
                 
                 setTimeout(() => {
                     
-                    if(document.getElementById("allInfo").style.opacity === "0"){
+                    if(document.getElementById("graphdiv").style.opacity === "0"){
                         if(document.getElementById("WHOLEPLAYERDIVIDER")){  
                             document.getElementById("WHOLEPLAYERDIVIDER").style.height = "50px";
-                            document.getElementById("WHOLEPLAYERDIVIDER").style.transform = "translate(0px,-60px)";
+                            document.getElementById("WHOLEPLAYERDIVIDER").style.transform = "translate(80px,-60px)";
                             document.getElementById("WHOLEPLAYERDIVIDER").style.gridAutoColumns = "min-content"; 
                             document.getElementById("WHOLEPLAYERDIVIDER").style.gap = "60px";
                     }
@@ -447,8 +446,6 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
                         }
                     }
                 }, 3000);
-                document.body.style.cursor = "auto";
-                
             }
             });
             
@@ -522,8 +519,7 @@ function GetPlayerInfo(nick , iddd, div, callback){
                 }
                 else if(dividerclicked){
                     div.style.transform = "translateX(390px)";
-                    pfp.style.width = "30px";
-                    pfp.style.height = "30px";
+  
                     pfp.style.margin = "0px";
                     pfp.style.transform = "translate(10px,5px)";
                     name.style.fontSize = "11px";
@@ -630,8 +626,6 @@ function GetPlayerInfo(nick , iddd, div, callback){
             }
             else if(dividerclicked){
                 div.style.transform = "translateX(390px)";
-                pfp.style.width = "30px";
-                pfp.style.height = "30px";
                 pfp.style.margin = "0px";
                 pfp.style.transform = "translate(10px,5px)";
                 name.style.fontSize = "11px";
@@ -1861,7 +1855,7 @@ function printToWebsite(dapicksanddabans, something){
     recorddiv.style.display = "grid";
     recorddiv.style.gridAutoFlow = "column";
     recorddiv.style.color = "white";
-    recorddiv.style.transform = "translate(-25px,-80px)";
+    recorddiv.style.transform = "translate(-25px,-115px)";
     recorddiv.style.filter = "drop-shadow(.1px .1px 5px black)";
     recorddiv.style.fontSize = "30px";
     recorddiv.style.position = "absolute";
@@ -2269,6 +2263,9 @@ function printToWebsite(dapicksanddabans, something){
             
             //anc
             case 0:
+                var ancientdiv = document.createElement("div");
+                ancientdiv.id = "ancientdiv";
+                ancientdiv.classList.add("allInfoDivs");
                 let DAancient = document.createElement("div");
                 DAancient.id = "ancient";
                 let ancimage = document.createElement("img");
@@ -2289,18 +2286,22 @@ function printToWebsite(dapicksanddabans, something){
                 ancW.classList.add("winnerdiv");
                 ancW.innerHTML = '<span class="greenn1">'+W[0]+'</span><span class = "white"> // </span> <span class="redd1">'+L[0];
                 
-                allInfoDivider.appendChild(ancimage);
+                ancientdiv.appendChild(ancimage);
                 DAancient.appendChild(mapidentifier);
                 DAancient.appendChild(ancpics);
                 DAancient.appendChild(ancbans);
                 DAancient.appendChild(ancW);
                 //DAancient.appendChild(ancimage);
-                allInfoDivider.appendChild(DAancient);
+                ancientdiv.appendChild(DAancient);
+                allInfoDivider.appendChild(ancientdiv);
                // console.log("Banned ancient "+bans[0]+" times");
                // console.log("Played ancient "+played[0]+" times");
                 break;
             //anu
             case 1:
+                var anubisdiv = document.createElement("div");
+                anubisdiv.id = "anubisdiv";
+                anubisdiv.classList.add("allInfoDivs");
                 let DAanubis = document.createElement("div");
                 DAanubis.id = "anubis";
                 let anuimage = document.createElement("img");
@@ -2322,17 +2323,22 @@ function printToWebsite(dapicksanddabans, something){
                 let anuW = document.createElement("div");
                 anuW.classList.add("winnerdiv");
                 anuW.innerHTML = '<span class="greenn1">'+W[1]+'</span><span class = "white"> // </span> <span class="redd1">'+L[1];
-                allInfoDivider.appendChild(anuimage);
+
+                anubisdiv.appendChild(anuimage);
                 DAanubis.appendChild(mapidentifier1);
                 DAanubis.appendChild(anupics);
                 DAanubis.appendChild(anubans);
                 DAanubis.appendChild(anuW);
-                allInfoDivider.appendChild(DAanubis);
+                anubisdiv.appendChild(DAanubis);
+                allInfoDivider.appendChild(anubisdiv);
               //  console.log("Banned anubis "+bans[1]+" times");
               //  console.log("Played anubis "+played[1]+" times");
                 break;
             //inf
             case 2:
+                var infdiv = document.createElement("div");
+                infdiv.id = "infernodiv";
+                infdiv.classList.add("allInfoDivs");
                 let DAinf = document.createElement("div");
                 DAinf.id = "inferno";
                 let infimage = document.createElement("img");
@@ -2354,18 +2360,23 @@ function printToWebsite(dapicksanddabans, something){
                 let infW = document.createElement("div");
                 infW.classList.add("winnerdiv");
                 infW.innerHTML = '<span class="greenn1">'+W[2]+'</span><span class = "white"> // </span> <span class="redd1">'+L[2];
-                allInfoDivider.appendChild(infimage);
+
+                infdiv.appendChild(infimage);
                 DAinf.appendChild(mapidentifier2);
                 DAinf.appendChild(infpics);
                 DAinf.appendChild(infbans);
-
                 DAinf.appendChild(infW);
-                allInfoDivider.appendChild(DAinf);
+                infdiv.appendChild(DAinf);
+                allInfoDivider.appendChild(infdiv);
               //  console.log("Banned inferno "+bans[2]+" times");
              //   console.log("Played inferno "+played[2]+" times");
                 break; 
             //d2
             case 3:
+                var dust2div = document.createElement("div");
+                dust2div.id = "dust2div";
+                dust2div.classList.add("allInfoDivs");
+
                 let DAd2 = document.createElement("div");
                 DAd2.id = "dust2";
                 let d2image = document.createElement("img");
@@ -2387,18 +2398,24 @@ function printToWebsite(dapicksanddabans, something){
                 let d2W = document.createElement("div");
                 d2W.classList.add("winnerdiv");
                 d2W.innerHTML = '<span class="greenn1">'+W[3]+'</span><span class = "white"> // </span> <span class="redd1">'+L[3];
-                allInfoDivider.appendChild(d2image);
+
+                dust2div.appendChild(d2image);
                 DAd2.appendChild(mapidentifier3);
                 DAd2.appendChild(d2pics);
                 DAd2.appendChild(d2bans);
 
                 DAd2.appendChild(d2W);
-                allInfoDivider.appendChild(DAd2);
+                dust2div.appendChild(DAd2);
+                allInfoDivider.appendChild(dust2div);
               //  console.log("Banned dust 2 "+bans[3]+" times");
              //   console.log("Played dust 2 "+played[3]+" times");
                 break; 
             //mir
             case 4:
+                var miragediv = document.createElement("div");
+                miragediv.id = "miragediv";
+                miragediv.classList.add("allInfoDivs");
+
                 let DAmir = document.createElement("div");
                 DAmir.id = "mirage";
                 let mirimage = document.createElement("img");
@@ -2421,20 +2438,24 @@ function printToWebsite(dapicksanddabans, something){
                 let mirW = document.createElement("div");
                 mirW.classList.add("winnerdiv");
                 mirW.innerHTML = '<span class="greenn1">'+W[4]+'</span><span class = "white"> // </span> <span class="redd1">'+L[4];
-                allInfoDivider.appendChild(mirimage);
+
+                miragediv.appendChild(mirimage);
                 movementdivider.appendChild(mapidentifier4);
                 movementdivider.appendChild(mirpics);
                 movementdivider.appendChild(mirbans);
-
                 movementdivider.appendChild(mirW);
-                DAmir.appendChild(movementdivider);
+                miragediv.appendChild(movementdivider);
                 //movementdivider.style.transform = "translate(250px, -495px)";
-                allInfoDivider.appendChild(DAmir);
+                miragediv.appendChild(DAmir);
+                allInfoDivider.appendChild(miragediv);
              //   console.log("Banned mirage "+bans[4]+" times");
             //    console.log("Played mirage "+played[4]+" times");
                 break; 
             //nuk 
             case 5:
+                var nukediv = document.createElement("div");
+                nukediv.id = "nukediv";
+                nukediv.classList.add("allInfoDivs");
                 let DAnuk = document.createElement("div");
                 DAnuk.id = "nuke";
                 let nukimage = document.createElement("img");
@@ -2457,7 +2478,7 @@ function printToWebsite(dapicksanddabans, something){
                 let nuW = document.createElement("div");
                 nuW.classList.add("winnerdiv");
                 nuW.innerHTML = '<span class="greenn1">'+W[5]+'</span><span class = "white"> // </span> <span class="redd1">'+L[5];
-                allInfoDivider.appendChild(nukimage);
+                nukediv.appendChild(nukimage);
                 movementdivider1.appendChild(mapidentifier5);
                 movementdivider1.appendChild(nupics);
                 movementdivider1.appendChild(nubans);
@@ -2465,12 +2486,16 @@ function printToWebsite(dapicksanddabans, something){
                 movementdivider1.appendChild(nuW);
                 //movementdivider1.style.transform = "translate(250px, -495px)";
                 DAnuk.appendChild(movementdivider1);
-                allInfoDivider.appendChild(DAnuk);
+                nukediv.appendChild(DAnuk);
+                allInfoDivider.appendChild(nukediv);
              //   console.log("Banned nuke "+bans[5]+" times");
               //  console.log("Played nuke "+played[5]+" times");
                 break; 
             //ver    
             case 6:
+                var verdiv = document.createElement("div");
+                verdiv.id = "vertigodiv";
+                verdiv.classList.add("allInfoDivs");
                 let DAver = document.createElement("div");
                 DAver.id = "vertigoo";
                 let verimage = document.createElement("img");
@@ -2493,19 +2518,23 @@ function printToWebsite(dapicksanddabans, something){
                 let verW = document.createElement("div");
                 verW.classList.add("winnerdiv");
                 verW.innerHTML = '<span class="greenn1">'+W[6]+'</span><span class = "white"> // </span> <span class="redd1">'+L[6];
-                allInfoDivider.appendChild(verimage);
+                verdiv.appendChild(verimage);
                 movementdivider2.appendChild(mapidentifier6);
                 movementdivider2.appendChild(verpics);
                 movementdivider2.appendChild(verbans);
                 movementdivider2.appendChild(verW);
                 //movementdivider2.style.transform = "translate(250px, -495px)";
                 DAver.appendChild(movementdivider2);
-                allInfoDivider.appendChild(DAver);
+                verdiv.appendChild(DAver);
+                allInfoDivider.appendChild(verdiv);
               //  console.log("Banned vertigo "+bans[6]+" times");
               //  console.log("Played vertigo "+played[6]+" times");
                 break; 
                 
             case 7:
+                var traindiv = document.createElement("div");
+                traindiv.id = "traindiv";
+                traindiv.classList.add("allInfoDivs");
                 let DAtrain = document.createElement("div");
                 DAtrain.id = "trainn";
                 let trainimage = document.createElement("img");
@@ -2528,14 +2557,15 @@ function printToWebsite(dapicksanddabans, something){
                 let trainW = document.createElement("div");
                 trainW.classList.add("winnerdiv");
                 trainW.innerHTML = '<span class="greenn1">'+W[7]+'</span><span class = "white"> // </span> <span class="redd1">'+L[7];
-                allInfoDivider.appendChild(trainimage);
+                traindiv.appendChild(trainimage);
                 movementdivider3.appendChild(mapidentifier7);
                 movementdivider3.appendChild(trainpics);
                 movementdivider3.appendChild(trainbans);
                 movementdivider3.appendChild(trainW);
                 //movementdivider2.style.transform = "translate(250px, -495px)";
                 DAtrain.appendChild(movementdivider3);
-                allInfoDivider.appendChild(DAtrain);
+                traindiv.appendChild(DAtrain)
+                allInfoDivider.appendChild(traindiv);
               //  console.log("Banned vertigo "+bans[6]+" times");
               //  console.log("Played vertigo "+played[6]+" times");
                 break;     
@@ -2573,8 +2603,7 @@ function printToWebsite(dapicksanddabans, something){
     
     const childdddrr = matchesDivider.childNodes;
     var overallButtonDivider = document.createElement("div");
-    overallButtonDivider.style.transform = "translate(250px,-470px)";
-    overallButtonDivider.style.height = "0px";
+    overallButtonDivider.id = "overallButtonDivider";
     if(!something){
        // console.log(childdddrr);
         for(const childs of childdddrr){
@@ -2588,31 +2617,7 @@ function printToWebsite(dapicksanddabans, something){
 
         var bool = true;
         document.querySelectorAll("#label").forEach(el=>{if(Number(el.innerHTML.substring(1)) < 52)bool=false;});
-        if (THEFINALCOUNTERISWEAR === 1 || bool){
-                //console.log(THEFINALCOUNTERISWEAR +"= WHAT THE BALLS")
-                if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
-                    setTimeout(() => {
-                        document.getElementById("vertigoo").style.opacity = "0";
-                        document.getElementById("verimage").style.opacity = "0";
-                        document.getElementById("trainn").style.transform = "translate(470px,20px)";
-                        document.getElementById("trainimage").style.transform = "translate(470px,20px)";
-                    }, 10);
-                    //console.log("Elements hidden");
-                } else {
-                   // console.log("vertigoo or verimage not found!");
-                }
 
-            }
-            else{
-                /*
-                setTimeout(() => {
-                    if(document.getElementById("trainn") && document.getElementById("trainimage")){
-                        document.getElementById("trainn").style.display = "none";
-                        document.getElementById("trainimage").style.display = "none";
-                    }
-                }, 10);
-                */
-            }
     }
     
 
@@ -2656,17 +2661,15 @@ function printToWebsite(dapicksanddabans, something){
                 let reverseclick = false;
      
                 if(dividerclicked && moreclicks > 0){
-                    document.body.style.cursor = "not-allowed";
                     if(document.getElementById("graphdiv")){
                         document.getElementById("graphdiv").style.opacity = "0";
+                        document.getElementById("overallButtonDivider").style.transform = "translate(1500px,580px)";
+
                     }
                     document.getElementById("quickInfo").style.transform = "translate(260px,50px)";
                     document.getElementById("teambackgrounddiv").style.height = "50px";
                     document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "50px";
-                    if(document.getElementById("h3").querySelector("#teamPfp")){
-                        document.getElementById("h3").querySelector("#teamPfp").style.height = "30px";
-                        document.getElementById("h3").querySelector("#teamPfp").style.width = "30px";
-                }
+
                 document.getElementById("h3").style.transform = "translate(300px,-40px)";
 
                     document.getElementById("allInfo").style.transition = ".3s";
@@ -2699,13 +2702,15 @@ function printToWebsite(dapicksanddabans, something){
                         document.getElementById("allInfo").style.opacity = "0";
                     }
                     if(document.getElementById("graphdiv")){
+                        document.getElementById("graphdiv").style.opacity = "0";
                         document.getElementById("graphdiv").style.transform = "translate(1500px, 290px)";
+                        
                     }
 
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
                 
                     if (document.getElementById("RECORDDD")){
-                        document.getElementById("RECORDDD").style.transform = "translate(-25px,-80px)";
+                        document.getElementById("RECORDDD").style.transform = "translate(-25px,-115px)";
 
                     }
 
@@ -2924,12 +2929,7 @@ function printToWebsite(dapicksanddabans, something){
                         document.getElementById("tm2pfp").style.width = "75px";
                         document.getElementById("tm2pfp").style.height = "75px";
                         document.getElementById("tm2pfp").style.transform = "translate(-275px,30px)";
-                        const butons = document.querySelectorAll('#buttonspan');
-                        butons.forEach(element =>{
-                            element.style.transform = "translate(1245px, 20px)";
-                            element.style.opacity = "0";
-                        });
-   
+                        document.getElementById("overallButtonDivider").style.transform = "translate(1090px,580px)";
                         document.querySelector("#quickInfo").querySelectorAll(".scoreinthescore").forEach(el=>{el.style.transform = "translate(360px,-472px)"});
 
                         if(document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){ 
@@ -2957,9 +2957,7 @@ function printToWebsite(dapicksanddabans, something){
                         document.getElementById("WHOLEPLAYERDIVIDER").remove();
                         
                     }
-                    if(document.getElementById("graphdiv")){
-                        document.getElementById("graphdiv").style.opacity = "1";
-                    }
+
                    //moreclicks = 0;
                     if (!reverseclick){
                         fetchLast5Players(dapicksanddabans[d].vote_type, true);
@@ -2969,6 +2967,8 @@ function printToWebsite(dapicksanddabans, something){
                     if (document.getElementById("RECORDDD")){
                         document.getElementById("RECORDDD").style.opacity = "0";
                     }
+                    document.getElementById("overallButtonDivider").style.transform = "translate(1500px,580px)";
+
                     if(document.getElementById("TEAMPFP"+d)){
 
                         let oldonclick = document.getElementById("TEAMPFP"+d).onclick;
@@ -2992,8 +2992,8 @@ function printToWebsite(dapicksanddabans, something){
                 }
                  if (moreclicks > 1){
 
-                    document.getElementById("quickInfo").style.transform = "translate(260px,280px)";
-                    document.getElementById("teambackgrounddiv").style.height = "280px";
+                    document.getElementById("quickInfo").style.transform = "translate(260px,230px)";
+                    document.getElementById("teambackgrounddiv").style.height = "240px";
                     document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "280px";
                     if(document.getElementById("h3").querySelector("#teamPfp")){
                     document.getElementById("h3").querySelector("#teamPfp").style.height = "30px";
@@ -3004,7 +3004,7 @@ function printToWebsite(dapicksanddabans, something){
                         document.getElementById("WHOLEPLAYERDIVIDER").remove();
                     }
                     document.getElementById("allInfo").style.transform = "translate(260px,300px)";
-                    document.getElementById("graphdiv").style.transform = "translate(1040px, 290px)";
+                    document.getElementById("graphdiv").style.transform = "translate(250px, 290px)";
 
                     //console.log("running fetchlast5 from firstmatch id");
                     fetchLast5Players(firstMatchID,true);
@@ -3012,7 +3012,8 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("allInfo").style.transition = ".3s";
                     document.getElementById("allInfo").style.opacity = "1";
                     document.getElementById("graphdiv").style.opacity = "1";
-   
+                    document.getElementById("overallButtonDivider").style.transform = "translate(1090px,580px)";
+
                     if (document.getElementById("RECORDDD")){
                         document.getElementById("RECORDDD").style.opacity = "1";
 
@@ -3036,10 +3037,6 @@ function printToWebsite(dapicksanddabans, something){
                     document.querySelectorAll(".scoreinthescore").forEach(el => el.style.transform = "translate(365px,-158px)");
                     
                     */
-                    const butons = document.querySelectorAll('#buttonspan');
-                    butons.forEach(element =>{
-                        element.style.transform = "translate(705px, 20px)";
-                    });
 
                     info.innerHTML = "";
                     const myNode = document.getElementById("quickInfo");
@@ -3072,12 +3069,9 @@ function printToWebsite(dapicksanddabans, something){
                 }
                         
                         
-                    document.getElementById("graphdiv").style.transform = "translate(1500px, 290px)";
+                    document.getElementById("graphdiv").style.transform = "translate(775px, 290px)";
                     document.getElementById("allInfo").style.transform = "translate(775px,300px)";
-                    const butons = document.querySelectorAll('#buttonspan');
-                    butons.forEach(element =>{
-                        element.style.transform = "translate(1240px, 20px)"
-                    });
+                    document.getElementById("overallButtonDivider").style.transform = "translate(1500px,580px)";
                     createCover(dapicksanddabans, d,info,quickInfoDivider);
                 
             } //
@@ -3095,15 +3089,13 @@ function printToWebsite(dapicksanddabans, something){
                     info.style.fontSize = "20px";
                     document.getElementById("game"+d).style.webkitFilter = "";
                     document.getElementById("allInfo").style.transform = "translate(260px,300px)";
-                    document.getElementById("graphdiv").style.transform = "translate(1040px, 290px)";
+                    document.getElementById("graphdiv").style.transform = "translate(250px, 290px)";
+                    document.getElementById("graphdiv").style.opacity = "1";
 
                 }
 
-            
-            const butons = document.querySelectorAll('#buttonspan');
-                    butons.forEach(element =>{
-                        element.style.transform = "translate(705px, 20px)";
-                    });
+                document.getElementById("overallButtonDivider").style.transform = "translate(1090px,580px)";
+
 
             info.innerHTML = "";
             const myNode = document.getElementById("quickInfo");
@@ -3236,7 +3228,7 @@ function printToWebsite(dapicksanddabans, something){
         incrementCounter.update({
             TimesUserUsedPolar: firebase.database.ServerValue.increment(1)
         });
-        console.log(document.getElementById("graph").classList[0]);
+       // console.log(document.getElementById("graph").classList[0]);
         switch(document.getElementById("graph").classList[0]){
             case "Wins":
                 if(document.getElementById("graph")){
@@ -3270,9 +3262,9 @@ function printToWebsite(dapicksanddabans, something){
                 break;
         }
     }
-    newgraph.appendChild(Bars);
-    newgraph.appendChild(Doughnut);
-    newgraph.appendChild(Polar);
+    //newgraph.appendChild(Bars);
+    //newgraph.appendChild(Doughnut);
+    //newgraph.appendChild(Polar);
     
     //newgraph.appendChild(gobackdefault);
     var titlebutalsobutton = document.createElement("div");
@@ -3297,8 +3289,14 @@ function printToWebsite(dapicksanddabans, something){
       });    
     titlebutalsobutton.innerHTML = "Distribution of Maps ";
     titlebutalsobutton.appendChild(changebutton);
-    newgraph.appendChild(titlebutalsobutton);
+   // newgraph.appendChild(titlebutalsobutton);
+   createBannedChart();
+   createPickChart();
    createChart();
+   createWinsChart();
+   createLossChart();
+   
+   
    
     var incrementCounter = firebase.database().ref('/USERS/');
     incrementCounter.update({
@@ -3346,7 +3344,7 @@ function createChart(type){
     grph.id = "graph";
     grph.classList.add("Default");
     grph.width = 400;
-   
+   grph.style.transform = "translateY(-53px)";
 
     var yArray = [played[7], played[4], played[2], played[1], played[5],played[3],played[0]];
     var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
@@ -3359,7 +3357,8 @@ function createChart(type){
             value: yArray[index],
             color: barColors[index]
         }));
-    
+        zipped = zipped.filter(item => item.value !== 0);
+
         // Step 2: Sort by value (descending)
         zipped.sort((a, b) => b.value - a.value);
         
@@ -3377,7 +3376,7 @@ function createChart(type){
     const chartHeight = xArray.length * rowHeight;
     if (!type){
         grph.height = chartHeight;
-        console.log(grph.height);
+        //(grph.height);
         if(chartHeight <= 100){
             grph.height = 150;
         }
@@ -3386,7 +3385,7 @@ function createChart(type){
         grph.height = 350;
 
     }
-
+    grph.height = 330;
 
         new Chart(grph, {
               type: (type)? type :"horizontalBar",
@@ -3404,11 +3403,89 @@ function createChart(type){
               options: {
                 responsive: false,
                 maintainAspectRatio: false,
+                hover: {
+                    onHover: function(event, activeElements) {
+                      if (activeElements && activeElements.length) {
+                        var datasetIndex = activeElements[0]._datasetIndex;
+                        var index = activeElements[0]._index;
+                        var label = this.data.labels[index];
+                        var value = this.data.datasets[datasetIndex].data[index];
+                
+                        //("You hovered over:", label);
+                        document.getElementById("allInfo").style.opacity = "1";
+                        label = (label === "Dust II") ? "dust2" : String(label.toLowerCase());
+                        
+        
+                        if(label === "ancient"){
+                            document.getElementById(`${label}div`).style.transform = "translate(950px,315px)";
+          
+        
+                        }
+                        else{
+                            document.getElementById(`${label}div`).style.transform = "translate(950px,330px)";
+                 
+                        }
+                        document.getElementById(`${label}div`).style.opacity = "1";
+                        document.getElementById(`${label}div`).style.transtion = "0.5s";
+        
+                        // Example: change cursor to pointer
+                        event.target.style.cursor = 'pointer';
+                      } else {
+                        // Not hovering anything
+                        document.getElementById("allInfo").style.opacity = "0"
+                        document.querySelectorAll(".allInfoDivs").forEach(el=>{
+                            el.style.opacity = "0";
+                            
+                        });
+                        event.target.style.cursor = 'default';
+                      }
+                    }
+                  },
+                plugins: {
+                    datalabels: {
+                      color: "black",
+                      anchor: 'center',
+                      align: 'center',
+                        font: function(context) {
+                    const value = context.dataset.data[context.dataIndex];
+                    const maxValue = Math.max(...context.dataset.data);
+                    
+                    // Scale font size between 10 and 18 based on the value
+                    const minSize = 10;
+                    const maxSize = 18;
+                    const size = minSize + (value / maxValue) * (maxSize - minSize);
+                    
+                    return {
+                        size: size,
+                        family: "'Play', sans-serif",
+                        weight: 'bold'
+                    };
+                    },
+                    formatter: function(value, context) {
+                        const data = context.dataset.data;
+                        const maxValue = Math.max(...data);
+                        const minValue = Math.min(...data);
+                
+                        // Customize your thresholds here
+                        const maxThreshold = 17;
+                        const minThreshold = 5;
+                
+                        if (maxValue >= maxThreshold && value <= minThreshold) {
+                        // If big numbers everywhere, just show the number
+                        return value;
+                        } else {
+                        // Otherwise, show the map name
+                        return context.chart.data.labels[context.dataIndex]+": "+value;
+                        }
+                    },
 
+                      textShadowColor: barColors
+                    }
+                  },
                 legend: {display: false},
                 title:{
 
-                    display: false,
+                    display: true,
                     text: "Distribution Of Played Maps",
                     fontSize: 30,
                     fontFamily: "'Play', sans-serif",
@@ -3425,7 +3502,6 @@ function createChart(type){
                 scales: {
                     xAxes: [{
                         display: ((type === "doughnut")|| (type === "polarArea")) ? false : true,
-
                       ticks: {
                         beginAtZero: true,
                         fontSize: 18,
@@ -3441,7 +3517,8 @@ function createChart(type){
                       }
                     }]
                   }
-            }
+            },
+            plugins: [ChartDataLabels] // Register the plugin
             });
         document.getElementById("graphdiv").append(grph);
 }
@@ -3464,7 +3541,7 @@ function createWinsChart(type){
     grph.id = "graph";
     grph.classList.add("Wins");
     grph.width = 400;
-
+      grph.style.transform = "translate(-800px,-53px)";
     var yArray = [W[7], W[4], W[2], W[1], W[5],W[3],W[0]];
     var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
     var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
@@ -3502,7 +3579,7 @@ function createWinsChart(type){
         grph.height = 350;
 
     }
-    
+    grph.height = 300;
 
         new Chart(grph, {
               type: (type)? type :"horizontalBar",
@@ -3520,11 +3597,88 @@ function createWinsChart(type){
               options: {
                 responsive: false,
                 maintainAspectRatio: false,
-
+                hover: {
+                    onHover: function(event, activeElements) {
+                      if (activeElements && activeElements.length) {
+                        var datasetIndex = activeElements[0]._datasetIndex;
+                        var index = activeElements[0]._index;
+                        var label = this.data.labels[index];
+                        var value = this.data.datasets[datasetIndex].data[index];
+                
+                        //console.log("You hovered over:", label);
+                        document.getElementById("allInfo").style.opacity = "1";
+                        label = (label === "Dust II") ? "dust2" : String(label.toLowerCase());
+                        
+        
+                        if(label === "ancient"){
+                            document.getElementById(`${label}div`).style.transform = "translate(950px,315px)";
+          
+        
+                        }
+                        else{
+                            document.getElementById(`${label}div`).style.transform = "translate(950px,330px)";
+                 
+                        }
+                        document.getElementById(`${label}div`).style.opacity = "1";
+                        document.getElementById(`${label}div`).style.transtion = "0.5s";
+        
+                        // Example: change cursor to pointer
+                        event.target.style.cursor = 'pointer';
+                      } else {
+                        // Not hovering anything
+                        document.getElementById("allInfo").style.opacity = "0"
+                        document.querySelectorAll(".allInfoDivs").forEach(el=>{
+                            el.style.opacity = "0";
+                            
+                        });
+                        event.target.style.cursor = 'default';
+                      }
+                    }
+                  },
+                plugins: {
+                    datalabels: {
+                      color: "black",
+                      anchor: 'center',
+                      align: 'center',
+                      font: function(context) {
+                        const value = context.dataset.data[context.dataIndex];
+                        const maxValue = Math.max(...context.dataset.data);
+                        
+                        // Scale font size between 10 and 18 based on the value
+                        const minSize = 10;
+                        const maxSize = 18;
+                        const size = minSize + (value / maxValue) * (maxSize - minSize);
+                        
+                        return {
+                          size: size,
+                          family: "'Play', sans-serif",
+                          weight: 'bold'
+                        };
+                      },
+                      formatter: function(value, context) {
+                        const data = context.dataset.data;
+                        const maxValue = Math.max(...data);
+                        const minValue = Math.min(...data);
+                  
+                        // Customize your thresholds here
+                        const maxThreshold = 9;
+                        const minThreshold = 2;
+                  
+                        if (maxValue >= maxThreshold && value <= minThreshold) {
+                          // If big numbers everywhere, just show the number
+                          return value;
+                        } else {
+                          // Otherwise, show the map name
+                          return context.chart.data.labels[context.dataIndex]+": "+value;
+                        }
+                      },
+                      textShadowColor: barColors
+                    }
+                  },
                 legend: {display: false},
                 title:{
 
-                    display: false,
+                    display: true,
                     text: "Distribution Of Map Wins",
                     fontSize: 30,
                     fontFamily: "'Play', sans-serif",
@@ -3557,7 +3711,8 @@ function createWinsChart(type){
                       }
                     }]
                   }
-            }
+            },
+            plugins: [ChartDataLabels] // Register the plugin
             });
         document.getElementById("graphdiv").append(grph);
 }
@@ -3580,7 +3735,7 @@ function createLossChart(type){
     grph.id = "graph";
     grph.classList.add("Loss");
     grph.width = 400;
-
+      grph.style.transform = "translate(-1190px,230px)";
     var yArray = [L[7], L[4], L[2], L[1], L[5],L[3],L[0]];
     var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
     var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
@@ -3608,7 +3763,7 @@ function createLossChart(type){
     }
     const rowHeight = 50; // Adjust as needed
     const chartHeight = xArray.length * rowHeight;
-    console.log(chartHeight);
+   // console.log(chartHeight);
     if (!type){
         grph.height = chartHeight;
         if(chartHeight <= 100){
@@ -3616,10 +3771,10 @@ function createLossChart(type){
         }
     }
     else{
-        grph.height = 350;
+        grph.height = 250;
 
     }
-   
+    grph.height = 250;
         new Chart(grph, {
               type: (type)? type :"horizontalBar",
               data: {
@@ -3636,11 +3791,88 @@ function createLossChart(type){
               options: {
                 responsive: false,
                 maintainAspectRatio: false,
-
+                hover: {
+                    onHover: function(event, activeElements) {
+                      if (activeElements && activeElements.length) {
+                        var datasetIndex = activeElements[0]._datasetIndex;
+                        var index = activeElements[0]._index;
+                        var label = this.data.labels[index];
+                        var value = this.data.datasets[datasetIndex].data[index];
+                
+                     //   console.log("You hovered over:", label);
+                        document.getElementById("allInfo").style.opacity = "1";
+                        label = (label === "Dust II") ? "dust2" : String(label.toLowerCase());
+                        
+        
+                        if(label === "ancient"){
+                            document.getElementById(`${label}div`).style.transform = "translate(950px,315px)";
+          
+        
+                        }
+                        else{
+                            document.getElementById(`${label}div`).style.transform = "translate(950px,330px)";
+                 
+                        }
+                        document.getElementById(`${label}div`).style.opacity = "1";
+                        document.getElementById(`${label}div`).style.transtion = "0.5s";
+        
+                        // Example: change cursor to pointer
+                        event.target.style.cursor = 'pointer';
+                      } else {
+                        // Not hovering anything
+                        document.getElementById("allInfo").style.opacity = "0"
+                        document.querySelectorAll(".allInfoDivs").forEach(el=>{
+                            el.style.opacity = "0";
+                            
+                        });
+                        event.target.style.cursor = 'default';
+                      }
+                    }
+                  },
+                plugins: {
+                    datalabels: {
+                      color: "black",
+                      anchor: 'center',
+                      align: 'center',
+                      font: function(context) {
+                        const value = context.dataset.data[context.dataIndex];
+                        const maxValue = Math.max(...context.dataset.data);
+                        
+                        // Scale font size between 10 and 18 based on the value
+                        const minSize = 10;
+                        const maxSize = 18;
+                        const size = minSize + (value / maxValue) * (maxSize - minSize);
+                        
+                        return {
+                          size: size,
+                          family: "'Play', sans-serif",
+                          weight: 'bold'
+                        };
+                      },
+                      formatter: function(value, context) {
+                        const data = context.dataset.data;
+                        const maxValue = Math.max(...data);
+                        const minValue = Math.min(...data);
+                  
+                        // Customize your thresholds here
+                        const maxThreshold = 11;
+                        const minThreshold = 2;
+                  
+                        if (maxValue >= maxThreshold && value <= minThreshold) {
+                          // If big numbers everywhere, just show the number
+                          return value;
+                        } else {
+                          // Otherwise, show the map name
+                          return context.chart.data.labels[context.dataIndex]+": "+value;
+                        }
+                      },
+                      textShadowColor: barColors
+                    }
+                  },
                 legend: {display: false},
                 title:{
 
-                    display: false,
+                    display: true,
                     text: "Distribution Of Map Losses",
                     fontSize: 30,
                     fontFamily: "'Play', sans-serif",
@@ -3673,7 +3905,8 @@ function createLossChart(type){
                       }
                     }]
                   }
-            }
+            },
+            plugins: [ChartDataLabels] // Register the plugin
             });
         document.getElementById("graphdiv").append(grph);
 }
@@ -3696,7 +3929,7 @@ function createBannedChart(type){
     grph.id = "graph";
     grph.classList.add("Bans");
     grph.width = 400;
-
+    grph.style.transform = "translateY(-53px)";
     var yArray = [bans[7], bans[4], bans[2], bans[1], bans[5],bans[3],bans[0]];
     var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
     var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
@@ -3724,7 +3957,7 @@ function createBannedChart(type){
     }
     const rowHeight = 50; // Adjust as needed
     const chartHeight = xArray.length * rowHeight;
-    console.log(chartHeight);
+   // console.log(chartHeight);
     if (!type){
         grph.height = chartHeight;
         if(chartHeight <= 100){
@@ -3735,62 +3968,131 @@ function createBannedChart(type){
         grph.height = 350;
 
     }
-   
-        new Chart(grph, {
-              type: (type)? type :"horizontalBar",
-              data: {
-                labels: xArray,
-                datasets: [{
-                  backgroundColor: barColors,
-                  data: yArray,
-                    borderWidth: 1,
-                    barPercentage: .6,       // Controls bar thickness relative to the category
-                    categoryPercentage: 0.6,  // Controls spacing between bars
-                }],
+    grph.height = 350;
+    new Chart(grph, {
+        type: (type) ? type : "horizontalBar",
+        data: {
+          labels: xArray,
+          datasets: [{
+            backgroundColor: barColors,
+            data: yArray,
+            borderWidth: 1,
+            barPercentage: 0.6,
+            categoryPercentage: 0.6
+          }]
+        },
+        options: {
+          responsive: false,
+          maintainAspectRatio: false,
+          legend: { display: false },
+          hover: {
+            onHover: function(event, activeElements) {
+              if (activeElements && activeElements.length) {
+                var datasetIndex = activeElements[0]._datasetIndex;
+                var index = activeElements[0]._index;
+                var label = this.data.labels[index];
+                var value = this.data.datasets[datasetIndex].data[index];
+        
+              //  console.log("You hovered over:", label);
+                document.getElementById("allInfo").style.opacity = "1";
+                label = (label === "Dust II") ? "dust2" : String(label.toLowerCase());
                 
-              },
-              options: {
-                responsive: false,
-                maintainAspectRatio: false,
 
-                legend: {display: false},
-                title:{
+                if(label === "ancient"){
+                    document.getElementById(`${label}div`).style.transform = "translate(950px,315px)";
+  
 
-                    display: false,
-                    text: "Distribution Of Map Losses",
-                    fontSize: 30,
-                    fontFamily: "'Play', sans-serif",
-                    fontStyle: 'bold'
-                },
-                layout: {
-                    padding: {
-                      top: 0,
-                      bottom: 0,
-                      left: 0,
-                      right: 0
-                    }
-                },
-                scales: {
-                    xAxes: [{
-                        display: ((type === "doughnut")|| (type === "polarArea")) ? false : true,
+                }
+                else{
+                    document.getElementById(`${label}div`).style.transform = "translate(950px,330px)";
+         
+                }
+                document.getElementById(`${label}div`).style.opacity = "1";
+                document.getElementById(`${label}div`).style.transtion = "0.5s";
 
-                      ticks: {
-                        beginAtZero: true,
-                        fontSize: 18,
-                        fontFamily: "'Play', sans-serif"
-                      }
-                    }],
-                    yAxes: [{
-                        display: ((type === "doughnut") || (type === "polarArea")) ? false : true,
-
-                      ticks: {
-                        fontSize: 15,
-                        fontFamily: "'Play', sans-serif"
-                      }
-                    }]
-                  }
+                // Example: change cursor to pointer
+                event.target.style.cursor = 'pointer';
+              } else {
+                // Not hovering anything
+                document.getElementById("allInfo").style.opacity = "0"
+                document.querySelectorAll(".allInfoDivs").forEach(el=>{
+                    el.style.opacity = "0";
+                    
+                });
+                event.target.style.cursor = 'default';
+              }
             }
-            });
+          },
+          title: {
+            display: true,
+            text: "Distribution Of Map Bans",
+            fontSize: 30,
+            fontFamily: "'Play', sans-serif",
+            fontStyle: 'bold'
+          },
+          layout: {
+            padding: { top: 0, bottom: 0, left: 0, right: 0 }
+          },
+          plugins: {
+            datalabels: {
+              color: "black",
+              anchor: 'center',
+              align: 'center',
+              font: function(context) {
+                const value = context.dataset.data[context.dataIndex];
+                const maxValue = Math.max(...context.dataset.data);
+                
+                // Scale font size between 10 and 18 based on the value
+                const minSize = 10;
+                const maxSize = 18;
+                const size = minSize + (value / maxValue) * (maxSize - minSize);
+                
+                return {
+                  size: size,
+                  family: "'Play', sans-serif",
+                  weight: 'bold'
+                };
+              },
+              formatter: function(value, context) {
+                const data = context.dataset.data;
+                const maxValue = Math.max(...data);
+                const minValue = Math.min(...data);
+          
+                // Customize your thresholds here
+                const maxThreshold = 14;
+                const minThreshold = 5;
+          
+                if (maxValue >= maxThreshold && value <= minThreshold) {
+                  // If big numbers everywhere, just show the number
+                  return value;
+                } else {
+                  // Otherwise, show the map name
+                  return context.chart.data.labels[context.dataIndex]+": "+value;
+                }
+              },
+              textShadowColor: barColors
+            }
+          },
+          scales: {
+            xAxes: [{
+              display: ((type === "doughnut") || (type === "polarArea")) ? false : true,
+              ticks: {
+                beginAtZero: true,
+                fontSize: 18,
+                fontFamily: "'Play', sans-serif"
+              }
+            }],
+            yAxes: [{
+              display: ((type === "doughnut") || (type === "polarArea")) ? false : true,
+              ticks: {
+                fontSize: 15,
+                fontFamily: "'Play', sans-serif"
+              }
+            }]
+          }
+        },
+        plugins: [ChartDataLabels] // Register the plugin
+      });
         document.getElementById("graphdiv").append(grph);
 }
 function createPickChart(type){
@@ -3812,6 +4114,7 @@ function createPickChart(type){
     grph.id = "graph";
     grph.classList.add("Picks");
     grph.width = 400;
+    grph.style.transform = "translate(-400px,285px)";
 
     var yArray = [picks[7], picks[4], picks[2], picks[1], picks[5],picks[3],picks[0]];
     var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
@@ -3840,7 +4143,7 @@ function createPickChart(type){
     }
     const rowHeight = 50; // Adjust as needed
     const chartHeight = xArray.length * rowHeight;
-    console.log(chartHeight);
+   // console.log(chartHeight);
     if (!type){
         grph.height = chartHeight;
         if(chartHeight <= 100){
@@ -3851,7 +4154,7 @@ function createPickChart(type){
         grph.height = 350;
 
     }
-   
+   grph.height = 200;
         new Chart(grph, {
               type: (type)? type :"horizontalBar",
               data: {
@@ -3868,128 +4171,89 @@ function createPickChart(type){
               options: {
                 responsive: false,
                 maintainAspectRatio: false,
-
-                legend: {display: false},
-                title:{
-
-                    display: false,
-                    text: "Distribution Of Map Losses",
-                    fontSize: 30,
-                    fontFamily: "'Play', sans-serif",
-                    fontStyle: 'bold'
-                },
-                layout: {
-                    padding: {
-                      top: 0,
-                      bottom: 0,
-                      left: 0,
-                      right: 0
-                    }
-                },
-                scales: {
-                    xAxes: [{
-                        display: ((type === "doughnut")|| (type === "polarArea")) ? false : true,
-
-                      ticks: {
-                        beginAtZero: true,
-                        fontSize: 18,
-                        fontFamily: "'Play', sans-serif"
-                      }
-                    }],
-                    yAxes: [{
-                        display: ((type === "doughnut") || (type === "polarArea")) ? false : true,
-
-                      ticks: {
-                        fontSize: 15,
-                        fontFamily: "'Play', sans-serif"
-                      }
-                    }]
-                  }
-            }
-            });
-        document.getElementById("graphdiv").append(grph);
-}
-function createPickChart(type){
-
-    Chart.plugins.register({
-        beforeDraw: function(chart) {
-          const ctx = chart.chart.ctx;
-          ctx.save();
-          ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-          ctx.shadowBlur = 4;
-          ctx.shadowOffsetX = 2;
-          ctx.shadowOffsetY = 2;
-        },
-        afterDraw: function(chart) {
-          chart.chart.ctx.restore();
-        }
-      });
-    var grph = document.createElement("canvas");
-    grph.id = "graph";
-    grph.classList.add("Picks");
-    grph.width = 400;
-
-    var yArray = [picks[7], picks[4], picks[2], picks[1], picks[5],picks[3],picks[0]];
-    var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
-    var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
-
-      if(!(String(type) === "polarArea")){
-        // Step 1: Zip label, value, and color together
-        var zipped = xArray.map((label, index) => ({
-            label: label,
-            value: yArray[index],
-            color: barColors[index]
-        }));
-        zipped = zipped.filter(item => item.value !== 0);
-        // Step 2: Sort by value (descending)
-        zipped.sort((a, b) => b.value - a.value);
+                hover: {
+                    onHover: function(event, activeElements) {
+                      if (activeElements && activeElements.length) {
+                        var datasetIndex = activeElements[0]._datasetIndex;
+                        var index = activeElements[0]._index;
+                        var label = this.data.labels[index];
+                        var value = this.data.datasets[datasetIndex].data[index];
+                
+                       // console.log("You hovered over:", label);
+                        document.getElementById("allInfo").style.opacity = "1";
+                        label = (label === "Dust II") ? "dust2" : String(label.toLowerCase());
+                        
         
-        // Step 3: Unzip back into separate arrays
-        xArray = zipped.map(item => item.label);
-        yArray = zipped.map(item => item.value);
-        barColors = zipped.map(item => item.color);
-        // Sort the data descending
-        var zipped = xArray.map((label, index) => ({ label, value: yArray[index] }));
-        zipped.sort((a, b) => b.value - a.value);
-        xArray = zipped.map(item => item.label);
-        yArray = zipped.map(item => item.value);
-    }
-    const rowHeight = 50; // Adjust as needed
-    const chartHeight = xArray.length * rowHeight;
-    if (!type){
-        grph.height = chartHeight;
-        if(chartHeight <= 100){
-            grph.height = 150;
-        }
-    }
-    else{
-        grph.height = 350;
-
-    }
-    
-
-        new Chart(grph, {
-              type: (type)? type :"horizontalBar",
-              data: {
-                labels: xArray,
-                datasets: [{
-                  backgroundColor: barColors,
-                  data: yArray,
-                    borderWidth: 1,
-                    barPercentage: .6,       // Controls bar thickness relative to the category
-                    categoryPercentage: 0.6,  // Controls spacing between bars
-                }],
-                
-              },
-              options: {
-                responsive: false,
-                maintainAspectRatio: false,
-
+                        if(label === "ancient"){
+                            document.getElementById(`${label}div`).style.transform = "translate(950px,315px)";
+          
+        
+                        }
+                        else{
+                            document.getElementById(`${label}div`).style.transform = "translate(950px,330px)";
+                 
+                        }
+                        document.getElementById(`${label}div`).style.opacity = "1";
+                        document.getElementById(`${label}div`).style.transtion = "0.5s";
+        
+                        // Example: change cursor to pointer
+                        event.target.style.cursor = 'pointer';
+                      } else {
+                        // Not hovering anything
+                        document.getElementById("allInfo").style.opacity = "0"
+                        document.querySelectorAll(".allInfoDivs").forEach(el=>{
+                            el.style.opacity = "0";
+                            
+                        });
+                        event.target.style.cursor = 'default';
+                      }
+                    }
+                  },
+                plugins: {
+                    datalabels: {
+                      color: "black",
+                      anchor: 'center',
+                      align: 'center',
+                      font: function(context) {
+                        const value = context.dataset.data[context.dataIndex];
+                        const maxValue = Math.max(...context.dataset.data);
+                        
+                        // Scale font size between 10 and 18 based on the value
+                        const minSize = 10;
+                        const maxSize = 13;
+                        const size = minSize + (value / maxValue) * (maxSize - minSize);
+                        
+                        return {
+                          size: size,
+                          family: "'Play', sans-serif",
+                          weight: 'bold'
+                        };
+                      },
+                      formatter: function(value, context) {
+                        const data = context.dataset.data;
+                        const maxValue = Math.max(...data);
+                        const minValue = Math.min(...data);
+                  
+                        // Customize your thresholds here
+                        const maxThreshold = 17;
+                        const minThreshold = 5;
+                  
+                        if (maxValue >= maxThreshold && value <= minThreshold) {
+                          // If big numbers everywhere, just show the number
+                          return value;
+                        } else {
+                          // Otherwise, show the map name
+                          return context.chart.data.labels[context.dataIndex]+": "+value;
+                        }
+                      },
+                      textShadowColor: barColors
+                    }
+                  },
                 legend: {display: false},
                 title:{
 
-                    display: false,
-                    text: "Distribution Of Map Wins",
+                    display: true,
+                    text: "Distribution Of Map Picks",
                     fontSize: 30,
                     fontFamily: "'Play', sans-serif",
                     fontStyle: 'bold'
@@ -4021,7 +4285,8 @@ function createPickChart(type){
                       }
                     }]
                   }
-            }
+            },
+            plugins: [ChartDataLabels] // Register the plugin
             });
         document.getElementById("graphdiv").append(grph);
 }
@@ -5547,7 +5812,7 @@ var ILIEDLOLL = 3;
         // Create a container span element
     const span = document.createElement("div");
     span.id = "buttonspan";
-    span.classList.add("divvv");
+   
     // Create a checkbox input element
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -5572,8 +5837,15 @@ var ILIEDLOLL = 3;
     span.appendChild(checkbox);
     span.appendChild(label);
     //span.style.backgroundImage(`url(${imag.src})`);
-
+    allinfodiv.appendChild(span);
+    span.onmouseover = function(){
+        span.style.cursor = "pointer";
+    }
+    span.onmouseout = function(){
+        span.style.cursor = "default";
+    }
     span.addEventListener("click", function () {
+        
         checkbox.checked = !checkbox.checked; // toggle checkbox state
         checkbox.dispatchEvent(new Event("click")); // trigger checkbox click event
     });
@@ -5582,34 +5854,11 @@ var ILIEDLOLL = 3;
 
         if (checkbox.checked) {
             ILIEDLOLL-=1;
-            if (Number(label.textContent.substring(1)) >= 52 || THEFINALCOUNTERISWEAR == 1){
-                //console.log(THEFINALCOUNTERISWEAR +"= WHAT THE BALLS")
-                if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
-                    setTimeout(() => {
-                        document.getElementById("vertigoo").style.opacity = "0";
-                        document.getElementById("verimage").style.opacity = "0";
-                        document.getElementById("trainn").style.transform = "translate(470px,20px)";
-                        document.getElementById("trainimage").style.transform = "translate(470px,20px)";
-                    }, 10);
-                    //console.log("Elements hidden");
-                } else {
-                   // console.log("vertigoo or verimage not found!");
-                }
-    
-            }
-            else{
-                setTimeout(() => {
-                    if(document.getElementById("trainn") && document.getElementById("trainimage")){
-                        document.getElementById("trainn").style.display = "none";
-                        document.getElementById("trainimage").style.display = "none";
-                    }
-                }, 10);
-            }
-            
+        
           label.style.color = "#0FFF50"; // Change text color
           label.style.fontSize = "30px"; // Change font size
-          span.style.height = "45px";
-          span.style.width = "45px";
+          span.style.height = "60px";
+          span.style.width = "60px";
           var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
           DotheThing(newarray,true);
           //span.style.transform = "translate(730px,160px)";
@@ -5621,32 +5870,12 @@ var ILIEDLOLL = 3;
             
 
         } else {
-            var bool = true;
-            document.querySelectorAll("#label").forEach(el=>{if(Number(el.innerHTML.substring(1)) < 52)bool=false;});
-            if (bool){
-                //console.log(THEFINALCOUNTERISWEAR +"= WHAT THE BALLS")
-                if (document.getElementById("vertigoo") && document.getElementById("verimage")) { // Ensure they exist
-                    setTimeout(() => {
-                        document.getElementById("vertigoo").style.opacity = "0";
-                        document.getElementById("verimage").style.opacity = "0";
-                        document.getElementById("trainn").style.transform = "translate(470px,20px)";
-                        document.getElementById("trainimage").style.transform = "translate(470px,20px)";
-                    }, 10);
-                    //console.log("Elements hidden");
-                } else {
-                   // console.log("vertigoo or verimage not found!");
-                }
-    
-            }
-            else{
-
-            }
 
           ILIEDLOLL+=1;
           label.style.color = ""; // Reset text color
           label.style.fontSize = ""; // Reset font size
-          span.style.height = "30px";
-          span.style.width = "30px";
+          span.style.height = "50px";
+          span.style.width = "50px";
 
          // console.log("WTFFF "+ILIEDLOLL);
             //make the finalarrayiswear be removed of the season that is clicked
@@ -5670,7 +5899,8 @@ var ILIEDLOLL = 3;
         }
       });
       
-    allinfodiv.appendChild(span);
+
+    
 }
 function checkImageExists(url, callback) {
     const img = new Image();
@@ -5730,7 +5960,7 @@ function DotheThing (arrayofallmatches2, removeoradd){
         document.getElementById("quickInfo").remove();
     }
     
-    document.querySelectorAll("#allInfo > *:not(#buttonspan)").forEach(el => el.remove());
+    document.querySelectorAll("#allInfo").forEach(el => el.remove());
     
     printToWebsite(THEFINALARRAYISWEAR, true);
 

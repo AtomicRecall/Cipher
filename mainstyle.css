@@ -46,13 +46,16 @@ body {
 }
 #graphdiv{
   position: absolute;
-  transform: translate(1040px,290px);
+  transform: translate(260px,290px);
   transition: .8s;
   color: white;
+  display: grid;
+  grid-auto-flow: column;
 }
 .buttonstyle{
   font-size: 25px;
   transform: translateX(100px);
+  opacity: 0;
 }
 #changebut{
   font-size: 30px;
@@ -119,7 +122,7 @@ body {
   position: absolute;
   width: 480px;
   height: 480px;
-  transform: translate(260px,280px);
+  transform: translate(260px,230px);
 }
 #allInfo{
   position: absolute;
@@ -127,6 +130,7 @@ body {
   height: 480px;
   transform: translate(260px,300px);
   transition: 0.3s;
+  opacity: 1;
   
 }
 
@@ -151,22 +155,27 @@ body {
   filter: drop-shadow(.5px 0.5px 2px lime);
 }
 #anubisimage{
-  transform: translateY(175px);
   opacity: 60%;
+}
+.allInfoDivs{
+  width: 230px;
+  opacity: 0;
+  height: 130px;
+  position: absolute;
+  transition: .5s;
+  transform: translate(950px,330px);
 }
 #anubis{
   filter: drop-shadow(.5px 0.5px 0.1px black);
   width: 230px;
   height: 130px;
   position: absolute;
-  transform: translateY(175px);
 }
 #de_anubis{
   color:white;
   filter: drop-shadow(.5px 0.5px 2px salmon)
 }
 #infimage{
-  transform: translateY(330px);
   opacity: 60%;
 }
 #inferno{
@@ -174,14 +183,14 @@ body {
   width: 230px;
   height: 130px;
   position: absolute;
-  transform: translateY(330px);
 }
+
+
 #de_inferno{
   color: white;
   filter: drop-shadow(.5px 0.5px 2px rgb(171, 99, 39))
 }
 #d2image{
-  transform: translate(235px,20px);
   opacity: 60%;
 }
 #dust2{
@@ -189,14 +198,12 @@ body {
   width: 230px;
   height: 130px;
   position: absolute;
-  transform: translate(235px,20px);
 }
 #de_dust2{
   color:white;
   filter: drop-shadow(.5px 0.5px 2px skyblue)
 }
 #mirimage{
-  transform: translate(235px,175px);
   opacity: 60%;
 }
 #mirage{
@@ -204,14 +211,13 @@ body {
   width: 230px;
   height: 130px;
   position: absolute;
-  transform: translate(235px,175px);
 }
 #de_mirage{
   color:white;
   filter: drop-shadow(.5px 0.5px 2px rgb(215, 183, 0));
 }
 #nukimage{
-  transform: translate(235px,330px);
+
   opacity: 60%;
 }
 #nuke{
@@ -219,14 +225,14 @@ body {
   width: 230px;
   height: 130px;
   position: absolute;
-  transform: translate(235px,330px);
+
 }
 #de_nuke{
   color: white;
   filter: drop-shadow(.5px 0.5px 2px cyan);
 }
 #verimage{
-  transform: translate(470px,20px);
+ 
   opacity: 60%;
 }
 #vertigoo{
@@ -234,7 +240,7 @@ body {
   width: 230px;
   height: 130px;
   position: absolute;
-  transform: translate(470px,20px);
+
 }
 #de_vertigo{
   color:white;
@@ -248,10 +254,22 @@ body {
   height: 200px;
   width: 100px;
   color: white;
+  
+}
+#overallButtonDivider{
+  transform : translate(1090px,580px);
+  display :  grid;
+  grid-auto-flow : column;
+  height: 50px;
+  width: 0px;
+  z-index: 1;
+  position: absolute;
+  transition: 0.9s;
+
 }
 #buttonspan{
-  height: 30px;
-  width: 30px;
+  height: 50px;
+  width: 50px;
   background-image: url('https://atomicrecall.github.io/Cipher/images/button.png');
   background-size: cover;             /* Scale the image to fill the button */
   background-position: center;        /* Center the image within the button */
@@ -259,8 +277,7 @@ body {
   font-size: 15px;
   color: white;
   font-weight: bold;
-  transform: translate(705px, 20px);
-  transition: .3s
+  transition: .9s;
 }
 .divvv:hover{
   cursor: pointer;
@@ -763,15 +780,13 @@ transform: translateY(-120px);
   width: 230px;
   height: 130px;
   position: absolute;
-  transform: translate(470px,175px);
+ 
 }
 #captainforthatonethingy{
   height: 75px;
   transform: translate(80px,-230px);
 }
-#trainimage{
-  transform: translate(470px,175px);
-}
+
 #PLAYERDIVIDER{
   height: 90px;
   width: 75px;
@@ -806,7 +821,7 @@ transform: translateY(-120px);
 }
 #teambackgrounddiv{
   width: 1260px;
-  height: 280px;
+  height: 240px;
   position: absolute;
   transform: translateX(260px);
   opacity: 0;
