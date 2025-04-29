@@ -2,6 +2,9 @@ console.log("one two three");
 //document.body.appendChild(document.getElementById("smokewed"));
 //document.getElementById("smokewed").style.transform = "translate(550px,-390px)";
 document.body.style.cursor = "wait";
+document.getElementById("lgOut").style.transform = "translate(1400px)";
+document.getElementById("h1").innerHTML = " ";
+document.getElementById("poop").innerHTML = `&nbsp`;
 var database = firebase.database();
 var THETEAMWEARESEARCHING = localStorage.getItem("THETEAMWEARESEARCHING");
 var currentseason = 53;
@@ -69,9 +72,10 @@ var lastbooleaniswear = false;
 var ffws = 0;
 var ffws1 = 0;
 var dividerclicked = false;
-var defaultimage = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
+
+var defaultimage = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg";
 //setup image_links
-var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+var loadGears = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/gears.gif";
 var loadingimage = document.createElement("img");
 loadingimage.src = loadGears;
 loadingimage.style.width = "600px";
@@ -87,7 +91,7 @@ stopButtong.classList.add("removemeplss");
 stopButtong.id = "stopbutton";
 stopButtong.style.fontSize = "20px";
 stopButtong.style.fontWeight = "bold";
-stopButtong.innerHTML = 'USE THE MATCHES ALREADY FOUND:  <img id="buttonnn" src = "https://atomicrecall.github.io/Cipher/images/STOP.jpg" class = "removemeplss"/>';
+stopButtong.innerHTML = 'USE THE MATCHES ALREADY FOUND:  <img id="buttonnn" src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/STOP.jpg" class = "removemeplss"/>';
 document.getElementById(".BanFileExplorer").appendChild(stopButtong);
 
 stopButtong.addEventListener('click',()=>{
@@ -228,10 +232,11 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
    // console.log(datan);
     localStorage.setItem("LeaderID", datan.leader);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
+    document.getElementById("h1").innerHTML = " ";
+    document.getElementById("poop").innerHTML = `&nbsp`;
     cancelTyping();
     killAllTimeouts();
-    document.getElementById("h1").innerHTML = " ";
-    document.getElementById("poop").innerHTML = " ";
+
    
     document.getElementById("h3").style.cursor= "pointer";
     document.getElementById("h1").textContent= " ";
@@ -265,7 +270,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
         document.getElementById('h3').prepend(teamPfp);
     }
     else{
-        teamPfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
+        teamPfp.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg";
         document.getElementById('h3').prepend(teamPfp);
     }
     
@@ -313,7 +318,7 @@ function fetchLast5Players(matchid, rcursivecall,count, callback){
     lastClickTime = now;
     if (callback) callback();
 
-var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+var loadGears = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/gears.gif";
 var loadingimage = document.createElement("img");
 loadingimage.src = loadGears;
 loadingimage.style.width = "600px";
@@ -413,7 +418,7 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
                     }
                         
                         for (var stuff of document.querySelectorAll("#PLAYERDIVIDER")){
-                            if (stuff.querySelector(".TEAMPFP").src === "https://atomicrecall.github.io/Cipher/images/gears.gif"){
+                            if (stuff.querySelector(".TEAMPFP").src === "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/gears.gif"){
                                 setTimeout(()=>{
                                     if(stuff.querySelector(".TEAMPFPNAME")){
                                         //stuff.querySelector(".TEAMPFPNAME").style.opacity = "0";
@@ -461,7 +466,7 @@ let counterrrr = 0;
 function GetPlayerInfo(nick , iddd, div, callback){
     
     let pfp = document.createElement("img");
-    pfp.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+    pfp.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/gears.gif";
     pfp.classList.add("TEAMPFP");
     pfp.classList.add("LOADING");
     pfp.style.pointerEvents = "none";
@@ -484,7 +489,7 @@ function GetPlayerInfo(nick , iddd, div, callback){
                 let name = document.createElement("div");
                 name.id = "TEAMPFPNAME"+counterrrr;
                 name.innerHTML = nick;
-                pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
+                pfp.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg";
                 name.classList.add("TEAMPFPNAME");
                 div.appendChild(name);
                 if (div.classList.item(0) === "PLAYERDIVIDERR"){
@@ -556,20 +561,20 @@ function GetPlayerInfo(nick , iddd, div, callback){
             counterrrr++;
             
             let captain = document.createElement("img");
-            captain.src = "https://atomicrecall.github.io/Cipher/images/CAPTAIN.png";
+            captain.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/CAPTAIN.png";
             captain.id = "captainforthatonethingy";
 
             //name.innerHTML = data.nickname;
             div.appendChild(name);
             switch(data.avatar){
                 case undefined:
-                    pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                    pfp.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg"
                     break;
                 case null:
-                    pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                    pfp.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg"
                     break;
                 case "":
-                    pfp.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                    pfp.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg"
                     break;
                 default:
                     pfp.src = data.avatar;
@@ -1868,7 +1873,6 @@ function printToWebsite(dapicksanddabans, something){
     matchesDivider.style.overflowX = "hidden";
     let quickInfoDivider = document.createElement('div');
     quickInfoDivider.id = "quickInfo";
-    quickInfoDivider.innerHTML = "PLEASE HOVER OVER A GAME:";
     let allInfoDivider = document.createElement('div');
     allInfoDivider.id = "allInfo";
 
@@ -3043,7 +3047,7 @@ function printToWebsite(dapicksanddabans, something){
                     while (myNode.firstChild) {
                         myNode.removeChild(myNode.lastChild);
                     }
-                    quickInfoDivider.innerHTML = "PLEASE HOVER OVER A GAME";
+                
                     document.getElementById("game"+d).style.webkitFilter = " ";
                     moreclicks = 0;
                 }
@@ -3102,7 +3106,7 @@ function printToWebsite(dapicksanddabans, something){
             while (myNode.firstChild) {
                 myNode.removeChild(myNode.lastChild);
             }
-            quickInfoDivider.innerHTML = "PLEASE HOVER OVER A GAME";
+            
             
         }
         else{
@@ -3265,30 +3269,6 @@ function printToWebsite(dapicksanddabans, something){
     //newgraph.appendChild(Bars);
     //newgraph.appendChild(Doughnut);
     //newgraph.appendChild(Polar);
-    
-    //newgraph.appendChild(gobackdefault);
-    var titlebutalsobutton = document.createElement("div");
-    titlebutalsobutton.id = "titlebut";
-    var changebutton = document.createElement("select");
-    changebutton.id = "changebut";
-    
-    const dropdownOptions = ["Played","Won", "Lost", "Banned", "Picked"];
-    dropdownOptions.forEach(optionText => {
-        const option = document.createElement("option");
-        option.value = optionText;
-        option.text = optionText;
-        option.style.backgroundColor = "black";
-        changebutton.appendChild(option);
-      });
-      changebutton.addEventListener('change', function() {
-        const selectedValue = changebutton.value;
-        if(document.getElementById("graph")){
-            document.getElementById("graph").remove();
-        }
-        dropdownButton(selectedValue);
-      });    
-    titlebutalsobutton.innerHTML = "Distribution of Maps ";
-    titlebutalsobutton.appendChild(changebutton);
    // newgraph.appendChild(titlebutalsobutton);
    createBannedChart();
    createPickChart();
@@ -5729,7 +5709,7 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
 
         let fishking = document.createElement("img");
         fishking.id = "fishking";
-        fishking.src = "https://atomicrecall.github.io/Cipher/images/fishking.png";
+        fishking.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/fishking.png";
         fishking.style.height = "70px";
         fishking.style.width = "50px";
         fishking.style.position = "absolute";
@@ -5820,7 +5800,7 @@ var ILIEDLOLL = 3;
     checkbox.style.display = "none";
     const imag = document.createElement("img");
     imag.id = "spanimg";
-    imag.src = "https://atomicrecall.github.io/Cipher/images/button.png"
+    imag.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/button.png"
     imag.style.height = "30px";
     imag.style.width = "30px";
     imag.htmlFor =" c"+THEFINALCOUNTERISWEAR;

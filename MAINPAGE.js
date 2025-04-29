@@ -1,11 +1,11 @@
-var loadGears = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+var loadGears = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/gears.gif";
 var loadingimage = document.createElement("img");
 loadingimage.src = loadGears;
 loadingimage.style.width = "1200px";
 loadingimage.style.height = "400px";
 loadingimage.style.position = "absolute";
 loadingimage.id = "removemepls";
-loadingimage.style.transform = "translate(100px,70px)";
+loadingimage.style.transform = "translate(150px,90px)";
 loadingimage.classList.add("removemepls");
 
 let typewriterTimeouts = [];
@@ -210,6 +210,7 @@ function typeWriter(element, text, delay = 100, callback) {
   function getCurrentPeriod() {
     const now = new Date();
     const hours = now.getHours();
+    console.log(hours);
     return hours >= 12 ? 'pm' : 'am';
   }
 //document.getElementById("h1").innerHTML = "Your Cipher awaits,";
@@ -259,7 +260,7 @@ else{
                     break;
                 case 4:
 
-                        typeWriter(document.getElementById("h1"), `Good `+((getCurrentPeriod === 'am') ?`Morning, ` : `Afternoon, `), 100, () => {
+                        typeWriter(document.getElementById("h1"), `Good `+((getCurrentPeriod() === 'am') ? `Morning, ` : `Afternoon, `), 100, () => {
                             document.getElementById("poop").style.visibility = "visible";
                             
                                 typeWriter(document.getElementById("poop"), String(name), 100);
@@ -364,8 +365,7 @@ srchbtn.addEventListener('click', () =>{
     srch3.style.height = "50px";
     srch3.style.position = "absolute";
     srch3.style.transform = "translate(1430px, 13px)";
-    //srch3.src = "https://atomicrecall.github.io/Cipher/images/button.png"
-    srch3.innerHTML = '<img id="btnimg" src = "https://atomicrecall.github.io/Cipher/images/button.png" />';
+    srch3.innerHTML = '<img id="btnimg" src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/button.png" />';
 
 
     const div = document.createElement('input');
@@ -617,7 +617,7 @@ function ontop(){
                 upcomingmatchestag.classList.add("divFart");
 
                 var loadingimage = document.createElement("img");
-                loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+                loadingimage.src = loadGears;
                 loadingimage.style.width = "600px";
                 loadingimage.style.height = "200px";
                 loadingimage.style.position = "absolute";
@@ -691,7 +691,7 @@ function YOURSAVEDTEAMS(){
     yoursaveteamsdividertag.innerHTML = "YOUR SAVED TEAMS: ";
     yoursaveteamsdivider.appendChild(yoursaveteamsdividertag);
     var loadingimage = document.createElement("img");
-    loadingimage.src = "https://atomicrecall.github.io/Cipher/images/gears.gif";
+    loadingimage.src = loadGears;
     loadingimage.style.width = "600px";
     loadingimage.style.height = "200px";
     loadingimage.style.position = "absolute";
@@ -822,10 +822,10 @@ function funnyfunction(dataalolfunny,wheretoadd){
             avat.id = "avat"+d;
             switch(datan.avatar){
                 case undefined:
-                    avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                    avat.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg"
                     break;
                 case null:
-                    avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                    avat.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg"
                     break;
                 default:
                     avat.src = datan.avatar;
@@ -868,7 +868,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                     crown.style.width = "30px";
                     crown.style.height = "30px";
                     crown.style.transform = "translate(-40px,-10px)";
-                    crown.src = "https://atomicrecall.github.io/Cipher/images/CAPTAIN.png";
+                    crown.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/CAPTAIN.png";
                     crown.style.position = "absolute";
                     crown.style.opacity = 1;
                     
@@ -1268,10 +1268,10 @@ function funnyfunction(dataalolfunny,wheretoadd){
             avat.id = "avat"+d;
             switch(datan.avatar){
                 case undefined:
-                    avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                    avat.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg"
                     break;
                 case null:
-                    avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg"
+                    avat.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg"
                     break;
                 default:
                     avat.src = datan.avatar;
@@ -1314,7 +1314,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                     crown.style.width = "30px";
                     crown.style.height = "30px";
                     crown.style.transform = "translate(-40px,-10px)";
-                    crown.src = "https://atomicrecall.github.io/Cipher/images/CAPTAIN.png";
+                    crown.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/CAPTAIN.png"
                     crown.style.position = "absolute";
                     crown.style.opacity = 1;
                     
@@ -1831,7 +1831,7 @@ function searchForTeams(teamnme){
                                     crown.style.width = "30px";
                                     crown.style.height = "30px";
                                     crown.style.transform = "translate(-30px,-20px)";
-                                    crown.src = "https://atomicrecall.github.io/Cipher/images/CAPTAIN.png";
+                                    crown.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/CAPTAIN.png";
                                     crown.style.position = "absolute";
                                     crown.style.opacity = 1;
                                     
@@ -1883,14 +1883,14 @@ function searchForTeams(teamnme){
 
             switch(datan.avatar){
                 case "":
-                    avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
+                    avat.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg";
                     break;
-                    case undefined:
-                        avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
-                        break;
-                    case null:
-                        avat.src = "https://atomicrecall.github.io/Cipher/images/DEFAULTT.jpg";
-                        break;
+                case undefined:
+                    avat.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg";
+                    break;
+                case null:
+                    avat.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg";
+                    break;
                     
                 default:
                     cvrimg.src = datan.avatar;
@@ -2011,7 +2011,7 @@ function searchForTeams(teamnme){
                 }
                 document.getElementById("fav"+d).onclick = function(){
                     clicked = true;
-                    document.getElementById("favimg"+d).src = "https://atomicrecall.github.io/Cipher/images/NicePng_star-shape-png_5691440_"+3+".png";
+                    document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+3+".png";
                     
                     if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
                         pushToSavedTeams(datan.team_id);
@@ -2028,18 +2028,18 @@ function searchForTeams(teamnme){
 
                 document.getElementById("fav"+d).onmouseover = function(){
                     if(clicked == true){
-                        document.getElementById("favimg"+d).src = "https://atomicrecall.github.io/Cipher/images/NicePng_star-shape-png_5691440_"+3+".png";
+                        document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+3+".png";
                     }
                     else{
-                        document.getElementById("favimg"+d).src = "https://atomicrecall.github.io/Cipher/images/NicePng_star-shape-png_5691440_"+2+".png";
+                        document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+2+".png";
                     }
                 }
                 document.getElementById("fav"+d).onmouseout = function(){
                     if(clicked == true){
-                        document.getElementById("favimg"+d).src = "https://atomicrecall.github.io/Cipher/images/NicePng_star-shape-png_5691440_"+3+".png";
+                        document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+3+".png";
                     }
                     else{
-                        document.getElementById("favimg"+d).src = "https://atomicrecall.github.io/Cipher/images/NicePng_star-shape-png_5691440_"+1+".png";
+                        document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+1+".png";
                     }
                 }
 
