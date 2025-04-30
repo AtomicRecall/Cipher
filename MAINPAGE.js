@@ -226,7 +226,7 @@ if(name === null || name === ""){
 else{
     document.getElementById("h1").textContent = "";
     document.getElementById("poop").textContent = "";
-    var RNG = Math.floor(Math.random()*11)+1;
+    var RNG = Math.floor(Math.random()*12)+1;
     switch(true){
         case (RNG <= 7):
             var rngintherng = Math.floor(Math.random()*4)+1;
@@ -307,10 +307,12 @@ else{
             });
             break;
         case(RNG === 12):
-            typeWriter(document.getElementById("h1"), "You just broke your record for Most Blinks Per Session in 2025 (+12.05),", 100, () => {
+        var numberOfBlinks = parseInt(Math.random()*25)+1;
+        var BlinksDecimal = parseInt(Math.random()*99)+1;
+            typeWriter(document.getElementById("h1"), "You just broke your record for Most Blinks Per Session in 2025 "+`(+${numberOfBlinks}`+`.${BlinksDecimal}),`, 100, () => {
                 document.getElementById("poop").style.visibility = "visible";
                 
-                    typeWriter(document.getElementById("poop"), String(name), 100);
+                    typeWriter(document.getElementById("poop"), String(name)+"!", 100);
             
                 
             });
