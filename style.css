@@ -13,6 +13,8 @@ body {
   align-items: center;
   min-height: 100vh;
   background: #323838;
+  background-image: url("images/124411.jpeg");
+  
 }
 
 
@@ -33,7 +35,10 @@ BROUGHT BACK TO MOTHER FUCKING LIFE 08/17/24
   }
 }
 
-
+#lol{
+  width: 450px;
+  height:300px;
+}
 .wrapper {
   position: absolute;
   width: 400px;

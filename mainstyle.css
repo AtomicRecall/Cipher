@@ -8,11 +8,11 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: #323838;
     overflow: hidden;
     background-image: url("images/124411.jpeg");
     background-size: cover;
     font-family: 'Play', sans-serif;
+    
 }
 #fffff{
   position:absolute;
@@ -23,7 +23,9 @@ body {
 .gamediv{
   transition: .5s;
 }
-
+#poop{
+  min-height: 15px;
+}
 #ccccc{
   position:absolute;
   font-size: 20px;
@@ -54,6 +56,9 @@ body {
   height: 480px;
   width: 1250px;
 }
+#graph{
+  transition: .8s;
+}
 .buttonstyle{
   font-size: 25px;
   transform: translateX(100px);
@@ -69,9 +74,8 @@ body {
 .wrapper {
   width: 1500px;
   height: 800px;
-  background: #232828;
+  background: #141616;
   box-shadow: 0 0 30px #FF5500;
-  border-radius: 45px;
   padding: 50px;
   overflow: hidden;
   animation: glow-out 1s ease forwards;
@@ -111,7 +115,7 @@ body {
   position: absolute;
   color: rgb(255, 255, 255);
   filter: drop-shadow(3px 0px 1px #000000);
-  transform: translate(-670px,-420px);
+  transform: translate(-630px,-420px);
   font-size: 15px;
   font-family: 'Minecraftia', sans-serif;
 }
@@ -124,7 +128,7 @@ body {
   position: absolute;
   width: 480px;
   height: 480px;
-  transform: translate(260px,230px);
+  transform: translate(260px,250px);
 }
 #allInfo{
   position: absolute;
@@ -139,14 +143,11 @@ body {
 #finishedcounter{
   filter: drop-shadow(1px 0px 3px #000000);
   cursor: wait;
+  min-height: 60px;
 }
-#ancientimage{
-  transform: translateY(20px);
-  opacity: 60%;
-}
+
 #ancient{
   filter: drop-shadow(.5px 0.5px 0.1px black);
-  transform: translateY(20px);
   width: 230px;
   height: 130px;
   position: absolute;
@@ -164,7 +165,6 @@ body {
   opacity: 0;
   height: 130px;
   position: absolute;
-  transition: .5s;
   transform: translate(950px,330px);
 }
 #anubis{
@@ -418,14 +418,14 @@ body {
   transform: translateY(-220px);
   width: 1480px;
   height: 480px;
-  background: #323838;
+  background: #0A0C0C;
   box-shadow: 0 0 10px #000000;
-  border-radius: 10px;
   padding: 10px;
   overflow: hidden;
   overflow-x: hidden;
   scrollbar-width: thin;
   transition: 1s;
+  
   
 }
 .scr{
@@ -586,6 +586,7 @@ h3{
   filter: drop-shadow(2px 0px 2px black);
   opacity: 0;
   transition: 1s;
+  min-height: 50px;
 
 
 }
@@ -616,18 +617,26 @@ h3{
 #elo{
   font-size: 25px;
   color: #ffffff;
-  transform: translate(12%,-80px);
+  transform: translate(12%,-55px);
 }
 #region{
-  transform: translate(35px,20px);
+  transform: translate(35px,50px);
   font-size: 130px;
   position: absolute;
   width: 100px;
 }
+#label{
+  transform: translate(-50%,50%);
+  position: absolute;
+}
+#playerinfodivider{
+  position: absolute;
+  transform: translate(290px,-145px);
+}
 #teamname{
   font-size: 25px;
   color: #ffffff;
-  transform: translate(12%,-70px)
+  transform: translate(12%,-45px)
 }
 #accountCreated{
   font-size: 25px;
@@ -901,6 +910,7 @@ transform: translateY(-120px);
   width: 35%;
   transform: translate(-20px,-30px);
   cursor: wait;
+  min-height: 60px;
 
   
 }

@@ -1,10 +1,15 @@
 console.log("one two three");
+if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
+    document.getElementById(".BanFileExplorer").style.transform = "translateY(-350px)";
+
+}
 //document.body.appendChild(document.getElementById("smokewed"));
 //document.getElementById("smokewed").style.transform = "translate(550px,-390px)";
 document.body.style.cursor = "wait";
 document.getElementById("lgOut").style.transform = "translate(1400px)";
 document.getElementById("h1").innerHTML = " ";
-document.getElementById("poop").innerHTML = `&nbsp`;
+document.getElementById("poop").innerHTML = ` `;
+
 var database = firebase.database();
 var THETEAMWEARESEARCHING = localStorage.getItem("THETEAMWEARESEARCHING");
 var currentseason = 53;
@@ -56,9 +61,7 @@ function typeWriter(element, text, delay = 100, callback) {
 document.getElementById("h3").innerHTML = " ";
 document.getElementById(".form-wrapper").style.opacity = "0";
 document.getElementById(".BanFileExplorer").style.height = "750px";
-if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
-document.getElementById(".BanFileExplorer").style.transform = "translateY(-350px)";
-}
+
 document.getElementById("h3").style.transform = "translate(600px,-40px)";
 document.getElementById("h3").style.position = "absolute";
 document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"));
@@ -285,11 +288,28 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     }
 
     document.getElementById(".BanFileExplorer").prepend(teambackgrounddiv);
+    //5555
+    var fart = firebase.database().ref('/DATABSE/TEAMS/'+datan.name);
+    fart.on('value', (vag)=>{
+        if(vag.val()){
+            console.log("WOOWWA WIIWA");
+            console.log(vag.val());
 
+        }
+        else{
+            
+        }
+       
+
+    }, (error)=>{
+        console.log(error.name);
+    })
     return GetLeaguePickBans(datan.leader, 0);  // Start fetching match history
+
     
 })
 .then(() => {
+
 
     picksnbans.sort((a, b) => b.finished - a.finished);
     
@@ -311,12 +331,12 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
 let lastClickTime = 0;
 const clickDelay = 500; // 500ms delay
 let shouldnotwork = false;
-function fetchLast5Players(matchid, rcursivecall,count, callback){
+function fetchLast5Players(matchid, rcursivecall, callback){
 
     const now = Date.now();
     if (now - lastClickTime < clickDelay) return;
     lastClickTime = now;
-    if (callback) callback();
+    
 
 var loadGears = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/gears.gif";
 var loadingimage = document.createElement("img");
@@ -377,7 +397,7 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
             
         }
         //console.log("POOPIE POOP");
-        //console.log(datan12);
+        //console.log(datan12); 
         //console.log(players);
         
         var amountcreated = 0;
@@ -459,8 +479,9 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
     }
         
         
-
+    if (callback) callback();
     });
+    
 }
 let counterrrr = 0;
 function GetPlayerInfo(nick , iddd, div, callback){
@@ -529,8 +550,7 @@ function GetPlayerInfo(nick , iddd, div, callback){
                     pfp.style.transform = "translate(10px,5px)";
                     name.style.fontSize = "11px";
                     name.style.transform = "translate(10px)";
-                    pfp.style.opacity = "1";
-                    name.style.opacity = "1";
+
 
                 }
                 else{
@@ -828,7 +848,7 @@ function GetLeaguePickBans(leaderid, offset) {
     
             let allMatches = data.items;
           
-           if (!allMatches || allMatches.length === 0 || offset >= 600) return Promise.resolve(); // End if no more matches
+           if (!allMatches || allMatches.length === 0 || offset >= 1000) return Promise.resolve(); // End if no more matches
     
             console.log(`Fetched ${allMatches.length} matches`);
             //console.log(allMatches);
@@ -877,7 +897,10 @@ function GetLeaguePickBans(leaderid, offset) {
                         
                     }
                     finishedmatchesrealcounter++;
-                    finishedtext.innerHTML+=match.competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
+                    if(finishedtext){
+                        finishedtext.innerHTML+=match.competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
+
+                    }
                     finishedcounter.innerHTML = finishedmatchesrealcounter;
                   
                     
@@ -1902,7 +1925,7 @@ function printToWebsite(dapicksanddabans, something){
         }
         if (doitonlyonce) {
             doitonlyonce = false;
-            fetchLast5Players(dapicksanddabans[d].vote_type, false, count, () => {
+            fetchLast5Players(dapicksanddabans[d].vote_type, false, () => {
                 if (document.getElementById("teambackgrounddiv").children.length >= 1) {
                     //console.log("FETCHLAST5PLAYERS WORKED!");
                    
@@ -2322,8 +2345,6 @@ function printToWebsite(dapicksanddabans, something){
                 anubans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[1]+((bans[1] > 1|| bans[1] == 0) ? " times" : " time")+".";
                 let anupics = document.createElement("div");
                 anupics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[1]+((picks[1] > 1|| picks[1] == 0) ? " times" : " time")+".";
-                let anuplay = document.createElement("div");
-                anuplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[1]+((played[1] > 1|| played[1] == 0) ? " times" : " time")+".";
                 let anuW = document.createElement("div");
                 anuW.classList.add("winnerdiv");
                 anuW.innerHTML = '<span class="greenn1">'+W[1]+'</span><span class = "white"> // </span> <span class="redd1">'+L[1];
@@ -2592,6 +2613,7 @@ function printToWebsite(dapicksanddabans, something){
     //console.log(wins+" // "+loss);
     let record = document.createElement("div");
     record.style.filter = "drop-shadow(black 1px 1px 1px)";
+    console.log("d is "+dapicksanddabans.length);
     record.innerHTML = "| S"+((dapicksanddabans[dapicksanddabans.length-1].season) ? dapicksanddabans[dapicksanddabans.length-1].season :currentseason)+'<span style="color: wheat;">'+" "+dapicksanddabans[dapicksanddabans.length-1].division+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
     if(document.getElementById("RECORDDD") && !something){document.getElementById("RECORDDD").appendChild(record)};
     if(something){
@@ -2612,12 +2634,104 @@ function printToWebsite(dapicksanddabans, something){
        // console.log(childdddrr);
         for(const childs of childdddrr){
          if (childs.id.includes("ssnNum")){
-             createToggle(overallButtonDivider);
+            console.log(String(childs.innerHTML).substring(18));
+             createToggle(overallButtonDivider, String(childs.innerHTML).substring(15,18));
             }
         }
 
         document.getElementById(".BanFileExplorer").append(overallButtonDivider);
 
+        //1234
+
+        //ANCIENT
+        /*
+        '<span class="redd">Banned '+'</span><span class="white">'+bans[0]+((bans[0] > 1|| bans[0] == 0) ? " times" : " time")+".";
+        '<span class="greenn">Picked '+'</span><span class="white">'+picks[0]+((picks[0] > 1|| picks[0] == 0) ? " times" : " time")+".";
+        '<span class="greenn">Played '+'</span><span class="white">'+played[0]+((played[0] > 1|| played[0] == 0) ? " times" : " time")+".";
+        '<span class="greenn1">'+W[0]+'</span><span class = "white"> // </span> <span class="redd1">'+L[0];
+        
+
+        //ANUBIS
+        '<span class="redd">Banned '+'</span><span class="white">'+bans[1]+((bans[1] > 1|| bans[1] == 0) ? " times" : " time")+".";
+        '<span class="greenn">Picked '+'</span><span class="white">'+picks[0]+((picks[0] > 1|| picks[0] == 0) ? " times" : " time")+".";
+         '<span class="greenn">Played '+'</span><span class="white">'+played[1]+((played[1] > 1|| played[1] == 0) ? " times" : " time")+".";
+         '<span class="greenn1">'+W[1]+'</span><span class = "white"> // </span> <span class="redd1">'+L[1];
+
+         //INFERNO
+         '<span class="redd">Banned '+'</span><span class="white">'+bans[2]+((bans[2] > 1|| bans[2] == 0) ? " times" : " time")+".";
+         '<span class="greenn">Picked '+'</span><span class="white">'+picks[2]+((picks[2] > 1|| picks[2] == 0) ? " times" : " time")+".";
+         '<span class="greenn">Played '+'</span><span class="white">'+played[2]+((played[2] > 1|| played[2] == 0) ? " times" : " time")+".";
+         '<span class="greenn1">'+W[2]+'</span><span class = "white"> // </span> <span class="redd1">'+L[2];
+
+         //D2
+         '<span class="redd">Banned '+'</span><span class="white">'+bans[3]+((bans[3] > 1|| bans[3] == 0) ? " times" : " time")+".";
+         '<span class="greenn">Picked '+'</span><span class="white">'+picks[3]+((picks[3] > 1|| picks[3] == 0) ? " times" : " time")+".";
+         '<span class="greenn">Played '+'</span><span class="white">'+played[3]+((played[3] > 1|| played[3] == 0) ? " times" : " time")+".";
+         '<span class="greenn1">'+W[3]+'</span><span class = "white"> // </span> <span class="redd1">'+L[3];
+
+         //MIRAGE
+         '<span class="redd">Banned '+'</span><span class="white">'+bans[4]+((bans[4] > 1|| bans[4] == 0) ? " times" : " time")+".";
+         '<span class="greenn">Picked '+'</span><span class="white">'+picks[4]+((picks[4] > 1|| picks[4] == 0) ? " times" : " time")+".";
+         '<span class="greenn">Played '+'</span><span class="white">'+played[4]+((played[4] > 1|| played[4] == 0) ? " times" : " time")+".";
+         '<span class="greenn1">'+W[4]+'</span><span class = "white"> // </span> <span class="redd1">'+L[4];
+
+         //NUKE
+         '<span class="redd">Banned '+'</span><span class="white">'+bans[5]+((bans[5] > 1|| bans[5] == 0) ? " times" : " time")+".";
+         '<span class="greenn">Picked '+'</span><span class="white">'+picks[5]+((picks[5] > 1|| picks[5] == 0) ? " times" : " time")+".";
+         '<span class="greenn">Played '+'</span><span class="white">'+played[5]+((played[5] > 1|| played[5] == 0) ? " times" : " time")+".";
+         '<span class="greenn1">'+W[5]+'</span><span class = "white"> // </span> <span class="redd1">'+L[5];
+
+         //VERTIGO
+         '<span class="redd">Banned '+'</span><span class="white">'+bans[6]+((bans[6] > 1|| bans[6] == 0) ? " times" : " time")+".";
+         '<span class="greenn">Picked '+'</span><span class="white">'+picks[6]+((picks[6] > 1|| picks[6] == 0) ? " times" : " time")+".";
+         '<span class="greenn">Played '+'</span><span class="white">'+played[6]+((played[6] > 1|| played[6] == 0) ? " times" : " time")+".";
+         '<span class="greenn1">'+W[6]+'</span><span class = "white"> // </span> <span class="redd1">'+L[6];
+
+         //TRAIN    
+         '<span class="redd">Banned '+'</span><span class="white">'+bans[7]+((bans[7] > 1|| bans[7] == 0) ? " times" : " time")+".";
+         '<span class="greenn">Picked '+'</span><span class="white">'+picks[7]+((picks[7] > 1|| picks[7] == 0) ? " times" : " time")+".";
+         '<span class="greenn">Played '+'</span><span class="white">'+played[7]+((played[7] > 1|| played[7] == 0) ? " times" : " time")+".";
+         '<span class="greenn1">'+W[7]+'</span><span class = "white"> // </span> <span class="redd1">'+L[7];
+         
+        */
+         function formatDate(date) {
+            const now = new Date(date);
+          
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+            const year = now.getFullYear();
+          
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+          
+            const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds} ${ampm}`;
+            return formattedDate;
+          }
+        var teaman = localStorage.getItem("THETEAMWEARESEARCHINGNAME");
+        var reff = firebase.database().ref('/DATABSE/TEAMS/'+teaman);
+        reff.update({             
+            BANS: bans,
+            PICKS: picks,
+            PLAYED: played,
+            LOST: L,
+            WON: W,
+            teamID: localStorage.getItem("THETEAMWEARESEARCHING"),
+            lastMatchTime: dapicksanddabans[dapicksanddabans.length-1].finished,
+            mostRecentMatchTime : dapicksanddabans[0].finished,
+            lastUserToUpdateInformation: localStorage.getItem("faceit-name"),
+            lastTimeUpdated: formatDate(Date.now()),
+        })
+
+        console.log(dapicksanddabans);
+        console.log(bans);
+        console.log(picks);
+        console.log(played);
+        console.log(L);
+        console.log(W);
 
         var bool = true;
         document.querySelectorAll("#label").forEach(el=>{if(Number(el.innerHTML.substring(1)) < 52)bool=false;});
@@ -2714,9 +2828,10 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
                 
                     if (document.getElementById("RECORDDD")){
-                        document.getElementById("RECORDDD").style.transform = "translate(-25px,-115px)";
+                        document.getElementById("RECORDDD").style.transform = "translate(-25px,-80px)";
 
                     }
+
 
 
                     let scores = document.getElementsByClassName("scoreinthescore");
@@ -2728,6 +2843,7 @@ function printToWebsite(dapicksanddabans, something){
                         score.style.transform = "translate(360px,-472px)";
                         score.style.pointerEvents = "auto";
                         score.onmouseover = function(){
+                            score.style.cursor = "pointer";
                             if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
                                 return;
                             }
@@ -2738,6 +2854,8 @@ function printToWebsite(dapicksanddabans, something){
 
                         }
                         score.onmouseout = function(){
+                            score.style.cursor = "default";
+
                             if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
                                 return;
                             }
@@ -2934,7 +3052,7 @@ function printToWebsite(dapicksanddabans, something){
                         document.getElementById("tm2pfp").style.height = "75px";
                         document.getElementById("tm2pfp").style.transform = "translate(-275px,30px)";
                         document.getElementById("overallButtonDivider").style.transform = "translate(1090px,580px)";
-                        document.querySelector("#quickInfo").querySelectorAll(".scoreinthescore").forEach(el=>{el.style.transform = "translate(360px,-472px)"});
+                        document.querySelector("#quickInfo").querySelectorAll(".scoreinthescore").forEach(el=>{el.style.transform = "translate(360px,-450px)"});
 
                         if(document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){ 
                             document.getElementById("quickInfo").querySelector('.scoreinthescore').style.filter = "drop-shadow(1px 1px 5px orange)";
@@ -2957,10 +3075,6 @@ function printToWebsite(dapicksanddabans, something){
 
                 }
                 if (moreclicks > 0 && moreclicks < 2){
-                    if (document.getElementById("WHOLEPLAYERDIVIDER")){
-                        document.getElementById("WHOLEPLAYERDIVIDER").remove();
-                        
-                    }
 
                    //moreclicks = 0;
                     if (!reverseclick){
@@ -2996,27 +3110,30 @@ function printToWebsite(dapicksanddabans, something){
                 }
                  if (moreclicks > 1){
 
-                    document.getElementById("quickInfo").style.transform = "translate(260px,230px)";
+                    document.getElementById("quickInfo").style.transform = "translate(260px,245px)";
                     document.getElementById("teambackgrounddiv").style.height = "240px";
-                    document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "280px";
+                    document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "240px";
+                    
                     if(document.getElementById("h3").querySelector("#teamPfp")){
                     document.getElementById("h3").querySelector("#teamPfp").style.height = "30px";
                     document.getElementById("h3").querySelector("#teamPfp").style.width = "30px";
                     }
                     document.getElementById("h3").style.transform = "translate(600px,-40px)";
-                    if (document.getElementById("WHOLEPLAYERDIVIDER")){
-                        document.getElementById("WHOLEPLAYERDIVIDER").remove();
-                    }
                     document.getElementById("allInfo").style.transform = "translate(260px,300px)";
                     document.getElementById("graphdiv").style.transform = "translate(250px, 290px)";
 
                     //console.log("running fetchlast5 from firstmatch id");
-                    fetchLast5Players(firstMatchID,true);
+                    fetchLast5Players(firstMatchID,true,()=>{
+                        document.getElementById("WHOLEPLAYERDIVIDER").style.transform = "translate(-10px,-250px)";
+
+                    });
+
                     //console.log("changing visibility");
                     document.getElementById("allInfo").style.transition = ".3s";
                     document.getElementById("allInfo").style.opacity = "1";
                     document.getElementById("graphdiv").style.opacity = "1";
                     document.getElementById("overallButtonDivider").style.transform = "translate(1090px,580px)";
+
 
                     if (document.getElementById("RECORDDD")){
                         document.getElementById("RECORDDD").style.opacity = "1";
@@ -3447,7 +3564,7 @@ function createChart(type){
                         const minValue = Math.min(...data);
                 
                         // Customize your thresholds here
-                        const maxThreshold = 17;
+                        const maxThreshold = 11;
                         const minThreshold = 5;
                 
                         if (maxValue >= maxThreshold && value <= minThreshold) {
@@ -3481,7 +3598,7 @@ function createChart(type){
                 },
                 scales: {
                     xAxes: [{
-                        display: ((type === "doughnut")|| (type === "polarArea")) ? false : true,
+                        display: false,
                       ticks: {
                         beginAtZero: true,
                         fontSize: 18,
@@ -3588,17 +3705,10 @@ function createWinsChart(type){
                         //console.log("You hovered over:", label);
                         document.getElementById("allInfo").style.opacity = "1";
                         label = (label === "Dust II") ? "dust2" : String(label.toLowerCase());
-                        
-        
-                        if(label === "ancient"){
-                            document.getElementById(`${label}div`).style.transform = "translate(950px,315px)";
-          
-        
-                        }
-                        else{
-                            document.getElementById(`${label}div`).style.transform = "translate(950px,330px)";
-                 
-                        }
+                        document.getElementById(`${label}div`).style.transform = "translate(810px,-7px)";
+
+                        document.querySelectorAll("#graph").forEach(el=>{el.style.opacity = (el.classList.contains("Default") ? "0" : "1")});
+
                         document.getElementById(`${label}div`).style.opacity = "1";
                         document.getElementById(`${label}div`).style.transtion = "0.5s";
         
@@ -3607,6 +3717,7 @@ function createWinsChart(type){
                       } else {
                         // Not hovering anything
                         document.getElementById("allInfo").style.opacity = "0"
+                        document.querySelectorAll("#graph").forEach(el=>{el.style.opacity = "1"});
                         document.querySelectorAll(".allInfoDivs").forEach(el=>{
                             el.style.opacity = "0";
                             
@@ -3674,7 +3785,7 @@ function createWinsChart(type){
                 },
                 scales: {
                     xAxes: [{
-                        display: ((type === "doughnut")|| (type === "polarArea")) ? false : true,
+                        display: false,
 
                       ticks: {
                         beginAtZero: true,
@@ -3868,7 +3979,7 @@ function createLossChart(type){
                 },
                 scales: {
                     xAxes: [{
-                        display: ((type === "doughnut")|| (type === "polarArea")) ? false : true,
+                        display:false,
 
                       ticks: {
                         beginAtZero: true,
@@ -3970,26 +4081,19 @@ function createBannedChart(type){
               if (activeElements && activeElements.length) {
                 var datasetIndex = activeElements[0]._datasetIndex;
                 var index = activeElements[0]._index;
-                var label = this.data.labels[index];
-                var value = this.data.datasets[datasetIndex].data[index];
-        
+                var label = this.data.labels[index];        
               //  console.log("You hovered over:", label);
                 document.getElementById("allInfo").style.opacity = "1";
                 label = (label === "Dust II") ? "dust2" : String(label.toLowerCase());
                 
-
-                if(label === "ancient"){
-                    document.getElementById(`${label}div`).style.transform = "translate(950px,315px)";
-  
-
-                }
-                else{
-                    document.getElementById(`${label}div`).style.transform = "translate(950px,330px)";
+              
+                    
          
-                }
+        
                 document.getElementById(`${label}div`).style.opacity = "1";
                 document.getElementById(`${label}div`).style.transtion = "0.5s";
-
+                document.getElementById(`${label}div`).style.transform = "translate(420px,-7px)";
+                document.querySelectorAll("#graph").forEach(el=>{el.style.opacity = (el.classList.contains("Wins") ? "0" : "1")});
                 // Example: change cursor to pointer
                 event.target.style.cursor = 'pointer';
               } else {
@@ -3999,6 +4103,10 @@ function createBannedChart(type){
                     el.style.opacity = "0";
                     
                 });
+                document.querySelectorAll("#graph").forEach(el=>{el.style.opacity = "1"
+                    el.style.transform = "1s";
+                });
+
                 event.target.style.cursor = 'default';
               }
             }
@@ -4055,7 +4163,7 @@ function createBannedChart(type){
           },
           scales: {
             xAxes: [{
-              display: ((type === "doughnut") || (type === "polarArea")) ? false : true,
+              display: false,
               ticks: {
                 beginAtZero: true,
                 fontSize: 18,
@@ -4163,19 +4271,12 @@ function createPickChart(type){
                         document.getElementById("allInfo").style.opacity = "1";
                         label = (label === "Dust II") ? "dust2" : String(label.toLowerCase());
                         
-        
-                        if(label === "ancient"){
-                            document.getElementById(`${label}div`).style.transform = "translate(950px,315px)";
-          
-        
-                        }
-                        else{
-                            document.getElementById(`${label}div`).style.transform = "translate(950px,330px)";
-                 
-                        }
+    
+                        document.getElementById(`${label}div`).style.transform = "translate(420px,331px)";
                         document.getElementById(`${label}div`).style.opacity = "1";
                         document.getElementById(`${label}div`).style.transtion = "0.5s";
-        
+                        document.querySelectorAll("#graph").forEach(el=>{el.style.opacity = (el.classList.contains("Loss") ? "0" : "1")});
+
                         // Example: change cursor to pointer
                         event.target.style.cursor = 'pointer';
                       } else {
@@ -4185,6 +4286,8 @@ function createPickChart(type){
                             el.style.opacity = "0";
                             
                         });
+                        document.querySelectorAll("#graph").forEach(el=>{el.style.opacity = "1"});
+
                         event.target.style.cursor = 'default';
                       }
                     }
@@ -4248,7 +4351,7 @@ function createPickChart(type){
                 },
                 scales: {
                     xAxes: [{
-                        display: ((type === "doughnut")|| (type === "polarArea")) ? false : true,
+                        display: false,
 
                       ticks: {
                         beginAtZero: true,
@@ -5595,7 +5698,8 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
             if (overallPlayerStats[team][player].kills >= mostkils){
                 if(overallPlayerStats[team][player].kills === mostkils){
                     //console.log(overallPlayerStats[team][bestplayer].adr+" VS "+overallPlayerStats[team][player].adr);
-                    if(overallPlayerStats[team][bestplayer].adr < overallPlayerStats[team][player].adr){
+                    
+                    if(bestplayer !== undefined && overallPlayerStats[team][bestplayer].adr < overallPlayerStats[team][player].adr){
                         bestplayer = player;
                     }
                 }
@@ -5787,7 +5891,7 @@ function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal,
 }
 var THEFINALCOUNTERISWEAR = 0;
 var ILIEDLOLL = 3;
-    function createToggle(allinfodiv){
+    function createToggle(allinfodiv, season){
         THEFINALCOUNTERISWEAR++;
         // Create a container span element
     const span = document.createElement("div");
@@ -5810,7 +5914,7 @@ var ILIEDLOLL = 3;
     label.style.cursor = "pointer";
     label.style.filter = "drop-shadow(1px 0px 1px #000000)";
     //label.htmlFor = "c"+THEFINALCOUNTERISWEAR; // Associate the label with the checkbox
-    label.textContent = "S"+(52-(THEFINALCOUNTERISWEAR-2)); // Set the label text
+    label.textContent = "S"+(season); // Set the label text
    // label.fontSize = "10px";
 
     // Append the checkbox and label to the span
@@ -5839,6 +5943,7 @@ var ILIEDLOLL = 3;
           label.style.fontSize = "30px"; // Change font size
           span.style.height = "60px";
           span.style.width = "60px";
+          label.style.transform = "translate(-50%,2%)";
           var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
           DotheThing(newarray,true);
           //span.style.transform = "translate(730px,160px)";
@@ -5856,7 +5961,7 @@ var ILIEDLOLL = 3;
           label.style.fontSize = ""; // Reset font size
           span.style.height = "50px";
           span.style.width = "50px";
-
+          label.style.transform = "translate(-50%,50%)";
          // console.log("WTFFF "+ILIEDLOLL);
             //make the finalarrayiswear be removed of the season that is clicked
             //find the season by doing picksnbans[d].season

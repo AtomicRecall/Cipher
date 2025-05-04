@@ -629,13 +629,24 @@ function ontop(){
                 upcomingmtches.appendChild(loadingimage);
                 YOURSAVEDTEAMS();
                 document.getElementById(".BanFileExplorer").appendChild(upcomingmtches);
-                
+                var teaminfoDivider = document.createElement("div");
+                teaminfoDivider.id = "playerinfodivider";
+                document.getElementById(".form-wrapper").appendChild(teaminfoDivider);
+
 
                 var teamname = document.createElement('div');
                 teamname.id = "teamname";
                 teamname.style.opacity = 1;
-                teamname.innerHTML = "LAST PLAYED FOR: "+localStorage.getItem("danameyo")+" in division "+localStorage.getItem("division");
+                
+                teamname.innerHTML = (localStorage.getItem("danameyo")) ? "LAST PLAYED FOR: "+localStorage.getItem("danameyo")+" in division "+localStorage.getItem("division") : " ";
+
                 if(localStorage.getItem('team-id') != null){
+                 
+                        var singleteamarray = [];
+                        singleteamarray.push(localStorage.getItem("team-id"));
+                        console.log("poop fart");
+                        funnyfunction(singleteamarray, "playerinfodivider");
+                    
                     getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
                     upcomingmatchestag.innerHTML = String(localStorage.getItem("danameyo")).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+localStorage.getItem("daseasonyo")+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
 
@@ -654,6 +665,7 @@ function ontop(){
 }
 else{
     YOURSAVEDTEAMS();
+
 }
     
 
@@ -760,13 +772,13 @@ function YOURSAVEDTEAMS(){
 function funnyfunction(dataalolfunny,wheretoadd){
     //console.log(dataalolfunny);
 
+
     switch(wheretoadd){
         case "upcomingmatchesdivider":
             let counter = 0;
             let c = 1;
-            console.log(dataalolfunny);
-
     for (let d = 0; d < dataalolfunny.length; d++){
+        
         //console.log("finding from upcoming: ");
         //console.log(dataalolfunny[d]);
         console.log(d);
@@ -938,12 +950,13 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
                        cancelTyping();
                        killAllTimeouts();
+
                        document.getElementById("h1").innerHTML = " ";
                         let js = document.createElement("script");
                         js.type = "text/javascript"; 
                         js.src = "BANREADER.js";
                         document.body.appendChild(js);
-                        
+   
                         clicks = 0; //after action performed, reset counter
                         
                     }, DELAY);
@@ -1208,9 +1221,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
     }
             break;
 
-        case "yoursavedteamsdivider":
-            let counterr = 0;
-            let cc = 1;
+        case "playerinfodivider":
 
 
     for (let d = 0; d < dataalolfunny.length; d++){
@@ -1230,7 +1241,6 @@ function funnyfunction(dataalolfunny,wheretoadd){
             return res.json();
         })
         .then((datan) =>{ 
-            counterr++;
             let leaderid = datan.leader;
             //avatar and cover image in the right spot, will have to figure out how to do this automatically with lots of mother fucking entries
             var div = document.createElement('div');
@@ -1239,14 +1249,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 document.getElementById(wheretoadd).appendChild(div);
                 }
  
-            if (wheretoadd == "yoursavedteamsdivider"){
-                removeElementsByClass("removemepls1");
-                div.id = "div"+d;
-            }
-            else{
-                removeElementsByClass("removemepls");
-                div.id = "divv"+d;
-            }
+                div.id = localStorage.getItem("danameyo")
             var cvrimg = document.createElement('img');
             cvrimg.id = "cvrimg"+d;
             switch(datan.cover_image){
@@ -1488,56 +1491,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
             document.getElementById(datan.nickname+"pfp").width = 30;
             document.getElementById(datan.nickname+"pfp").style.removeProperty('filter');
             document.getElementById(datan.nickname+"pfp").style.filter = "drop-shadow(0px 0px 2px #ffffff)";
-                
 
-                    
-                
-                
-
-            //d is current child; lol holds all childs.
-            //find space in list from all childs, check if the child accross from it is there, if so do the shit, if not dont do shit
-            let lol = document.getElementById(wheretoadd).children;
-            
-                // console.log(document.getElementById("div"+d));
-
-            for (let l = 1; l < lol.length; l++){
-                if(!(wheretoadd === "upcomingmatchesdivider")){
-                    if (lol[l].id.substring(3)==(d)){
-                        // console.log("WE FOUND THE SPACE");
-                        space = l;
-                        break;
-                    }
-                    else{
-                        continue;
-                    }
-                }
-                else{
-                    if (lol[l].id.substring(4)==(d)){
-                        // console.log("WE FOUND THE SPACE");
-                        space = l;
-                        break;
-                    }
-                    else{
-                        continue;
-                    }
-                }
-
-            }
-            if(lol[space+2] != undefined && lol[space+2] != null){
-                  // console.log("GO UNVISIBLE "+lol[space+2].id);
-                document.getElementById(lol[space+2].id).style.transition = "0.5s";
-                document.getElementById(lol[space+2].id).style.opacity = 0;
-                updateTransformY(document.getElementById(lol[space+2].id), -20);
-                        }
-            if(lol[space+4]!= undefined && lol[space+4]!= null){
-                   //console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+4].id);
-                 document.getElementById(lol[space+4].id).style.transition = "0.5s";
-                 document.getElementById(lol[space+4].id).style.opacity = 0;
-                 updateTransformY(document.getElementById(lol[space+4].id), -20);
-            }
-            else {
-              //  console.log("DO NOTHING");
-             }
 
                 
                 
@@ -1566,63 +1520,429 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 
                 pfpdiv.style.filter = "blur(100px)";
                 pfpdiv.style.width = 200;
-                pfpdiv.style.transform = "translateY(-150px)";
-
-                //if(document.getElementById(wheretoadd).children > 3){
-                    if(document.getElementById(wheretoadd).children[space+2] != undefined || document.getElementById(wheretoadd).children[space+2] != null){
-                        document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.opacity = "1";
-                        document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.transition = "1s";
-                        updateTransformY(document.getElementById(document.getElementById(wheretoadd).children[space+2].id), 0);
-
-                    }
-                    else {}
-                    if(document.getElementById(wheretoadd).children[space+4]!= undefined || document.getElementById(wheretoadd).children[space+4] != null){
-                        document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.opacity = "1";
-                        document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.transition = "1s";
-                        document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.transform+="translateY(20px)";
-                     
-                        updateTransformY(document.getElementById(document.getElementById(wheretoadd).children[space+4].id), 0);
-                    }
-                    else {
-                        //DO NOTHING
-                    }
-                //}
-
+                pfpdiv.style.transform = "translateY(-150px)";        
                 
                 
-                
-        }
-            
-        
-        if(localStorage.getItem("NOFACEITACCOUNT") == 1){
-            if(counterr> 7){
-                //every 5, move this one + the next 4, go into next 5 if needed
-                //console.log("WHAT ROW?? "+c)
-    
-                moveColumn(div,cc,4);
-    
-                if (counterr % 7 == 0){
-                    cc++;
-                }
-            }
-        }
-        else{
-            if(counterr> 2){
-                //every 5, move this one + the next 4, go into next 5 if needed
-                //console.log("WHAT ROW?? "+c)
-    
-                moveColumn(div,cc,4);
-    
-                if (counterr % 2 == 0){
-                    cc++;
-                }
-            }
-        }
-            
+        }        
 
         });
     }
             break;
+            case "yoursavedteamsdivider":
+                let counterr = 0;
+                let cc = 1;
+    
+    
+        for (let d = 0; d < dataalolfunny.length; d++){
+    
+            //console.log("finding ");
+            //console.log(dataalolfunny[d]);
+            
+            fetch('https://open.faceit.com/data/v4/teams/'+dataalolfunny[d], {
+            headers: {
+                'accept': 'application/json',
+                'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
+            }
+            }).then((res) => {
+                if(!res.ok){
+                    throw new Error("couldnt fetcht that shit");
+                }
+                return res.json();
+            })
+            .then((datan) =>{ 
+                counterr++;
+                let leaderid = datan.leader;
+                //avatar and cover image in the right spot, will have to figure out how to do this automatically with lots of mother fucking entries
+                var div = document.createElement('div');
+                div.classList.add("divv");
+                if(document.getElementById(wheretoadd)){
+                    document.getElementById(wheretoadd).appendChild(div);
+                    }
+     
+                if (wheretoadd == "yoursavedteamsdivider"){
+                    removeElementsByClass("removemepls1");
+                    div.id = "div"+d;
+                }
+                else{
+                    removeElementsByClass("removemepls");
+                    div.id = "divv"+d;
+                }
+                var cvrimg = document.createElement('img');
+                cvrimg.id = "cvrimg"+d;
+                switch(datan.cover_image){
+                    case undefined:
+                        cvrimg.src = "data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(90)'><rect x='0' y='0' width='100%' height='100%' fill='%23161616'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'%20 stroke-width='1' stroke='%23303030' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>";
+                        break;
+                    default:
+                        cvrimg.src = datan.cover_image;
+                        break;
+                }
+    
+                cvrimg.height = 80;
+                cvrimg.width = 200;
+                cvrimg.style.filter = "blur(3px)";
+                cvrimg.style.transition = "2s";
+          
+    
+                var avat = document.createElement('img');
+                avat.classList.add("avatt");
+                avat.pointerEvents = "none";
+                avat.id = "avat"+d;
+                switch(datan.avatar){
+                    case undefined:
+                        avat.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg"
+                        break;
+                    case null:
+                        avat.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg"
+                        break;
+                    default:
+                        avat.src = datan.avatar;
+                        break;
+                }
+                avat.height = 40;
+                avat.width = 40;
+                avat.style.transform = "translate(5px, -60px)";
+    
+    
+                var Tmne = document.createElement('div');
+                Tmne.classList.add("TTmne");
+                Tmne.id = "Tmne"+d;
+                Tmne.innerHTML = datan.name;
+                if(datan.name.length >= 14){
+                    Tmne.innerHTML = datan.name.substring(0,8)+"...";
+                }
+                else{
+                    Tmne.innerHTML = datan.name;
+                }
+                Tmne.style.transform = "translate(50px, -85px)";
+                Tmne.pointerEvents = "none";
+                
+    
+    
+    
+    
+    
+                let space = 1;
+                var pfpdiv = document.createElement('div');
+                pfpdiv.id = "pfp";
+                pfpdiv.classList.add("pfpp");
+                pfpdiv.style.filter = "blur(100px)";
+    
+                //for every player in that team, create a pfp and put it on the shit, change the width however it's needed
+                for (let a = 0; a < datan.members.length; a++){
+                    if(datan.members[a].user_id == leaderid){
+                        var crown = document.createElement('img');
+                        crown.id = "crn";
+                        crown.style.width = "30px";
+                        crown.style.height = "30px";
+                        crown.style.transform = "translate(-40px,-10px)";
+                        crown.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/CAPTAIN.png"
+                        crown.style.position = "absolute";
+                        crown.style.opacity = 1;
+                        
+    
+                        var pfp = document.createElement('img');
+                        pfp.id = datan.nickname+"pfp";
+                        pfp.height = 10;
+                        pfp.width = 10;
+                        pfp.style.padding = "10px";
+                        pfp.style.filter = "blur(100px)";
+                        pfp.style.position = "relative";
+                        pfp.pointerEvents = "none";
+                        pfp.style.borderRadius = "40px";
+    
+                        switch(datan.members[a].avatar){
+                            case undefined:
+                                pfp.src = "https://cdn-frontend.faceit-cdn.net/web/static/media/assets_images_profile_header.jpg";
+                                break;
+                            default:
+                                pfp.src = datan.members[a].avatar;
+                                break;
+                        }
+    
+                        pfpdiv.appendChild(pfp);
+                        pfpdiv.appendChild(crown);
+                    }
+                }
+    
+               
+                div.appendChild(cvrimg);
+                div.appendChild(avat);
+                div.appendChild(Tmne);
+                div.appendChild(pfpdiv);
+    
+                div.addEventListener('dblclick', () => {
+                    
+                });
+                var DELAY = 200, clicks = 0, timer = null;
+                div.addEventListener('click', ()=> {
+                    clicks++;
+                    if(clicks === 1) {
+    
+                        timer = setTimeout(function() {
+            
+                            //perform single-click action
+                         
+                           localStorage.setItem("THETEAMWEARESEARCHING" , dataalolfunny[d]);
+                           localStorage.setItem("THETEAMWEARESEARCHINGNAME", datan.name);
+                           document.getElementById("lgOut").style.transform = "translate(5px,0px)";
+                            let js = document.createElement("script");
+                            js.type = "text/javascript"; 
+                            js.src = "BANREADER.js";
+                            document.body.appendChild(js);
+                            
+                            clicks = 0; //after action performed, reset counter
+                            
+                        }, DELAY);
+            
+                    } else {
+                        if (!(wheretoadd === "upcomingmatchesdivider")){
+                            clearTimeout(timer);    //prevent single-click action
+    
+                            if(confirm('Are you sure you want to delete '+Tmne.innerHTML+', fool?')){
+                                console.log(div.id);
+                                if(localStorage.getItem("NOFACEITACCOUNT")!=1){
+                                    
+                                    database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
+                                        var data = snapshot.val();
+                                        Object.keys(data).forEach((key) => {
+                                            if(dataalolfunny[d] == data[key]){
+                                                let omgletitsquirt = database.ref("USERS/"+name+"/SAVED_TEAMS/"+key).remove();
+                                                location.reload();
+                                            }
+                                        });
+                                    });
+                                 }
+                                 else{
+                                    
+                                    var divid = div.id;
+                                    //console.log("position = "+divid.substring(3));
+    
+                                    // Retrieve and parse the array from localStorage
+                                    let storedArray = JSON.parse(localStorage.getItem("savedTeams")) || [];
+                                    storedArray.splice(parseInt(divid.substring(3)), 1); // Remove the item
+                                    localStorage.setItem("savedTeams", JSON.stringify(storedArray));
+    
+    
+                                    console.log(storedArray); // Updated array without the removed item
+                                    location.reload();
+                                 }
+            
+                            }
+                            else { }  //perform double-click action
+                            clicks = 0;             //after action performed, reset counter
+                        }
+                    }
+    
+                });
+    
+    
+                div.onmouseover = function(){
+                    div.style.cursor = "pointer";
+                Tmne.innerHTML = datan.name;
+                div.style.transition = "2s";
+                div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";
+                div.style.width = "500px";
+                cvrimg.style.width = "500px";
+                cvrimg.style.removeProperty('filter');
+    
+                pfpdiv.style.transition = ".9s";
+                    switch(datan.name.length){
+                        case 2:
+                            pfpdiv.style.transform = "translate(80px, -125px)";
+                            break;
+                        case 3:
+                            pfpdiv.style.transform = "translate(100px, -125px)";
+                            break;
+                        case 4:
+                            pfpdiv.style.transform = "translate(105px, -125px)";
+                            break;
+                        case 5:
+                            pfpdiv.style.transform = "translate(110px, -125px)";
+                            break;
+                        case 6:
+                            pfpdiv.style.transform = "translate(130px, -125px)";
+                            break;
+                        case 7:
+                            pfpdiv.style.transform = "translate(115px, -125px)";
+                            break;
+                        case 8:
+                            pfpdiv.style.transform = "translate(125px, -125px)";
+                            break;
+                        case 9:
+                            pfpdiv.style.transform = "translate(150px, -125px)";
+                            break;
+                        case 10:
+                            pfpdiv.style.transform = "translate(170px, -125px)";
+                            break;
+                        case 11:
+                            pfpdiv.style.transform = "translate(160px, -125px)";
+                            break;
+                        case 12:
+                            pfpdiv.style.transform = "translate(170px, -125px)";
+                            break;
+                        case 13:
+                            pfpdiv.style.transform = "translate(190px, -125px)";
+                            break;
+                        case 14:
+                            pfpdiv.style.transform = "translate(190px, -125px)";
+                            break;
+                        case 15:
+                            pfpdiv.style.transform = "translate(210px, -125px)"
+                            break;
+                        case 16:
+                            pfpdiv.style.transform = "translate(210px, -125px)"
+                            break;
+                        default:
+                            break;
+                    }
+                    //pfpdiv.style.transform = "translate(150px, -125px)";
+    
+                
+                pfpdiv.style.removeProperty('filter');
+                pfpdiv.style.width = 800;
+    
+               
+                document.getElementById(datan.nickname+"pfp").style.transition = "1s";
+                document.getElementById(datan.nickname+"pfp").height = 30;
+                document.getElementById(datan.nickname+"pfp").width = 30;
+                document.getElementById(datan.nickname+"pfp").style.removeProperty('filter');
+                document.getElementById(datan.nickname+"pfp").style.filter = "drop-shadow(0px 0px 2px #ffffff)";
+                    
+    
+                        
+                    
+                    
+    
+                //d is current child; lol holds all childs.
+                //find space in list from all childs, check if the child accross from it is there, if so do the shit, if not dont do shit
+                let lol = document.getElementById(wheretoadd).children;
+                
+                    // console.log(document.getElementById("div"+d));
+    
+                for (let l = 1; l < lol.length; l++){
+                    if(!(wheretoadd === "upcomingmatchesdivider")){
+                        if (lol[l].id.substring(3)==(d)){
+                            // console.log("WE FOUND THE SPACE");
+                            space = l;
+                            break;
+                        }
+                        else{
+                            continue;
+                        }
+                    }
+                    else{
+                        if (lol[l].id.substring(4)==(d)){
+                            // console.log("WE FOUND THE SPACE");
+                            space = l;
+                            break;
+                        }
+                        else{
+                            continue;
+                        }
+                    }
+    
+                }
+                if(lol[space+2] != undefined && lol[space+2] != null){
+                      // console.log("GO UNVISIBLE "+lol[space+2].id);
+                    document.getElementById(lol[space+2].id).style.transition = "0.5s";
+                    document.getElementById(lol[space+2].id).style.opacity = 0;
+                    updateTransformY(document.getElementById(lol[space+2].id), -20);
+                            }
+                if(lol[space+4]!= undefined && lol[space+4]!= null){
+                       //console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+4].id);
+                     document.getElementById(lol[space+4].id).style.transition = "0.5s";
+                     document.getElementById(lol[space+4].id).style.opacity = 0;
+                     updateTransformY(document.getElementById(lol[space+4].id), -20);
+                }
+                else {
+                  //  console.log("DO NOTHING");
+                 }
+    
+                    
+                    
+    
+            }
+           
+            div.onmouseout = function(){
+                    //make sure to delete the shit you made up top!
+                    if(Tmne.innerHTML.length >= 14){
+                        Tmne.innerHTML = datan.name.substring(0,8)+"...";
+                    }
+                    else{
+                        Tmne.innerHTML = datan.name;
+                    }
+                    div.style.filter = "";
+                    div.style.width = "200px";
+                    cvrimg.style.width = "200px";
+                    div.style.transition = ".5s";
+                    cvrimg.style.filter = "blur(2px)";
+        
+                    let fds = datan.nickname+"pfp";
+                    document.getElementById(fds).height = 0;
+                    document.getElementById(fds).width = 0;
+    
+    
+                    
+                    pfpdiv.style.filter = "blur(100px)";
+                    pfpdiv.style.width = 200;
+                    pfpdiv.style.transform = "translateY(-150px)";
+    
+                    //if(document.getElementById(wheretoadd).children > 3){
+                        if(document.getElementById(wheretoadd).children[space+2] != undefined || document.getElementById(wheretoadd).children[space+2] != null){
+                            document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.opacity = "1";
+                            document.getElementById(document.getElementById(wheretoadd).children[space+2].id).style.transition = "1s";
+                            updateTransformY(document.getElementById(document.getElementById(wheretoadd).children[space+2].id), 0);
+    
+                        }
+                        else {}
+                        if(document.getElementById(wheretoadd).children[space+4]!= undefined || document.getElementById(wheretoadd).children[space+4] != null){
+                            document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.opacity = "1";
+                            document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.transition = "1s";
+                            document.getElementById(document.getElementById(wheretoadd).children[space+4].id).style.transform+="translateY(20px)";
+                         
+                            updateTransformY(document.getElementById(document.getElementById(wheretoadd).children[space+4].id), 0);
+                        }
+                        else {
+                            //DO NOTHING
+                        }
+                    //}
+    
+                    
+                    
+                    
+            }
+                
+            
+            if(localStorage.getItem("NOFACEITACCOUNT") == 1){
+                if(counterr> 7){
+                    //every 5, move this one + the next 4, go into next 5 if needed
+                    //console.log("WHAT ROW?? "+c)
+        
+                    moveColumn(div,cc,4);
+        
+                    if (counterr % 7 == 0){
+                        cc++;
+                    }
+                }
+            }
+            else{
+                if(counterr> 2){
+                    //every 5, move this one + the next 4, go into next 5 if needed
+                    //console.log("WHAT ROW?? "+c)
+        
+                    moveColumn(div,cc,4);
+        
+                    if (counterr % 2 == 0){
+                        cc++;
+                    }
+                }
+            }
+                
+    
+            });
+        }
+                break;
     }
     
 
@@ -1713,6 +2033,10 @@ function getTeamNameDoc(name, offsett, docelement){
 
                             localStorage.setItem("danameyo",data.items[key].teams.faction1.nickname);
                             localStorage.setItem('team-id', data.items[key].teams.faction1.team_id);
+                            var singleteamarray = [];
+                            singleteamarray.push(localStorage.getItem("team-id"));
+                            console.log("poop fart");
+                            funnyfunction(singleteamarray, "playerinfodivider");
                             getUpcomingMatches(data.items[key].teams.faction1.team_id,52,"upcomingmatchesdivider");
 
                             beenfound = true;
@@ -1727,6 +2051,10 @@ function getTeamNameDoc(name, offsett, docelement){
 
                     localStorage.setItem("danameyo",data.items[key].teams.faction2.nickname);
                     localStorage.setItem('team-id', data.items[key].teams.faction2.team_id);
+                    var singleteamarray = [];
+                    singleteamarray.push(localStorage.getItem("team-id"));
+                    console.log("poop fart");
+                    funnyfunction(singleteamarray, "playerinfodivider");
                     getUpcomingMatches(data.items[key].teams.faction2.team_id,52,"upcomingmatchesdivider");
 
                     beenfound = true;
@@ -2304,7 +2632,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
                 break;       
          case "Intermediate":
                 //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
-            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=c36f31b6-c448-49a5-bfdc-add7666de250&limit=20`,{
+            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=5427b03e-92b7-4332-9452-062f24da90bc&limit=20`,{
                 method: 'GET',
                 headers:{
                     'Access-Control-Allow-Origin' : '*',
