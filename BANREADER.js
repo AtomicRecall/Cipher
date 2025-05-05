@@ -291,7 +291,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
 
     document.getElementById(".BanFileExplorer").prepend(teambackgrounddiv);
     //5555
-    var fart = firebase.database().ref('/DATABSE/TEAMS/'+datan.name);
+    var fart = firebase.database().ref('/DATABASE/TEAMS/'+datan.name);
     fart.on('value', (vag)=>{
         if(vag.val()){
             console.log("WOOWWA WIIWA");
