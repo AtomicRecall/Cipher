@@ -3122,7 +3122,7 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("teambackgrounddiv").style.height = "240px";
                     document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "240px";
                     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/freeze_cam.wav');
-                    audio.volume = 0.3;
+                    audio.volume = 0.2;
                     audio.play();
                     if(document.getElementById("h3").querySelector("#teamPfp")){
                     document.getElementById("h3").querySelector("#teamPfp").style.height = "30px";
@@ -4466,6 +4466,9 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
 }
 
 function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
+    var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
+    audio.volume = 0.5;
+    audio.play();
     var matchobject = matchinfo;
     //console.log("RUNNINGGGGG");
     if (isOverallLeaderboard){
@@ -4790,9 +4793,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
 
     document.getElementById("damageInfo").onclick = function(){
-       var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
-        audio.volume = 0.5;
-        audio.play();
+
         document.getElementById("damageInfo").classList.remove("selected");
         if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
             overallLeaderboard(matchinfo,true,true,false,true);
@@ -4815,7 +4816,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
         */
     };
 
-    document.getElementById("damageInfo").onhover = function(){
+    document.getElementById("damageInfo").onmouseover = function(){
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
         audio.volume = 0.5;
         audio.play();
@@ -4824,6 +4825,9 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
 }
 function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
+    var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
+    audio.volume = 0.5;
+    audio.play();
     var matchobject = matchinfo;
     //console.log("RUNNINGGGGG");
     if (isOverallLeaderboard){
@@ -5022,9 +5026,7 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     }
     
     document.getElementById("ClutchInfo").onclick = function(){
-        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
-        audio.volume = 0.5;
-        audio.play();
+
         document.getElementById("ClutchInfo").classList.remove("selected");
         console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
         if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
@@ -5045,7 +5047,7 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
         document.querySelectorAll("#fishking").forEach(el=>{el.style.opacity = "1 "});
         */
     };
-    document.getElementById("ClutchInfo").onhover = function(){
+    document.getElementById("ClutchInfo").onmouseover = function(){
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
         audio.volume = 0.5;
         audio.play();
@@ -5054,6 +5056,9 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
 }
 function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
+    var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
+    audio.volume = 0.5;
+    audio.play();
     var matchobject = matchinfo;
     //console.log("RUNNINGGGGG");
     if (isOverallLeaderboard){
@@ -5228,9 +5233,7 @@ function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     }
   
     document.getElementById("EntryInfo").onclick = function(){
-        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
-        audio.volume = 0.5;
-        audio.play();
+
         document.getElementById("EntryInfo").classList.remove("selected")
        // console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
         if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
@@ -5252,7 +5255,7 @@ function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
         document.querySelectorAll("#fishking").forEach(el=>{el.style.opacity = "1 "});
         */
     };
-    document.getElementById("EntryInfo").onhover = function(){
+    document.getElementById("EntryInfo").onmouseover = function(){
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
         audio.volume = 0.5;
         audio.play();
@@ -5261,6 +5264,9 @@ function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
 }
 function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
+    var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
+    audio.volume = 0.5;
+    audio.play();
     var matchobject = matchinfo;
    // console.log("RUNNINGGGGG");
     if (isOverallLeaderboard){
@@ -5472,9 +5478,7 @@ function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     }
    
     document.getElementById("UtilityInfo").onclick = function(){
-        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
-        audio.volume = 0.5;
-        audio.play();
+
         document.getElementById("UtilityInfo").classList.remove("selected")
         console.log(document.getElementById("TeamNameDoc").style.backgroundColor);
         if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
@@ -5495,7 +5499,7 @@ function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
         document.querySelectorAll("#fishking").forEach(el=>{el.style.opacity = "1 "});
         */
     };
-    document.getElementById("UtilityInfo").onhover = function(){
+    document.getElementById("UtilityInfo").onmouseover = function(){
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
         audio.volume = 0.5;
         audio.play();
