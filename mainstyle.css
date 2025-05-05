@@ -14,6 +14,9 @@ body {
     font-family: 'Play', sans-serif;
     
 }
+#MUTE{
+  opacity: 0;
+}
 #fffff{
   position:absolute;
   font-size: 20px;
