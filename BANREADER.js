@@ -4,7 +4,6 @@ if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
 
 }
 var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/buttonclickrelease.wav');
-audio.gain.value = 2.0;
 audio.play();
 //document.body.appendChild(document.getElementById("smokewed"));
 //document.getElementById("smokewed").style.transform = "translate(550px,-390px)";

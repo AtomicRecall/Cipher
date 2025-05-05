@@ -25,6 +25,7 @@ switch(RNGSONG){
     case 1:
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/cubanmusic1.wav');
         SongNameActual.textContent = 'Now Playing: cubanmusic1.wav from cs_havana (CSS)';
+        audio.volume = 0.5;
         audio.play();
 
         
@@ -43,6 +44,8 @@ switch(RNGSONG){
     case 2:
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic1.wav');
         SongNameActual.textContent = 'Now Playing: dustmusic1.wav from de_dust2 (CSS)';
+        audio.volume = 0.5;
+
         audio.play();
         audio.addEventListener('ended', () => {
             
@@ -59,6 +62,8 @@ switch(RNGSONG){
     case 3:
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic2.wav');
         SongNameActual.textContent = 'Now Playing: dustmusic2.wav from de_dust2 (CSS)';
+        audio.volume = 0.5;
+
                 audio.play();
                 audio.addEventListener('ended', () => {
             
@@ -75,6 +80,8 @@ switch(RNGSONG){
     case 4:
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic3.wav');
         SongNameActual.textContent = 'Now Playing: dustmusic3.wav from de_dust2 (CSS)';
+        audio.volume = 0.5;
+
         audio.play();
         audio.addEventListener('ended', () => {
             
@@ -91,6 +98,8 @@ switch(RNGSONG){
     case 5:
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flamenco.wav');
         SongNameActual.textContent = 'Now Playing: flamenco.wav from de_inferno (CSS)';
+        audio.volume = 0.5;
+
         audio.play();
         audio.addEventListener('ended', () => {
             // Code to execute after the audio finishes
@@ -101,6 +110,8 @@ switch(RNGSONG){
     case 6:
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/guit1.wav');
         SongNameActual.textContent = 'Now Playing: guit1.wav from cs_italy (CSS)';
+        audio.volume = 0.5;
+
         audio.play();
         audio.addEventListener('ended', () => {
             
@@ -117,6 +128,8 @@ switch(RNGSONG){
     case 7:
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/mirame_radio_thru_wall.wav');
         SongNameActual.textContent = 'Now Playing: mirame_radio_thru_wall.wav from de_mirage (CSS)';
+        audio.volume = 0.5;
+
         audio.play();
         audio.addEventListener('ended', () => {
             // Code to execute after the audio finishes
@@ -127,6 +140,8 @@ switch(RNGSONG){
     case 8:
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/latin.wav');
         SongNameActual.textContent = 'Now Playing: latin.wav from de_inferno (CSS)';
+        audio.volume = 0.5;
+
         audio.play();
         audio.addEventListener('ended', () => {
             
@@ -143,6 +158,8 @@ switch(RNGSONG){
     case 9:
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/opera.wav');
         SongNameActual.textContent = 'Now Playing: opera.wav from cs_italy (CSS)';
+        audio.volume = 0.5;
+
         audio.play();
         audio.addEventListener('ended', () => {
             // Code to execute after the audio finishes
