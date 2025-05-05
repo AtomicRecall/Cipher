@@ -1167,7 +1167,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
                 // Create the audio object once
                 const audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
-
+                audio.volume = 0.5;
                 // Attach the event listener to the divider (named div)
                 div.addEventListener('mouseover', function () {
                 const currentTime = Date.now();
@@ -1607,8 +1607,8 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
                 // Create the audio object once
                 const audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
-
-                // Attach the event listener to the divider (named div)
+                audio.volume = 0.5;
+                // Attach the event listener to the divider (named div) 
                 div.addEventListener('mouseover', function () {
                 const currentTime = Date.now();
 
@@ -1945,6 +1945,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
     
                 div.onmouseover = function(){
                     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
+                    audio.volume = 0.5;
                     audio.play();
                     div.style.cursor = "pointer";
                 Tmne.innerHTML = datan.name;
@@ -2535,6 +2536,7 @@ function searchForTeams(teamnme){
 
                 
                 var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
+                audio.volume = 0.5;
                 audio.play();
                 divider.style.width = 300;
                 cvrimg.width = 300;

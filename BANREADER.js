@@ -900,6 +900,8 @@ function GetLeaguePickBans(leaderid, offset) {
                     }
                     finishedmatchesrealcounter++;
                     if(finishedtext){
+                        const audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/hint.wav');
+                        audio.play();
                         finishedtext.innerHTML+=match.competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
 
                     }
@@ -2782,6 +2784,8 @@ function printToWebsite(dapicksanddabans, something){
                 let reverseclick = false;
      
                 if(dividerclicked && moreclicks > 0){
+                    var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/buttonclickrelease.wav');
+                    audio.play();
                     if(document.getElementById("graphdiv")){
                         document.getElementById("graphdiv").style.opacity = "0";
                         document.getElementById("overallButtonDivider").style.transform = "translate(1500px,580px)";
@@ -3116,7 +3120,8 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("quickInfo").style.transform = "translate(260px,245px)";
                     document.getElementById("teambackgrounddiv").style.height = "240px";
                     document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "240px";
-                    
+                    var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/freeze_cam.wav');
+                    audio.play();
                     if(document.getElementById("h3").querySelector("#teamPfp")){
                     document.getElementById("h3").querySelector("#teamPfp").style.height = "30px";
                     document.getElementById("h3").querySelector("#teamPfp").style.width = "30px";
@@ -3177,10 +3182,12 @@ function printToWebsite(dapicksanddabans, something){
                 }
   
             }
+ 
 
             document.getElementById("game"+d).onmouseover = function(){
 
-                var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
+                const audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
+                audio.volume = 0.5;
                 audio.play();
                 if (!dividerclicked){
 
