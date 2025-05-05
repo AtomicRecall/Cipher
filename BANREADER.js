@@ -4422,22 +4422,41 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
             damageinfo.classList.add("buttonz");
             damageinfo.innerHTML = "Damage Info";
             ButtonsDivider.appendChild(damageinfo);
-
+            damageinfo.onmouseover = function(){
+                var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
+                audio.volume = 0.5;
+                audio.play();
+            }
             let ClutchInfo = document.createElement("button");
             ClutchInfo.id = "ClutchInfo";
             ClutchInfo.innerHTML = "Clutch Info";
             ClutchInfo.classList.add("buttonz");
             ButtonsDivider.appendChild(ClutchInfo);
+            ClutchInfo.onmouseover = function(){
+                var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
+                audio.volume = 0.5;
+                audio.play();
+            }
             let EntryInfo = document.createElement("button");
             EntryInfo.id = "EntryInfo";
             EntryInfo.classList.add("buttonz");
             EntryInfo.innerHTML = "Entry/ First Kill Info";
             ButtonsDivider.appendChild(EntryInfo);
+            EntryInfo.onmouseover = function(){
+                var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
+                audio.volume = 0.5;
+                audio.play();
+            }
             let UtilityInfo = document.createElement("button");
             UtilityInfo.id = "UtilityInfo";
             UtilityInfo.classList.add("buttonz");
             UtilityInfo.innerHTML = "Utility Info"
             ButtonsDivider.appendChild(UtilityInfo);
+            UtilityInfo.onmouseover = function(){
+                var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
+                audio.volume = 0.5;
+                audio.play();
+            }
 
 
             document.getElementById(".BanFileExplorer").appendChild(EncompassingDivider);
@@ -5508,6 +5527,9 @@ function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
 }
 function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal, ummm, DONTASKOKAY){
+    var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
+    audio.volume = 0.5;
+    audio.play();
     //console.log(isOverallLeaderboard+" , "+goingbacktooriginal+" , "+ummm+" , "+DONTASKOKAY);
     document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
 
