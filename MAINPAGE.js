@@ -42,8 +42,8 @@ switch(RNGSONG){
               audio.currentTime = 0; // Reset to the beginning
               audio.play();
               audio.addEventListener('ended',()=>{
-                  SongNameActual.textContent = " ";
-              });
+                SongNameActual.textContent = 'Now Playing: NOTHING';
+            });
             }
           });
         break;
@@ -67,8 +67,8 @@ switch(RNGSONG){
               audio.currentTime = 0; // Reset to the beginning
               audio.play();
               audio.addEventListener('ended',()=>{
-                  SongNameActual.textContent = " ";
-              });
+                SongNameActual.textContent = 'Now Playing: NOTHING';
+            });
             }
           });
         break;
@@ -92,8 +92,8 @@ switch(RNGSONG){
                       audio.currentTime = 0; // Reset to the beginning
                       audio.play();
                       audio.addEventListener('ended',()=>{
-                          SongNameActual.textContent = " ";
-                      });
+                        SongNameActual.textContent = 'Now Playing: NOTHING';
+                    });
                     }
                   });
         break;
@@ -117,8 +117,8 @@ switch(RNGSONG){
               audio.currentTime = 0; // Reset to the beginning
               audio.play();
               audio.addEventListener('ended',()=>{
-                  SongNameActual.textContent = " ";
-              });
+                SongNameActual.textContent = 'Now Playing: NOTHING';
+            });
             }
           });
         break;
@@ -137,7 +137,7 @@ switch(RNGSONG){
         }
         audio.addEventListener('ended', () => {
             // Code to execute after the audio finishes
-            SongNameActual.textContent = " ";
+            SongNameActual.textContent = 'Now Playing: NOTHING';
 
           });
         break;
@@ -161,7 +161,7 @@ switch(RNGSONG){
             audio.currentTime = 0; // Reset to the beginning
             audio.play();
             audio.addEventListener('ended',()=>{
-                SongNameActual.textContent = " ";
+                SongNameActual.textContent = 'Now Playing: NOTHING';
             });
           }
         });
@@ -181,7 +181,7 @@ switch(RNGSONG){
         }
         audio.addEventListener('ended', () => {
             // Code to execute after the audio finishes
-            SongNameActual.textContent = " ";
+            SongNameActual.textContent = 'Now Playing: NOTHING';
 
           });
         break;
@@ -205,8 +205,8 @@ switch(RNGSONG){
               audio.currentTime = 0; // Reset to the beginning
               audio.play();
               audio.addEventListener('ended',()=>{
-                  SongNameActual.textContent = " ";
-              });
+                SongNameActual.textContent = 'Now Playing: NOTHING';
+            });
             }
           });
         break;
@@ -225,7 +225,7 @@ switch(RNGSONG){
         }
         audio.addEventListener('ended', () => {
             // Code to execute after the audio finishes
-            SongNameActual.textContent = " ";
+            SongNameActual.textContent = 'Now Playing: NOTHING';
           });
         break;
     
