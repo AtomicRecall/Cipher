@@ -3,6 +3,9 @@ if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
     document.getElementById(".BanFileExplorer").style.transform = "translateY(-350px)";
 
 }
+var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/buttonclickrelease.wav');
+audio.gain.value = 2.0;
+audio.play();
 //document.body.appendChild(document.getElementById("smokewed"));
 //document.getElementById("smokewed").style.transform = "translate(550px,-390px)";
 document.body.style.cursor = "wait";
@@ -1877,7 +1880,8 @@ let loss = 0;
 function printToWebsite(dapicksanddabans, something){
     document.body.style.cursor = "auto";
     document.getElementById("teambackgrounddiv").style.opacity = "1";
-
+    var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/bell1.wav');
+    audio.play();   
     
     let recorddiv = document.createElement("div");
     recorddiv.style.display = "grid";
@@ -3177,7 +3181,8 @@ function printToWebsite(dapicksanddabans, something){
 
             document.getElementById("game"+d).onmouseover = function(){
 
- 
+                var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
+                audio.play();
                 if (!dividerclicked){
 
                 quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
@@ -3564,7 +3569,7 @@ function createChart(type){
                         const minValue = Math.min(...data);
                 
                         // Customize your thresholds here
-                        const maxThreshold = 11;
+                        const maxThreshold = 10;
                         const minThreshold = 5;
                 
                         if (maxValue >= maxThreshold && value <= minThreshold) {
@@ -4645,7 +4650,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
             encompassinginfodivider.appendChild(adr);
             //(isOverallLeaderboard) ? document.getElementById(player).appendChild(adr) : encompassingpicturedivider.appendChild(adr);
             let totDam = document.createElement("div");
-            totDam.innerHTML = "DAMAGE : <span class = orange2>"+overallPlayerStats[team][player].totDamage+"</span>";
+            totDam.innerHTML = "DAMAGE : <span class = orange2>"+parseInt(overallPlayerStats[team][player].totDamage)+"</span>";
             totDam.classList.add("infothing");
             encompassinginfodivider.appendChild(totDam);
             let KD = document.createElement("div");
@@ -4665,7 +4670,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
             headshots.style.transform = "translate(155px,-55px)";
             encompassinginfodivider.appendChild(headshots);
             let headshotpercent = document.createElement("div");
-            headshotpercent.innerHTML = "HS % : <b>"+overallPlayerStats[team][player].headshotpercent+"</b>";
+            headshotpercent.innerHTML = "HS % : <b>"+parseInt(overallPlayerStats[team][player].headshotpercent)+"</b>";
             headshotpercent.classList.add("infothing");
             headshotpercent.style.transform = "translate(155px,-55px)";
             //document.getElementById(player).insertBefore(headshots,document.getElementById(player).firstChild);

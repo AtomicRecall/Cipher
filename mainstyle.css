@@ -75,10 +75,9 @@ body {
   width: 1500px;
   height: 800px;
   background: #141616;
-  box-shadow: 0 0 30px #FF5500;
   padding: 50px;
   overflow: hidden;
-  animation: glow-out 1s ease forwards;
+  box-shadow: 0 0 30px #FF5500;
 }
 
 .wrapper:hover {
@@ -93,12 +92,8 @@ body {
   100% { box-shadow: 0 0 30px #FF5500; }
 }
 
-@keyframes glow-out {
-  0%   { box-shadow: 0 0 30px #000000; }
-  100% { box-shadow: 0 0 30px #FF5500; }
-}
 .wrapper:hover h2 {
-  color: #FF5500;
+
   animation: animate 7s linear infinite;
 
 }
@@ -115,7 +110,7 @@ body {
   position: absolute;
   color: rgb(255, 255, 255);
   filter: drop-shadow(3px 0px 1px #000000);
-  transform: translate(-630px,-420px);
+  transform: translate(-710px,-420px);
   font-size: 15px;
   font-family: 'Minecraftia', sans-serif;
 }
@@ -564,6 +559,7 @@ h1 {
   justify-content: center;
   transform: translateY(-55px);
   color: #ffffff;
+  min-height: 35px;
 }
 h2{
   width: 400px;
@@ -586,7 +582,6 @@ h3{
   filter: drop-shadow(2px 0px 2px black);
   opacity: 0;
   transition: 1s;
-  min-height: 50px;
 
 
 }
@@ -601,8 +596,29 @@ h3{
 
 
 }
+.SongNameDivider{
+  overflow: hidden;
+  position: absolute;
+  width: 300px;
+  font-size: 30px;
+  transform:translate(650px,-430px);
+  color: #0f0;
+}
+.scrolling-name{
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left 8s linear infinite;
+}
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
 #img{
-  border-radius: 30px;
+  border-radius: 10px;
   transform: translate(10px,20px);
   filter: drop-shadow(0px 0px 10px #6e6e6e);
 }
@@ -612,7 +628,7 @@ h3{
   pointer-events: none;
   opacity: 100%;
   filter: blur(5px);
-  border-radius: 10% / 30%;
+
 }
 #elo{
   font-size: 25px;
@@ -693,11 +709,13 @@ transform: translateY(-120px);
   height: 80px;
   width: 200px;
   transform: translateY(-150px);
+  pointer-events: none;
 }
 .TTmne{
   color: #ffffff;
   filter: drop-shadow(1px 0px 2px #000000);
   font-size : 20px;
+  pointer-events: none;
 }
 
 .divv{
@@ -867,6 +885,9 @@ transform: translateY(-120px);
   z-index: 1;
   transform: translate(-120px,10px);
   src: url("https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg");
+}
+#crn{
+  pointer-events: none;
 }
 #P{
   width: 10px;

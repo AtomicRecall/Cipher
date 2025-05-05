@@ -7,7 +7,150 @@ loadingimage.style.position = "absolute";
 loadingimage.id = "removemepls";
 loadingimage.style.transform = "translate(150px,90px)";
 loadingimage.classList.add("removemepls");
+var RNGSONG = parseInt((Math.random()*9)+1);
+var SongNameDivider = document.createElement('div');
+SongNameDivider.className = 'SongNameDivider';
+var mutebtn = document.createElement("button");
+mutebtn.width = "10px";
+mutebtn.height = "10px";
 
+var SongNameActual = document.createElement("div");
+SongNameActual.className = 'scrolling-name';
+SongNameDivider.appendChild(SongNameActual);
+document.body.appendChild(SongNameDivider);
+let loopCount = 0;
+const maxLoops = 2;
+switch(RNGSONG){
+
+    case 1:
+        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/cubanmusic1.wav');
+        SongNameActual.textContent = 'Now Playing: cubanmusic1.wav from cs_havana (CSS)';
+        audio.play();
+
+        
+        audio.addEventListener('ended', () => {
+            
+            loopCount++;
+            if (loopCount < maxLoops) {
+              audio.currentTime = 0; // Reset to the beginning
+              audio.play();
+              audio.addEventListener('ended',()=>{
+                  SongNameActual.textContent = " ";
+              });
+            }
+          });
+        break;
+    case 2:
+        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic1.wav');
+        SongNameActual.textContent = 'Now Playing: dustmusic1.wav from de_dust2 (CSS)';
+        audio.play();
+        audio.addEventListener('ended', () => {
+            
+            loopCount++;
+            if (loopCount < maxLoops) {
+              audio.currentTime = 0; // Reset to the beginning
+              audio.play();
+              audio.addEventListener('ended',()=>{
+                  SongNameActual.textContent = " ";
+              });
+            }
+          });
+        break;
+    case 3:
+        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic2.wav');
+        SongNameActual.textContent = 'Now Playing: dustmusic2.wav from de_dust2 (CSS)';
+                audio.play();
+                audio.addEventListener('ended', () => {
+            
+                    loopCount++;
+                    if (loopCount < maxLoops) {
+                      audio.currentTime = 0; // Reset to the beginning
+                      audio.play();
+                      audio.addEventListener('ended',()=>{
+                          SongNameActual.textContent = " ";
+                      });
+                    }
+                  });
+        break;
+    case 4:
+        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic3.wav');
+        SongNameActual.textContent = 'Now Playing: dustmusic3.wav from de_dust2 (CSS)';
+        audio.play();
+        audio.addEventListener('ended', () => {
+            
+            loopCount++;
+            if (loopCount < maxLoops) {
+              audio.currentTime = 0; // Reset to the beginning
+              audio.play();
+              audio.addEventListener('ended',()=>{
+                  SongNameActual.textContent = " ";
+              });
+            }
+          });
+        break;
+    case 5:
+        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flamenco.wav');
+        SongNameActual.textContent = 'Now Playing: flamenco.wav from de_inferno (CSS)';
+        audio.play();
+        audio.addEventListener('ended', () => {
+            // Code to execute after the audio finishes
+            SongNameActual.textContent = " ";
+
+          });
+        break;
+    case 6:
+        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/guit1.wav');
+        SongNameActual.textContent = 'Now Playing: guit1.wav from cs_italy (CSS)';
+        audio.play();
+        audio.addEventListener('ended', () => {
+            
+          loopCount++;
+          if (loopCount < maxLoops) {
+            audio.currentTime = 0; // Reset to the beginning
+            audio.play();
+            audio.addEventListener('ended',()=>{
+                SongNameActual.textContent = " ";
+            });
+          }
+        });
+        break;
+    case 7:
+        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/mirame_radio_thru_wall.wav');
+        SongNameActual.textContent = 'Now Playing: mirame_radio_thru_wall.wav from de_mirage (CSS)';
+        audio.play();
+        audio.addEventListener('ended', () => {
+            // Code to execute after the audio finishes
+            SongNameActual.textContent = " ";
+
+          });
+        break;
+    case 8:
+        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/latin.wav');
+        SongNameActual.textContent = 'Now Playing: latin.wav from de_inferno (CSS)';
+        audio.play();
+        audio.addEventListener('ended', () => {
+            
+            loopCount++;
+            if (loopCount < maxLoops) {
+              audio.currentTime = 0; // Reset to the beginning
+              audio.play();
+              audio.addEventListener('ended',()=>{
+                  SongNameActual.textContent = " ";
+              });
+            }
+          });
+        break;
+    case 9:
+        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/opera.wav');
+        SongNameActual.textContent = 'Now Playing: opera.wav from cs_italy (CSS)';
+        audio.play();
+        audio.addEventListener('ended', () => {
+            // Code to execute after the audio finishes
+            SongNameActual.textContent = " ";
+          });
+        break;
+    
+}
 let typewriterTimeouts = [];
 function killAllTimeouts() {
     let id = window.setTimeout(() => {}, 0);
@@ -1002,7 +1145,30 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
             });
 
+            let lastHoverTime = 0;
+                const MIN_HOVER_INTERVAL = 1000; // 1 second to throttle hover events
 
+                // Create the audio object once
+                const audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
+
+                // Attach the event listener to the divider (named div)
+                div.addEventListener('mouseover', function () {
+                const currentTime = Date.now();
+
+                // Ensure that the audio plays only once within the MIN_HOVER_INTERVAL
+                if (currentTime - lastHoverTime < MIN_HOVER_INTERVAL) return;
+
+                lastHoverTime = currentTime; // Update the last hover time
+
+                if (audio.paused) {
+                    audio.currentTime = 0; // Reset audio to the start
+                    audio.play();          // Play the audio
+                }
+                });
+
+                div.addEventListener('mouseout', function () {
+                // You can also reset any states here if needed
+                });
             div.onmouseover = function(){
                 //upcoming matches divider
                 div.style.width = "500px";
@@ -1418,9 +1584,33 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 }
 
             });
+            
+            let lastHoverTime = 0;
+                const MIN_HOVER_INTERVAL = 1000; // 1 second to throttle hover events
 
+                // Create the audio object once
+                const audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
 
+                // Attach the event listener to the divider (named div)
+                div.addEventListener('mouseover', function () {
+                const currentTime = Date.now();
+
+                // Ensure that the audio plays only once within the MIN_HOVER_INTERVAL
+                if (currentTime - lastHoverTime < MIN_HOVER_INTERVAL) return;
+
+                lastHoverTime = currentTime; // Update the last hover time
+
+                if (audio.paused) {
+                    audio.currentTime = 0; // Reset audio to the start
+                    audio.play();          // Play the audio
+                }
+                });
+
+                div.addEventListener('mouseout', function () {
+                // You can also reset any states here if needed
+                });
             div.onmouseover = function(){
+
                 div.style.cursor = "pointer";
             Tmne.innerHTML = datan.name;
             div.style.transition = "2s";
@@ -1736,8 +1926,9 @@ function funnyfunction(dataalolfunny,wheretoadd){
     
                 });
     
-    
                 div.onmouseover = function(){
+                    var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
+                    audio.play();
                     div.style.cursor = "pointer";
                 Tmne.innerHTML = datan.name;
                 div.style.transition = "2s";
@@ -2326,7 +2517,8 @@ function searchForTeams(teamnme){
             divider.onmouseover = function(){
 
                 
-               
+                var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
+                audio.play();
                 divider.style.width = 300;
                 cvrimg.width = 300;
                 cvrimg.style.removeProperty('filter');
