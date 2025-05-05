@@ -1319,6 +1319,8 @@ function funnyfunction(dataalolfunny,wheretoadd){
                         console.log("lololol");
                        localStorage.setItem("THETEAMWEARESEARCHING" , dataalolfunny[d]);
                        localStorage.setItem("THETEAMWEARESEARCHINGNAME", datan.name);
+                       var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/buttonclickrelease.wav');
+                        audio.play();
                        document.getElementById("lgOut").style.transform = "translate(5px,0px)";
 
                        cancelTyping();

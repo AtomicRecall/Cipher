@@ -452,6 +452,7 @@ body {
   height: 150px; 
   object-fit: cover;
   object-position: 50%,50%;
+  pointer-events: none;
 }
 .red {
   color: #ff1a1a;
@@ -1019,7 +1020,7 @@ transform: translateY(-120px);
 }
 .buttonz:hover{
   background-color: #444444;
-  
+
   
 }
 /* Persistent "clicked" look */

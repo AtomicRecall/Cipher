@@ -3,8 +3,7 @@ if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
     document.getElementById(".BanFileExplorer").style.transform = "translateY(-350px)";
 
 }
-var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/buttonclickrelease.wav');
-audio.play();
+
 //document.body.appendChild(document.getElementById("smokewed"));
 //document.getElementById("smokewed").style.transform = "translate(550px,-390px)";
 document.body.style.cursor = "wait";
@@ -97,6 +96,7 @@ stopButtong.id = "stopbutton";
 stopButtong.style.fontSize = "20px";
 stopButtong.style.fontWeight = "bold";
 stopButtong.innerHTML = 'USE THE MATCHES ALREADY FOUND:  <img id="buttonnn" src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/STOP.jpg" class = "removemeplss"/>';
+
 document.getElementById(".BanFileExplorer").appendChild(stopButtong);
 
 stopButtong.addEventListener('click',()=>{
@@ -111,7 +111,8 @@ stopButtong.addEventListener('click',()=>{
     finializing.style.position = "absolute";
     finializing.classList.add("removemeplss");
     document.getElementById(".BanFileExplorer").appendChild(finializing);
-
+    var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/gift_drop.wav');
+    audio.play();
     stoporgosearch = false;
 
 });
@@ -237,6 +238,8 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
    // console.log(datan);
     localStorage.setItem("LeaderID", datan.leader);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
+    var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_on.wav');
+    audio.play();
     document.getElementById("h1").innerHTML = " ";
     document.getElementById("poop").innerHTML = `&nbsp`;
     cancelTyping();
@@ -489,12 +492,12 @@ let counterrrr = 0;
 function GetPlayerInfo(nick , iddd, div, callback){
     
     let pfp = document.createElement("img");
-    pfp.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/gears.gif";
+    //pfp.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/gears.gif";
     pfp.classList.add("TEAMPFP");
     pfp.classList.add("LOADING");
     pfp.style.pointerEvents = "none";
-    pfp.style.width = "120px";
-    pfp.style.height = "75px";
+    //pfp.style.width = "120px";
+    //pfp.style.height = "75px";
     if (div.classList.item(0) === "PLAYERDIVIDERR"){
         pfp.style.transform = "translate(10px,5px)";
     }
@@ -2620,7 +2623,7 @@ function printToWebsite(dapicksanddabans, something){
     let record = document.createElement("div");
     record.style.filter = "drop-shadow(black 1px 1px 1px)";
     console.log("d is "+dapicksanddabans.length);
-    record.innerHTML = "| S"+((dapicksanddabans[dapicksanddabans.length-1].season) ? dapicksanddabans[dapicksanddabans.length-1].season :currentseason)+'<span style="color: wheat;">'+" "+dapicksanddabans[dapicksanddabans.length-1].division+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
+    record.innerHTML = "| S"+((dapicksanddabans[dapicksanddabans.length-1]) ? dapicksanddabans[dapicksanddabans.length-1].season : currentseason)+'<span style="color: wheat;">'+" "+dapicksanddabans[dapicksanddabans.length-1].division+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
     if(document.getElementById("RECORDDD") && !something){document.getElementById("RECORDDD").appendChild(record)};
     if(something){
         document.getElementById(".BanFileExplorer").insertBefore(matchesDivider, document.getElementById(".BanFileExplorer").firstChild);
@@ -2852,6 +2855,7 @@ function printToWebsite(dapicksanddabans, something){
                         score.style.pointerEvents = "auto";
                         score.onmouseover = function(){
                             score.style.cursor = "pointer";
+                            
                             if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
                                 return;
                             }
@@ -3188,11 +3192,11 @@ function printToWebsite(dapicksanddabans, something){
 
             document.getElementById("game"+d).onmouseover = function(){
 
-                const audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
-                audio.volume = 0.5;
-                audio.play();
-                if (!dividerclicked){
 
+                if (!dividerclicked){
+                    const audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
+                    audio.volume = 0.5;
+                    audio.play();
                 quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
                 if (moreclicks > 0 && moreclicks < 2){
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
@@ -3526,15 +3530,11 @@ function createChart(type){
                         label = (label === "Dust II") ? "dust2" : String(label.toLowerCase());
                         
         
-                        if(label === "ancient"){
-                            document.getElementById(`${label}div`).style.transform = "translate(950px,315px)";
-          
-        
-                        }
-                        else{
+
+                       
                             document.getElementById(`${label}div`).style.transform = "translate(950px,330px)";
                  
-                        }
+                    
                         document.getElementById(`${label}div`).style.opacity = "1";
                         document.getElementById(`${label}div`).style.transtion = "0.5s";
         
@@ -3908,15 +3908,11 @@ function createLossChart(type){
                         label = (label === "Dust II") ? "dust2" : String(label.toLowerCase());
                         
         
-                        if(label === "ancient"){
-                            document.getElementById(`${label}div`).style.transform = "translate(950px,315px)";
-          
-        
-                        }
-                        else{
+
+                    
                             document.getElementById(`${label}div`).style.transform = "translate(950px,330px)";
                  
-                        }
+                        
                         document.getElementById(`${label}div`).style.opacity = "1";
                         document.getElementById(`${label}div`).style.transtion = "0.5s";
         
@@ -6017,7 +6013,9 @@ var ILIEDLOLL = 3;
           span.style.height = "60px";
           span.style.width = "60px";
           label.style.transform = "translate(-50%,2%)";
+          console.log(label.textContent.substring(1));
           var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
+          console.log(newarray);
           DotheThing(newarray,true);
           //span.style.transform = "translate(730px,160px)";
           //document.getElementById("allInfo").style.width = "480px";
@@ -6041,7 +6039,7 @@ var ILIEDLOLL = 3;
             var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
             //console.log("but first");
            // console.log(THEFINALARRAYISWEAR);
-
+            
             if (ILIEDLOLL%3 == 0){
                 THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.filter(item => item.season !== label.textContent.substring(1));
                 DotheThing(picksnbans,true);
@@ -6083,16 +6081,15 @@ function checktheimagexists(url){
 }
 
 function getArrayFromSeason(ssn, arrayofallmatchess){
-  //  console.log("finding "+ssn);
-
+    ssn = ssn.substring(0,2);
     let finalArray = new Array();
-    let storethesearrays = false;
-    for (const match of arrayofallmatchess){
+    for (var match of arrayofallmatchess){
         if(match.season === ssn.toString()){
             finalArray.push(match);
+
         }
     }
-return (finalArray);
+    return finalArray;
 }
 var THEFINALARRAYISWEAR = new Array();
 var ccccc = 0;
