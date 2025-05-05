@@ -7,7 +7,7 @@ loadingimage.style.position = "absolute";
 loadingimage.id = "removemepls";
 loadingimage.style.transform = "translate(150px,90px)";
 loadingimage.classList.add("removemepls");
-var RNGSONG = parseInt((Math.random()*8)+1);
+var RNGSONG = parseInt((Math.random()*10)+1);
 var SongNameDivider = document.createElement('div');
 SongNameDivider.className = 'SongNameDivider';
 var mutebtn = document.createElement("button");
@@ -40,7 +40,7 @@ replayBtn.addEventListener("click",function(){
 
     let loopCount = 0;
     const maxLoops = 2;
-    var RNGSONGAGAINE = parseInt((Math.random()*8)+1);
+    var RNGSONGAGAINE = parseInt((Math.random()*10)+1);
 
     paused = false;
     mutebtn.textContent = "Pause";
@@ -206,6 +206,32 @@ switch(RNGSONGAGAINE){
             SongNameActual.textContent = 'Now Playing: NOTHING';
           });
         break;
+        case 9:
+            if(!paused){
+                 audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/strike-2-overpass-techno.wav');
+                SongNameActual.textContent = 'Now Playing: techno.wav from de_overpass (CS2)';
+                audio.volume = 0.8;
+        
+                audio.play();
+            }
+            audio.addEventListener('ended', () => {
+                // Code to execute after the audio finishes
+                SongNameActual.textContent = 'Now Playing: NOTHING';
+              });
+            break;
+            case 10:
+                if(!paused){
+                     audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/detrainMusic(1).wav');
+                    SongNameActual.textContent = 'Now Playing: radio.wav from de_train (CS:GO)';
+                    audio.volume = 0.5;
+            
+                    audio.play();
+                }
+                audio.addEventListener('ended', () => {
+                    // Code to execute after the audio finishes
+                    SongNameActual.textContent = 'Now Playing: NOTHING';
+                  });
+                break;
     
 }
 });
@@ -379,6 +405,32 @@ switch(RNGSONG){
             SongNameActual.textContent = 'Now Playing: NOTHING';
           });
         break;
+        case 9:
+            if(!paused){
+                 audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/strike-2-overpass-techno.wav');
+                SongNameActual.textContent = 'Now Playing: techno.wav from de_overpass (CS2)';
+                audio.volume = 0.8;
+        
+                audio.play();
+            }
+            audio.addEventListener('ended', () => {
+                // Code to execute after the audio finishes
+                SongNameActual.textContent = 'Now Playing: NOTHING';
+              });
+            break;
+            case 10:
+                if(!paused){
+                     audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/detrainMusic(1).wav');
+                    SongNameActual.textContent = 'Now Playing: radio.wav from de_train (CS:GO)';
+                    audio.volume = 0.5;
+            
+                    audio.play();
+                }
+                audio.addEventListener('ended', () => {
+                    // Code to execute after the audio finishes
+                    SongNameActual.textContent = 'Now Playing: NOTHING';
+                  });
+                break;
     
 }
 let typewriterTimeouts = [];
