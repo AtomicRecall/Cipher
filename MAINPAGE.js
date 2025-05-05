@@ -168,7 +168,7 @@ switch(RNGSONG){
         break;
     case 7:
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/mirame_radio_thru_wall.wav');
-        SongNameActual.textContent = 'Now Playing: mirame_radio_thru_wall.wav from de_mirage (CSS)';
+        SongNameActual.textContent = 'Now Playing: mirame_radio_thru_wall.wav from de_inferno (CSS)';
         audio.volume = 0.5;
 
         audio.play();
