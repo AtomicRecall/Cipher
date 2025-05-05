@@ -11,9 +11,10 @@ var RNGSONG = parseInt((Math.random()*9)+1);
 var SongNameDivider = document.createElement('div');
 SongNameDivider.className = 'SongNameDivider';
 var mutebtn = document.createElement("button");
-mutebtn.width = "10px";
-mutebtn.height = "10px";
-
+mutebtn.id = "MUTE";
+mutebtn.width = "50px";
+mutebtn.height = "50px";
+SongNameDivider.appendChild(mutebtn);
 var SongNameActual = document.createElement("div");
 SongNameActual.className = 'scrolling-name';
 SongNameDivider.appendChild(SongNameActual);
@@ -28,7 +29,12 @@ switch(RNGSONG){
         audio.volume = 0.5;
         audio.play();
 
-        
+        mutebtn.onclick = function(){
+            audio.volume = 0;
+            mutebtn.onclick = function(){
+                audio.volume = 0.5;
+            }
+        }
         audio.addEventListener('ended', () => {
             
             loopCount++;
@@ -47,6 +53,13 @@ switch(RNGSONG){
         audio.volume = 0.5;
 
         audio.play();
+
+        mutebtn.onclick = function(){
+            audio.volume = 0;
+            mutebtn.onclick = function(){
+                audio.volume = 0.5;
+            }
+        }
         audio.addEventListener('ended', () => {
             
             loopCount++;
@@ -65,6 +78,13 @@ switch(RNGSONG){
         audio.volume = 0.5;
 
                 audio.play();
+
+                mutebtn.onclick = function(){
+                    audio.volume = 0;
+                    mutebtn.onclick = function(){
+                        audio.volume = 0.5;
+                    }
+                }
                 audio.addEventListener('ended', () => {
             
                     loopCount++;
@@ -83,6 +103,13 @@ switch(RNGSONG){
         audio.volume = 0.5;
 
         audio.play();
+
+        mutebtn.onclick = function(){
+            audio.volume = 0;
+            mutebtn.onclick = function(){
+                audio.volume = 0.5;
+            }
+        }
         audio.addEventListener('ended', () => {
             
             loopCount++;
@@ -101,6 +128,13 @@ switch(RNGSONG){
         audio.volume = 0.5;
 
         audio.play();
+
+        mutebtn.onclick = function(){
+            audio.volume = 0;
+            mutebtn.onclick = function(){
+                audio.volume = 0.5;
+            }
+        }
         audio.addEventListener('ended', () => {
             // Code to execute after the audio finishes
             SongNameActual.textContent = " ";
@@ -113,6 +147,13 @@ switch(RNGSONG){
         audio.volume = 0.5;
 
         audio.play();
+
+        mutebtn.onclick = function(){
+            audio.volume = 0;
+            mutebtn.onclick = function(){
+                audio.volume = 0.5;
+            }
+        }
         audio.addEventListener('ended', () => {
             
           loopCount++;
@@ -131,6 +172,13 @@ switch(RNGSONG){
         audio.volume = 0.5;
 
         audio.play();
+
+        mutebtn.onclick = function(){
+            audio.volume = 0;
+            mutebtn.onclick = function(){
+                audio.volume = 0.5;
+            }
+        }
         audio.addEventListener('ended', () => {
             // Code to execute after the audio finishes
             SongNameActual.textContent = " ";
@@ -143,6 +191,13 @@ switch(RNGSONG){
         audio.volume = 0.5;
 
         audio.play();
+
+        mutebtn.onclick = function(){
+            audio.volume = 0;
+            mutebtn.onclick = function(){
+                audio.volume = 0.5;
+            }
+        }
         audio.addEventListener('ended', () => {
             
             loopCount++;
@@ -161,6 +216,13 @@ switch(RNGSONG){
         audio.volume = 0.5;
 
         audio.play();
+
+        mutebtn.onclick = function(){
+            audio.volume = 0;
+            mutebtn.onclick = function(){
+                audio.volume = 0.5;
+            }
+        }
         audio.addEventListener('ended', () => {
             // Code to execute after the audio finishes
             SongNameActual.textContent = " ";
