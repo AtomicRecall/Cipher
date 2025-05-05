@@ -7,34 +7,55 @@ loadingimage.style.position = "absolute";
 loadingimage.id = "removemepls";
 loadingimage.style.transform = "translate(150px,90px)";
 loadingimage.classList.add("removemepls");
-var RNGSONG = parseInt((Math.random()*9)+1);
+var RNGSONG = parseInt((Math.random()*8)+1);
 var SongNameDivider = document.createElement('div');
 SongNameDivider.className = 'SongNameDivider';
 var mutebtn = document.createElement("button");
 mutebtn.id = "MUTE";
-mutebtn.width = "50px";
-mutebtn.height = "50px";
-SongNameDivider.appendChild(mutebtn);
-var SongNameActual = document.createElement("div");
-SongNameActual.className = 'scrolling-name';
-SongNameDivider.appendChild(SongNameActual);
-document.body.appendChild(SongNameDivider);
-let loopCount = 0;
-const maxLoops = 2;
-switch(RNGSONG){
-
-    case 1:
-        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/cubanmusic1.wav');
-        SongNameActual.textContent = 'Now Playing: cubanmusic1.wav from cs_havana (CSS)';
-        audio.volume = 0.5;
+mutebtn.textContent = "Pause";
+let paused = false;
+let audio;
+mutebtn.addEventListener("click", function () {
+    if (!paused) {
+        audio.pause();
+        paused = true;
+        mutebtn.textContent = "Resume";
+    } else {
+        audio.muted = false;
         audio.play();
+        paused = false;
+        mutebtn.textContent = "Pause";
+    }
+  });
+SongNameDivider.appendChild(mutebtn);
+var replayBtn = document.createElement("button");
+replayBtn.id = "REPLAY";
+replayBtn.textContent = "Re-Roll";
+SongNameDivider.appendChild(replayBtn);
+replayBtn.addEventListener("click",function(){
+    SongNameActual.textContent = ' ';
 
-        mutebtn.onclick = function(){
-            audio.volume = 0;
-            mutebtn.onclick = function(){
-                audio.volume = 0.5;
-            }
+    audio.pause();
+    paused = true;
+
+    let loopCount = 0;
+    const maxLoops = 2;
+    var RNGSONGAGAINE = parseInt((Math.random()*8)+1);
+
+    paused = false;
+    mutebtn.textContent = "Pause";
+switch(RNGSONGAGAINE){
+    
+    case 1:
+
+        if (!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/cubanmusic1.wav');
+            SongNameActual.textContent = 'Now Playing: cubanmusic1.wav from cs_havana (CSS)';
+            audio.volume = 0.5;
+            audio.play();
         }
+
+
         audio.addEventListener('ended', () => {
             
             loopCount++;
@@ -48,18 +69,16 @@ switch(RNGSONG){
           });
         break;
     case 2:
-        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic1.wav');
-        SongNameActual.textContent = 'Now Playing: dustmusic1.wav from de_dust2 (CSS)';
-        audio.volume = 0.5;
-
-        audio.play();
-
-        mutebtn.onclick = function(){
-            audio.volume = 0;
-            mutebtn.onclick = function(){
-                audio.volume = 0.5;
-            }
+        if(!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic1.wav');
+            SongNameActual.textContent = 'Now Playing: dustmusic1.wav from de_dust2 (CSS)';
+            audio.volume = 0.5;
+    
+            audio.play();
         }
+
+
+
         audio.addEventListener('ended', () => {
             
             loopCount++;
@@ -73,18 +92,16 @@ switch(RNGSONG){
           });
         break;
     case 3:
-        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic2.wav');
-        SongNameActual.textContent = 'Now Playing: dustmusic2.wav from de_dust2 (CSS)';
-        audio.volume = 0.5;
+        if (!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic2.wav');
+            SongNameActual.textContent = 'Now Playing: dustmusic2.wav from de_dust2 (CSS)';
+            audio.volume = 0.5;
+    
+                    audio.play();
+        }
 
-                audio.play();
 
-                mutebtn.onclick = function(){
-                    audio.volume = 0;
-                    mutebtn.onclick = function(){
-                        audio.volume = 0.5;
-                    }
-                }
+
                 audio.addEventListener('ended', () => {
             
                     loopCount++;
@@ -98,62 +115,32 @@ switch(RNGSONG){
                   });
         break;
     case 4:
-        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic3.wav');
-        SongNameActual.textContent = 'Now Playing: dustmusic3.wav from de_dust2 (CSS)';
-        audio.volume = 0.5;
-
-        audio.play();
-
-        mutebtn.onclick = function(){
-            audio.volume = 0;
-            mutebtn.onclick = function(){
-                audio.volume = 0.5;
-            }
+        if(!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flamenco.wav');
+            SongNameActual.textContent = 'Now Playing: flamenco.wav from de_inferno (CSS)';
+            audio.volume = 0.5;
+    
+            audio.play();
         }
-        audio.addEventListener('ended', () => {
-            
-            loopCount++;
-            if (loopCount < maxLoops) {
-              audio.currentTime = 0; // Reset to the beginning
-              audio.play();
-              audio.addEventListener('ended',()=>{
-                SongNameActual.textContent = 'Now Playing: NOTHING';
-            });
-            }
-          });
-        break;
-    case 5:
-        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flamenco.wav');
-        SongNameActual.textContent = 'Now Playing: flamenco.wav from de_inferno (CSS)';
-        audio.volume = 0.5;
 
-        audio.play();
 
-        mutebtn.onclick = function(){
-            audio.volume = 0;
-            mutebtn.onclick = function(){
-                audio.volume = 0.5;
-            }
-        }
         audio.addEventListener('ended', () => {
             // Code to execute after the audio finishes
             SongNameActual.textContent = 'Now Playing: NOTHING';
 
           });
         break;
-    case 6:
-        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/guit1.wav');
-        SongNameActual.textContent = 'Now Playing: guit1.wav from cs_italy (CSS)';
-        audio.volume = 0.5;
-
-        audio.play();
-
-        mutebtn.onclick = function(){
-            audio.volume = 0;
-            mutebtn.onclick = function(){
-                audio.volume = 0.5;
-            }
+    case 5:
+        if (!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/guit1.wav');
+            SongNameActual.textContent = 'Now Playing: guit1.wav from cs_italy (CSS)';
+            audio.volume = 0.5;
+    
+            audio.play();
         }
+
+
+
         audio.addEventListener('ended', () => {
             
           loopCount++;
@@ -166,38 +153,34 @@ switch(RNGSONG){
           }
         });
         break;
-    case 7:
-        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/mirame_radio_thru_wall.wav');
-        SongNameActual.textContent = 'Now Playing: mirame_radio_thru_wall.wav from de_inferno (CSS)';
-        audio.volume = 0.5;
-
-        audio.play();
-
-        mutebtn.onclick = function(){
-            audio.volume = 0;
-            mutebtn.onclick = function(){
-                audio.volume = 0.5;
-            }
+    case 6:
+        if (!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/mirame_radio_thru_wall.wav');
+            SongNameActual.textContent = 'Now Playing: mirame_radio_thru_wall.wav from de_inferno (CSS)';
+            audio.volume = 0.5;
+    
+            audio.play();
         }
+
+
+
         audio.addEventListener('ended', () => {
             // Code to execute after the audio finishes
             SongNameActual.textContent = 'Now Playing: NOTHING';
 
           });
         break;
-    case 8:
-        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/latin.wav');
-        SongNameActual.textContent = 'Now Playing: latin.wav from de_inferno (CSS)';
-        audio.volume = 0.5;
-
-        audio.play();
-
-        mutebtn.onclick = function(){
-            audio.volume = 0;
-            mutebtn.onclick = function(){
-                audio.volume = 0.5;
-            }
+    case 7:
+        if (!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/latin.wav');
+            SongNameActual.textContent = 'Now Playing: latin.wav from de_inferno (CSS)';
+            audio.volume = 0.5;
+    
+            audio.play();
         }
+
+
+
         audio.addEventListener('ended', () => {
             
             loopCount++;
@@ -210,18 +193,186 @@ switch(RNGSONG){
             }
           });
         break;
-    case 9:
-        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/opera.wav');
-        SongNameActual.textContent = 'Now Playing: opera.wav from cs_italy (CSS)';
-        audio.volume = 0.5;
+    case 8:
+        if(!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/opera.wav');
+            SongNameActual.textContent = 'Now Playing: opera.wav from cs_italy (CSS)';
+            audio.volume = 0.5;
+    
+            audio.play();
+        }
+        audio.addEventListener('ended', () => {
+            // Code to execute after the audio finishes
+            SongNameActual.textContent = 'Now Playing: NOTHING';
+          });
+        break;
+    
+}
+});
+var SongNameActual = document.createElement("div");
+SongNameActual.className = 'scrolling-name';
+SongNameDivider.appendChild(SongNameActual);
+document.body.appendChild(SongNameDivider);
+let loopCount = 0;
+const maxLoops = 2;
 
-        audio.play();
 
-        mutebtn.onclick = function(){
-            audio.volume = 0;
-            mutebtn.onclick = function(){
-                audio.volume = 0.5;
+switch(RNGSONG){
+
+    case 1:
+
+        if (!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/cubanmusic1.wav');
+            SongNameActual.textContent = 'Now Playing: cubanmusic1.wav from cs_havana (CSS)';
+            audio.volume = 0.5;
+            audio.play();
+        }
+
+
+        audio.addEventListener('ended', () => {
+            
+            loopCount++;
+            if (loopCount < maxLoops) {
+              audio.currentTime = 0; // Reset to the beginning
+              audio.play();
+              audio.addEventListener('ended',()=>{
+                SongNameActual.textContent = 'Now Playing: NOTHING';
+            });
             }
+          });
+        break;
+    case 2:
+        if(!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic1.wav');
+            SongNameActual.textContent = 'Now Playing: dustmusic1.wav from de_dust2 (CSS)';
+            audio.volume = 0.5;
+    
+            audio.play();
+        }
+
+
+
+        audio.addEventListener('ended', () => {
+            
+            loopCount++;
+            if (loopCount < maxLoops) {
+              audio.currentTime = 0; // Reset to the beginning
+              audio.play();
+              audio.addEventListener('ended',()=>{
+                SongNameActual.textContent = 'Now Playing: NOTHING';
+            });
+            }
+          });
+        break;
+    case 3:
+        if (!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic2.wav');
+            SongNameActual.textContent = 'Now Playing: dustmusic2.wav from de_dust2 (CSS)';
+            audio.volume = 0.5;
+    
+                    audio.play();
+        }
+
+
+
+                audio.addEventListener('ended', () => {
+            
+                    loopCount++;
+                    if (loopCount < maxLoops) {
+                      audio.currentTime = 0; // Reset to the beginning
+                      audio.play();
+                      audio.addEventListener('ended',()=>{
+                        SongNameActual.textContent = 'Now Playing: NOTHING';
+                    });
+                    }
+                  });
+        break;
+    case 4:
+        if(!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flamenco.wav');
+            SongNameActual.textContent = 'Now Playing: flamenco.wav from de_inferno (CSS)';
+            audio.volume = 0.5;
+    
+            audio.play();
+        }
+
+
+        audio.addEventListener('ended', () => {
+            // Code to execute after the audio finishes
+            SongNameActual.textContent = 'Now Playing: NOTHING';
+
+          });
+        break;
+    case 5:
+        if (!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/guit1.wav');
+            SongNameActual.textContent = 'Now Playing: guit1.wav from cs_italy (CSS)';
+            audio.volume = 0.5;
+    
+            audio.play();
+        }
+
+
+
+        audio.addEventListener('ended', () => {
+            
+          loopCount++;
+          if (loopCount < maxLoops) {
+            audio.currentTime = 0; // Reset to the beginning
+            audio.play();
+            audio.addEventListener('ended',()=>{
+                SongNameActual.textContent = 'Now Playing: NOTHING';
+            });
+          }
+        });
+        break;
+    case 6:
+        if (!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/mirame_radio_thru_wall.wav');
+            SongNameActual.textContent = 'Now Playing: mirame_radio_thru_wall.wav from de_inferno (CSS)';
+            audio.volume = 0.5;
+    
+            audio.play();
+        }
+
+
+
+        audio.addEventListener('ended', () => {
+            // Code to execute after the audio finishes
+            SongNameActual.textContent = 'Now Playing: NOTHING';
+
+          });
+        break;
+    case 7:
+        if (!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/latin.wav');
+            SongNameActual.textContent = 'Now Playing: latin.wav from de_inferno (CSS)';
+            audio.volume = 0.5;
+    
+            audio.play();
+        }
+
+
+
+        audio.addEventListener('ended', () => {
+            
+            loopCount++;
+            if (loopCount < maxLoops) {
+              audio.currentTime = 0; // Reset to the beginning
+              audio.play();
+              audio.addEventListener('ended',()=>{
+                SongNameActual.textContent = 'Now Playing: NOTHING';
+            });
+            }
+          });
+        break;
+    case 8:
+        if(!paused){
+             audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/opera.wav');
+            SongNameActual.textContent = 'Now Playing: opera.wav from cs_italy (CSS)';
+            audio.volume = 0.5;
+    
+            audio.play();
         }
         audio.addEventListener('ended', () => {
             // Code to execute after the audio finishes

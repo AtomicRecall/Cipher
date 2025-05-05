@@ -2,6 +2,11 @@
 @font-face{
   font-family: 'MCFont'; /* Name your font family */
   src: url('path/to/your/font/file.ttf'); /* Locate the .ttf file within your directory*/
+
+}
+@font-face{
+  font-family: 'digital7';
+  src: url('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/digital-7.ttf');
 }
 body {
     display: flex;
@@ -15,7 +20,10 @@ body {
     
 }
 #MUTE{
-  opacity: 0;
+  opacity: 1;
+  width: 50px;
+  font-family: 'digital7';
+  transform: translateX(151px);
 }
 #fffff{
   position:absolute;
@@ -599,13 +607,18 @@ h3{
 
 
 }
+#REPLAY{
+  font-family: 'digital7';
+  transform: translateX(151px);
+}
 .SongNameDivider{
   overflow: hidden;
   position: absolute;
-  width: 300px;
+  width: 255px;
   font-size: 30px;
-  transform:translate(650px,-430px);
+  transform:translate(670px,-428px);
   color: #0f0;
+  font-family: 'digital7';
 }
 .scrolling-name{
   display: inline-block;
@@ -614,7 +627,7 @@ h3{
 }
 @keyframes scroll-left {
   0% {
-    transform: translateX(100%);
+    transform: translateX(50%);
   }
   100% {
     transform: translateX(-100%);
@@ -1006,6 +1019,7 @@ transform: translateY(-120px);
 }
 .buttonz:hover{
   background-color: #444444;
+  
   
 }
 /* Persistent "clicked" look */
