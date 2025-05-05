@@ -1251,7 +1251,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
             cvrimg.height = 80;
             cvrimg.width = 200;
-            cvrimg.style.filter = "blur(3px)";
+            cvrimg.style.filter = "blur(2px)";
             cvrimg.style.transition = "2s";
       
 
