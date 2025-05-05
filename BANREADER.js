@@ -2718,7 +2718,7 @@ function printToWebsite(dapicksanddabans, something){
             return formattedDate;
           }
         var teaman = localStorage.getItem("THETEAMWEARESEARCHINGNAME");
-        var reff = firebase.database().ref('/DATABSE/TEAMS/'+teaman);
+        var reff = firebase.database().ref('/DATABASE/TEAMS/'+teaman);
         reff.update({             
             BANS: bans,
             PICKS: picks,
