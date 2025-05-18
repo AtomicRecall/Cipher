@@ -3,7 +3,68 @@ if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
     document.getElementById(".BanFileExplorer").style.transform = "translateY(-350px)";
 
 }
+let allsoundsmuted = false;
+if(document.getElementById("MUTEALL").style.backgroundColor === "green"){
+    allsoundsmuted = true;
+}
+document.getElementById("MUTEALL").addEventListener("click", function () {
+    allsoundsmuted = !allsoundsmuted;
+    if(allsoundsmuted){
+        audio.pause();
+        paused = true;
+        muteallsounds.textContent = "RESUME ALL SOUNDS";
+        muteallsounds.style.backgroundColor = "green";
+        muteallsounds.style.borderColor = "green";
+        muteallsounds.style.fontSize = "12px"
+    }
+    else{
+        muteallsounds.textContent = "MUTE ALL SOUNDS";
+        muteallsounds.style.backgroundColor = "red";
+        muteallsounds.style.borderColor = "red";
+        muteallsounds.style.color = "white";
+        muteallsounds.style.fontSize = "13.5px"
+    }
 
+
+  });
+var THETEAMWEARESEARCHING;
+const urlParams = new URLSearchParams(window.location.search);
+const name1 = urlParams.get('teamName');
+if (name1) {
+    document.getElementById(".BanFileExplorer").style.transform = "translateY(-140px)";
+    fetch('https://open.faceit.com/data/v4/search/teams?nickname='+name1+'&game=cs2&offset=0&limit=6', {
+        headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
+        }
+        }).then((res) => {
+
+            if(!res.ok){
+                console.log("HOLY FUCK");
+                throw new Error("couldnt fetcht that shit");
+            }
+            return res.json();
+        })
+        .then((datann) =>{
+            console.log(datann);
+        if (datann.items.length == 0){
+            if(confirm("Your search result got nothing! Maybe you spelt the team name wrong? ")){
+
+            }
+        }
+        console.log(datann.items[0].team_id);
+        localStorage.setItem("THETEAMWEARESEARCHING",datann.items[0].team_id);
+        localStorage.setItem("THETEAMWEARESEARCHINGNAME",datann.items[0].name);
+        THETEAMWEARESEARCHING = datann.items[0].team_id;
+        STARTDASEARCH(datann.items[0].team_id);
+    });
+   
+  }
+  else{
+    THETEAMWEARESEARCHING = localStorage.getItem("THETEAMWEARESEARCHING");
+    STARTDASEARCH();
+  }
+  
 //document.body.appendChild(document.getElementById("smokewed"));
 //document.getElementById("smokewed").style.transform = "translate(550px,-390px)";
 document.body.style.cursor = "wait";
@@ -12,7 +73,7 @@ document.getElementById("h1").innerHTML = " ";
 document.getElementById("poop").innerHTML = ` `;
 
 var database = firebase.database();
-var THETEAMWEARESEARCHING = localStorage.getItem("THETEAMWEARESEARCHING");
+
 var currentseason = 53;
 function removeElementsByClass(className) {
     let elements = document.getElementsByClassName(className);
@@ -70,8 +131,9 @@ document.getElementById("srchBtn").style.visibility = "hidden";
 document.getElementById("rtrnBtn").style.visibility = "visible";
 document.getElementById("rtrnBtn").style.transform = "translate(-650px,-375px)";
 document.body.appendChild(document.getElementById("rtrnBtn"));
-
-var rtrnBtn = document.getElementById("rtrnBtn");
+document.getElementById("rtrnBtn").onclick = function(){
+    window.location.href = "index.html";
+}
 var lastbooleaniswear = false;
 var ffws = 0;
 var ffws1 = 0;
@@ -112,7 +174,9 @@ stopButtong.addEventListener('click',()=>{
     finializing.classList.add("removemeplss");
     document.getElementById(".BanFileExplorer").appendChild(finializing);
     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/gift_drop.wav');
-    audio.play();
+    if(!allsoundsmuted){
+        audio.play();
+       }
     stoporgosearch = false;
 
 });
@@ -218,8 +282,11 @@ document.getElementById('h3').onmouseover = function(){
 document.getElementById('h3').onmouseout = function(){
     document.getElementById("h3").style.filter = "drop-shadow(.5px 0.5px 0.75px black)";
 }
-// Main function to fetch team and leader data
-fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
+
+function STARTDASEARCH(teamName){
+    var POP =(teamName) ? teamName : THETEAMWEARESEARCHING;
+    // Main function to fetch team and leader data
+fetch(`https://open.faceit.com/data/v4/teams/${POP}`, {
     headers: {
             'accept': 'application/json',
             'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
@@ -235,11 +302,13 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     return res.json();
 })
 .then((datan) => {
-   // console.log(datan);
+    //console.log(datan);
     localStorage.setItem("LeaderID", datan.leader);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_on.wav');
-    audio.play();
+    if(!allsoundsmuted){
+        audio.play();
+       }
     document.getElementById("h1").innerHTML = " ";
     document.getElementById("poop").innerHTML = `&nbsp`;
     cancelTyping();
@@ -326,12 +395,129 @@ fetch(`https://open.faceit.com/data/v4/teams/${THETEAMWEARESEARCHING}`, {
     
     document.getElementById("h3").style.opacity = 1;
    
+    //create BanSimulatorButton and functionality
+    var banSimulator = document.createElement("button");
+    banSimulator.id = "banSimulator";
+    banSimulator.textContent = "BAN SIMULATOR";
+    banSimulator.onclick = banSimulatorr;
+    document.getElementById(".BanFileExplorer").appendChild(banSimulator);
     printToWebsite(picksnbans, false);
     
 })
 .catch((error) => {
     console.error('Error:', error);
 });
+}
+
+function banSimulatorr(){
+    if(document.getElementById("mtches") && document.getElementById("quickInfo") && document.getElementById("allInfo") && document.getElementById("overallButtonDivider") && document.getElementById("graphdiv")){
+        document.getElementById("mtches").style.opacity = "0";
+        document.getElementById("mtches").style.pointerEvents = "none";
+        document.getElementById("quickInfo").style.opacity = "0";
+        document.getElementById("quickInfo").style.pointerEvents = "none";
+        document.getElementById("allInfo").style.opacity = "0";
+        document.getElementById("allInfo").style.pointerEvents = "none";
+        document.getElementById("overallButtonDivider").style.opacity = "0";
+        document.getElementById("overallButtonDivider").style.pointerEvents = "none";
+        document.getElementById("graphdiv").style.opacity = "0";
+        document.getElementById("graphdiv").style.pointerEvents = "none";
+        
+    }
+    document.getElementById("teambackgrounddiv").style.height = "50px";
+    document.getElementById("teambackgrounddiv").style.transform = "translateX(0px)";
+    document.getElementById("teambackgrounddiv").style.width = "1500px";
+    document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "50px";
+    document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.width = "1550px";
+    document.getElementById("h3").style.transform = "translate(20px, -40px)";
+    document.getElementById("banSimulator").style.transform = "translate(1300px,10px)";
+    document.getElementById("banSimulator").onclick = revertSimulator;
+    document.getElementById("banSimulator").textContent = "REVERT BACK TO NORMAL";
+
+
+    var communication = document.createElement("div");
+    communication.id = "banCommunication";
+    document.getElementById(".BanFileExplorer").appendChild(communication);
+
+    //1.ask the user who should go first
+    // - add coin flip feature for randomness
+    //2. initalize the place where the bans will happen
+    //3. Actual Ban logic
+
+    //1. ask the user who should go first
+    var question = document.createElement("div");
+    question.textContent = "Who should go first?";
+    communication.appendChild(question);
+
+    var btn1 = document.createElement("button");
+    btn1.id = "but1";
+    btn1.style.height = "50px";
+    btn1.textContent = localStorage.getItem("THETEAMWEARESEARCHINGNAME")+"?";
+    communication.appendChild(btn1);
+
+    var btn2 = document.createElement("button");
+    btn2.id = "but2";
+    btn2.style.height = "50px";
+    btn2.textContent = "YOU?";
+    communication.appendChild(btn2);
+
+
+    btn2.onclick = function(){
+        question.remove();
+        //2. initalize the place where the bans will happen
+        banPlaceInit();
+    }
+    btn1.onclick = function(){
+        question.remove();
+        //2. initalize the place where the bans will happen
+        banPlaceInit(localStorage.getItem("THETEAMWEARESEARCHINGNAME"));
+
+    }
+
+
+}
+function banPlaceInit(whoFirst){
+    //2. initalize the place where the bans will happen
+    document.getElementById("but1").remove();
+    document.getElementById("but2").remove();
+
+    var firstPerson = (whoFirst) ? whoFirst : "Your";
+
+    var WhosTurnDiv = document.createElement("div");
+    WhosTurnDiv.textContent = (firstPerson !== "Your") ? firstPerson+"'s Turn to ban a map" : "Your turn to ban a map";
+    document.getElementById("banCommunication").appendChild(WhosTurnDiv);
+    var TimeLeftDiv = document.createElement("div");
+    TimeLeftDiv.id = "TimeLeft";
+    var GameDiv = document.createElement("div");
+    GameDiv.id = "game";
+    GameDiv.textContent = "Game 1";
+    var BanSimulatorDivider = document.createElement("div");
+    BanSimulatorDivider.id = "SimulatorBan";
+    GameDiv.appendChild(BanSimulatorDivider);
+    
+    document.getElementById("banCommunication").appendChild(GameDiv);
+}
+
+
+function revertSimulator(){
+    if(document.getElementById("mtches") && document.getElementById("quickInfo") && document.getElementById("allInfo") && document.getElementById("overallButtonDivider") && document.getElementById("graphdiv")){
+        document.getElementById("mtches").style.opacity = "1";
+        document.getElementById("mtches").style.pointerEvents = "auto";
+        document.getElementById("quickInfo").style.opacity = "1";
+        document.getElementById("quickInfo").style.pointerEvents = "auto";
+        document.getElementById("allInfo").style.opacity = "1";
+        document.getElementById("allInfo").style.pointerEvents = "auto";
+        document.getElementById("overallButtonDivider").style.opacity = "1";
+        document.getElementById("overallButtonDivider").style.pointerEvents = "auto";
+        document.getElementById("graphdiv").style.opacity = "1";
+        document.getElementById("graphdiv").style.pointerEvents = "auto";
+        
+    }
+    document.getElementById("banSimulator").onclick = banSimulatorr;
+}
+
+
+
+
 
 let lastClickTime = 0;
 const clickDelay = 500; // 500ms delay
@@ -427,7 +613,7 @@ document.getElementById("teambackgrounddiv").appendChild(loadingimage);
                 
             if (amountcreated >= 5){
                 amountcreated = 0;
-                if(document.getElementById("allInfo") && document.getElementById("allInfo").style.opacity === "0"){
+                if(document.getElementById("allInfo") && document.getElementById("allInfo").style.opacity === "0" && document.getElementById("EncompassingDivider")){
                     document.getElementById("EncompassingDivider").style.opacity = "1";
 
                 }
@@ -866,7 +1052,7 @@ function GetLeaguePickBans(leaderid, offset) {
                 //console.log(match.teams);
                 if (match.competition_name.includes("ESEA") && !match.competition_name.includes("Qualifier")) {
                     let teamsinmatch = match.teams;
-                   // console.log(teamsinmatch);
+                    //console.log(teamsinmatch);
                     let tm1 = teamsinmatch.faction1;
                     let tm2 = teamsinmatch.faction2;
                     if (tm1.team_id !== localStorage.getItem("THETEAMWEARESEARCHING") &&
@@ -905,7 +1091,9 @@ function GetLeaguePickBans(leaderid, offset) {
                     if(finishedtext){
                         const audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/hint.wav');
                         audio.volume = 0.5;
-                        audio.play();
+                        if(!allsoundsmuted){
+                            audio.play();
+                           }
                         finishedtext.innerHTML+=match.competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
 
                     }
@@ -1883,10 +2071,13 @@ var doitonlyonce = true;
 let wins = 0;
 let loss = 0;
 function printToWebsite(dapicksanddabans, something){
+    THEFINALARRAYISWEAR = dapicksanddabans;
     document.body.style.cursor = "auto";
     document.getElementById("teambackgrounddiv").style.opacity = "1";
     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/bell1.wav');
-    audio.play();   
+    if(!allsoundsmuted){
+        audio.play();
+       } 
     
     let recorddiv = document.createElement("div");
     recorddiv.style.display = "grid";
@@ -2622,8 +2813,8 @@ function printToWebsite(dapicksanddabans, something){
     //console.log(wins+" // "+loss);
     let record = document.createElement("div");
     record.style.filter = "drop-shadow(black 1px 1px 1px)";
-    console.log("d is "+dapicksanddabans.length);
-    record.innerHTML = "| S"+((dapicksanddabans[dapicksanddabans.length-1]) ? dapicksanddabans[dapicksanddabans.length-1].season : currentseason)+'<span style="color: wheat;">'+" "+dapicksanddabans[dapicksanddabans.length-1].division+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
+    //console.log("d is "+dapicksanddabans.length);
+    record.innerHTML = "| S"+((dapicksanddabans[dapicksanddabans.length-1] && dapicksanddabans[dapicksanddabans.length-1] !== undefined) ? dapicksanddabans[dapicksanddabans.length-1].season : currentseason)+'<span style="color: wheat;">'+" "+((dapicksanddabans[dapicksanddabans.length-1] && dapicksanddabans[dapicksanddabans.length-1] !== undefined) ? dapicksanddabans[dapicksanddabans.length-1].division : "FART")+'</span>'+": "+'<span style="color: green;">'+wins+'</span>'+' / '+'<span style="color: red;">'+loss+'</span>'+" | ";
     if(document.getElementById("RECORDDD") && !something){document.getElementById("RECORDDD").appendChild(record)};
     if(something){
         document.getElementById(".BanFileExplorer").insertBefore(matchesDivider, document.getElementById(".BanFileExplorer").firstChild);
@@ -2643,7 +2834,7 @@ function printToWebsite(dapicksanddabans, something){
        // console.log(childdddrr);
         for(const childs of childdddrr){
          if (childs.id.includes("ssnNum")){
-            console.log(String(childs.innerHTML).substring(18));
+            //console.log(String(childs.innerHTML).substring(18));
              createToggle(overallButtonDivider, String(childs.innerHTML).substring(15,18));
             }
         }
@@ -2717,7 +2908,7 @@ function printToWebsite(dapicksanddabans, something){
             hours = hours % 12;
             hours = hours ? hours : 12; // the hour '0' should be '12'
           
-            const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds} ${ampm}`;
+            const formattedDate = `${month}-${day}-${year} ${hours}:${minutes}:${seconds} ${ampm}`;
             return formattedDate;
           }
         var teaman = localStorage.getItem("THETEAMWEARESEARCHINGNAME");
@@ -2735,12 +2926,12 @@ function printToWebsite(dapicksanddabans, something){
             lastTimeUpdated: formatDate(Date.now()),
         })
 
-        console.log(dapicksanddabans);
-        console.log(bans);
-        console.log(picks);
-        console.log(played);
-        console.log(L);
-        console.log(W);
+       // console.log(dapicksanddabans);
+        //console.log(bans);
+        //console.log(picks);
+        //console.log(played);
+        //console.log(L);
+        //console.log(W);
 
         var bool = true;
         document.querySelectorAll("#label").forEach(el=>{if(Number(el.innerHTML.substring(1)) < 52)bool=false;});
@@ -2789,7 +2980,9 @@ function printToWebsite(dapicksanddabans, something){
      
                 if(dividerclicked && moreclicks > 0){
                     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/buttonclickrelease.wav');
-                    audio.play();
+                    if(!allsoundsmuted){
+                        audio.play();
+                       }
                     if(document.getElementById("graphdiv")){
                         document.getElementById("graphdiv").style.opacity = "0";
                         document.getElementById("overallButtonDivider").style.transform = "translate(1500px,580px)";
@@ -3127,7 +3320,9 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "240px";
                     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/freeze_cam.wav');
                     audio.volume = 0.2;
-                    audio.play();
+                    if(!allsoundsmuted){
+                        audio.play();
+                       }
                     if(document.getElementById("h3").querySelector("#teamPfp")){
                     document.getElementById("h3").querySelector("#teamPfp").style.height = "30px";
                     document.getElementById("h3").querySelector("#teamPfp").style.width = "30px";
@@ -3196,7 +3391,9 @@ function printToWebsite(dapicksanddabans, something){
                 if (!dividerclicked){
                     const audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
                     audio.volume = 0.5;
-                    audio.play();
+                    if(!allsoundsmuted){
+                        audio.play();
+                       }
                 quickInfoDivider.innerHTML = dapicksanddabans[d].compname;
                 if (moreclicks > 0 && moreclicks < 2){
                     document.getElementById("game"+d).style.webkitFilter = "drop-shadow(0px 0px 10px orange)";
@@ -3597,6 +3794,7 @@ function createChart(type){
 
                     display: true,
                     text: "Distribution Of Played Maps",
+                    fontColor: "white",
                     fontSize: 30,
                     fontFamily: "'Play', sans-serif",
                     fontStyle: 'bold'
@@ -3784,6 +3982,7 @@ function createWinsChart(type){
 
                     display: true,
                     text: "Distribution Of Map Wins",
+                    fontColor: "#72ff72",
                     fontSize: 30,
                     fontFamily: "'Play', sans-serif",
                     fontStyle: 'bold'
@@ -3974,6 +4173,7 @@ function createLossChart(type){
 
                     display: true,
                     text: "Distribution Of Map Losses",
+                    fontColor: "red",
                     fontSize: 30,
                     fontFamily: "'Play', sans-serif",
                     fontStyle: 'bold'
@@ -4123,6 +4323,7 @@ function createBannedChart(type){
           title: {
             display: true,
             text: "Distribution Of Map Bans",
+            fontColor: "red",
             fontSize: 30,
             fontFamily: "'Play', sans-serif",
             fontStyle: 'bold'
@@ -4346,6 +4547,7 @@ function createPickChart(type){
 
                     display: true,
                     text: "Distribution Of Map Picks",
+                    fontColor: "#72ff72",
                     fontSize: 30,
                     fontFamily: "'Play', sans-serif",
                     fontStyle: 'bold'
@@ -4421,7 +4623,9 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
             damageinfo.onmouseover = function(){
                 var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
                 audio.volume = 0.5;
-                audio.play();
+                if(!allsoundsmuted){
+                    audio.play();
+                   }
             }
             let ClutchInfo = document.createElement("button");
             ClutchInfo.id = "ClutchInfo";
@@ -4431,7 +4635,9 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
             ClutchInfo.onmouseover = function(){
                 var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
                 audio.volume = 0.5;
-                audio.play();
+                if(!allsoundsmuted){
+                    audio.play();
+                   }
             }
             let EntryInfo = document.createElement("button");
             EntryInfo.id = "EntryInfo";
@@ -4441,7 +4647,9 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
             EntryInfo.onmouseover = function(){
                 var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
                 audio.volume = 0.5;
-                audio.play();
+                if(!allsoundsmuted){
+                    audio.play();
+                   }
             }
             let UtilityInfo = document.createElement("button");
             UtilityInfo.id = "UtilityInfo";
@@ -4451,7 +4659,9 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
             UtilityInfo.onmouseover = function(){
                 var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
                 audio.volume = 0.5;
-                audio.play();
+                if(!allsoundsmuted){
+                    audio.play();
+                   }
             }
 
 
@@ -4483,7 +4693,9 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
 function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
     audio.volume = 0.5;
-    audio.play();
+    if(!allsoundsmuted){
+        audio.play();
+       }
     var matchobject = matchinfo;
     //console.log("RUNNINGGGGG");
     if (isOverallLeaderboard){
@@ -4834,7 +5046,9 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     document.getElementById("damageInfo").onmouseover = function(){
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
         audio.volume = 0.5;
-        audio.play();
+        if(!allsoundsmuted){
+            audio.play();
+           }
     }
     
 
@@ -4842,7 +5056,9 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
     audio.volume = 0.5;
-    audio.play();
+    if(!allsoundsmuted){
+        audio.play();
+       }
     var matchobject = matchinfo;
     //console.log("RUNNINGGGGG");
     if (isOverallLeaderboard){
@@ -5065,7 +5281,9 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     document.getElementById("ClutchInfo").onmouseover = function(){
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
         audio.volume = 0.5;
-        audio.play();
+        if(!allsoundsmuted){
+            audio.play();
+           }
     }
     
 
@@ -5073,7 +5291,9 @@ function ClutchInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
     audio.volume = 0.5;
-    audio.play();
+    if(!allsoundsmuted){
+        audio.play();
+       }
     var matchobject = matchinfo;
     //console.log("RUNNINGGGGG");
     if (isOverallLeaderboard){
@@ -5273,7 +5493,9 @@ function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     document.getElementById("EntryInfo").onmouseover = function(){
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
         audio.volume = 0.5;
-        audio.play();
+        if(!allsoundsmuted){
+            audio.play();
+           }
     }
     
 
@@ -5281,7 +5503,9 @@ function EntryInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
     audio.volume = 0.5;
-    audio.play();
+    if(!allsoundsmuted){
+        audio.play();
+       }
     var matchobject = matchinfo;
    // console.log("RUNNINGGGGG");
     if (isOverallLeaderboard){
@@ -5517,7 +5741,9 @@ function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     document.getElementById("UtilityInfo").onmouseover = function(){
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
         audio.volume = 0.5;
-        audio.play();
+        if(!allsoundsmuted){
+            audio.play();
+           }
     }
     
 
@@ -5525,7 +5751,9 @@ function UtilityInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 function overallLeaderboard(matchinfo, isOverallLeaderboard,goingbacktooriginal, ummm, DONTASKOKAY){
     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
     audio.volume = 0.5;
-    audio.play();
+    if(!allsoundsmuted){
+        audio.play();
+       }
     //console.log(isOverallLeaderboard+" , "+goingbacktooriginal+" , "+ummm+" , "+DONTASKOKAY);
     document.querySelectorAll(".buttonz").forEach(el=>{el.classList.remove("selected")});
 
@@ -5985,7 +6213,11 @@ var ILIEDLOLL = 3;
     //label.htmlFor = "c"+THEFINALCOUNTERISWEAR; // Associate the label with the checkbox
     label.textContent = "S"+(season); // Set the label text
    // label.fontSize = "10px";
-
+   label.style.color = "#0FFF50"; // Change text color
+   label.style.fontSize = "30px"; // Change font size
+   span.style.height = "60px";
+   span.style.width = "60px";
+   label.style.transform = "translate(-50%,2%)";
     // Append the checkbox and label to the span
     span.appendChild(checkbox);
     span.appendChild(label);
@@ -6006,49 +6238,43 @@ var ILIEDLOLL = 3;
     checkbox.addEventListener("click", () => {
 
         if (checkbox.checked) {
-            ILIEDLOLL-=1;
-        
-          label.style.color = "#0FFF50"; // Change text color
-          label.style.fontSize = "30px"; // Change font size
-          span.style.height = "60px";
-          span.style.width = "60px";
-          label.style.transform = "translate(-50%,2%)";
-          console.log(label.textContent.substring(1));
-          var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
-          console.log(newarray);
-          DotheThing(newarray,true);
-          //span.style.transform = "translate(730px,160px)";
-          //document.getElementById("allInfo").style.width = "480px";
-          lastbooleaniswear = true;
-         // console.log("WTF1 "+ILIEDLOLL);
-         //console.log(THEFINALCOUNTERISWEAR +"= OMGOMGOMOMGOMG");
+            ILIEDLOLL+=1;
+            label.style.color = ""; // Reset text color
+            label.style.fontSize = ""; // Reset font size
+            span.style.height = "50px";
+            span.style.width = "50px";
+            label.style.transform = "translate(-50%,50%)";
+           // console.log("WTFFF "+ILIEDLOLL);
+              //make the finalarrayiswear be removed of the season that is clicked
+              //find the season by doing picksnbans[d].season
+              var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
+              //console.log("but first");
+              console.log(THEFINALARRAYISWEAR);
+              DotheThing(newarray,false,picksnbans);
+  
+    
          
             
 
         } else {
-
-          ILIEDLOLL+=1;
-          label.style.color = ""; // Reset text color
-          label.style.fontSize = ""; // Reset font size
-          span.style.height = "50px";
-          span.style.width = "50px";
-          label.style.transform = "translate(-50%,50%)";
-         // console.log("WTFFF "+ILIEDLOLL);
-            //make the finalarrayiswear be removed of the season that is clicked
-            //find the season by doing picksnbans[d].season
+            ILIEDLOLL-=1;
+        
+            label.style.color = "#0FFF50"; // Change text color
+            label.style.fontSize = "30px"; // Change font size
+            span.style.height = "60px";
+            span.style.width = "60px";
+            label.style.transform = "translate(-50%,2%)";
+            console.log(label.textContent.substring(1));
             var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
-            //console.log("but first");
-           // console.log(THEFINALARRAYISWEAR);
-            
-            if (ILIEDLOLL%3 == 0){
-                THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.filter(item => item.season !== label.textContent.substring(1));
-                DotheThing(picksnbans,true);
-                ccccc++;
-            }
-            else{
-                DotheThing(newarray,false);
+            console.log(newarray);
+            DotheThing(newarray,true);
+            //span.style.transform = "translate(730px,160px)";
+            //document.getElementById("allInfo").style.width = "480px";
+            lastbooleaniswear = true;
+           // console.log("WTF1 "+ILIEDLOLL);
+           //console.log(THEFINALCOUNTERISWEAR +"= OMGOMGOMOMGOMG");
+            ////////
 
-            }
             
           //document.getElementById("mtches").style.transform = "translate(-20px, -155px)";
           //document.getElementById("allInfo").style.width = "480px";
@@ -6108,6 +6334,7 @@ function DotheThing (arrayofallmatches2, removeoradd){
         THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.concat(arrayofallmatches2);
     }
     else{
+        
         THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.filter(item => item.season !== arrayofallmatches2[0].season);
     }
     if(document.getElementById("mtches") && document.getElementById("quickInfo")){

@@ -1,3 +1,10 @@
+
+const params = new URLSearchParams(window.location.search);
+const teamName = params.get('teamName');
+
+
+
+
 var loadGears = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/gears.gif";
 var loadingimage = document.createElement("img");
 loadingimage.src = loadGears;
@@ -12,8 +19,12 @@ var SongNameDivider = document.createElement('div');
 SongNameDivider.className = 'SongNameDivider';
 var mutebtn = document.createElement("button");
 mutebtn.id = "MUTE";
-mutebtn.textContent = "Pause";
-let paused = false;
+mutebtn.textContent = "Resume";
+var muteallsounds = document.createElement("button");
+muteallsounds.id = "MUTEALL";
+muteallsounds.textContent = "MUTE ALL SOUNDS";
+let allsoundsmuted = false;
+let paused = true;
 let audio;
 mutebtn.addEventListener("click", function () {
     if (!paused) {
@@ -27,11 +38,32 @@ mutebtn.addEventListener("click", function () {
         mutebtn.textContent = "Pause";
     }
   });
+  muteallsounds.addEventListener("click", function () {
+    allsoundsmuted = !allsoundsmuted;
+    if(allsoundsmuted){
+        audio.pause();
+        paused = true;
+        muteallsounds.textContent = "RESUME ALL SOUNDS";
+        muteallsounds.style.backgroundColor = "green";
+        muteallsounds.style.borderColor = "green";
+        muteallsounds.style.fontSize = "12px"
+    }
+    else{
+        muteallsounds.textContent = "MUTE ALL SOUNDS";
+        muteallsounds.style.backgroundColor = "red";
+        muteallsounds.style.borderColor = "red";
+        muteallsounds.style.color = "white";
+        muteallsounds.style.fontSize = "13.5px"
+    }
+
+
+  });
 SongNameDivider.appendChild(mutebtn);
 var replayBtn = document.createElement("button");
 replayBtn.id = "REPLAY";
 replayBtn.textContent = "Re-Roll";
 SongNameDivider.appendChild(replayBtn);
+SongNameDivider.appendChild(muteallsounds);
 replayBtn.addEventListener("click",function(){
     SongNameActual.textContent = ' ';
 
@@ -247,12 +279,12 @@ switch(RNGSONG){
 
     case 1:
 
-        if (!paused){
+
              audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/cubanmusic1.wav');
             SongNameActual.textContent = 'Now Playing: cubanmusic1.wav from cs_havana (CSS)';
             audio.volume = 0.5;
-            audio.play();
-        }
+            audio.pause();
+
 
 
         audio.addEventListener('ended', () => {
@@ -268,13 +300,13 @@ switch(RNGSONG){
           });
         break;
     case 2:
-        if(!paused){
+
              audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic1.wav');
             SongNameActual.textContent = 'Now Playing: dustmusic1.wav from de_dust2 (CSS)';
             audio.volume = 0.5;
     
-            audio.play();
-        }
+            audio.pause();
+
 
 
 
@@ -291,13 +323,13 @@ switch(RNGSONG){
           });
         break;
     case 3:
-        if (!paused){
+
              audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/dustmusic2.wav');
             SongNameActual.textContent = 'Now Playing: dustmusic2.wav from de_dust2 (CSS)';
             audio.volume = 0.5;
     
-                    audio.play();
-        }
+            audio.pause();
+
 
 
 
@@ -314,13 +346,13 @@ switch(RNGSONG){
                   });
         break;
     case 4:
-        if(!paused){
+
              audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flamenco.wav');
             SongNameActual.textContent = 'Now Playing: flamenco.wav from de_inferno (CSS)';
             audio.volume = 0.5;
     
-            audio.play();
-        }
+            audio.pause();
+
 
 
         audio.addEventListener('ended', () => {
@@ -330,13 +362,13 @@ switch(RNGSONG){
           });
         break;
     case 5:
-        if (!paused){
+
              audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/guit1.wav');
             SongNameActual.textContent = 'Now Playing: guit1.wav from cs_italy (CSS)';
             audio.volume = 0.5;
     
-            audio.play();
-        }
+            audio.pause();
+
 
 
 
@@ -353,13 +385,13 @@ switch(RNGSONG){
         });
         break;
     case 6:
-        if (!paused){
+
              audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/mirame_radio_thru_wall.wav');
             SongNameActual.textContent = 'Now Playing: mirame_radio_thru_wall.wav from de_inferno (CSS)';
             audio.volume = 0.5;
     
-            audio.play();
-        }
+            audio.pause();
+
 
 
 
@@ -370,13 +402,13 @@ switch(RNGSONG){
           });
         break;
     case 7:
-        if (!paused){
+
              audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/latin.wav');
             SongNameActual.textContent = 'Now Playing: latin.wav from de_inferno (CSS)';
             audio.volume = 0.5;
     
-            audio.play();
-        }
+            audio.pause();
+
 
 
 
@@ -393,39 +425,39 @@ switch(RNGSONG){
           });
         break;
     case 8:
-        if(!paused){
+
              audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/opera.wav');
             SongNameActual.textContent = 'Now Playing: opera.wav from cs_italy (CSS)';
             audio.volume = 0.5;
     
-            audio.play();
-        }
+            audio.pause();
+
         audio.addEventListener('ended', () => {
             // Code to execute after the audio finishes
             SongNameActual.textContent = 'Now Playing: NOTHING';
           });
         break;
         case 9:
-            if(!paused){
-                 audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/strike-2-overpass-techno.wav');
+
+                audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/strike-2-overpass-techno.wav');
                 SongNameActual.textContent = 'Now Playing: techno.wav from de_overpass (CS2)';
                 audio.volume = 0.8;
         
-                audio.play();
-            }
+                audio.pause();
+            
             audio.addEventListener('ended', () => {
                 // Code to execute after the audio finishes
                 SongNameActual.textContent = 'Now Playing: NOTHING';
               });
             break;
             case 10:
-                if(!paused){
-                     audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/detrainMusic(1).wav');
+
+                    audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/detrainMusic(1).wav');
                     SongNameActual.textContent = 'Now Playing: radio.wav from de_train (CS:GO)';
                     audio.volume = 0.5;
             
-                    audio.play();
-                }
+                    audio.pause();
+                
                 audio.addEventListener('ended', () => {
                     // Code to execute after the audio finishes
                     SongNameActual.textContent = 'Now Playing: NOTHING';
@@ -444,6 +476,8 @@ function cancelTyping() {
   typewriterTimeouts.forEach(clearTimeout);
   typewriterTimeouts = [];
 }
+
+
 var notice = document.createElement("div");
 notice.id = "instruction";
 notice.innerHTML = "LOADING YOUR PROFILE...";
@@ -452,8 +486,7 @@ notice.style.fontSize = "80px";
 notice.style.textAlign = "center";
 notice.style.width = "1500px";
 notice.style.transform = "translate(0px)";
-document.getElementById(".BanFileExplorer").appendChild(notice);
-document.getElementById(".BanFileExplorer").appendChild(loadingimage);
+
 //document.getElementById(".BanFileExplorer")
 
 const firebaseConfig = {
@@ -475,13 +508,21 @@ const firebaseConfig = {
     measurementId: "G-VVV04PHRVG"
   
   };
-  
+
 // Initialize Firebase
 
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
-
+if (teamName) {
+    const script = document.createElement('script');
+    script.src = 'BANREADER.js';
+    document.body.appendChild(script);
+   
+  }
+  else{
+    document.getElementById(".BanFileExplorer").appendChild(notice);
+document.getElementById(".BanFileExplorer").appendChild(loadingimage);
 /*
 var RNG = Math.floor(Math.random()*10)+1;
 
@@ -1372,7 +1413,10 @@ function funnyfunction(dataalolfunny,wheretoadd){
                        localStorage.setItem("THETEAMWEARESEARCHING" , dataalolfunny[d]);
                        localStorage.setItem("THETEAMWEARESEARCHINGNAME", datan.name);
                        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/buttonclickrelease.wav');
+                       if(!allsoundsmuted){
                         audio.play();
+                       }
+                        
                        document.getElementById("lgOut").style.transform = "translate(5px,0px)";
 
                        cancelTyping();
@@ -1446,7 +1490,9 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
                 if (audio.paused) {
                     audio.currentTime = 0; // Reset audio to the start
-                    audio.play();          // Play the audio
+                    if(!allsoundsmuted){
+                        audio.play();
+                       }       // Play the audio
                 }
                 });
 
@@ -1495,7 +1541,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                         pfpdiv.style.transform = "translate(170px, -125px)";
                         break;
                     case 11:
-                        pfpdiv.style.transform = "translate(160px, -125px)";
+                        pfpdiv.style.transform = "translate(165px, -125px)";
                         break;
                     case 12:
                         pfpdiv.style.transform = "translate(170px, -125px)";
@@ -1511,6 +1557,15 @@ function funnyfunction(dataalolfunny,wheretoadd){
                         break;
                     case 16:
                         pfpdiv.style.transform = "translate(210px, -125px)"
+                        break;
+                    case 17:
+                        pfpdiv.style.transform = "translate(215px, -125px)"
+                        break;
+                    case 18:
+                        pfpdiv.style.transform = "translate(220px, -125px)"
+                        break;
+                    case 19:
+                        pfpdiv.style.transform = "translate(220px, -125px)"
                         break;
                     default:
                         break;
@@ -1886,7 +1941,9 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
                 if (audio.paused) {
                     audio.currentTime = 0; // Reset audio to the start
-                    audio.play();          // Play the audio
+                    if(!allsoundsmuted){
+                        audio.play();
+                       }       // Play the audio
                 }
                 });
 
@@ -2213,7 +2270,9 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 div.onmouseover = function(){
                     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
                     audio.volume = 0.5;
-                    audio.play();
+                    if(!allsoundsmuted){
+                        audio.play();
+                       }
                     div.style.cursor = "pointer";
                 Tmne.innerHTML = datan.name;
                 div.style.transition = "2s";
@@ -2578,7 +2637,7 @@ function searchForTeams(teamnme){
             return res.json();
         })
         .then((datann) =>{
-            console.log(datann);
+            //console.log(datann);
         if (datann.items.length == 0){
             if(confirm("Your search result got nothing! Maybe you spelt the team name wrong? ")){
 
@@ -2587,8 +2646,8 @@ function searchForTeams(teamnme){
         for(let d = 0; d < datann.items.length; d++){
    
             let datan = datann.items[d];
-            console.log("PEJKFJDSFDS");
-            console.log(datan);
+            //console.log("PEJKFJDSFDS");
+            //console.log(datan);
             let cvrimg = document.createElement('img');
             cvrimg.id = "cvrimg"+d;
             var leadername = undefined;
@@ -2804,7 +2863,9 @@ function searchForTeams(teamnme){
                 
                 var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
                 audio.volume = 0.5;
-                audio.play();
+                if(!allsoundsmuted){
+                    audio.play();
+                   }
                 divider.style.width = 300;
                 cvrimg.width = 300;
                 cvrimg.style.removeProperty('filter');
@@ -3206,4 +3267,5 @@ function pushToSavedTeams(team_id){
     const OMFG = database.ref('USERS/'+name+'/SAVED_TEAMS/');
 
     OMFG.push(team_id);
+}
 }

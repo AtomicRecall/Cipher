@@ -166,12 +166,33 @@ body {
 #anubisimage{
   opacity: 60%;
 }
+#banSimulator{
+  position: absolute;
+  transform: translate(260px,-100px);
+}
+#banCommunication{
+  width: 397px;
+  height: 572px;
+  background-color:#444444;
+  display: flex;
+  justify-self: center;
+  top: 75px;
+  position: absolute;
+}
 .allInfoDivs{
   width: 230px;
   opacity: 0;
   height: 130px;
   position: absolute;
   transform: translate(950px,330px);
+}
+#MUTEALL{
+  color:white;
+  position: absolute;
+  background-color: red;
+  border-color: red;
+  transform:translate(-93px,10px);
+  font-size: 13.5px;
 }
 #anubis{
   filter: drop-shadow(.5px 0.5px 0.1px black);
