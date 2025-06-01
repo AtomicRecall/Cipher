@@ -1104,7 +1104,7 @@ function ontop(){
                 teamname.id = "teamname";
                 teamname.style.opacity = 1;
                 
-                teamname.innerHTML = (localStorage.getItem("danameyo")) ? "LAST PLAYED FOR: "+localStorage.getItem("danameyo")+" in division "+localStorage.getItem("division") : " ";
+                teamname.innerHTML = "LAST PLAYED FOR: ";
 
                 if(localStorage.getItem('team-id') != null){
                  
@@ -2563,7 +2563,7 @@ function getTeamNameDoc(name, offsett, docelement){
                             console.log("ohhh you in team1 big boy :)");
                             console.log(data.items[key]);
                             //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction1.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
-                            document.getElementById(docelement).innerHTML="LAST PLAYED FOR: "+data.items[key].teams.faction1.nickname+"\n in division "+localStorage.getItem("division");
+                           
                             document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction1.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+ssn+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
 
                             localStorage.setItem("danameyo",data.items[key].teams.faction1.nickname);
@@ -2581,7 +2581,7 @@ function getTeamNameDoc(name, offsett, docelement){
                     }
                     console.log("just guessing, you probably in team2 right now big boy :)");
                     //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction2.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
-                    document.getElementById(docelement).innerHTML="LAST PLAYED FOR: "+data.items[key].teams.faction2.nickname+"\n in division "+localStorage.getItem("division");
+               
                     document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction2.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+ssn+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
 
                     localStorage.setItem("danameyo",data.items[key].teams.faction2.nickname);
@@ -3000,7 +3000,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
 
         case "Main":
         //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
-        return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=251a5e40-772f-46b7-ba71-382459449e68&limit=20`,{
+        return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=75c02ae0-ea10-4244-b221-a39073527bab&limit=20`,{
             method: 'GET',
             headers:{
                 'Access-Control-Allow-Origin' : '*',
@@ -3087,7 +3087,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
         break;
         case "Advanced":
                 //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
-            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=bb5a00bd-411c-4618-a156-92374635093a&limit=20`,{
+            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=26f3c678-a47a-4752-931c-3e46721b8b95&limit=20`,{
                 method: 'GET',
                 headers:{
                     'Access-Control-Allow-Origin' : '*',
@@ -3171,7 +3171,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
                 break;       
          case "Intermediate":
                 //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
-            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=5427b03e-92b7-4332-9452-062f24da90bc&limit=20`,{
+            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=6ce0d130-15fd-4d65-acb5-7fb8d6c9a5c9&limit=20`,{
                 method: 'GET',
                 headers:{
                     'Access-Control-Allow-Origin' : '*',

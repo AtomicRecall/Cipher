@@ -232,8 +232,8 @@ image_links[7] = "https://overgear.com/guides/wp-content/uploads/2025/02/cs2-all
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-//Train = 7;
-var bans = new Array(8).fill(0);
+//Train = 6;
+var bans = new Array(7).fill(0);
 
 //ancient = 0;
 //anubis = 1;
@@ -242,8 +242,8 @@ var bans = new Array(8).fill(0);
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-//Train = 7;
-var picks = new Array(8).fill(0);
+//Train = 6;
+var picks = new Array(7).fill(0);
 
 //ancient = 0;
 //anubis = 1;
@@ -252,8 +252,8 @@ var picks = new Array(8).fill(0);
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-//Train = 7;
-var played = new Array(8).fill(0);
+//Train = 6;
+var played = new Array(7).fill(0);
 
 //ancient = 0;
 //anubis = 1;
@@ -262,8 +262,8 @@ var played = new Array(8).fill(0);
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-//Train = 7;
-var L = new Array(8).fill(0);
+//Train = 6;
+var L = new Array(7).fill(0);
 
 //ancient = 0;
 //anubis = 1;
@@ -272,8 +272,8 @@ var L = new Array(8).fill(0);
 //Mirage = 4;
 //Nuke = 5;
 //Verigo = 6;
-//Train = 7;
-var W = new Array(8).fill(0);
+//Train = 6;
+var W = new Array(7).fill(0);
 var picksnbans = [];
 document.getElementById('h3').style.opacity = 1;
 document.getElementById('h3').onmouseover = function(){
@@ -408,7 +408,29 @@ fetch(`https://open.faceit.com/data/v4/teams/${POP}`, {
     console.error('Error:', error);
 });
 }
+let timerInterval;
+function startTimer() {
+  clearInterval(timerInterval);
+  timeLeft = 60;
 
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }
+
+  document.getElementById("TimeLeft").textContent = formatTime(timeLeft);
+
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById("TimeLeft").textContent = formatTime(timeLeft);
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      alert("Time's up!");
+    }
+  }, 1000);
+}
 function banSimulatorr(){
     if(document.getElementById("mtches") && document.getElementById("quickInfo") && document.getElementById("allInfo") && document.getElementById("overallButtonDivider") && document.getElementById("graphdiv")){
         document.getElementById("mtches").style.opacity = "0";
@@ -443,61 +465,1325 @@ function banSimulatorr(){
     //2. initalize the place where the bans will happen
     //3. Actual Ban logic
 
+    var which = "bo1";
+    //what type of ban?
+    var ques = document.createElement("div");
+    ques.textContent = "Best of How Much?";
+    ques.id="one";
+    communication.appendChild(ques);
+    var bowhatdiv = document.createElement("div");
+    bowhatdiv.id="two";
+
+    var bo3btn = document.createElement("button");
+    bo3btn.textContent = "bo3";
+    bo3btn.style.fontSize = "80px";
+    bowhatdiv.appendChild(bo3btn);
+    var bo1btn = document.createElement("button");
+    bo1btn.textContent = "bo1";
+    bo1btn.style.fontSize = "80px";
+    bowhatdiv.appendChild(bo1btn);
+    communication.appendChild(bowhatdiv);
+    var quesDiv = document.createElement("div");
+    communication.appendChild(quesDiv);
+    quesDiv.style.opacity = "0";
+    bo3btn.onclick = function(){
+        which = "bo3";
+        bo1btn.remove();
+        ques.remove();
+        quesDiv.style.opacity = "1";
+        
+    }
+    bo1btn.onclick = function(){
+        which = "bo1";
+        bo3btn.remove();
+         ques.remove();
+        quesDiv.style.opacity = "1";
+
+        
+    }
+
     //1. ask the user who should go first
     var question = document.createElement("div");
     question.textContent = "Who should go first?";
+    question.style.fontSize = "25px";
+    question.style.fontWeight = "bold";
     communication.appendChild(question);
 
     var btn1 = document.createElement("button");
     btn1.id = "but1";
     btn1.style.height = "50px";
     btn1.textContent = localStorage.getItem("THETEAMWEARESEARCHINGNAME")+"?";
-    communication.appendChild(btn1);
+    
 
     var btn2 = document.createElement("button");
     btn2.id = "but2";
     btn2.style.height = "50px";
     btn2.textContent = "YOU?";
-    communication.appendChild(btn2);
-
+    
+    quesDiv.appendChild(question);
+    quesDiv.appendChild(btn1);
+    quesDiv.appendChild(btn2);
 
     btn2.onclick = function(){
         question.remove();
         //2. initalize the place where the bans will happen
-        banPlaceInit();
+        banPlaceInit("null",which);
     }
     btn1.onclick = function(){
         question.remove();
         //2. initalize the place where the bans will happen
-        banPlaceInit(localStorage.getItem("THETEAMWEARESEARCHINGNAME"));
+        banPlaceInit(localStorage.getItem("THETEAMWEARESEARCHINGNAME"),which);
 
     }
 
 
 }
-function banPlaceInit(whoFirst){
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+function unHighlightMap(maps,oldmaps,pickORnot){
+    console.log("CALLED unHighlightMap with: ");
+    console.log(maps);
+    console.log("----- END OF MAPS");
+    console.log("and with: ");
+    console.log(oldmaps);
+    console.log("----END OF OLDMAPS");
+    var banned = oldmaps.find((item) => !maps.includes(item));
+
+    if (maps && banned) {
+        var divPrefix = banned.toLowerCase().slice(0, 3); // crude: d2, mir, nuk...
+        document.getElementById(`${divPrefix}div`).style.filter = "grayscale(1)";
+        document.getElementById(`${divPrefix}divName`).style.color = "#747575";
+        document.getElementById(`${divPrefix}pOb`).style.color = "#747575";
+        document.getElementById(`${divPrefix}pOb`).classList.add("BANNED");
+        document.getElementById(`${divPrefix}div`).style.pointerEvents = "none";
+        if(pickORnot){
+            document.getElementById(`${divPrefix}div`).style.filter = "drop-shadow(0 -0mm 2mm rgb(255, 74, 4))";
+            
+            document.getElementById(`${divPrefix}pOb`).textContent = "PICK";
+        }
+        
+    }
+}
+
+async function banPlaceInit(whoFirst, bestofwat){
     //2. initalize the place where the bans will happen
     document.getElementById("but1").remove();
     document.getElementById("but2").remove();
+    //document.getElementById("one").remove();
+    document.getElementById("two").remove();
+    document.getElementById("banCommunication").style.backgroundColor = "#0A0C0C";
 
-    var firstPerson = (whoFirst) ? whoFirst : "Your";
+    var firstPerson = (whoFirst !== "null") ? whoFirst : "Your";
 
     var WhosTurnDiv = document.createElement("div");
-    WhosTurnDiv.textContent = (firstPerson !== "Your") ? firstPerson+"'s Turn to ban a map" : "Your turn to ban a map";
+    WhosTurnDiv.textContent = (firstPerson !== "Your") ? firstPerson+"'s turn to ban a map" : firstPerson+" turn to ban a map";
+    WhosTurnDiv.style.height = "20px";
+    WhosTurnDiv.style.width = "1000px";
+    WhosTurnDiv.id = "WhosTurnDiv";
     document.getElementById("banCommunication").appendChild(WhosTurnDiv);
-    var TimeLeftDiv = document.createElement("div");
+
+    var TimeLeftDiv = document.createElement("timer");
     TimeLeftDiv.id = "TimeLeft";
+    TimeLeftDiv.innerHTML = "00:60";
+    document.getElementById("banCommunication").appendChild(TimeLeftDiv);
+
     var GameDiv = document.createElement("div");
-    GameDiv.id = "game";
-    GameDiv.textContent = "Game 1";
-    var BanSimulatorDivider = document.createElement("div");
-    BanSimulatorDivider.id = "SimulatorBan";
-    GameDiv.appendChild(BanSimulatorDivider);
+    GameDiv.id = "GameDiv";
+
+    //7 dividers of maps, each divider:
+    //      map picture, map name next to match picture, button on the right-hand-side (when needed to be shown)
+    var d2div = document.createElement("div");
+    d2div.id = "dusdiv";
+    d2div.classList.add("banDiv");
+    var d2divPic = document.createElement("img");
+    d2divPic.id = "dusdivPic";
+    d2divPic.classList.add("banPic");
+    d2divPic.src = image_links[3];
+    d2div.appendChild(d2divPic);
+    var d2divName = document.createElement("div");
+    d2divName.id = "dusdivName";
+    d2divName.textContent = "Dust2";
+    d2divName.classList.add("banName");
+    d2div.appendChild(d2divName);
+    var d2pOb = document.createElement("button");
+    d2pOb.id = "duspOb";
+    d2pOb.textContent = "BAN";
+    d2pOb.classList.add("banBtn");
+    d2div.appendChild(d2pOb);
+    GameDiv.appendChild(d2div);
+
+    var mirdiv = document.createElement("div");
+    mirdiv.id = "mirdiv";
+    mirdiv.classList.add("banDiv");
+    var mirdivPic = document.createElement("img");
+    mirdivPic.id = "mirdivPic";
+    mirdivPic.classList.add("banPic");
+    mirdivPic.src = image_links[4];
+    mirdiv.appendChild(mirdivPic);
+    var mirdivName = document.createElement("div");
+    mirdivName.id = "mirdivName";
+    mirdivName.textContent = "Mirage";
+    mirdivName.classList.add("banName");
+    mirdiv.appendChild(mirdivName);
+    var mirpOb = document.createElement("button");
+    mirpOb.id = "mirpOb";
+    mirpOb.textContent = "BAN";
+    mirpOb.classList.add("banBtn");
+    mirdiv.appendChild(mirpOb);
+    GameDiv.appendChild(mirdiv);
     
+    var nukdiv = document.createElement("div");
+    nukdiv.id = "nukdiv";
+    nukdiv.classList.add("banDiv");
+    var nukdivPic = document.createElement("img");
+    nukdivPic.id = "nukdivPic";
+    nukdivPic.classList.add("banPic");
+    nukdivPic.src = image_links[5];
+    nukdiv.appendChild(nukdivPic);
+    var nukdivName = document.createElement("div");
+    nukdivName.id = "nukdivName";
+    nukdivName.textContent = "Nuke";
+    nukdivName.classList.add("banName");
+    nukdiv.appendChild(nukdivName);
+    var nukpOb = document.createElement("button");
+    nukpOb.id = "nukpOb";
+    nukpOb.textContent = "BAN";
+    nukpOb.classList.add("banBtn");
+    nukdiv.appendChild(nukpOb);
+    GameDiv.appendChild(nukdiv);
+    
+    var ancdiv = document.createElement("div");
+    ancdiv.id = "ancdiv";
+    ancdiv.classList.add("banDiv");
+    var ancdivPic = document.createElement("img");
+    ancdivPic.id = "ancdivPic";
+    ancdivPic.classList.add("banPic");
+    ancdivPic.src = image_links[0];
+    ancdiv.appendChild(ancdivPic);
+    var ancdivName = document.createElement("div");
+    ancdivName.id = "ancdivName";
+    ancdivName.textContent = "Ancient";
+    ancdivName.classList.add("banName");
+    ancdiv.appendChild(ancdivName);
+    var ancpOb = document.createElement("button");
+    ancpOb.id = "ancpOb";
+    ancpOb.textContent = "BAN";
+    ancpOb.classList.add("banBtn");
+    ancdiv.appendChild(ancpOb);
+    GameDiv.appendChild(ancdiv);
+
+    var tradiv = document.createElement("div");
+    tradiv.id = "tradiv";
+    tradiv.classList.add("banDiv");
+    var tradivPic = document.createElement("img");
+    tradivPic.id = "tradivPic";
+    tradivPic.classList.add("banPic");
+    tradivPic.src = image_links[7];
+    tradiv.appendChild(tradivPic);
+    var tradivName = document.createElement("div");
+    tradivName.id = "tradivName";
+    tradivName.textContent = "Train";
+    tradivName.classList.add("banName");
+    tradiv.appendChild(tradivName);
+    var trapOb = document.createElement("button");
+    trapOb.id = "trapOb";
+    trapOb.textContent = "BAN";
+    trapOb.classList.add("banBtn");
+    tradiv.appendChild(trapOb);
+    GameDiv.appendChild(tradiv);
+
+    var infdiv = document.createElement("div");
+    infdiv.id = "infdiv";
+    infdiv.classList.add("banDiv");
+    var infdivPic = document.createElement("img");
+    infdivPic.id = "infdivPic";
+    infdivPic.classList.add("banPic");
+    infdivPic.src = image_links[2];
+    infdiv.appendChild(infdivPic);
+    var infdivName = document.createElement("div");
+    infdivName.id = "infdivName";
+    infdivName.textContent = "Inferno";
+    infdivName.classList.add("banName");
+    infdiv.appendChild(infdivName);
+    var infpOb = document.createElement("button");
+    infpOb.id = "infpOb";
+    infpOb.textContent = "BAN";
+    infpOb.classList.add("banBtn");
+    infdiv.appendChild(infpOb);
+    GameDiv.appendChild(infdiv);
+    
+    var anudiv = document.createElement("div");
+    anudiv.id = "anudiv";
+    anudiv.classList.add("banDiv");
+    var anudivPic = document.createElement("img");
+    anudivPic.id = "anudivPic";
+    anudivPic.classList.add("banPic");
+    anudivPic.src = image_links[1];
+    anudiv.appendChild(anudivPic);
+    var anudivName = document.createElement("div");
+    anudivName.id = "anudivName";
+    anudivName.textContent = "Anubis";
+    anudivName.classList.add("banName");
+    anudiv.appendChild(anudivName);
+    var anupOb = document.createElement("button");
+    anupOb.id = "anupOb";
+    anupOb.textContent = "BAN";
+    anupOb.classList.add("banBtn");
+    anudiv.appendChild(anupOb);
+    GameDiv.appendChild(anudiv);
+    startTimer();
     document.getElementById("banCommunication").appendChild(GameDiv);
+    localStorage.removeItem("BC");
+    localStorage.removeItem("PC");
+    var maps = ['Dust2','Mirage','Nuke','Ancient','Train','Inferno','Anubis'];
+    var BC = calculateBC();
+    var PC = calculatePC();
+    if(whoFirst !== "null"){
+         
+        for(let d = 1; d <= 7; d++){
+
+            if(d % 2 !== 0){  
+
+
+                switch(bestofwat){
+                
+                    case "bo1":
+                            await delay(3000); // Wait 3 seconds before continuing
+                            var oldmaps = [...maps];
+                            maps = bestof1(d, maps,BC);
+                            unHighlightMap(maps,oldmaps);        
+                        break;
+                    case "bo3":
+                        document.getElementById("WhosTurnDiv").textContent = (d == 3) ?  localStorage.getItem("THETEAMWEARESEARCHINGNAME")+"'s turn to pick a map" : localStorage.getItem("THETEAMWEARESEARCHINGNAME")+"'s turn to ban a map"; 
+                        await delay(3000); // Wait 3 seconds before continuing
+                        var oldmapss = [...maps];
+                        maps = bestof3(d,maps,BC,PC);
+                        (d == 3) ? unHighlightMap(maps,oldmapss,true) : unHighlightMap(maps,oldmapss,false); 
+                    break;
+                    case "bo5":
+                        bestof5(d,maps);
+                        maps = bestof5(d,maps);
+                    break;
+                }
+            }
+            else{
+                  switch(bestofwat){
+                    case "bo1":
+                        var bannedMap = await  UserClick(BC,PC,false);
+                        maps = maps.filter(name => name!== bannedMap);
+                    break;
+                    
+                    case "bo3":
+                        document.getElementById("WhosTurnDiv").textContent = (d == 4 ) ? "Your turn to pick a map" : "Your turn to ban a map";  
+                        var mapToRemove = (d == 4) ? await UserClick(BC,PC,true) : await  UserClick(BC,PC,false);
+                        maps = maps.filter(name => name!== mapToRemove);
+
+                    break;
+                    case "bo5":
+                    break;
+                }
+                continue;
+
+            }
+        }
+    }
+    else{
+        
+        for(let d = 1; d <= 7; d++){
+            
+            if(d % 2 === 0){  
+
+                switch(bestofwat){
+                    
+                    case "bo1":
+                         document.getElementById("WhosTurnDiv").textContent = localStorage.getItem("THETEAMWEARESEARCHINGNAME")+"'s turn to ban a map";
+
+                        await delay(3000); // Wait 3 seconds before continuing
+                        var oldmaps = [...maps];
+                        maps = bestof1(d,maps,BC);
+                        unHighlightMap(maps,oldmaps,false);
+                        startTimer(); // Restart timer each time user does something
+                                
+                      
+                    break;
+                    case "bo3":
+                         document.getElementById("WhosTurnDiv").textContent = (d == 4) ?  localStorage.getItem("THETEAMWEARESEARCHINGNAME")+"'s turn to pick a map" : localStorage.getItem("THETEAMWEARESEARCHINGNAME")+"'s turn to ban a map"; 
+
+                        await delay(3000); // Wait 3 seconds before continuing
+                        var oldmapss = [...maps];
+                        maps = bestof3(d,maps,BC,PC);
+                        (d == 4) ? unHighlightMap(maps,oldmapss,true) : unHighlightMap(maps,oldmapss,false); 
+                        startTimer(); // Restart timer each time user does something
+                    break;
+                    case "bo5":
+                        
+                        maps = bestof5(d,maps);
+                    break;
+                }
+            }
+            else{
+                
+                switch(bestofwat){
+                    case "bo1":
+                        document.getElementById("WhosTurnDiv").textContent = "Your turn to ban a map";
+                        var bannedMap = await UserClick(BC,PC,false);
+                        maps = maps.filter(name => name!== bannedMap);
+                         startTimer(); // Restart timer each time user does something
+                    break;
+                    
+                    case "bo3":
+                        document.getElementById("WhosTurnDiv").textContent = (d == 3) ? "Your turn to pick a map" : "Your turn to ban a map";  
+
+                        var mapToRemove = (d == 3) ? await UserClick(BC,PC,true) : await UserClick(BC,PC,false);
+                        maps = maps.filter(name => name!== mapToRemove);
+                         startTimer(); // Restart timer each time user does something
+
+                    break;
+                    case "bo5":
+                    break;
+                }
+
+
+                    continue;
+            }
+        }
+    }
+
+
+}
+async function UserClick(BC,PC, pickOrNot) {
+                                    var buttons = document.querySelectorAll(".banBtn");
+                                    // Activate buttons for user interaction
+                                    buttons.forEach((btn) => {
+                                        if(!(btn.classList.contains("BANNED"))){
+                                                btn.style.color = "#FF5500"; // orange
+                                                btn.style.cursor = "pointer";
+                                                btn.style.pointerEvents = "auto";
+                                                if(pickOrNot){
+                                                    btn.textContent = "PICK";
+                                                }
+                                                else{
+                                                    btn.textContent = "BAN";
+                                                }
+                                                btn.addEventListener("mouseover", () => {
+                                                    btn.style.backgroundColor = "#e14b0077";
+                                                });
+
+                                                btn.addEventListener("mouseout", () => {
+                                                    btn.style.backgroundColor = "";
+                                                });
+
+                                        }
+
+                                    });
+
+
+  return new Promise((resolve) => {
+    const buttons = document.querySelectorAll(".banBtn");
+    
+    // Define the click handler
+    const handler = (e) => {
+      const id = e.currentTarget.id;
+      let map;
+      let index;
+      // Clean up listeners and disable buttons
+      buttons.forEach((btn) => {
+        btn.removeEventListener("click", handler);
+        btn.style.cursor = "default";
+        btn.style.pointerEvents = "none";
+        btn.style.backgroundColor = "";
+        btn.style.color = "#585b5b"; // back to gray
+         if(!(btn.classList.contains("BANNED"))){
+            btn.textContent = "BAN";
+         }
+        
+      });
+
+      // Determine which map was clicked
+      switch (id) {
+        case "duspOb": map = "Dust2"; index = 0; break;
+        case "mirpOb": map = "Mirage"; index = 1; break;
+        case "nukpOb": map = "Nuke"; index = 2;break;
+        case "ancpOb": map = "Ancient"; index = 3;break;
+        case "trapOb": map = "Train"; index = 4;break;
+        case "infpOb": map = "Inferno"; index = 5;break;
+        case "anupOb": map = "Anubis"; index = 6; break;
+        default: map = null; index = null; break;
+      }
+
+      var defaultshit = ['Dust2','Mirage','Nuke','Ancient','Train','Inferno','Anubis'];
+      console.log("PICK OR NOT MUTHER FUCKER "+pickOrNot);
+      unHighlightMap(defaultshit.filter(item => item !== map), defaultshit, pickOrNot);
+       
+       BC[index] = "0%";
+       PC[index] = "0%";
+      localStorage.setItem("BC", JSON.stringify(BC));
+      localStorage.setItem("PC", JSON.stringify(PC));
+      resolve(map);
+    };
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", handler);
+      
+    });
+   
+  });
+  
 }
 
 
+function bestof1(numround, maps,BC){
+    //Every round means every time both teams made a “move” (banned or picked)
+    //Each round, the team calculates their PC (pick-chance) and a BC (ban-chance) for each map,
+    //var PC = new Array(maps.length);
+
+    /*
+    100% = the team would 100% Ban or Pick map (only one of the things can have this)
+    50 % = if the 100% is taken, use this one, every other 50% will have an even chance to be chosen
+    0 % = do not under any circumstances pick or ban this map.
+
+    Picks
+        100% = is most picked map
+        75% = is most played map
+        50% = map that they won the most 
+        0% = everything else 
+    Bans
+        100 % = is map most banned
+        75 % = is least played
+        50 % = map lost the most 
+        0 % = everything else 
+
+        This is a bo1 so I will only calculate the BC until the last round. The opposite of the map that is picked is the one that is banned.
+
+    */
+  
+
+    /*
+    If 100% is there, then do the 100%, if multiple 100%, FIFO
+    if there is 75 AND 50, then do 1-5 rng, 1-3 does the 75% and 4-5 does the 50%, 
+    if only 75 or only 50, do an even chance between all of them 
+    */
+
+    switch(numround){
+        case 1:
+            return BAN(maps,BC);
+        case 2:
+            return BAN(maps,BC);
+        case 3:
+            return BAN(maps,BC);
+        case 4:
+            return BAN(maps,BC);
+        case 5:
+            return BAN(maps,BC);
+        case 6:
+            return BAN(maps,BC);
+        case 7:
+            
+       }
+    
+}
+
+function calculateBC(){
+
+      //PC AND BC USE D2,MIR,NUKE,ANCIENT,TRAIN,INFERNO,ANUBIS IN THAT ORDER
+    //EVERYTHING ELSE USES ANCIENT,ANUBIS,INFERNO,D2,MIRAGE,NUKE,VERTIGO,TRAIN
+        if((!(localStorage.getItem("BC")))){
+           var BC = new Array(7).fill("75%");
+            //FUCK WHAT I WAS DOING BEFORE LOL
+            //TOP 3 BANNED MAPS = 100%
+            //MOST WON MAP, AND MOST PICKED MAP ARE 0%
+            //LEAST PLAYED = 75%
+            //MOST LOST AND LEAST PICKED = 50%
+            var top3Indices = bans
+                .map((value, index) => ({ index, value }))
+                .sort((a, b) => b.value - a.value)  // Sort descending by value
+                .slice(0, 3)                        // Take top 3
+                .map(item => item.index);          // Extract only the indices
+
+            console.log(top3Indices);
+            for (var index of top3Indices){
+                    switch(index){
+                    case 0:
+                        BC[3] = "100%";
+                    
+                        break;
+                    case 1:
+                    
+                        BC[6] = "100%";
+                    
+                        break;
+                    case 2:
+                    
+                        BC[5] = "100%";
+                    
+                        break;
+                    case 3:
+                    
+                        BC[0] = "100%";
+                
+                        break;
+                    case 4:
+                    
+                        BC[1] = "100%";
+                    
+                        break;
+                    case 5:
+                    
+                        BC[2] = "100%";
+                    
+                        break;
+                    case 6:
+                    
+                        BC[4] = "100%";
+        
+                        break;
+                    
+                }
+            }
+        
+            var leastplayed = played.indexOf(Math.min(...played));
+                    switch(leastplayed){
+                    case 0:
+                        if(BC[3]!=="100%") BC[3] = "75%";
+                        
+                    
+                        break;
+                    case 1:
+                        if(BC[6]!=="100%") BC[6] = "75%";
+
+                    
+                        break;
+                    case 2:
+                        if(BC[5]!=="100%") BC[5] = "75%";
+        
+                    
+                        break;
+                    case 3:
+                        if(BC[0]!=="100%") BC[0] = "75%";
+
+                
+                        break;
+                    case 4:
+                        if(BC[1]!=="100%") BC[1] = "75%";
+
+                    
+                        break;
+                    case 5:
+                        if(BC[2]!=="100%") BC[2] = "75%";
+
+                    
+                        break;
+                    case 6:
+                        if(BC[4]!=="100%") BC[4] = "75%";
+
+        
+                        break;
+                    
+                }
+                var mostpicked = picks.indexOf(Math.max(...picks));
+                    switch(mostpicked){
+                    case 0:
+                       if(BC[3]!=="50%" || BC[3]!== "75%") BC[3] = "0%";
+
+                    
+                        break;
+                    case 1:
+                        if(BC[6]!=="50%" || BC[6]!== "75%") BC[6] = "0%";
+                       
+
+                    
+                        break;
+                    case 2:
+                        if(BC[5]!=="50%" || BC[5]!== "75%") BC[5] = "0%";
+                       
+        
+                    
+                        break;
+                    case 3:
+                        if(BC[0]!=="50%" || BC[0]!== "75%") BC[0] = "0%";
+                       
+                    
+                
+                        break;
+                    case 4:
+                        if(BC[1]!=="50%" || BC[1]!== "75%") BC[1] = "0%";
+                  
+                
+                    
+                        break;
+                    case 5:
+                        if(BC[2]!=="50%" || BC[2]!== "75%") BC[2] = "0%";
+                    
+            
+                    
+                        break;
+                    case 6:
+                        if(BC[4]!=="50%" || BC[4]!== "75%") BC[4] = "0%";
+                
+                
+        
+                        break;
+                    
+                }
+                var mostwon = W.indexOf(Math.max(...W));
+                    switch(mostwon){
+                    case 0:
+                        if(BC[3]!=="100%") BC[3] = "0%";
+                    
+                        break;
+                    case 1:
+                    
+                        if(BC[6]!=="100%") BC[6] = "0%";
+                    
+                        break;
+                    case 2:
+                    
+                    if(BC[5]!=="100%") BC[5] = "0%";
+                    
+                        break;
+                    case 3:
+                    
+                        if(BC[0]!=="100%") BC[0] = "0%";
+                
+                        break;
+                    case 4:
+                    
+                        if(BC[1]!=="100%") BC[1] = "0%";
+                    
+                        break;
+                    case 5:
+                    
+                        if(BC[2]!=="100%") BC[2] = "0%";
+                    
+                        break;
+                    case 6:
+                    
+                        if(BC[4]!=="100%") BC[4] = "0%";
+        
+                        break;
+                    
+                }
+                var leastpicked = picks.indexOf(Math.min(...picks));
+                    switch(leastpicked){
+                    case 0:
+                        if(BC[3]!=="100%") BC[3] = "50%";
+                    
+                        break;
+                    case 1:
+                    
+                        if(BC[6]!=="100%") BC[6] = "50%";
+                    
+                        break;
+                    case 2:
+                    
+                    if(BC[5]!=="100%") BC[5] = "50%";
+                    
+                        break;
+                    case 3:
+                    
+                    if(BC[0]!=="100%") BC[0] = "50%";
+                
+                        break;
+                    case 4:
+                    
+                    if(BC[1]!=="100%") BC[1] = "50%";
+                    
+                        break;
+                    case 5:
+                    
+                        if(BC[2]!=="100%") BC[2] = "50%";
+                    
+                        break;
+                    case 6:
+                    
+                        if(BC[4]!=="100%") BC[4] = "50%";
+        
+                        break;
+                    
+                }
+                var mostlost = L.indexOf(Math.max(...L));
+                    switch(mostlost){
+                    case 0:
+                        BC[3] = "50%";
+                    
+                        break;
+                    case 1:
+                    
+                        BC[6] = "50%";
+                    
+                        break;
+                    case 2:
+                    
+                        BC[5] = "50%";
+                    
+                        break;
+                    case 3:
+                    
+                        BC[0] = "50%";
+                
+                        break;
+                    case 4:
+                    
+                        BC[1] = "50%";
+                    
+                        break;
+                    case 5:
+                    
+                        BC[2] = "50%";
+                    
+                        break;
+                    case 6:
+                    
+                        BC[4] = "50%";
+        
+                        break;
+                    
+                }
+                console.log("CREATED BC ");
+                console.log(BC);
+                localStorage.setItem("BC", JSON.stringify(BC));
+        }
+        else{
+            console.log("INHERITED BC");
+            
+            BC = JSON.parse(localStorage.getItem("BC"));
+            console.log(BC);
+        }
+        return BC;
+}
+function calculatePC(){
+
+      //PC AND BC USE D2,MIR,NUKE,ANCIENT,TRAIN,INFERNO,ANUBIS IN THAT ORDER
+    //EVERYTHING ELSE USES ANCIENT,ANUBIS,INFERNO,D2,MIRAGE,NUKE,VERTIGO,TRAIN
+        if((!(localStorage.getItem("PC")))){
+           var PC = new Array(7).fill("25%");
+            
+            //TOP 3 PICKED MAPS = 100%
+            //MOST LOST MAP, AND MOST BANNED MAP ARE 0%
+            //MOST PLAYED = 75%
+            //MOST WON AND LEAST BANNED = 50%
+            var top3Indices = picks
+                .map((value, index) => ({ index, value }))
+                .sort((a, b) => b.value - a.value)  // Sort descending by value
+                .slice(0, 3)                        // Take top 3
+                .map(item => item.index);          // Extract only the indices
+
+            console.log(top3Indices);
+            for (var index of top3Indices){
+                    switch(index){
+                    case 0:
+                        PC[3] = "100%";
+                    
+                        break;
+                    case 1:
+                    
+                        PC[6] = "100%";
+                    
+                        break;
+                    case 2:
+                    
+                        PC[5] = "100%";
+                    
+                        break;
+                    case 3:
+                    
+                        PC[0] = "100%";
+                
+                        break;
+                    case 4:
+                    
+                        PC[1] = "100%";
+                    
+                        break;
+                    case 5:
+                    
+                        PC[2] = "100%";
+                    
+                        break;
+                    case 6:
+                    
+                        PC[4] = "100%";
+        
+                        break;
+                    
+                }
+            }
+        
+            var mostplayed = played.indexOf(Math.max(...played));
+                    switch(mostplayed){
+                    case 0:
+                        if(PC[3]!=="100%") PC[3] = "75%";
+                        
+                    
+                        break;
+                    case 1:
+                        if(PC[6]!=="100%") PC[6] = "75%";
+
+                    
+                        break;
+                    case 2:
+                        if(PC[5]!=="100%") PC[5] = "75%";
+        
+                    
+                        break;
+                    case 3:
+                        if(PC[0]!=="100%") PC[0] = "75%";
+
+                
+                        break;
+                    case 4:
+                        if(PC[1]!=="100%") PC[1] = "75%";
+
+                    
+                        break;
+                    case 5:
+                        if(PC[2]!=="100%") PC[2] = "75%";
+
+                    
+                        break;
+                    case 6:
+                        if(PC[4]!=="100%") PC[4] = "75%";
+
+        
+                        break;
+                    
+                }
+                var mostBanned = bans.indexOf(Math.max(...bans));
+                    switch(mostBanned){
+                    case 0:
+                        PC[3] = "0%";
+
+                    
+                        break;
+                    case 1:
+                        PC[6] = "0%";
+                       
+
+                    
+                        break;
+                    case 2:
+                        PC[5] = "0%";
+                       
+        
+                    
+                        break;
+                    case 3:
+                        PC[0] = "0%";
+                       
+                    
+                
+                        break;
+                    case 4:
+                         PC[1] = "0%";
+                  
+                
+                    
+                        break;
+                    case 5:
+                        PC[2] = "0%";
+                    
+            
+                    
+                        break;
+                    case 6:
+                        PC[4] = "0%";
+                
+                
+        
+                        break;
+                    
+                }
+                var mostLost = L.indexOf(Math.max(...L));
+                    switch(mostLost){
+                    case 0:
+                        if(PC[3]!=="100%") PC[3] = "0%";
+                    
+                        break;
+                    case 1:
+                    
+                        if(PC[6]!=="100%") PC[6] = "0%";
+                    
+                        break;
+                    case 2:
+                    
+                    if(PC[5]!=="100%") PC[5] = "0%";
+                    
+                        break;
+                    case 3:
+                    
+                        if(PC[0]!=="100%") PC[0] = "0%";
+                
+                        break;
+                    case 4:
+                    
+                        if(PC[1]!=="100%") PC[1] = "0%";
+                    
+                        break;
+                    case 5:
+                    
+                        if(PC[2]!=="100%") PC[2] = "0%";
+                    
+                        break;
+                    case 6:
+                    
+                        if(PC[4]!=="100%") PC[4] = "0%";
+        
+                        break;
+                    
+                }
+                var leastbanned = bans.indexOf(Math.min(...bans));
+                    switch(leastbanned){
+                    case 0:
+                       if(PC[3]!=="100%" || PC[3]!== "75%") PC[3] = "50%";
+
+                    
+                        break;
+                    case 1:
+                        if(PC[6]!=="100%" || PC[6]!== "75%") PC[6] = "50%";
+                       
+
+                    
+                        break;
+                    case 2:
+                        if(PC[5]!=="100%" || PC[5]!== "75%") PC[5] = "50%";
+                       
+        
+                    
+                        break;
+                    case 3:
+                        if(PC[0]!=="100%" || PC[0]!== "75%") PC[0] = "50%";
+                       
+                    
+                
+                        break;
+                    case 4:
+                        if(PC[1]!=="100%" || PC[1]!== "75%") PC[1] = "50%";
+                  
+                
+                    
+                        break;
+                    case 5:
+                        if(PC[2]!=="100%" || PC[2]!== "75%") PC[2] = "50%";
+                    
+            
+                    
+                        break;
+                    case 6:
+                        if(PC[4]!=="100%" || PC[4]!== "75%") PC[4] = "50%";
+                
+                
+        
+                        break;
+                    
+                }
+                var mostWon = W.indexOf(Math.max(...W));
+                    switch(mostWon){
+                    case 0:
+                        PC[3] = "50%";
+                    
+                        break;
+                    case 1:
+                    
+                        PC[6] = "50%";
+                    
+                        break;
+                    case 2:
+                    
+                        PC[5] = "50%";
+                    
+                        break;
+                    case 3:
+                    
+                        PC[0] = "50%";
+                
+                        break;
+                    case 4:
+                    
+                        PC[1] = "50%";
+                    
+                        break;
+                    case 5:
+                    
+                        PC[2] = "50%";
+                    
+                        break;
+                    case 6:
+                    
+                        PC[4] = "50%";
+        
+                        break;
+                    
+                }
+                console.log("CREATED PC ");
+                console.log(PC);
+                localStorage.setItem("PC", JSON.stringify(PC));
+        }
+        else{
+            console.log("INHERITED PC");
+            
+            PC = JSON.parse(localStorage.getItem("PC"));
+            console.log(PC);
+        }
+        return PC;
+}
+function BAN(maps, BC){
+
+        var map = 'vertigo';
+        var RNGCHOICEBETWEENMAPS = [];
+
+        for(let d = 0; d < BC.length; d++){
+
+            switch(d){
+                case 0:
+                    map = 'Dust2';
+                    break;
+                case 1:
+                    map = 'Mirage';
+                    break;
+                case 2:
+                    map = 'Nuke';
+                    break;
+                case 3:
+                    map = 'Ancient';
+                    break;
+                case 4:
+                    map = 'Train';
+                    break;
+                case 5:
+                    map = 'Inferno';
+                    break;
+                case 6:
+                    map = 'Anubis';
+                    break;
+                }
+
+                if(maps.includes(map)){
+                    console.log(BC[d]);
+                    console.log(map);
+                    console.log("---END OF MY ASSHOLE");
+                    if(BC[d]!== "0%") {RNGCHOICEBETWEENMAPS.push({map: map, chance: BC[d], index: d})};
+                            
+                        
+                }
+                  
+        }
+        console.log(RNGCHOICEBETWEENMAPS.length);
+        if(RNGCHOICEBETWEENMAPS.length > 0 && RNGCHOICEBETWEENMAPS){
+                    console.log("SHIT");
+                    console.log(RNGCHOICEBETWEENMAPS);
+                    console.log(maps);  
+
+                    var choice = weightedRandomChoice(RNGCHOICEBETWEENMAPS);
+
+                    BC[choice.index] = "0%";
+                    localStorage.setItem("BC",JSON.stringify(BC));
+                    RNGCHOICEBETWEENMAPS = [];
+                    return maps.filter(name => name!== choice.map);
+                    
+
+        }
+        else{
+            let RNG = Math.floor(Math.random()*maps.length);
+            
+            switch(maps[RNG]){
+                case "Dust2":
+                   
+                    BC[0] = "0%";
+                    break;
+                case "Mirage":
+                   
+                    BC[1] = "0%";
+                    break;
+                case "Nuke":
+                   
+                    BC[2] = "0%";
+                    break;
+                case "Ancient":
+                    
+                    BC[3] = "0%";
+                    break;
+                case "Train":
+                    
+                    BC[4] = "0%";
+                    break;
+                case "Inferno":
+                    
+                    BC[5] = "0%";
+                    break;
+                case "Anubis":
+                    
+                    BC[6] = "0%";
+                    break;
+                }
+                localStorage.setItem("BC",JSON.stringify(BC));
+            return maps.filter(name => name!== maps[RNG]);
+        }   
+        
+}
+function PICK(maps, PC){
+
+        var map = 'vertigo';
+        var RNGCHOICEBETWEENMAPS = [];
+
+        for(let d = 0; d < PC.length; d++){
+
+            switch(d){
+                case 0:
+                    map = 'Dust2';
+                    break;
+                case 1:
+                    map = 'Mirage';
+                    break;
+                case 2:
+                    map = 'Nuke';
+                    break;
+                case 3:
+                    map = 'Ancient';
+                    break;
+                case 4:
+                    map = 'Train';
+                    break;
+                case 5:
+                    map = 'Inferno';
+                    break;
+                case 6:
+                    map = 'Anubis';
+                    break;
+                }
+
+                if(maps.includes(map)){
+                    console.log(PC[d]);
+                    console.log(map);
+                    console.log("---END OF MY ASSHOLE");
+                    if(PC[d]!== "0%") {RNGCHOICEBETWEENMAPS.push({map: map, chance: PC[d], index: d})};
+                            
+                        
+                }
+                  
+        }
+        console.log(RNGCHOICEBETWEENMAPS.length);
+        if(RNGCHOICEBETWEENMAPS.length > 0 && RNGCHOICEBETWEENMAPS){
+                    console.log("SHIT");
+                    console.log(RNGCHOICEBETWEENMAPS);
+                    console.log(maps);  
+
+                    var choice = weightedRandomChoice(RNGCHOICEBETWEENMAPS);
+
+                    PC[choice.index] = "0%";
+                    localStorage.setItem("PC",JSON.stringify(PC));
+                    RNGCHOICEBETWEENMAPS = [];
+                    return maps.filter(name => name!== choice.map);
+                    
+
+        }
+        else{
+            let RNG = Math.floor(Math.random()*maps.length);
+            
+            switch(maps[RNG]){
+                case "Dust2":
+                   
+                    PC[0] = "0%";
+                    break;
+                case "Mirage":
+                   
+                    PC[1] = "0%";
+                    break;
+                case "Nuke":
+                   
+                    PC[2] = "0%";
+                    break;
+                case "Ancient":
+                    
+                    PC[3] = "0%";
+                    break;
+                case "Train":
+                    
+                    PC[4] = "0%";
+                    break;
+                case "Inferno":
+                    
+                    PC[5] = "0%";
+                    break;
+                case "Anubis":
+                    
+                    PC[6] = "0%";
+                    break;
+                }
+                localStorage.setItem("PC",JSON.stringify(PC));
+            return maps.filter(name => name!== maps[RNG]);
+        }   
+        
+}
+function bestof3(numround, maps,BC,PC){
+    switch(numround){
+        case 1:
+            return BAN(maps,BC);
+        case 2:
+            return BAN(maps,BC);
+        case 3:
+            return PICK(maps,PC);
+        case 4:
+            return PICK(maps,PC);
+        case 5:
+            return BAN(maps,BC);
+        case 6:
+            return BAN(maps,BC);
+        case 7:
+            
+       }
+
+}
+function bestof5(numround, maps){
+    switch(numround){
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            break;
+        case 6:
+            break;
+        case 7:
+            break;
+        
+    }
+
+}
+function weightedRandomChoice(choices) { 
+    // Apply transformation to chance values
+  const adjustedChoices = choices.map(item => {
+    let rawChance = parseFloat(item.chance.replace('%', ''));
+    
+    // Penalize 25% heavily, others get exponentially weighted
+    const adjustedChance = rawChance === 50 ? 1 : Math.pow(rawChance, 2);
+
+    
+    return {
+      ...item,
+      adjustedChance
+    };
+  });
+
+ const total = adjustedChoices.reduce((sum, item) => sum + item.adjustedChance, 0);
+
+  const rand = Math.random() * total;
+  let cumulative = 0;
+
+  for (const item of adjustedChoices) {
+    cumulative += item.adjustedChance;
+    if (rand < cumulative) {
+      return {
+        map: item.map, 
+        index: item.index,
+    };
+    }
+  }
+}
 function revertSimulator(){
     if(document.getElementById("mtches") && document.getElementById("quickInfo") && document.getElementById("allInfo") && document.getElementById("overallButtonDivider") && document.getElementById("graphdiv")){
         document.getElementById("mtches").style.opacity = "1";
@@ -510,6 +1796,20 @@ function revertSimulator(){
         document.getElementById("overallButtonDivider").style.pointerEvents = "auto";
         document.getElementById("graphdiv").style.opacity = "1";
         document.getElementById("graphdiv").style.pointerEvents = "auto";
+        document.getElementById("banCommunication").remove();
+        document.getElementById("teambackgrounddiv").style.width = "1260px";
+        document.getElementById("teambackgrounddiv").style.height = "240px";
+        document.getElementById("teambackgrounddiv").style.transform = "translateX(260px)";
+        document.getElementById("teamBackground").style.width = "1260px";
+        document.getElementById("teamBackground").style.height = "240px";
+        document.getElementById("WHOLEPLAYERDIVIDER").style.width = "1260px";
+        document.getElementById("WHOLEPLAYERDIVIDER").style.height = "240px";
+        document.getElementById("WHOLEPLAYERDIVIDER").style.transform = "translate(-10px,-275px)";
+        document.getElementById("h3").style.transform = "translate(600px, -40px)";
+
+
+
+
         
     }
     document.getElementById("banSimulator").onclick = banSimulatorr;
@@ -1047,10 +2347,12 @@ function GetLeaguePickBans(leaderid, offset) {
 
             let matchPromises = allMatches.map((match) => {
                 //update the loading bar here.
+                
                 var dating = new Date(match.finished_at*1000);
                 //loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
                 //console.log(match.teams);
                 if (match.competition_name.includes("ESEA") && !match.competition_name.includes("Qualifier")) {
+                    console.log(match);
                     let teamsinmatch = match.teams;
                     //console.log(teamsinmatch);
                     let tm1 = teamsinmatch.faction1;
@@ -2243,8 +3545,8 @@ function printToWebsite(dapicksanddabans, something){
                         //console.log("we won "+dapicksanddabans[d].detailed_results[j+1]);
                         switch(String(dapicksanddabans[d].detailed_results[j+1])){
                             case "de_train":
-                                played[7]= played[7]+1;
-                                W[7] = W[7]+1;
+                                played[6]= played[6]+1;
+                                W[6] = W[6]+1;
                                 break;
                             case "de_ancient":
                                 played[0]= played[0]+1;
@@ -2270,10 +3572,7 @@ function printToWebsite(dapicksanddabans, something){
                                 played[5]= played[5]+1;
                                 W[5] = W[5]+1;
                                 break;
-                            case "de_vertigo":
-                                played[6]= played[6]+1;
-                                W[6] = W[6]+1;
-                                break;
+
                             default:
                                 break;
                         }
@@ -2282,8 +3581,8 @@ function printToWebsite(dapicksanddabans, something){
                        // console.log("we lost "+dapicksanddabans[d].detailed_results[j+1]);
                         switch(String(dapicksanddabans[d].detailed_results[j+1])){
                             case "de_train":
-                                played[7]= played[7]+1;
-                                L[7] = L[7]+1;
+                                played[6]= played[6]+1;
+                                L[6] = L[6]+1;
                                 break;
                             case "de_ancient":
                                 played[0]= played[0]+1;
@@ -2309,10 +3608,6 @@ function printToWebsite(dapicksanddabans, something){
                                 played[5]= played[5]+1;
                                 L[5] = L[5]+1;
                                 break;
-                            case "de_vertigo":
-                                played[6]= played[6]+1;
-                                L[6] = L[6]+1;
-                                break;
                             default:
                                 break;
                         }
@@ -2328,7 +3623,7 @@ function printToWebsite(dapicksanddabans, something){
                 //    console.log("wE PICKED "+game.guid);
                     switch(String(game.guid)){
                         case "de_train":
-                            picks[7]= picks[7]+1;
+                            picks[6]= picks[6]+1;
                             break;
                         case "de_ancient":
                                 picks[0]= picks[0]+1;
@@ -2348,9 +3643,7 @@ function printToWebsite(dapicksanddabans, something){
                             case "de_nuke":
                                 picks[5]= picks[5]+1;
                                 break;
-                            case "de_vertigo":
-                                picks[6]= picks[6]+1;
-                                break;
+ 
                             default:
                                 break;
                     }
@@ -2437,7 +3730,7 @@ function printToWebsite(dapicksanddabans, something){
                    // console.log("WE BANNED "+game.guid);
                     switch(String(game.guid)){
                         case "de_train":
-                            bans[7]= bans[7]+1;
+                            bans[6]= bans[6]+1;
                             break;
                         case "de_ancient":
                                 bans[0]= bans[0]+1;
@@ -2457,9 +3750,7 @@ function printToWebsite(dapicksanddabans, something){
                             case "de_nuke":
                                 bans[5]= bans[5]+1;
                                 break;
-                            case "de_vertigo":
-                                bans[6]= bans[6]+1;
-                                break;
+
                             default:
                                 break;
                     }
@@ -2774,14 +4065,14 @@ function printToWebsite(dapicksanddabans, something){
                 mapidentifier7.innerHTML = "Train";
                 mapidentifier7.id = "de_train";
                 let trainbans = document.createElement("div");
-                trainbans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[7]+((bans[7] > 1|| bans[7] == 0) ? " times" : " time")+".";
+                trainbans.innerHTML = '<span class="redd">Banned '+'</span><span class="white">'+bans[6]+((bans[6] > 1|| bans[6] == 0) ? " times" : " time")+".";
                 let trainpics = document.createElement("div");
-                trainpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[7]+((picks[7] > 1|| picks[7] == 0) ? " times" : " time")+".";
+                trainpics.innerHTML = '<span class="greenn">Picked '+'</span><span class="white">'+picks[6]+((picks[6] > 1|| picks[6] == 0) ? " times" : " time")+".";
                 let trainplay = document.createElement("div");
-                trainplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[7]+((played[7] > 1|| played[7] == 0) ? " times" : " time")+".";
+                trainplay.innerHTML = '<span class="greenn">Played '+'</span><span class="white">'+played[6]+((played[6] > 1|| played[6] == 0) ? " times" : " time")+".";
                 let trainW = document.createElement("div");
                 trainW.classList.add("winnerdiv");
-                trainW.innerHTML = '<span class="greenn1">'+W[7]+'</span><span class = "white"> // </span> <span class="redd1">'+L[7];
+                trainW.innerHTML = '<span class="greenn1">'+W[6]+'</span><span class = "white"> // </span> <span class="redd1">'+L[6];
                 traindiv.appendChild(trainimage);
                 movementdivider3.appendChild(mapidentifier7);
                 movementdivider3.appendChild(trainpics);
@@ -2980,6 +4271,8 @@ function printToWebsite(dapicksanddabans, something){
      
                 if(dividerclicked && moreclicks > 0){
                     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/buttonclickrelease.wav');
+                    document.getElementById("banSimulator").style.opacity = "0";
+                     document.getElementById("banSimulator").style.pointerEvents = "none";
                     if(!allsoundsmuted){
                         audio.play();
                        }
@@ -2992,7 +4285,7 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("teambackgrounddiv").style.height = "50px";
                     document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "50px";
 
-                document.getElementById("h3").style.transform = "translate(300px,-40px)";
+                    document.getElementById("h3").style.transform = "translate(300px,-40px)";
 
                     document.getElementById("allInfo").style.transition = ".3s";
 
@@ -3318,6 +4611,8 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("quickInfo").style.transform = "translate(260px,245px)";
                     document.getElementById("teambackgrounddiv").style.height = "240px";
                     document.getElementById("teambackgrounddiv").querySelector("#teamBackground").style.height = "240px";
+                    document.getElementById("banSimulator").style.opacity = "1";
+                     document.getElementById("banSimulator").style.pointerEvents = "auto";
                     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/freeze_cam.wav');
                     audio.volume = 0.2;
                     if(!allsoundsmuted){
@@ -3657,7 +4952,7 @@ function createChart(type){
     grph.width = 400;
    grph.style.transform = "translateY(-53px)";
 
-    var yArray = [played[7], played[4], played[2], played[1], played[5],played[3],played[0]];
+    var yArray = [played[6], played[4], played[2], played[1], played[5],played[3],played[0]];
     var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
     var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
 
@@ -3850,7 +5145,7 @@ function createWinsChart(type){
     grph.classList.add("Wins");
     grph.width = 400;
       grph.style.transform = "translate(-800px,-53px)";
-    var yArray = [W[7], W[4], W[2], W[1], W[5],W[3],W[0]];
+    var yArray = [W[6], W[4], W[2], W[1], W[5],W[3],W[0]];
     var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
     var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
 
@@ -4039,7 +5334,7 @@ function createLossChart(type){
     grph.classList.add("Loss");
     grph.width = 400;
       grph.style.transform = "translate(-1190px,230px)";
-    var yArray = [L[7], L[4], L[2], L[1], L[5],L[3],L[0]];
+    var yArray = [L[6], L[4], L[2], L[1], L[5],L[3],L[0]];
     var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
     var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
 
@@ -4230,7 +5525,7 @@ function createBannedChart(type){
     grph.classList.add("Bans");
     grph.width = 400;
     grph.style.transform = "translateY(-53px)";
-    var yArray = [bans[7], bans[4], bans[2], bans[1], bans[5],bans[3],bans[0]];
+    var yArray = [bans[6], bans[4], bans[2], bans[1], bans[5],bans[3],bans[0]];
     var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
     var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
 
@@ -4414,7 +5709,7 @@ function createPickChart(type){
     grph.width = 400;
     grph.style.transform = "translate(-400px,285px)";
 
-    var yArray = [picks[7], picks[4], picks[2], picks[1], picks[5],picks[3],picks[0]];
+    var yArray = [picks[6], picks[4], picks[2], picks[1], picks[5],picks[3],picks[0]];
     var xArray = ['Train' ,'Mirage','Inferno','Anubis','Nuke', 'Dust II', 'Ancient'];
     var barColors = ['brown', 'rgb(215, 183, 0)','rgb(171, 99, 39)','salmon','cyan', 'beige','lime'];
 
@@ -6217,7 +7512,7 @@ var ILIEDLOLL = 3;
    label.style.fontSize = "30px"; // Change font size
    span.style.height = "60px";
    span.style.width = "60px";
-   label.style.transform = "translate(-50%,2%)";
+   label.style.transform = "translate(-48%,20%)";
     // Append the checkbox and label to the span
     span.appendChild(checkbox);
     span.appendChild(label);
@@ -6263,7 +7558,7 @@ var ILIEDLOLL = 3;
             label.style.fontSize = "30px"; // Change font size
             span.style.height = "60px";
             span.style.width = "60px";
-            label.style.transform = "translate(-50%,2%)";
+            label.style.transform = "translate(-48%,20%)";
             console.log(label.textContent.substring(1));
             var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
             console.log(newarray);
