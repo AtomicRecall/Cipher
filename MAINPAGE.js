@@ -2994,15 +2994,19 @@ function searchForTeams(teamnme){
 
         return;
 }
-function getUpcomingMatches(team,season,upcomingdivider){
+let type = "Playoffs";
+let season = 53;
+function getUpcomingMatches(team,seasonn,upcomingdivider){
     
     console.log("division = "+localStorage.getItem("division"));
 
+    let champID = null;
+   firebase.database().ref('/championshipIDS/Season '+season+'/'+type+'/'+localStorage.getItem("division")).get().then(snapshot => champID = snapshot.val());
     switch (localStorage.getItem("division")){
 
         case "Main":
         //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
-        return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=75c02ae0-ea10-4244-b221-a39073527bab&limit=20`,{
+        return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=${champID}&limit=20`,{
             method: 'GET',
             headers:{
                 'Access-Control-Allow-Origin' : '*',
@@ -3089,7 +3093,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
         break;
         case "Advanced":
                 //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
-            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=26f3c678-a47a-4752-931c-3e46721b8b95&limit=20`,{
+            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=${champID}&limit=20`,{
                 method: 'GET',
                 headers:{
                     'Access-Control-Allow-Origin' : '*',
@@ -3173,7 +3177,7 @@ function getUpcomingMatches(team,season,upcomingdivider){
                 break;       
          case "Intermediate":
                 //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
-            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=6ce0d130-15fd-4d65-acb5-7fb8d6c9a5c9&limit=20`,{
+            return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=${champID}&limit=20`,{
                 method: 'GET',
                 headers:{
                     'Access-Control-Allow-Origin' : '*',

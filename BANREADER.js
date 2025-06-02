@@ -2458,9 +2458,13 @@ function fetchMatchData(matchid,leaderid,count) {
      
         
         let errthang = datan12;
+        
         //let compnamee = datan12.competition_name.substring(4);
         let season = errthang.competition_name.substring(6, 8);
         let division = datan12.competition_name.substring(12);
+        let type = (division.includes("Playoffs")) ? "Playoffs" : "Regular Season";
+        console.log(division);
+
         if (division.includes("Main")){
             division = "Main";
         }
@@ -2477,12 +2481,14 @@ function fetchMatchData(matchid,leaderid,count) {
         else if (division.includes("ECL")){
             division = "ECL";
         }
+
+        
        // console.log("WE FOUND COMPETITION ID "+datan12.competition_id+" FOR S"+season+" "+division);
-        let poopcockvagina = database.ref("championshipIDS/Season "+season+"/Regular Season"+"/"+division).on('value', function(snapshot){
+        let poopcockvagina = database.ref("championshipIDS/Season "+season+"/"+type+"/"+division).on('value', function(snapshot){
             var data = snapshot.val();
             //console.log(data);  
-            if (data === null){
-                const wherefoldergoes = database.ref("championshipIDS/Season "+season+"/Regular Season");
+            if (data === null || data !== datan12.competition_id){
+                const wherefoldergoes = database.ref("championshipIDS/Season "+season+"/"+type);
                 wherefoldergoes.update({ [division]: datan12.competition_id }) // Creates the path without overwriting existing data
                 .then(() => console.log("Path created:", wherefoldergoes))
                 .catch(error => console.error("Error creating path:", error));
