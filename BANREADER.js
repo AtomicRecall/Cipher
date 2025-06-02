@@ -174,6 +174,7 @@ stopButtong.addEventListener('click',()=>{
     finializing.classList.add("removemeplss");
     document.getElementById(".BanFileExplorer").appendChild(finializing);
     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/gift_drop.wav');
+    audio.volume = 0.2;
     if(!allsoundsmuted){
         audio.play();
        }
@@ -306,6 +307,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${POP}`, {
     localStorage.setItem("LeaderID", datan.leader);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_on.wav');
+    audio.volume - 0.2;
     if(!allsoundsmuted){
         audio.play();
        }
@@ -742,7 +744,7 @@ async function banPlaceInit(whoFirst, bestofwat){
     if(whoFirst !== "null"){
          
         for(let d = 1; d <= 7; d++){
-
+            startTimer(); // Restart timer each time user does something
             if(d % 2 !== 0){  
 
 
@@ -789,7 +791,7 @@ async function banPlaceInit(whoFirst, bestofwat){
         }
     }
     else{
-        
+        startTimer(); // Restart timer each time user does something
         for(let d = 1; d <= 7; d++){
             
             if(d % 2 === 0){  
@@ -803,7 +805,7 @@ async function banPlaceInit(whoFirst, bestofwat){
                         var oldmaps = [...maps];
                         maps = bestof1(d,maps,BC);
                         unHighlightMap(maps,oldmaps,false);
-                        startTimer(); // Restart timer each time user does something
+                       
                                 
                       
                     break;
@@ -814,7 +816,7 @@ async function banPlaceInit(whoFirst, bestofwat){
                         var oldmapss = [...maps];
                         maps = bestof3(d,maps,BC,PC);
                         (d == 4) ? unHighlightMap(maps,oldmapss,true) : unHighlightMap(maps,oldmapss,false); 
-                        startTimer(); // Restart timer each time user does something
+                        
                     break;
                     case "bo5":
                         
@@ -829,7 +831,7 @@ async function banPlaceInit(whoFirst, bestofwat){
                         document.getElementById("WhosTurnDiv").textContent = "Your turn to ban a map";
                         var bannedMap = await UserClick(BC,PC,false);
                         maps = maps.filter(name => name!== bannedMap);
-                         startTimer(); // Restart timer each time user does something
+                        
                     break;
                     
                     case "bo3":
@@ -837,7 +839,7 @@ async function banPlaceInit(whoFirst, bestofwat){
 
                         var mapToRemove = (d == 3) ? await UserClick(BC,PC,true) : await UserClick(BC,PC,false);
                         maps = maps.filter(name => name!== mapToRemove);
-                         startTimer(); // Restart timer each time user does something
+                       
 
                     break;
                     case "bo5":
@@ -2392,7 +2394,7 @@ function GetLeaguePickBans(leaderid, offset) {
                     finishedmatchesrealcounter++;
                     if(finishedtext){
                         const audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/hint.wav');
-                        audio.volume = 0.5;
+                        audio.volume = 0.1;
                         if(!allsoundsmuted){
                             audio.play();
                            }
@@ -3378,6 +3380,7 @@ function printToWebsite(dapicksanddabans, something){
     document.getElementById("teambackgrounddiv").style.opacity = "1";
     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/bell1.wav');
     if(!allsoundsmuted){
+        audio.volume = 0.1;
         audio.play();
        } 
     
@@ -4274,6 +4277,7 @@ function printToWebsite(dapicksanddabans, something){
                     document.getElementById("banSimulator").style.opacity = "0";
                      document.getElementById("banSimulator").style.pointerEvents = "none";
                     if(!allsoundsmuted){
+                        audio.volume = 0.5;
                         audio.play();
                        }
                     if(document.getElementById("graphdiv")){
@@ -5917,7 +5921,7 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
             ButtonsDivider.appendChild(damageinfo);
             damageinfo.onmouseover = function(){
                 var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
-                audio.volume = 0.5;
+                audio.volume = 0.3;
                 if(!allsoundsmuted){
                     audio.play();
                    }
@@ -5929,7 +5933,7 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
             ButtonsDivider.appendChild(ClutchInfo);
             ClutchInfo.onmouseover = function(){
                 var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
-                audio.volume = 0.5;
+                audio.volume = 0.3;
                 if(!allsoundsmuted){
                     audio.play();
                    }
@@ -5941,7 +5945,7 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
             ButtonsDivider.appendChild(EntryInfo);
             EntryInfo.onmouseover = function(){
                 var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
-                audio.volume = 0.5;
+                audio.volume = 0.3;
                 if(!allsoundsmuted){
                     audio.play();
                    }
@@ -5953,7 +5957,7 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
             ButtonsDivider.appendChild(UtilityInfo);
             UtilityInfo.onmouseover = function(){
                 var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
-                audio.volume = 0.5;
+                audio.volume = 0.3;
                 if(!allsoundsmuted){
                     audio.play();
                    }
@@ -5987,7 +5991,7 @@ function createLeaderBoard(matchinfo, isOverallLeaderboard, goingbacktooriginal)
 
 function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/itempickup.wav');
-    audio.volume = 0.5;
+    audio.volume = 0.3;
     if(!allsoundsmuted){
         audio.play();
        }
@@ -6340,7 +6344,7 @@ function damageInfo(matchinfo, isOverallLeaderboard,goingbacktooriginal){
 
     document.getElementById("damageInfo").onmouseover = function(){
         var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_off.wav');
-        audio.volume = 0.5;
+        audio.volume = 0.3;
         if(!allsoundsmuted){
             audio.play();
            }
