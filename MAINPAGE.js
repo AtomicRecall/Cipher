@@ -1114,7 +1114,7 @@ function ontop(){
                         funnyfunction(singleteamarray, "playerinfodivider");
                     
                     getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
-                    upcomingmatchestag.innerHTML = String(localStorage.getItem("danameyo")).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+localStorage.getItem("daseasonyo")+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
+                    upcomingmatchestag.innerHTML = String(localStorage.getItem("danameyo")).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+localStorage.getItem("daseasonyo")+" OF "+String(localStorage.getItem("division")).toUpperCase()+" (PLAYOFFS):";
 
                 }
                 else{

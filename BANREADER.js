@@ -307,7 +307,7 @@ fetch(`https://open.faceit.com/data/v4/teams/${POP}`, {
     localStorage.setItem("LeaderID", datan.leader);
     document.getElementById("h3").innerHTML = datan.name.toUpperCase();
     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/nvg_on.wav');
-    audio.volume - 0.2;
+    audio.volume = 0.3;
     if(!allsoundsmuted){
         audio.play();
        }
