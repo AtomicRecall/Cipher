@@ -3,31 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>&#8203;</title> <!-- zero-width space makes tab appear blank on a server -->
+  <title>&#8203;</title>
   <style>
-    body {
-      margin: 0;
-      padding: 20px;
+    body, html {
+      margin: 0; padding: 0; height: 100%;
       background-color: #000;
       font-family: 'Courier New', monospace;
       color: #00ff00;
-      overflow: hidden;
     }
-
     .terminal {
-      width: 100%;
-      height: 100vh;
-      background-color: #000;
-      padding: 20px;
       box-sizing: border-box;
+      height: 100vh;
+      padding: 20px;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
+      background-color: #000;
+      scrollbar-width: thin;
+      scrollbar-color: #00ff00 transparent;
+    }
+
+    .copyright-line {
+      white-space: pre-line;
+      font-size: 1em;
+      margin-bottom: 40px;
+      color: #00ff00;
+      flex-shrink: 0;
     }
 
     .line {
       margin: 5px 0;
-      overflow: hidden;
       white-space: nowrap;
+      overflow: hidden;
     }
 
     .terminal-line {
@@ -45,20 +52,19 @@
       to { width: 100%; opacity: 1; }
     }
 
-    .copyright-line {
-      opacity: 1 !important;
-      border: none !important;
-      margin-bottom: 20px;
-      white-space: pre-line;
-      color: #00ff00;
-      font-size: 1em;
+    #typing-line {
+      display: none;
+      border-right: 2px solid #00ff62;
+      animation: typing 2s steps(40, end) forwards;
+      white-space: nowrap;
     }
 
     .input-line {
       display: flex;
       align-items: center;
-      padding-top: 5px;
       margin-top: 5px;
+      padding-top: 5px;
+      flex-shrink: 0;
     }
 
     .prompt {
@@ -88,26 +94,19 @@
     input#commandInput {
       background: none;
       border: none;
-      color: transparent; /* Hides native cursor */
-      text-shadow: 0 0 0 #00ff00; /* Shows text in terminal color */
+      color: transparent; /* hide native cursor */
+      text-shadow: 0 0 0 #00ff00; /* show text */
       font-family: inherit;
       font-size: 1em;
       outline: none;
       flex: 1;
-      caret-color: transparent; /* Hides caret for good measure */
-    }
-
-    #typing-line {
-      display: none;
-      white-space: nowrap;
-      border-right: 2px solid #00ff62;
-      animation: typing 2s steps(40, end) forwards;
+      caret-color: transparent;
     }
   </style>
 </head>
 <body>
 
-  <div class="terminal">
+  <div class="terminal" id="terminal">
     <div class="copyright-line">
       C.I.P.H.E.R (Computational Interface for Perception, Heuristics, and Emotional Regulation)<br>
       (c) AtomicRecall. All rights reserved.
@@ -139,19 +138,20 @@
     <!-- Final typing line -->
     <div class="line" id="typing-line">Welcome to Cipher Beta Version 2.0.1</div>
 
-    <!-- Input line shown under typing line -->
+    <!-- Input line -->
     <div class="input-line" id="input-line" style="display:none;">
       <span class="prompt">$<span class="caret" id="caret"></span></span>
-      <input type="text" id="commandInput" />
+      <input type="text" id="commandInput" autocomplete="off" />
     </div>
   </div>
 
-  <script>
+<script>
   const terminalLines = document.querySelectorAll('.terminal-line');
   const typingLine = document.getElementById('typing-line');
   const inputLine = document.getElementById('input-line');
   const caret = document.getElementById('caret');
   const input = document.getElementById('commandInput');
+  const terminal = document.getElementById('terminal');
 
   terminalLines.forEach((line, index) => {
     line.style.animationDelay = `${index * 0.5}s`;
@@ -164,27 +164,62 @@
   lastLine.addEventListener('animationend', () => {
     terminalLines.forEach(line => line.remove());
     typingLine.style.display = 'block';
+    typingLine.style.width = '0';
+    typingLine.style.borderRight = '2px solid #00ff62';
     typingLine.style.animation = 'typing 2s steps(40, end) forwards';
 
-    typingLine.addEventListener('animationend', () => {
-      // Remove the fake caret from typing-line once it finishes
-      typingLine.style.borderRight = 'none';
-      inputLine.style.display = 'flex';
-      input.focus();
-    });
+    // Move typing line to the end of terminal content before input line
+    if (!typingLine.parentElement) {
+      terminal.insertBefore(typingLine, inputLine);
+    }
   });
+
+  typingLine.addEventListener('animationend', () => {
+    typingLine.style.borderRight = 'none';
+    inputLine.style.display = 'flex';
+    input.focus();
+    scrollToBottom();
+  });
+
+  function scrollToBottom() {
+    terminal.scrollTop = terminal.scrollHeight;
+  }
 
   input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
       const command = input.value.trim();
+      if (!command) return;
+
+      const commandLine = document.createElement('div');
+      commandLine.textContent = `$ ${command}`;
+      commandLine.classList.add('line');
+      terminal.insertBefore(commandLine, inputLine);
+
       switch (command.toLowerCase()) {
-        case 'signin': window.location.href = 'LoginPage.html'; break;
-        case 'run': window.location.href = 'MainPage.html'; break;
-        case 'help': alert('Available commands:\n- signin\n- run\n- help'); break;
-        default: alert(`Unknown command: ${command}`);
+        case 'signin':
+          window.location.href = 'LoginPage.html';
+          break;
+        case 'run':
+          window.location.href = 'MainPage.html';
+          break;
+        case 'help':
+          ['Available commands:', '- signin', '- run', '- help'].forEach(text => {
+            const helpLine = document.createElement('div');
+            helpLine.textContent = text;
+            helpLine.classList.add('line');
+            terminal.insertBefore(helpLine, inputLine);
+          });
+          break;
+        default:
+          const unknownLine = document.createElement('div');
+          unknownLine.textContent = `Unknown command: ${command}`;
+          unknownLine.classList.add('line');
+          terminal.insertBefore(unknownLine, inputLine);
       }
+
       input.value = '';
       caret.classList.remove('hidden');
+      scrollToBottom();
     }
   });
 
@@ -199,5 +234,6 @@
     else caret.classList.remove('hidden');
   });
 </script>
+
 </body>
 </html>
