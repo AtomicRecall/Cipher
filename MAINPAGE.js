@@ -1415,7 +1415,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/buttonclickrelease.wav');
 
                        if(!allsoundsmuted){
-                        audio.volume = 0.3;
+                        audio.volume = 0.7;
                         audio.play();
                        }
                         
@@ -1480,7 +1480,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
                 // Create the audio object once
                 const audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/flashlight1.wav');
-                audio.volume = 0.3;
+                audio.volume = 0.1;
                 // Attach the event listener to the divider (named div)
                 div.addEventListener('mouseover', function () {
                 const currentTime = Date.now();

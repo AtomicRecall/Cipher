@@ -463,16 +463,43 @@ function banSimulatorr(){
     document.getElementById(".BanFileExplorer").appendChild(communication);
 
     //1.ask the user who should go first
-    // - add coin flip feature for randomness
+    // - loot box for randomness
     //2. initalize the place where the bans will happen
     //3. Actual Ban logic
 
+
+            //Do you want $TEAMWEARESEARCHING to know you are on a Team? 
+            //if yes, What Team are you on?
+            //if no, do blind run
+    
+    var ques1Container = document.createElement("div");
+    ques1Container.id = "asshole";
+    var questions = document.createElement("div");
+    questions.textContent = `Do you want ${localStorage.getItem("THETEAMWEARESEARCHINGNAME")} to know you're on a team?`;
+    var butt1 = document.createElement("button");
+    butt1.textContent = "YES";
+    var butt2 = document.createElement("button");
+    butt2.textContent = "NO";
+    var BlindOrNot = false;
+    butt2.onclick = function(){
+        
+    }
+    butt1.onclick = function(){
+        BlindOrNot = true;
+    }
+    ques1Container.appendChild(questions);
+    ques1Container.appendChild(butt1);
+    ques1Container.appendChild(butt2);
+    communication.appendChild(ques1Container);
+
+    var ques2Container = document.createElement("div");
+    ques2Container.id = "myasshole";
     var which = "bo1";
     //what type of ban?
     var ques = document.createElement("div");
     ques.textContent = "Best of How Much?";
     ques.id="one";
-    communication.appendChild(ques);
+    ques2Container.appendChild(ques);
     var bowhatdiv = document.createElement("div");
     bowhatdiv.id="two";
 
@@ -484,9 +511,9 @@ function banSimulatorr(){
     bo1btn.textContent = "bo1";
     bo1btn.style.fontSize = "80px";
     bowhatdiv.appendChild(bo1btn);
-    communication.appendChild(bowhatdiv);
+    ques2Container.appendChild(bowhatdiv);
     var quesDiv = document.createElement("div");
-    communication.appendChild(quesDiv);
+    ques2Container.appendChild(quesDiv);
     quesDiv.style.opacity = "0";
     bo3btn.onclick = function(){
         which = "bo3";
@@ -503,6 +530,7 @@ function banSimulatorr(){
 
         
     }
+    communication.appendChild(ques2Container);
 
     //1. ask the user who should go first
     var question = document.createElement("div");
@@ -529,16 +557,16 @@ function banSimulatorr(){
     btn2.onclick = function(){
         question.remove();
         //2. initalize the place where the bans will happen
-        banPlaceInit("null",which);
+        banPlaceInit("null",which,BlindOrNot);
     }
     btn1.onclick = function(){
         question.remove();
         //2. initalize the place where the bans will happen
-        banPlaceInit(localStorage.getItem("THETEAMWEARESEARCHINGNAME"),which);
+        banPlaceInit(localStorage.getItem("THETEAMWEARESEARCHINGNAME"),which,BlindOrNot);
 
     }
 
-
+    
 }
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -568,7 +596,7 @@ function unHighlightMap(maps,oldmaps,pickORnot){
     }
 }
 
-async function banPlaceInit(whoFirst, bestofwat){
+async function banPlaceInit(whoFirst, bestofwat,BlindOrNot){
     //2. initalize the place where the bans will happen
     document.getElementById("but1").remove();
     document.getElementById("but2").remove();
@@ -739,28 +767,30 @@ async function banPlaceInit(whoFirst, bestofwat){
     localStorage.removeItem("BC");
     localStorage.removeItem("PC");
     var maps = ['Dust2','Mirage','Nuke','Ancient','Train','Inferno','Anubis'];
+
     var BC = calculateBC();
     var PC = calculatePC();
+
     if(whoFirst !== "null"){
-         
         for(let d = 1; d <= 7; d++){
             startTimer(); // Restart timer each time user does something
+
             if(d % 2 !== 0){  
 
 
                 switch(bestofwat){
-                
+                    //user is first
                     case "bo1":
-                            await delay(3000); // Wait 3 seconds before continuing
-                            var oldmaps = [...maps];
-                            maps = bestof1(d, maps,BC);
-                            unHighlightMap(maps,oldmaps);        
+                        await delay(3000); // Wait 3 seconds before continuing
+                        var oldmaps = [...maps];
+                        maps = bestof1(d, maps,BC,BlindOrNot);
+                        unHighlightMap(maps,oldmaps);        
                         break;
                     case "bo3":
                         document.getElementById("WhosTurnDiv").textContent = (d == 3) ?  localStorage.getItem("THETEAMWEARESEARCHINGNAME")+"'s turn to pick a map" : localStorage.getItem("THETEAMWEARESEARCHINGNAME")+"'s turn to ban a map"; 
                         await delay(3000); // Wait 3 seconds before continuing
                         var oldmapss = [...maps];
-                        maps = bestof3(d,maps,BC,PC);
+                        maps = bestof3(d,maps,BC,PC,BlindOrNot);
                         (d == 3) ? unHighlightMap(maps,oldmapss,true) : unHighlightMap(maps,oldmapss,false); 
                     break;
                     case "bo5":
@@ -778,7 +808,7 @@ async function banPlaceInit(whoFirst, bestofwat){
                     
                     case "bo3":
                         document.getElementById("WhosTurnDiv").textContent = (d == 4 ) ? "Your turn to pick a map" : "Your turn to ban a map";  
-                        var mapToRemove = (d == 4) ? await UserClick(BC,PC,true) : await  UserClick(BC,PC,false);
+                        var mapToRemove = (d == 4) ? await UserClick(BC,PC,true) : await UserClick(BC,PC,false);
                         maps = maps.filter(name => name!== mapToRemove);
 
                     break;
@@ -803,7 +833,7 @@ async function banPlaceInit(whoFirst, bestofwat){
 
                         await delay(3000); // Wait 3 seconds before continuing
                         var oldmaps = [...maps];
-                        maps = bestof1(d,maps,BC);
+                        maps = bestof1(d,maps,BC,BlindOrNot);
                         unHighlightMap(maps,oldmaps,false);
                        
                                 
@@ -814,7 +844,7 @@ async function banPlaceInit(whoFirst, bestofwat){
 
                         await delay(3000); // Wait 3 seconds before continuing
                         var oldmapss = [...maps];
-                        maps = bestof3(d,maps,BC,PC);
+                        maps = bestof3(d,maps,BC,PC,BlindOrNot);
                         (d == 4) ? unHighlightMap(maps,oldmapss,true) : unHighlightMap(maps,oldmapss,false); 
                         
                     break;
@@ -935,7 +965,7 @@ async function UserClick(BC,PC, pickOrNot) {
 }
 
 
-function bestof1(numround, maps,BC){
+function bestof1(numround, maps,BC,BlindOrNot){
     //Every round means every time both teams made a “move” (banned or picked)
     //Each round, the team calculates their PC (pick-chance) and a BC (ban-chance) for each map,
     //var PC = new Array(maps.length);
@@ -969,42 +999,39 @@ function bestof1(numround, maps,BC){
 
     switch(numround){
         case 1:
-            return BAN(maps,BC);
+            return BAN(maps,BC,BlindOrNot,numround);
         case 2:
-            return BAN(maps,BC);
+            return BAN(maps,BC,BlindOrNot,numround);
         case 3:
-            return BAN(maps,BC);
+            return BAN(maps,BC,BlindOrNot,numround);
         case 4:
-            return BAN(maps,BC);
+            return BAN(maps,BC,BlindOrNot,numround);
         case 5:
-            return BAN(maps,BC);
+            return BAN(maps,BC,BlindOrNot,numround);
         case 6:
-            return BAN(maps,BC);
+            return BAN(maps,BC,BlindOrNot,numround);
         case 7:
             
        }
     
 }
-
+//TODO: take potential matches from your bracket in regular season
+//look at playoff bracket
 function calculateBC(){
-
-      //PC AND BC USE D2,MIR,NUKE,ANCIENT,TRAIN,INFERNO,ANUBIS IN THAT ORDER
+    //PC AND BC USE D2,MIR,NUKE,ANCIENT,TRAIN,INFERNO,ANUBIS IN THAT ORDER
     //EVERYTHING ELSE USES ANCIENT,ANUBIS,INFERNO,D2,MIRAGE,NUKE,VERTIGO,TRAIN
         if((!(localStorage.getItem("BC")))){
-           var BC = new Array(7).fill("75%");
+
+           var BC = new Array(7).fill("12%");
             //FUCK WHAT I WAS DOING BEFORE LOL
             //TOP 3 BANNED MAPS = 100%
             //MOST WON MAP, AND MOST PICKED MAP ARE 0%
             //LEAST PLAYED = 75%
             //MOST LOST AND LEAST PICKED = 50%
-            var top3Indices = bans
-                .map((value, index) => ({ index, value }))
-                .sort((a, b) => b.value - a.value)  // Sort descending by value
-                .slice(0, 3)                        // Take top 3
-                .map(item => item.index);          // Extract only the indices
-
-            console.log(top3Indices);
-            for (var index of top3Indices){
+            
+            var topBanned= bans.indexOf(Math.max(...bans));
+            console.log(topBanned);
+            for (var index of topBanned){
                     switch(index){
                     case 0:
                         BC[3] = "100%";
@@ -1529,101 +1556,367 @@ function calculatePC(){
         }
         return PC;
 }
-function BAN(maps, BC){
+function BAN(maps, BC, bo3flag, BlindOrNot,numround){
+    /*
+        prioritize punish picking
+        ban the map that i dont want to play
+            - always ban 100% only in the first few rounds
+            - ban in relation to losses
 
-        var map = 'vertigo';
-        var RNGCHOICEBETWEENMAPS = [];
+        pick the map
+            - what map i play the most / win / pick
+            - play in relation to wins 
 
-        for(let d = 0; d < BC.length; d++){
+        ban (bo3)
 
-            switch(d){
-                case 0:
-                    map = 'Dust2';
-                    break;
-                case 1:
-                    map = 'Mirage';
-                    break;
-                case 2:
-                    map = 'Nuke';
-                    break;
-                case 3:
-                    map = 'Ancient';
-                    break;
-                case 4:
-                    map = 'Train';
-                    break;
-                case 5:
-                    map = 'Inferno';
-                    break;
-                case 6:
-                    map = 'Anubis';
-                    break;
-                }
+            - first ban: 100% ban the map that is the most banned
+                    - if multiple, check which one is playd the least
 
-                if(maps.includes(map)){
-                    console.log(BC[d]);
-                    console.log(map);
-                    console.log("---END OF MY ASSHOLE");
-                    if(BC[d]!== "0%") {RNGCHOICEBETWEENMAPS.push({map: map, chance: BC[d], index: d})};
-                            
-                        
-                }
-                  
-        }
-        console.log(RNGCHOICEBETWEENMAPS.length);
-        if(RNGCHOICEBETWEENMAPS.length > 0 && RNGCHOICEBETWEENMAPS){
-                    console.log("SHIT");
-                    console.log(RNGCHOICEBETWEENMAPS);
-                    console.log(maps);  
+            - mid-round bans:  out of the remaning maps: 
+                                1) most banned + played 0 times
+                                2) most banned + picked 0 times
+                                3) most banned + played least
+                                4) most banned  + lost most
+                            after checking all the maps
+                                put all top banned with a range of little played maps and do rng 
+            - final ban: 
+                - Win/Loss + Amount banned. which ever is higher ban that one.
+        pick (bo3)
+            - first pick: 100% pick the map you play the most
+                if tie, most picked + most played
 
-                    var choice = weightedRandomChoice(RNGCHOICEBETWEENMAPS);
+    */
 
-                    BC[choice.index] = "0%";
-                    localStorage.setItem("BC",JSON.stringify(BC));
-                    RNGCHOICEBETWEENMAPS = [];
-                    return maps.filter(name => name!== choice.map);
+
+    if(bo3flag){
+        //bo3 bans
+        if (BlindOrNot){
+            //blind
+            var map = 'vertigo';
+            var RNGCHOICEBETWEENMAPS = [];
+
+            for(let d = 0; d < BC.length; d++){
+                var numOfHunded = [];
+                switch(d){
+                    case 0:
+                        map = 'Dust2';
+                        break;
+                    case 1:
+                        map = 'Mirage';
+                        break;
+                    case 2:
+                        map = 'Nuke';
+                        break;
+                    case 3:
+                        map = 'Ancient';
+                        break;
+                    case 4:
+                        map = 'Train';
+                        break;
+                    case 5:
+                        map = 'Inferno';
+                        break;
+                    case 6:
+                        map = 'Anubis';
+                        break;
+                    }
+
+
                     
+            }
+            console.log(RNGCHOICEBETWEENMAPS.length);
+            if(RNGCHOICEBETWEENMAPS.length > 0 && RNGCHOICEBETWEENMAPS){
+                        console.log("SHIT");
+                        console.log(RNGCHOICEBETWEENMAPS);
+                        console.log(maps);  
 
+                        var choice = weightedRandomChoice(RNGCHOICEBETWEENMAPS);
+
+                        BC[choice.index] = "0%";
+                        PC[choice.index] = "0%";
+                        localStorage.setItem("BC",JSON.stringify(BC));
+                        RNGCHOICEBETWEENMAPS = [];
+                        return maps.filter(name => name!== choice.map);
+                        
+
+            }
+            else{
+                let RNG = Math.floor(Math.random()*maps.length);
+                
+                switch(maps[RNG]){
+                    case "Dust2":
+                    
+                        BC[0] = "0%";
+                        break;
+                    case "Mirage":
+                    
+                        BC[1] = "0%";
+                        break;
+                    case "Nuke":
+                    
+                        BC[2] = "0%";
+                        break;
+                    case "Ancient":
+                        
+                        BC[3] = "0%";
+                        break;
+                    case "Train":
+                        
+                        BC[4] = "0%";
+                        break;
+                    case "Inferno":
+                        
+                        BC[5] = "0%";
+                        break;
+                    case "Anubis":
+                        
+                        BC[6] = "0%";
+                        break;
+                    }
+                    localStorage.setItem("BC",JSON.stringify(BC));
+                return maps.filter(name => name!== maps[RNG]);
+            }   
         }
         else{
-            let RNG = Math.floor(Math.random()*maps.length);
-            
-            switch(maps[RNG]){
-                case "Dust2":
-                   
-                    BC[0] = "0%";
-                    break;
-                case "Mirage":
-                   
-                    BC[1] = "0%";
-                    break;
-                case "Nuke":
-                   
-                    BC[2] = "0%";
-                    break;
-                case "Ancient":
-                    
-                    BC[3] = "0%";
-                    break;
-                case "Train":
-                    
-                    BC[4] = "0%";
-                    break;
-                case "Inferno":
-                    
-                    BC[5] = "0%";
-                    break;
-                case "Anubis":
-                    
-                    BC[6] = "0%";
-                    break;
+            //NOT BLIND
+            var teamName = (localStorage.getItem("danameyo")) ? localStorage.getItem("danameyo") : "no team";
+
+            var map = 'vertigo';
+            var RNGCHOICEBETWEENMAPS = [];
+
+            for(let d = 0; d < BC.length; d++){
+
+                switch(d){
+                    case 0:
+                        map = 'Dust2';
+                        break;
+                    case 1:
+                        map = 'Mirage';
+                        break;
+                    case 2:
+                        map = 'Nuke';
+                        break;
+                    case 3:
+                        map = 'Ancient';
+                        break;
+                    case 4:
+                        map = 'Train';
+                        break;
+                    case 5:
+                        map = 'Inferno';
+                        break;
+                    case 6:
+                        map = 'Anubis';
+                        break;
                 }
-                localStorage.setItem("BC",JSON.stringify(BC));
-            return maps.filter(name => name!== maps[RNG]);
-        }   
+            }
+        }
+    }
+    else{
+        //bo1 bans
+        if (BlindOrNot){
+            //blind
+            var map = 'vertigo';
+            var index = "11";
+            var RNGCHOICEBETWEENMAPS = [];
+                            //PC AND BC USE D2,MIR,NUKE,ANCIENT,TRAIN,INFERNO,ANUBIS IN THAT ORDER
+                            //EVERYTHING ELSE USES ANCIENT,ANUBIS,INFERNO,D2,MIRAGE,NUKE,VERTIGO,TRAIN
+            for(let d = 0; d < BC.length; d++){
+
+                switch(d){
+                    case 0:
+                        map = 'Dust2';
+                        index = 3;
+                        break;
+                    case 1:
+                        map = 'Mirage';
+                        index = 4;
+                        break;
+                    case 2:
+                        map = 'Nuke';
+                        index = 5;
+                        break;
+                    case 3:
+                        map = 'Ancient';
+                        index = 0;
+                        break;
+                    case 4:
+                        map = 'Train';
+                        index = 7;
+                        break;
+                    case 5:
+                        map = 'Inferno';
+                        index = 2;
+                        break;
+                    case 6:
+                        map = 'Anubis';
+                        index = 1;
+                        break;
+                    }
+
+                    if(maps.includes(map)){
+                        /*
+                        ban
+                            - first ban: 100% ban the map that is the most banned
+                                    - if multiple, check which one is playd the least
+
+                            - mid-round bans:  out of the remaning maps: 
+                                1) most banned + played 0 times
+                                2) most banned + picked 0 times
+                                3) most banned + played least
+                                4) most banned  + lost most
+                                            after checking all the maps
+                                                put all top banned with a range of little played maps and do rng 
+                            - final ban: 
+                                - Win/Loss + Amount banned. which ever is higher ban that one.
+                        */
+
+                       var numOfHunded = [];
+
+                        var topBanned= bans.indexOf(Math.max(...bans));
+                                console.log(topBanned);
+                        switch (numround){
+                            case 1:
+                                if (map === topBanned) {numOfHunded.push({map: map, played: played[index]})}
+                                break;
+                            case 2:
+                                if (map === topBanned) {numOfHunded.push({map: map, played: played[index]})}
+                                break; 
+                            case 3:
+                                if ((map === topBanned) && (played[index] === 0)){
+                                   return maps.filter(name => name!== map);
+                                }
+                                else if((map === topBanned) && (picks[index] === 0)){
+                                    return maps.filter(name => name!== map);
+                                }
+                                else{
+                                    numOfHunded.push({map: map, played: played[index]});
+                                }
+                                break; 
+                            case 4:
+                                break; 
+                            case 5:
+                                break; 
+                            case 6:
+                                break; 
+                            case 7:
+                                break; 
+                        }
+                        if(d === BC.length-1){
+                            if (numround < 2){
+                                const leastPlayed = numOfHunded.reduce((min, current) => {
+                                    return current.played < min.played ? current : min;
+                                });
+                                numOfHunded = [];
+                                return maps.filter(name => name !== leastPlayed);
+
+                            }
+                            else{
+                                /*
+                                3) most banned + played least
+                                4) most banned  + lost most
+                                */
+                            }
+                            
+                           
+                        }
+                        //if(BC[d]!== "0%") {RNGCHOICEBETWEENMAPS.push({map: map, chance: BC[d], index: d})};
+                    }
+                    
+            }
+            console.log(RNGCHOICEBETWEENMAPS.length);
+            if(RNGCHOICEBETWEENMAPS.length > 0 && RNGCHOICEBETWEENMAPS){
+                        console.log("SHIT");
+                        console.log(RNGCHOICEBETWEENMAPS);
+                        console.log(maps);  
+
+                        var choice = weightedRandomChoice(RNGCHOICEBETWEENMAPS);
+
+                        BC[choice.index] = "0%";
+                        PC[choice.index] = "0%";
+                        localStorage.setItem("BC",JSON.stringify(BC));
+                        RNGCHOICEBETWEENMAPS = [];
+                        return maps.filter(name => name!== choice.map);
+                        
+
+            }
+            else{
+                let RNG = Math.floor(Math.random()*maps.length);
+                
+                switch(maps[RNG]){
+                    case "Dust2":
+                    
+                        BC[0] = "0%";
+                        break;
+                    case "Mirage":
+                    
+                        BC[1] = "0%";
+                        break;
+                    case "Nuke":
+                    
+                        BC[2] = "0%";
+                        break;
+                    case "Ancient":
+                        
+                        BC[3] = "0%";
+                        break;
+                    case "Train":
+                        
+                        BC[4] = "0%";
+                        break;
+                    case "Inferno":
+                        
+                        BC[5] = "0%";
+                        break;
+                    case "Anubis":
+                        
+                        BC[6] = "0%";
+                        break;
+                    }
+                    localStorage.setItem("BC",JSON.stringify(BC));
+                return maps.filter(name => name!== maps[RNG]);
+            }   
+        }// END OF BLIND
+        else{
+            //NOT BLIND
+            var teamName = (localStorage.getItem("danameyo")) ? localStorage.getItem("danameyo") : "no team";
+
+            var map = 'vertigo';
+            var RNGCHOICEBETWEENMAPS = [];
+
+            for(let d = 0; d < BC.length; d++){
+
+                switch(d){
+                    case 0:
+                        map = 'Dust2';
+                        break;
+                    case 1:
+                        map = 'Mirage';
+                        break;
+                    case 2:
+                        map = 'Nuke';
+                        break;
+                    case 3:
+                        map = 'Ancient';
+                        break;
+                    case 4:
+                        map = 'Train';
+                        break;
+                    case 5:
+                        map = 'Inferno';
+                        break;
+                    case 6:
+                        map = 'Anubis';
+                        break;
+                }
+            }
+        }
+        
+    }
+        
         
 }
-function PICK(maps, PC){
+function PICK(maps, PC, bo3flag){
 
         var map = 'vertigo';
         var RNGCHOICEBETWEENMAPS = [];
@@ -1717,20 +2010,20 @@ function PICK(maps, PC){
         }   
         
 }
-function bestof3(numround, maps,BC,PC){
+function bestof3(numround, maps,BC,PC,BlindOrNot){
     switch(numround){
         case 1:
-            return BAN(maps,BC);
+            return BAN(maps,BC,true,BlindOrNot);
         case 2:
-            return BAN(maps,BC);
+            return BAN(maps,BC,true,BlindOrNot);
         case 3:
-            return PICK(maps,PC);
+            return PICK(maps,PC,true,BlindOrNot);
         case 4:
-            return PICK(maps,PC);
+            return PICK(maps,PC,true,BlindOrNot);
         case 5:
-            return BAN(maps,BC);
+            return BAN(maps,BC,true,BlindOrNot);
         case 6:
-            return BAN(maps,BC);
+            return BAN(maps,BC,true,BlindOrNot);
         case 7:
             
        }

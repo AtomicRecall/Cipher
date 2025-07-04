@@ -1,44 +1,203 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>&#8203;</title> <!-- zero-width space makes tab appear blank on a server -->
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #000;
+      font-family: 'Courier New', monospace;
+      color: #00ff00;
+      overflow: hidden;
+    }
 
-    <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id ="shit">Cipher :</title>
-    <link rel="stylesheet" type="text/css" href="mainstyle.css">
-    <link rel="shortcut icon" href="https://atomicrecall.github.io/Cipher/favicon.ico">
-    <link href="https://fonts.cdnfonts.com/css/minecraftia" rel="stylesheet">
-    </head>
-  <body>
-    <div id="tw">
-      <span style="font-size: 16px;">Beta v</span><span style="font-size: 20px;">2</span><span style="font-size: 20px;">.0</span><span style=" font-size: 20px;">.1</span>
+    .terminal {
+      width: 100%;
+      height: 100vh;
+      background-color: #000;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .line {
+      margin: 5px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .terminal-line {
+      border-right: 2px solid #00ff62;
+      opacity: 0;
+      animation: typing 2s steps(40, end) forwards;
+    }
+
+    .terminal-line.typed {
+      border-right: none;
+    }
+
+    @keyframes typing {
+      from { width: 0; opacity: 1; }
+      to { width: 100%; opacity: 1; }
+    }
+
+    .copyright-line {
+      opacity: 1 !important;
+      border: none !important;
+      margin-bottom: 20px;
+      white-space: pre-line;
+      color: #00ff00;
+      font-size: 1em;
+    }
+
+    .input-line {
+      display: flex;
+      align-items: center;
+      padding-top: 5px;
+      margin-top: 5px;
+    }
+
+    .prompt {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+    }
+
+    .caret {
+      display: inline-block;
+      width: 10px;
+      height: 1.2em;
+      background-color: #00ff00;
+      margin-left: 5px;
+      animation: blink 1s step-start infinite;
+    }
+
+    .caret.hidden {
+      background-color: #000;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    input#commandInput {
+      background: none;
+      border: none;
+      color: transparent; /* Hides native cursor */
+      text-shadow: 0 0 0 #00ff00; /* Shows text in terminal color */
+      font-family: inherit;
+      font-size: 1em;
+      outline: none;
+      flex: 1;
+      caret-color: transparent; /* Hides caret for good measure */
+    }
+
+    #typing-line {
+      display: none;
+      white-space: nowrap;
+      border-right: 2px solid #00ff62;
+      animation: typing 2s steps(40, end) forwards;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="terminal">
+    <div class="copyright-line">
+      C.I.P.H.E.R (Computational Interface for Perception, Heuristics, and Emotional Regulation)<br>
+      (c) AtomicRecall. All rights reserved.
     </div>
 
+    <!-- Splash lines -->
+    <div class="line terminal-line">Loading system modules...</div>
+    <div class="line terminal-line">✓ Network protocols initialized</div>
+    <div class="line terminal-line">✓ Security protocols loaded</div>
+    <div class="line terminal-line">✓ Encryption algorithms ready</div>
+    <div class="line terminal-line">Establishing secure connection...</div>
+    <div class="line terminal-line">✓ Connection established successfully</div>
+    <div class="line terminal-line">✓ Access granted.</div>
+    <div class="line terminal-line">Taking a look at your browser history... ✓</div>
+    <div class="line terminal-line">Analyzing your allstar Whiffs... ✓</div>
+    <div class="line terminal-line">Compiling aim labs records... ✓</div>
+    <div class="line terminal-line">Detecting suspicious alt account names... ✓</div>
+    <div class="line terminal-line">Counting number of missed bullets (wow, that's a lot!) ✓</div>
+    <div class="line terminal-line">Checking for secret snack stashes... ✓</div>
+    <div class="line terminal-line">Running 'word.exe'... ✓</div>
+    <div class="line terminal-line">Verifying if you actually read the Terms & Conditions... ✓</div>
+    <div class="line terminal-line">Locating your last brain cell... ✓</div>
+    <div class="line terminal-line">Measuring ping to Mars... ✓(99999ms)</div>
+    <div class="line terminal-line">Decrypting your playlist of guilty pleasures... ✓</div>
+    <div class="line terminal-line">Analyzing keyboard rage levels... ✓</div>
+    <div class="line terminal-line">Checking for hidden talents... ✓</div>
+    <div class="line terminal-line">Now Initializing Cipher..... ✓</div>
 
-    </a>
-      <div id=".wrapper"class="wrapper">
-        <a id="redirect" href="index.html">
-          <div id="lgOut">Log Out?</div>
-        </a>
+    <!-- Final typing line -->
+    <div class="line" id="typing-line">Welcome to Cipher Beta Version 2.0.1</div>
 
-        <h1 id = "h1"></h1>
-        <h2 id="poop" style="min-height: 60px;"></h2>
-          <div id=".form-wrapper"class="form-wrapper">
-            <img id="smokewed"></img>
-      </div>
-      
-      <h3 id="h3" >YOUR SAVED TEAMS</h3>  
-      
-      <div id=".BanFileExplorer"class="BanFileExplorer">
-        <div id="srchBtn">Search</div>
-        <div id="rtrnBtn"><-----GO BACK</div>
-      </div>
-      <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js" ></script>
-      <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js" ></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js" ></script>
-      <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
-      <script type="module" src="MAINPAGE.js"></script>
+    <!-- Input line shown under typing line -->
+    <div class="input-line" id="input-line" style="display:none;">
+      <span class="prompt">$<span class="caret" id="caret"></span></span>
+      <input type="text" id="commandInput" />
+    </div>
+  </div>
 
-  </body>
+  <script>
+  const terminalLines = document.querySelectorAll('.terminal-line');
+  const typingLine = document.getElementById('typing-line');
+  const inputLine = document.getElementById('input-line');
+  const caret = document.getElementById('caret');
+  const input = document.getElementById('commandInput');
+
+  terminalLines.forEach((line, index) => {
+    line.style.animationDelay = `${index * 0.5}s`;
+    line.addEventListener('animationend', () => {
+      line.classList.add('typed');
+    });
+  });
+
+  const lastLine = terminalLines[terminalLines.length - 1];
+  lastLine.addEventListener('animationend', () => {
+    terminalLines.forEach(line => line.remove());
+    typingLine.style.display = 'block';
+    typingLine.style.animation = 'typing 2s steps(40, end) forwards';
+
+    typingLine.addEventListener('animationend', () => {
+      // Remove the fake caret from typing-line once it finishes
+      typingLine.style.borderRight = 'none';
+      inputLine.style.display = 'flex';
+      input.focus();
+    });
+  });
+
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      const command = input.value.trim();
+      switch (command.toLowerCase()) {
+        case 'signin': window.location.href = 'LoginPage.html'; break;
+        case 'run': window.location.href = 'index.html'; break;
+        case 'help': alert('Available commands:\n- signin\n- run\n- help'); break;
+        default: alert(`Unknown command: ${command}`);
+      }
+      input.value = '';
+      caret.classList.remove('hidden');
+    }
+  });
+
+  input.addEventListener('focus', () => {
+    if (input.value.length === 0) caret.classList.remove('hidden');
+  });
+  input.addEventListener('blur', () => {
+    if (input.value.length === 0) caret.classList.remove('hidden');
+  });
+  input.addEventListener('input', () => {
+    if (input.value.length > 0) caret.classList.add('hidden');
+    else caret.classList.remove('hidden');
+  });
+</script>
+</body>
 </html>

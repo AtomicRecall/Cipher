@@ -474,7 +474,9 @@ body {
   transition: box-shadow 0.5s ease;
   border-radius: 8px;
 }
-
+#myasshole{
+  opacity: 0;
+}
 #stopbutton:hover {
   cursor: pointer;
   background-color: #555;
