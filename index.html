@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>&#8203;</title>
+  <title>C.I.P.H.E.R. Command Prompt</title>
   <style>
     body, html {
       margin: 0; padding: 0; height: 100%;
@@ -22,7 +22,10 @@
       scrollbar-width: thin;
       scrollbar-color: #00ff00 transparent;
     }
-
+    .caret.hidden {
+    background-color: transparent;
+    animation: none;
+  }
     .copyright-line {
       white-space: pre-line;
       font-size: 1em;
@@ -30,35 +33,29 @@
       color: #00ff00;
       flex-shrink: 0;
     }
-
     .line {
       margin: 5px 0;
       white-space: nowrap;
       overflow: hidden;
     }
-
     .terminal-line {
       border-right: 2px solid #00ff62;
       opacity: 0;
       animation: typing 2s steps(40, end) forwards;
     }
-
     .terminal-line.typed {
       border-right: none;
     }
-
     @keyframes typing {
       from { width: 0; opacity: 1; }
       to { width: 100%; opacity: 1; }
     }
-
     #typing-line {
       display: none;
       border-right: 2px solid #00ff62;
       animation: typing 2s steps(40, end) forwards;
       white-space: nowrap;
     }
-
     .input-line {
       display: flex;
       align-items: center;
@@ -66,13 +63,12 @@
       padding-top: 5px;
       flex-shrink: 0;
     }
-
     .prompt {
       display: flex;
       align-items: center;
       margin-right: 10px;
+      white-space: nowrap;
     }
-
     .caret {
       display: inline-block;
       width: 10px;
@@ -81,109 +77,319 @@
       margin-left: 5px;
       animation: blink 1s step-start infinite;
     }
-
-    .caret.hidden {
-      background-color: #000;
-    }
-
     @keyframes blink {
       0%, 50% { opacity: 1; }
       51%, 100% { opacity: 0; }
     }
-
     input#commandInput {
       background: none;
       border: none;
-      color: transparent; /* hide native cursor */
-      text-shadow: 0 0 0 #00ff00; /* show text */
+      color: transparent;
+      text-shadow: 0 0 0 #00ff00;
       font-family: inherit;
       font-size: 1em;
       outline: none;
       flex: 1;
       caret-color: transparent;
     }
+    .editor-container {
+      border: 2px solid #00ff00;
+      padding: 10px;
+      margin-top: 10px;
+      white-space: pre-wrap;
+      font-family: 'Courier New', monospace;
+      color: #00ff00;
+      background: #000;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 300px;
+    }
+    .editor-content {
+      flex-grow: 1;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      user-select: none;
+    }
+    .editor-prompt {
+      display: flex;
+      align-items: center;
+      margin-top: 5px;
+    }
+    .editor-prompt span {
+      margin-right: 5px;
+      white-space: nowrap;
+    }
+    .editor-input {
+      background: none;
+      border: none;
+      color: transparent;
+      text-shadow: 0 0 0 #00ff00;
+      font-family: inherit;
+      font-size: 1em;
+      outline: none;
+      flex: 1;
+      caret-color: #00ff00;
+    }
+    .tutorial-buttons button {
+      background: #000;
+      border: 1px solid #00ff00;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      cursor: pointer;
+      padding: 2px 6px;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
+    .tutorial-buttons button:hover {
+      background-color: #001100;
+    }
+    .tutorial-display {
+      margin-top: 10px;
+      border: 1px dashed #00ff00;
+      padding: 10px;
+      white-space: pre-wrap;
+    }
   </style>
 </head>
 <body>
 
-  <div class="terminal" id="terminal">
-    <div class="copyright-line">
-      C.I.P.H.E.R (Computational Interface for Perception, Heuristics, and Emotional Regulation)<br>
-      (c) AtomicRecall. All rights reserved.
-    </div>
-
-    <!-- Splash lines -->
-    <div class="line terminal-line">Loading system modules...</div>
-    <div class="line terminal-line">✓ Network protocols initialized</div>
-    <div class="line terminal-line">✓ Security protocols loaded</div>
-    <div class="line terminal-line">✓ Encryption algorithms ready</div>
-    <div class="line terminal-line">Establishing secure connection...</div>
-    <div class="line terminal-line">✓ Connection established successfully</div>
-    <div class="line terminal-line">✓ Access granted.</div>
-    <div class="line terminal-line">Taking a look at your browser history... ✓</div>
-    <div class="line terminal-line">Analyzing your allstar Whiffs... ✓</div>
-    <div class="line terminal-line">Compiling aim labs records... ✓</div>
-    <div class="line terminal-line">Detecting suspicious alt account names... ✓</div>
-    <div class="line terminal-line">Counting number of missed bullets (wow, that's a lot!) ✓</div>
-    <div class="line terminal-line">Checking for secret snack stashes... ✓</div>
-    <div class="line terminal-line">Running 'word.exe'... ✓</div>
-    <div class="line terminal-line">Verifying if you actually read the Terms & Conditions... ✓</div>
-    <div class="line terminal-line">Locating your last brain cell... ✓</div>
-    <div class="line terminal-line">Measuring ping to Mars... ✓(99999ms)</div>
-    <div class="line terminal-line">Decrypting your playlist of guilty pleasures... ✓</div>
-    <div class="line terminal-line">Analyzing keyboard rage levels... ✓</div>
-    <div class="line terminal-line">Checking for hidden talents... ✓</div>
-    <div class="line terminal-line">Now Initializing Cipher..... ✓</div>
-
-    <!-- Final typing line -->
-    <div class="line" id="typing-line">Welcome to Cipher Beta Version 2.0.1</div>
-
-    <!-- Input line -->
-    <div class="input-line" id="input-line" style="display:none;">
-      <span class="prompt">$<span class="caret" id="caret"></span></span>
-      <input type="text" id="commandInput" autocomplete="off" />
-    </div>
+<div class="terminal" id="terminal">
+  <div class="copyright-line">
+    C.I.P.H.E.R (Computational Interface for Perception, Heuristics, and Emotional Regulation)<br>
+    (c) AtomicRecall. All rights reserved.
   </div>
 
+  <!-- Splash Lines -->
+        <div class="line terminal-line">Loading system modules...</div>
+        <div class="line terminal-line">✓ Network protocols initialized</div>
+        <div class="line terminal-line">✓ Security protocols loaded</div>
+        <div class="line terminal-line">✓ Encryption algorithms ready</div>
+        <div class="line terminal-line">Establishing secure connection...</div>
+        <div class="line terminal-line"> </div>
+        <div class="line terminal-line"> </div>
+        <div class="line terminal-line">✓ Connection established successfully</div>
+        <div class="line terminal-line">Sending Client Info...</div> 
+        <div class="line terminal-line">Now Initializing Cipher.....</div>
+
+  <div class="line poopfart" id="typing-line">Welcome to Cipher Beta Version 2.0.1</div>
+  <div class="line poopfart" id="typing-line">type 'help' for more information.</div>
+  <div class="input-line" id="input-line" style="display:none;">
+    <span class="prompt">$<span class="caret" id="caret"></span></span>
+    <input type="text" id="commandInput" autocomplete="off" />
+  </div>
+</div>
+
 <script>
-  const terminalLines = document.querySelectorAll('.terminal-line');
-  const typingLine = document.getElementById('typing-line');
-  const inputLine = document.getElementById('input-line');
-  const caret = document.getElementById('caret');
-  const input = document.getElementById('commandInput');
   const terminal = document.getElementById('terminal');
+  const input = document.getElementById('commandInput');
+  const caret = document.getElementById('caret');
+  const typingLine = Array.from(document.getElementsByClassName('poopfart'));
+  const inputLine = document.getElementById('input-line');
+  const terminalLines = document.querySelectorAll('.terminal-line');
+
+  input.addEventListener('input', () => {
+    if (input.value.length > 0) caret.classList.add('hidden');
+    else caret.classList.remove('hidden');
+  });
 
   terminalLines.forEach((line, index) => {
     line.style.animationDelay = `${index * 0.5}s`;
-    line.addEventListener('animationend', () => {
-      line.classList.add('typed');
-    });
+    line.addEventListener('animationend', () => line.classList.add('typed'));
   });
 
-  const lastLine = terminalLines[terminalLines.length - 1];
-  lastLine.addEventListener('animationend', () => {
+  terminalLines[terminalLines.length - 1].addEventListener('animationend', () => {
     terminalLines.forEach(line => line.remove());
-    typingLine.style.display = 'block';
-    typingLine.style.width = '0';
-    typingLine.style.borderRight = '2px solid #00ff62';
-    typingLine.style.animation = 'typing 2s steps(40, end) forwards';
+    console.log(typingLine);
+    typingLine.forEach(line => line.style.display = 'block');
 
-    // Move typing line to the end of terminal content before input line
-    if (!typingLine.parentElement) {
-      terminal.insertBefore(typingLine, inputLine);
-    }
   });
 
-  typingLine.addEventListener('animationend', () => {
-    typingLine.style.borderRight = 'none';
+  typingLine.forEach(line => line.addEventListener('animationend', () => {
+    typingLine.forEach(line => line.style.borderRight = 'none');
     inputLine.style.display = 'flex';
     input.focus();
-    scrollToBottom();
+  }));
+
+
+  function enterEditorMode() {
+  [...terminal.children].forEach(child => {
+    if (!child.classList.contains('copyright-line')) terminal.removeChild(child);
   });
 
-  function scrollToBottom() {
-    terminal.scrollTop = terminal.scrollHeight;
+  const editorContainer = document.createElement('div');
+  editorContainer.className = 'editor-container';
+
+  const editorContent = document.createElement('div');
+  editorContent.className = 'editor-content';
+
+  const asciiTop = "+-------------------------------------------------------------+";
+  const asciiBottom = "+-------------------------------------------------------------+";
+
+  const intro = `| Welcome to Cipher!                                          |
+|                                                             |
+| Cipher is a FACEIT analytics program to help analyze        |
+| and counter your opponents.                                 |
+|                                                             |
+| Choose a topic below to learn more:                         |`;
+
+  const asciiBox = document.createElement('pre');
+  asciiBox.textContent = asciiTop + '\n' + intro + '\n' + asciiBottom;
+  asciiBox.style.whiteSpace = 'pre-wrap';
+  editorContent.appendChild(asciiBox);
+
+  const buttonContainer = document.createElement('div');
+  buttonContainer.className = 'tutorial-buttons';
+
+  const display = document.createElement('div');
+  display.className = 'tutorial-display';
+
+  const topics = {
+    "Searching for a Team": {
+      pages:[
+        {
+          text: "Before you start using Cipher, you need to learn how to search for a team and add them to your account. \n-DONT WORRY! If you don't have an account, the teams will still be saved to your Local Memory on your browser.\n\nTo search for a team, use the SEARCH button on the right hand side of your main page",
+          img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/search.png"
+        },
+        {
+          text: "After you click on search, you will be asked to enter the name of the FACEIT team you would like to search\n\nAfter clicking on the button next to your input, you will recieve the 5 most relevant FACEIT teams, one of which you can save to your account.",
+          img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/searchFinish.png"
+        },
+        {
+          text: "Some people have multiple teams with the same, how do I know which is which?\n\nWhen you highlight over a team, you will be able to see their captain and soonTM you will be able to see more detailed information about the team for better recognition.",
+          img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/searchHighlight.png"
+        },
+        {
+          text: "What do the stars next to the team mean?\n\n There are 4 different stars that can show after searching for a team:\n  -Empty: Have not hovered or saved this Team\n  -25% Full: User has hovered over the star but didn't save it\n  -75% Full: User is hovered over the star and is about to click it\n  -100% Full: This Team is already saved (ONLY FOR USERS THAT ARE LOGGED IN)",
+          images:[
+            "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/star1.png",
+            "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/star2.png",
+            "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/star3.png",
+            "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/star4.png"
+          ]
+
+        },
+
+      ]
+      
+    },
+    "Signing In": {
+      pages:[
+        {
+          text: "To sign in, either: exit from this editor and run the 'signin' command or,\nrun C.I.P.H.E.R. and click on the Login button on the top left",
+          img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/signin.png"
+        },
+        {
+          text: "After loading the login page, you will have to provide your FACEIT name ONLY.\n\n",
+          img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/signinPage.png"
+        },
+        {
+          text: "After clicking on Login, you are brought to a `Is This You?` page that is for the user (you) to see if we found the right account in the FACEIT API.\n\nIt also searches through the users most recently played matches to find the league team they were the most recently on, I then store this for later use.\n\nClicking on YES!! brings you to the MainPage fully logged in.",
+          img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/signinYou.png"
+        },
+
+      ]
+
+    },
+    "Reading a Team": {
+      pages:[
+        {
+          text: "To read a team:\n- Use the 'read' command.\n- Includes win rate, maps, player habits.",
+          img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Graph_icon.svg/512px-Graph_icon.svg.png"
+        },
+
+      ]
+      
+    },
+    "FAQ":{
+      pages:[
+        {
+          text: "What the fuck?! is Cipher?\n Cipher is a website that communicates with the\nFACEIT API and retrieves information about a given team",
+          img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Graph_icon.svg/512px-Graph_icon.svg.png"
+        },
+
+      ]
+      
+    }
+  };
+
+  Object.entries(topics).forEach(([label, data]) => {
+    const btn = document.createElement('button');
+    btn.textContent = label;
+    btn.onclick = () => {
+  let pageIndex = 0;
+  const data = topics[label];
+  const totalPages = data.pages.length;
+
+  function renderPage() {
+    
+
+    const page = data.pages[pageIndex];
+    let imageHTML = '';
+
+    if (Array.isArray(page.images)) {
+      // Multiple images
+      imageHTML = page.images.map(src =>
+        `<img src="${src}" style=" display:flex; border: 1px solid #00ff00; margin-bottom: 10px;">`
+      ).join('');
+    } else if (typeof page.img === 'string') {
+      // Single image fallback
+      imageHTML = (label ==="Signing In") ? `<img src="${page.img}" style="display: flex; width: 15%; border: 1px solid #00ff00; margin-bottom: 10px;">` : `<img src="${page.img}" style="display: flex; width: 1000px; border: 1px solid #00ff00; margin-bottom: 10px;">`;
+    }
+    display.innerHTML = `
+      <div style=" white-space: pre-wrap; margin-bottom: 10px;">${page.text}</div>
+      ${imageHTML}
+      <div style="display: flex; margin-top: 10px;">
+        <button ${pageIndex === 0 ? 'disabled' : ''} style="color: #00ff00; background-color: black; border-style: solid; border-color: black; font-family: 'Courier New', monospace; position: relative; top: -5px;"onclick="this.parentElement.parentElement.pageBackward()">⬅ Prev</button>
+        <span style="margin: 0 10px;">Page ${pageIndex + 1} of ${totalPages}</span>
+        <button ${pageIndex === totalPages - 1 ? 'disabled' : ''} style= "color: #00ff00; background-color: black; border-style: solid; border-color: black; font-family: 'Courier New', monospace; position: relative; top: -5px;"onclick="this.parentElement.parentElement.pageForward()">Next ➡</button>
+      </div>
+    `;
+
+    // Attach state functions to the display element
+    display.pageForward = () => {
+      if (pageIndex < totalPages - 1) {
+        pageIndex++;
+        renderPage();
+      }
+    };
+    display.pageBackward = () => {
+      if (pageIndex > 0) {
+        pageIndex--;
+        renderPage();
+      }
+    };
   }
+
+  renderPage();
+};
+    buttonContainer.appendChild(btn);
+  });
+
+  editorContent.appendChild(buttonContainer);
+  editorContent.appendChild(display);
+  editorContainer.appendChild(editorContent);
+
+  const prompt = document.createElement('div');
+  prompt.className = 'editor-prompt';
+  prompt.innerHTML = '<span>EDIT&gt;</span>';
+  const editorInput = document.createElement('input');
+  editorInput.className = 'editor-input';
+  prompt.appendChild(editorInput);
+  editorContainer.appendChild(prompt);
+
+  terminal.appendChild(editorContainer);
+  editorInput.focus();
+
+  editorInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      if (editorInput.value.trim().toLowerCase() === 'exit') location.reload();
+      editorInput.value = '';
+    }
+  });
+}
+
 
   input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
@@ -195,45 +401,51 @@
       commandLine.classList.add('line');
       terminal.insertBefore(commandLine, inputLine);
 
-      switch (command.toLowerCase()) {
-        case 'signin':
-          window.location.href = 'LoginPage.html';
+      switch(command.toLowerCase()){
+        case 'tutorial':
+          const loading = document.createElement('div');
+          loading.textContent = 'Running Tutorial.txt...';
+          loading.classList.add('line');
+          terminal.insertBefore(loading, inputLine);
+          inputLine.style.display = 'none';
+          setTimeout(enterEditorMode, 1000);
           break;
         case 'run':
+          const loading1 = document.createElement('div');
+          loading1.textContent = 'Running C.I.P.H.E.R...';
+          loading1.classList.add('line');
+          terminal.insertBefore(loading1, inputLine);
+          inputLine.style.display = 'none';
           window.location.href = 'MainPage.html';
           break;
         case 'help':
-          ['Available commands:', '- signin', '- run', '- help'].forEach(text => {
+          ['Available commands:', '- signin', '- run', '- help', '- tutorial'].forEach(text => {
             const helpLine = document.createElement('div');
             helpLine.textContent = text;
             helpLine.classList.add('line');
             terminal.insertBefore(helpLine, inputLine);
           });
           break;
+        case 'signin':
+          const loading2 = document.createElement('div');
+          loading2.textContent = 'Taking you to the Login Page....';
+          loading2.classList.add('line');
+          terminal.insertBefore(loading2, inputLine);
+          inputLine.style.display = 'none';
+          window.location.href = 'LoginPage.html';
+          break;
         default:
-          const unknownLine = document.createElement('div');
-          unknownLine.textContent = `Unknown command: ${command}`;
-          unknownLine.classList.add('line');
-          terminal.insertBefore(unknownLine, inputLine);
+          const unknown = document.createElement('div');
+          unknown.textContent = `Unknown command: ${command}`;
+          unknown.classList.add('line');
+          terminal.insertBefore(unknown, inputLine);
+          break;
       }
 
       input.value = '';
       caret.classList.remove('hidden');
-      scrollToBottom();
     }
   });
-
-  input.addEventListener('focus', () => {
-    if (input.value.length === 0) caret.classList.remove('hidden');
-  });
-  input.addEventListener('blur', () => {
-    if (input.value.length === 0) caret.classList.remove('hidden');
-  });
-  input.addEventListener('input', () => {
-    if (input.value.length > 0) caret.classList.add('hidden');
-    else caret.classList.remove('hidden');
-  });
 </script>
-
 </body>
 </html>
