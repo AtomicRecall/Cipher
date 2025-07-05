@@ -249,8 +249,8 @@
     "Searching for a Team": {
       pages:[
         {
-          text: "Before you start using Cipher, you need to learn how to search for a team and add them to your account. \n-DONT WORRY! If you don't have an account, the teams will still be saved to your Local Memory on your browser.\n\nTo search for a team, use the SEARCH button on the right hand side of your main page",
-          img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/search.png"
+          text: "Before you start using Cipher, you need to learn how to search for a team and add them to your account. \n -DONT WORRY! If you don't have an account, the teams will still be saved to your Local Memory on your browser.\n\nTo search for a team, use the SEARCH button on the right hand side of your main page",
+          img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/searching.png"
         },
         {
           text: "After you click on search, you will be asked to enter the name of the FACEIT team you would like to search\n\nAfter clicking on the button next to your input, you will recieve the 5 most relevant FACEIT teams, one of which you can save to your account.",
@@ -261,7 +261,7 @@
           img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/searchHighlight.png"
         },
         {
-          text: "What do the stars next to the team mean?\n\n There are 4 different stars that can show after searching for a team:\n  -Empty: Have not hovered or saved this team\n  -25% Full: User has hovered over the star but didn't save the team\n  -75% Full: User is hovered over the star and is about to click it\n  -100% Full: This Team is already saved (ONLY FOR USERS THAT ARE LOGGED IN)",
+          text: "What do the stars next to the team mean?\n\n There are 4 different stars that can show after searching for a team:\n\n     -Empty: Have not hovered or saved this team\n\n\n     -25% Full: User has hovered over the star but didn't save the team\n\n\n     -75% Full: User is hovered over the star and is about to click it\n\n\n     -100% Full: This Team is already saved (ONLY FOR USERS THAT ARE LOGGED IN)",
           images:[
             "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/star1.png",
             "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/star2.png",
@@ -274,10 +274,17 @@
       ]
       
     },
-    "Signing In": {
+    "Logging In": {
       pages:[
         {
-          text: "To sign in, either: exit from this editor and run the 'signin' command or,\nrun C.I.P.H.E.R. and click on the Login button on the top left",
+          text: "Why Log in?\n\nWhen you log in using your FACEIT name, you get the ability to: \n-have your teams saved in a database rather than relying on your browser and, \n-if you are on a ESEA team actively playing in the League, you will have your teams automatically saved to your account",
+          images:[
+            "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/logedin.png",
+            "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/logedinSide.png",
+          ]
+        },
+        {
+          text: "To log in, either: \n-exit from this editor and run the 'login' command or,\n-run C.I.P.H.E.R. and click on the Login button on the top left:",
           img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/signin.png"
         },
         {
@@ -295,8 +302,20 @@
     "Reading a Team": {
       pages:[
         {
-          text: "To read a team:\n- Use the 'read' command.\n- Includes win rate, maps, player habits.",
-          img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Graph_icon.svg/512px-Graph_icon.svg.png"
+          text: "To start reading a team, hover over the corresponding team you want to look at and click on them.\n\nLogged In or not, you will be able to search for teams and save them so that your homepage can look like this:",
+          img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/logedinSide.png"
+        },
+        {
+          text: "Now will start the searching process.\n\nHow Cipher works is, it searches through ALL of the captains matches and obtains their played league matches, \nwith those matches I then retrieve the statistics like picks,bans, and player stats and output them.\n\nUSE THE MATCHES ALREADY FOUND is a button that the user (you) can click if the searching process is taking too long or if it went too far back.\nThe searching process will automatically stop when it reaches Season 48.",
+          img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/search.png"
+        },
+        {
+          text: "Here is the team page. \n\nThe Left-Hand side shows all of the matches found, with the maps played and the score\nThe Top of the Middle shows the team's 5 most recent players followed by the name, the pfp and the background.\nBelow the Top of the Middle is the actual information you are looking for.\nThe BAN SIMULATOR takes you to a EXTREMELY W.I.P ban simulator where you can go through a hypothetical pick and/or ban phase!",
+          images:[
+            "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/mainLeft.png",
+            "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/mainTop.png",
+            "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/mainBot.png"
+          ]
         },
 
       ]
@@ -330,12 +349,42 @@
 
     if (Array.isArray(page.images)) {
       // Multiple images
-      imageHTML = page.images.map(src =>
-        `<img src="${src}" style=" display:flex; border: 1px solid #00ff00; margin-bottom: 10px;">`
-      ).join('');
+      let picNum = 0;
+      imageHTML = page.images.map(src =>{
+        picNum++;
+        switch(label){
+          case "Logging In":
+           return `<img src="${src}" style=" display:flex; width:1000px; border: 1px solid #00ff00; margin-bottom: 10px;">`
+            break;
+          case "Reading a Team":
+            switch(picNum){
+              case 1:
+                return `<img src="${src}" style=" display:flex; border: 1px solid #00ff00; margin-bottom: 10px;">`
+                break;
+              case 2:
+                return `<img src="${src}" style=" transform: translate(300px,-801px); display:flex; border: 1px solid #00ff00; margin-bottom: 10px;">`
+                break;
+              case 3:
+                return `<img src="${src}" style=" transform: translate(300px,-801px); display:flex; border: 1px solid #00ff00; margin-bottom: 10px;">`
+                break;
+            }
+            break;
+          default:
+            return `<img src="${src}" style="transform:translateY(-235px); display:flex; border: 1px solid #00ff00; margin-bottom: 10px;">`
+            break;
+          
+        }
+      }).join('');
     } else if (typeof page.img === 'string') {
       // Single image fallback
-      imageHTML = (label ==="Signing In") ? `<img src="${page.img}" style="display: flex; width: 15%; border: 1px solid #00ff00; margin-bottom: 10px;">` : `<img src="${page.img}" style="display: flex; width: 1000px; border: 1px solid #00ff00; margin-bottom: 10px;">`;
+      switch(label){
+        case "Logging In":
+          imageHTML = `<img src="${page.img}" style="display: flex; width: 15%; border: 1px solid #00ff00; margin-bottom: 10px;">`;
+          break;
+        default:
+          imageHTML = `<img src="${page.img}" style="display: flex; width: 1000px; border: 1px solid #00ff00; margin-bottom: 10px;">`;
+          break;
+      }
     }
     display.innerHTML = `
       <div style=" white-space: pre-wrap; margin-bottom: 10px;">${page.text}</div>
@@ -419,14 +468,14 @@
           window.location.href = 'MainPage.html';
           break;
         case 'help':
-          ['Available commands:', '- signin', '- run', '- help', '- tutorial'].forEach(text => {
+          ['Available commands:', '- login', '- run', '- help', '- tutorial'].forEach(text => {
             const helpLine = document.createElement('div');
             helpLine.textContent = text;
             helpLine.classList.add('line');
             terminal.insertBefore(helpLine, inputLine);
           });
           break;
-        case 'signin':
+        case 'login':
           const loading2 = document.createElement('div');
           loading2.textContent = 'Taking you to the Login Page....';
           loading2.classList.add('line');

@@ -132,7 +132,7 @@ document.getElementById("rtrnBtn").style.visibility = "visible";
 document.getElementById("rtrnBtn").style.transform = "translate(-650px,-375px)";
 document.body.appendChild(document.getElementById("rtrnBtn"));
 document.getElementById("rtrnBtn").onclick = function(){
-    window.location.href = "index.html";
+    window.location.href = "MainPage.html";
 }
 var lastbooleaniswear = false;
 var ffws = 0;

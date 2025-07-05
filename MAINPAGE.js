@@ -4,7 +4,6 @@ const teamName = params.get('teamName');
 
 
 
-
 var loadGears = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/gears.gif";
 var loadingimage = document.createElement("img");
 loadingimage.src = loadGears;
