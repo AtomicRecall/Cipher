@@ -500,6 +500,12 @@ body {
   color: wheat;
   width: 1000px;
 }
+#notice{
+  transform: translateX(500px);
+  font-size: 45px;
+  color: wheat;
+  width: 1000px;
+}
 .BanFileExplorer{
   display: grid;
   transform: translateY(-220px);
