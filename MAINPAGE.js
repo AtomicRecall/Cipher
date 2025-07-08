@@ -3,7 +3,8 @@ const params = new URLSearchParams(window.location.search);
 const teamName = params.get('teamName');
 
 
-
+var currentseason = 54;
+localStorage.setItem("currentseason",currentseason);
 var loadGears = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/gears.gif";
 var loadingimage = document.createElement("img");
 loadingimage.src = loadGears;
@@ -692,7 +693,7 @@ function ontop(){
                         funnyfunction(singleteamarray, "playerinfodivider");
                     
                     getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
-                    upcomingmatchestag.innerHTML = String(localStorage.getItem("danameyo")).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+localStorage.getItem("daseasonyo")+" OF "+String(localStorage.getItem("division")).toUpperCase()+" (PLAYOFFS):";
+                    upcomingmatchestag.innerHTML = String(localStorage.getItem("danameyo")).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+localStorage.getItem("currentseason")+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
 
                 }
                 else{
@@ -898,6 +899,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
             Tmne.classList.add("TTmne");
             Tmne.id = "Tmne"+d;
             Tmne.innerHTML = datan.name;
+            
             if(datan.name.length >= 14){
                 Tmne.innerHTML = datan.name.substring(0,8)+"...";
             }
@@ -1376,8 +1378,9 @@ function funnyfunction(dataalolfunny,wheretoadd){
             Tmne.classList.add("TTmne");
             Tmne.id = "Tmne"+d;
             Tmne.innerHTML = datan.name;
+            localStorage.setItem("danameyo",datan.name);
             if(datan.name.length >= 14){
-                Tmne.innerHTML = datan.name.substring(0,8)+"...";
+                Tmne.innerHTML = datan.name.substring(0,11)+"...";
             }
             else{
                 Tmne.innerHTML = datan.name;
@@ -1612,7 +1615,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
         div.onmouseout = function(){
                 //make sure to delete the shit you made up top!
                 if(Tmne.innerHTML.length >= 14){
-                    Tmne.innerHTML = datan.name.substring(0,8)+"...";
+                    Tmne.innerHTML = datan.name.substring(0,11)+"...";
                 }
                 else{
                     Tmne.innerHTML = datan.name;
@@ -2144,7 +2147,7 @@ function getTeamNameDoc(name, offsett, docelement){
                             console.log(data.items[key]);
                             //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction1.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
                            
-                            document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction1.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+ssn+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
+                            document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction1.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON 54"+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
 
                             localStorage.setItem("danameyo",data.items[key].teams.faction1.nickname);
                             localStorage.setItem('team-id', data.items[key].teams.faction1.team_id);
@@ -2162,7 +2165,7 @@ function getTeamNameDoc(name, offsett, docelement){
                     console.log("just guessing, you probably in team2 right now big boy :)");
                     //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction2.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
                
-                    document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction2.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+ssn+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
+                    document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction2.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON 54"+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
 
                     localStorage.setItem("danameyo",data.items[key].teams.faction2.nickname);
                     localStorage.setItem('team-id', data.items[key].teams.faction2.team_id);
@@ -2612,8 +2615,25 @@ function getUpcomingMatches(team,seasonn,upcomingdivider){
             if (data != null){
                 let payload = data.payload;
                 console.log(payload.items[payload.items.length-1]);
-                
-                if (!payload.items[payload.items.length-1] || payload.items[payload.items.length-1].status === "finished"){
+                if(localStorage.getItem("currentseason")==="54"){
+                    let letuserknowitsempty = document.createElement("div");
+                    letuserknowitsempty.id = "returnednoupcomingmatches";
+                    letuserknowitsempty.innerHTML = "SEASON 54 UPCOMING SOON. GET READY.";
+                    letuserknowitsempty.style.color = "white";
+                    letuserknowitsempty.style.transform = "translateY(40px)";
+                    letuserknowitsempty.style.fontSize = "35px";
+                    letuserknowitsempty.style.width = "700px";
+                    if (document.getElementById("upcomingmatchesdivider")){
+                        document.getElementById("upcomingmatchesdivider").appendChild(letuserknowitsempty);
+    
+                    }   
+                    if(document.getElementById("removemepls")){
+                        document.getElementById("removemepls").remove();
+                    }
+                    
+                    return;
+                }
+                else if (!payload.items[payload.items.length-1] || payload.items[payload.items.length-1].status === "finished"){
                     let letuserknowitsempty = document.createElement("div");
                     letuserknowitsempty.id = "returnednoupcomingmatches";
                     letuserknowitsempty.innerHTML = "YOU HAVE NO UPCOMING MATCHES";
@@ -2699,8 +2719,25 @@ function getUpcomingMatches(team,seasonn,upcomingdivider){
                     if (data != null){
                         let payload = data.payload;
                         console.log(payload.items[payload.items.length-1]);
-                        
-                        if (!payload.items[payload.items.length-1] || payload.items[payload.items.length-1].status === "finished"){
+                        if(localStorage.getItem("currentseason")==="54"){
+                            let letuserknowitsempty = document.createElement("div");
+                            letuserknowitsempty.id = "returnednoupcomingmatches";
+                            letuserknowitsempty.innerHTML = "SEASON 54 UPCOMING SOON. GET READY.";
+                            letuserknowitsempty.style.color = "white";
+                            letuserknowitsempty.style.transform = "translateY(40px)";
+                            letuserknowitsempty.style.fontSize = "35px";
+                            letuserknowitsempty.style.width = "700px";
+                            if (document.getElementById("upcomingmatchesdivider")){
+                                document.getElementById("upcomingmatchesdivider").appendChild(letuserknowitsempty);
+            
+                            }   
+                            if(document.getElementById("removemepls")){
+                                document.getElementById("removemepls").remove();
+                            }
+                            
+                            return;
+                        }
+                        else if (!payload.items[payload.items.length-1] || payload.items[payload.items.length-1].status === "finished"){
                             let letuserknowitsempty = document.createElement("div");
                             letuserknowitsempty.id = "returnednoupcomingmatches";
                             letuserknowitsempty.innerHTML = "YOU HAVE NO UPCOMING MATCHES";
@@ -2783,8 +2820,25 @@ function getUpcomingMatches(team,seasonn,upcomingdivider){
                     if (data != null){
                         let payload = data.payload;
                         //console.log(payload.items[payload.items.length-1]);
-                        
-                        if (!payload.items[payload.items.length-1] || payload.items[payload.items.length-1].status === "finished"){
+                        if(localStorage.getItem("currentseason")==="54"){
+                            let letuserknowitsempty = document.createElement("div");
+                            letuserknowitsempty.id = "returnednoupcomingmatches";
+                            letuserknowitsempty.innerHTML = "SEASON 54 UPCOMING SOON. GET READY.";
+                            letuserknowitsempty.style.color = "white";
+                            letuserknowitsempty.style.transform = "translateY(40px)";
+                            letuserknowitsempty.style.fontSize = "35px";
+                            letuserknowitsempty.style.width = "700px";
+                            if (document.getElementById("upcomingmatchesdivider")){
+                                document.getElementById("upcomingmatchesdivider").appendChild(letuserknowitsempty);
+            
+                            }   
+                            if(document.getElementById("removemepls")){
+                                document.getElementById("removemepls").remove();
+                            }
+                            
+                            return;
+                        }
+                        else if (!payload.items[payload.items.length-1] || payload.items[payload.items.length-1].status === "finished"){
                             let letuserknowitsempty = document.createElement("div");
                             letuserknowitsempty.id = "returnednoupcomingmatches";
                             letuserknowitsempty.innerHTML = "YOU HAVE NO UPCOMING MATCHES";

@@ -74,7 +74,7 @@ document.getElementById("poop").innerHTML = ` `;
 
 var database = firebase.database();
 
-var currentseason = 53;
+var currentseason = 54;
 function removeElementsByClass(className) {
     let elements = document.getElementsByClassName(className);
     while(elements.length > 0) {
