@@ -174,7 +174,7 @@
         <div class="line terminal-line">Now Initializing Cipher.....</div>
 
   <div class="line poopfart" id="typing-line">Welcome to Cipher Beta Version 2.0.1</div>
-  <div class="line poopfart" id="typing-line">type 'help' for more information.</div>
+  <div class="line poopfart two" id="typing-line">type 'help' for more information.</div>
   <div class="input-line" id="input-line" style="display:none;">
     <span class="prompt">$<span class="caret" id="caret"></span></span>
     <input type="text" id="commandInput" autocomplete="off" />
@@ -188,7 +188,9 @@
   const typingLine = Array.from(document.getElementsByClassName('poopfart'));
   const inputLine = document.getElementById('input-line');
   const terminalLines = document.querySelectorAll('.terminal-line');
-
+  const skipdatshit = false;
+  (localStorage.getItem("NOFACEITACCOUNT")===0 ? skipdatshit = true :document.querySelectorAll(".two").forEach(element=>{element.textContent = "Looks like you might not know what you're doing, type tutorial for the tutorial!"}));
+  (skipdatshit ? window.location.href = "MainPage.html" : console.log("fart"));
   input.addEventListener('input', () => {
     if (input.value.length > 0) caret.classList.add('hidden');
     else caret.classList.remove('hidden');
@@ -468,7 +470,7 @@
           window.location.href = 'MainPage.html';
           break;
         case 'help':
-          ['Available commands:', '- login', '- run', '- help', '- tutorial'].forEach(text => {
+          ['Available commands:', '- login\n -Go to the Login Page', '- run\n -Run C.I.P.H.E.R', '- help\n -Obtain a list of all usable commands', '- tutorial\n -Run a tutorial of how to use C.I.P.H.E.R'].forEach(text => {
             const helpLine = document.createElement('div');
             helpLine.textContent = text;
             helpLine.classList.add('line');

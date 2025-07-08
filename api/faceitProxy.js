@@ -2,7 +2,6 @@
 import axios from 'axios';
 export default async function handler(req, res) {
   const endpoint = req.url || ''; // Grab the endpoint from the query
-  console.log("WHAT THE FUCK "+req.url);
   let url = (endpoint).substring(26);
         console.log("URL BEFORE DECODING: "+url);
         url = decodeURIComponent(url);

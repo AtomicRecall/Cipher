@@ -77,7 +77,7 @@ function getTeamNameDoc(name, offsett, docelement){
     fetch('https://open.faceit.com/data/v4/players/'+name+'/history?game=cs2&offset='+offsett+'&limit=20', {
     headers: {
         'accept': 'application/json',
-        'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+        'Authorization': 'Bearer 5cbc1f33-b492-425b-bde4-27dd0133a4aa',
     }
 }).then((res) => {
         if(!res.ok){
@@ -177,7 +177,7 @@ function InitializeCheck(input){
     fetch('https://open.faceit.com/data/v4/search/players?nickname='+input+'&game=cs2',{
         headers: {
             'accept': 'application/json',
-            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+            'Authorization': 'Bearer 5cbc1f33-b492-425b-bde4-27dd0133a4aa',
         }
         }).then((res) => {
             if(!res.ok){
@@ -212,7 +212,7 @@ function InitializeCheck(input){
     
         headers: {
             'accept': 'application/json',
-            'Authorization': 'Bearer 1df284f3-de17-4d2e-b8c7-5a460265e05a'
+            'Authorization': 'Bearer 5cbc1f33-b492-425b-bde4-27dd0133a4aa',
         }
         }).then((res) => {
             if(!res.ok){

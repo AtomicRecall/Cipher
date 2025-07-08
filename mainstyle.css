@@ -244,9 +244,12 @@ body {
 #MUTEALL{
   color:white;
   position: absolute;
-  background-color: red;
-  border-color: red;
-  transform:translate(-82px,14px);
+  background-color: green;
+  border-color: green;
+  display: flex;
+  left: 84%;
+  top: 3.4%;
+  justify-content: center;
   font-size: 13.5px;
 }
 #anubis{

@@ -3,7 +3,7 @@ if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
     document.getElementById(".BanFileExplorer").style.transform = "translateY(-350px)";
 
 }
-let allsoundsmuted = false;
+let allsoundsmuted = true;
 if(document.getElementById("MUTEALL").style.backgroundColor === "green"){
     allsoundsmuted = true;
 }
@@ -12,17 +12,17 @@ document.getElementById("MUTEALL").addEventListener("click", function () {
     if(allsoundsmuted){
         audio.pause();
         paused = true;
-        muteallsounds.textContent = "RESUME ALL SOUNDS";
-        muteallsounds.style.backgroundColor = "green";
-        muteallsounds.style.borderColor = "green";
-        muteallsounds.style.fontSize = "12px"
+        document.getElementById("MUTEALL").textContent = "RESUME ALL SOUNDS";
+        document.getElementById("MUTEALL").style.backgroundColor = "green";
+        document.getElementById("MUTEALL").style.borderColor = "green";
+        document.getElementById("MUTEALL").style.fontSize = "12px"
     }
     else{
-        muteallsounds.textContent = "MUTE ALL SOUNDS";
-        muteallsounds.style.backgroundColor = "red";
-        muteallsounds.style.borderColor = "red";
-        muteallsounds.style.color = "white";
-        muteallsounds.style.fontSize = "13.5px"
+        document.getElementById("MUTEALL").textContent = "MUTE ALL SOUNDS";
+        document.getElementById("MUTEALL").style.backgroundColor = "red";
+        document.getElementById("MUTEALL").style.borderColor = "red";
+        document.getElementById("MUTEALL").style.color = "white";
+        document.getElementById("MUTEALL").style.fontSize = "13.5px"
     }
 
 

@@ -56,7 +56,7 @@ signInBtnLink.addEventListener('click', () => {
 */
 
 loginBtn.addEventListener('click', () => {
-    document.getElementById("temm").innerHTML = "Loading...";
+    document.getElementById("temm").innerHTML = " ";
     LogintoAccount();
     
 });
