@@ -61,7 +61,7 @@ function cancelTyping() {
 
 
 var notice = document.createElement("div");
-notice.id = "instruction";
+notice.id = "notice";
 notice.innerHTML = "LOADING YOUR PROFILE...";
 notice.classList.add("removemepls");
 notice.style.fontSize = "80px";
@@ -104,7 +104,7 @@ if (teamName) {
   }
   else{
     document.getElementById(".BanFileExplorer").appendChild(notice);
-document.getElementById(".BanFileExplorer").appendChild(loadingimage);
+    document.getElementById(".BanFileExplorer").appendChild(loadingimage);
 /*
 var RNG = Math.floor(Math.random()*10)+1;
 
@@ -214,8 +214,8 @@ else{
     document.getElementById("shit").innerHTML = ("Cipher: "+name);
     document.getElementById("lgOut").addEventListener('click', () =>{
         localStorage.removeItem("faceit-name");
+        localStorage.setItem("NOFACEITACCOUNT",1);
     })
-    localStorage.setItem("NOFACEITACCOUNT",0);
     localStorage.setItem("NOTEAMALERT", 1);
 }
 const now = new Date();

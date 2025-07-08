@@ -188,9 +188,12 @@
   const typingLine = Array.from(document.getElementsByClassName('poopfart'));
   const inputLine = document.getElementById('input-line');
   const terminalLines = document.querySelectorAll('.terminal-line');
-  const skipdatshit = false;
-  (localStorage.getItem("NOFACEITACCOUNT")===0 ? skipdatshit = true :document.querySelectorAll(".two").forEach(element=>{element.textContent = "Looks like you might not know what you're doing, type tutorial for the tutorial!"}));
-  (skipdatshit ? window.location.href = "MainPage.html" : console.log("fart"));
+  var skipdatshit = false;
+  console.log(localStorage.getItem("NOFACEITACCOUNT"));
+  (Number(localStorage.getItem("NOFACEITACCOUNT"))=== 1 ? skipdatshit = true :document.querySelectorAll(".two").forEach(element=>{element.textContent = "Looks like you might not know what you're doing, type tutorial for the tutorial!"}));
+  console.log(skipdatshit);
+  (skipdatshit ? localStorage.setItem("NOFACEITACCOUNT", 1) : window.location.href = "MainPage.html");
+  
   input.addEventListener('input', () => {
     if (input.value.length > 0) caret.classList.add('hidden');
     else caret.classList.remove('hidden');

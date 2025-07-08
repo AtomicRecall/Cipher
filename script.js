@@ -160,7 +160,9 @@ forgotpassword.addEventListener('click', () =>{
 
 affiramtivee.addEventListener('click', () =>{
     console.log("BUTTON CLICKED");
+    localStorage.setItem("NOFACEITACCOUNT", 0);
     window.location.href = "MainPage.html";
+
 });
 document.body.addEventListener('keydown', function(event) {
     const currentname = document.getElementById("namee");
@@ -170,6 +172,7 @@ document.body.addEventListener('keydown', function(event) {
         event.preventDefault(); // Prevent page refresh
 
         window.location.href = "MainPage.html";
+        localStorage.setItem("NOFACEITACCOUNT", 0);
         localStorage.removeItem("savedTeams");
     }
 })
