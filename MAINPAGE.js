@@ -208,7 +208,7 @@ if (name === "null" || name == undefined || name === ""){
     document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"));
     document.getElementById("lgOut").innerHTML = "Log In?";
     document.getElementById("redirect").href = "LoginPage.html";
-    document.getElementById("lgOut").style.transform = "translate(5px,20px)";
+    document.getElementById("lgOut").style.transform = "translate(5px,33px)";
     localStorage.setItem("NOFACEITACCOUNT", 1);
     localStorage.setItem("NOTEAMALERT", 0);
 
