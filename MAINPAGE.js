@@ -18,14 +18,10 @@ var muteallsounds = document.createElement("button");
 muteallsounds.id = "MUTEALL";
 muteallsounds.textContent = "RESUME ALL SOUNDS";
 let allsoundsmuted = true;
-let paused = true;
-let audio;
 
   muteallsounds.addEventListener("click", function () {
     allsoundsmuted = !allsoundsmuted;
     if(allsoundsmuted){
-        audio.pause();
-        paused = true;
         muteallsounds.textContent = "RESUME ALL SOUNDS";
         muteallsounds.style.backgroundColor = "green";
         muteallsounds.style.borderColor = "green";
