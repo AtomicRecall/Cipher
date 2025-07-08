@@ -174,7 +174,7 @@
         <div class="line terminal-line">Now Initializing Cipher.....</div>
 
   <div class="line poopfart" id="typing-line">Welcome to Cipher Beta Version 2.0.1</div>
-  <div class="line poopfart two" id="typing-line">type 'help' for more information.</div>
+  <div class="line poopfart two" id="typing-line"> </div>
   <div class="input-line" id="input-line" style="display:none;">
     <span class="prompt">$<span class="caret" id="caret"></span></span>
     <input type="text" id="commandInput" autocomplete="off" />
@@ -216,9 +216,18 @@
     typingLine.forEach(line => line.style.borderRight = 'none');
     inputLine.style.display = 'flex';
     input.focus();
+    if(line.classList.contains("two")){
+       ['Available commands:', '- login\n -Go to the Login Page', '- run\n -Run C.I.P.H.E.R', '- help\n -Obtain a list of all usable commands', '- tutorial\n -Run a tutorial of how to use C.I.P.H.E.R'].forEach(text => {
+            const helpLine = document.createElement('div');
+            helpLine.textContent = text;
+            helpLine.classList.add('line');
+            terminal.insertBefore(helpLine, inputLine);
+          });
+    }
   }));
 
 
+ 
   function enterEditorMode() {
   [...terminal.children].forEach(child => {
     if (!child.classList.contains('copyright-line')) terminal.removeChild(child);
