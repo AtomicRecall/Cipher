@@ -433,7 +433,7 @@ document.getElementById("rtrnBtn").style.visibility = "visible";
     div.style.fontSize = "40px";
     div.style.fontFamily = ''
 
-
+ 
     srch3.addEventListener('click',()=>{
         console.log(document.getElementById("srchboxdiv").value);
         if(document.getElementById("foundteamsdivider")){
@@ -463,6 +463,11 @@ document.getElementById("rtrnBtn").style.visibility = "visible";
     });
     document.getElementById(".BanFileExplorer").appendChild(srch3);
     document.getElementById(".BanFileExplorer").insertBefore(div,document.getElementById(".BanFileExplorer").firstChild);
+        document.getElementById("srchboxdiv").addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            srch3.click();
+        }
+    }); 
 });
 
 const rtrnBtn = document.getElementById("rtrnBtn");
