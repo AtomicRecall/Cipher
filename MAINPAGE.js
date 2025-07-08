@@ -14,7 +14,14 @@ loadingimage.style.position = "absolute";
 loadingimage.id = "removemepls";
 loadingimage.style.transform = "translate(150px,90px)";
 loadingimage.classList.add("removemepls");
-
+var powerButton = document.createElement('img');
+powerButton.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/powerTemp.png";
+powerButton.id = "PowerButton";
+powerButton.addEventListener("click", function(){
+    localStorage.setItem("TerminalMode",true);
+    window.location.href = "index.html";
+});
+document.getElementById(".wrapper").prepend(powerButton);
 var muteallsounds = document.createElement("button");
 muteallsounds.id = "MUTEALL";
 muteallsounds.textContent = "RESUME ALL SOUNDS";
@@ -254,7 +261,7 @@ function typeWriter(element, text, delay = 100, callback) {
   function getCurrentPeriod() {
     const now = new Date();
     const hours = now.getHours();
-    console.log(hours);
+    //console.log(hours);
     return hours >= 12 ? 'pm' : 'am';
   }
 //document.getElementById("h1").innerHTML = "Your Cipher awaits,";

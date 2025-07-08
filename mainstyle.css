@@ -885,6 +885,11 @@ transform: translateY(-120px);
   width: 25px;
   height: 25px;
 }
+#PowerButton{
+  position: absolute;
+  height: 50px;
+  transform: translateY(-13px);
+}
 #tm2pfp{
   position: absolute;
   width: 150px;

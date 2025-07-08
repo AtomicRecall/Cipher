@@ -4,8 +4,9 @@ if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
 
 }
 let allsoundsmuted = true;
-if(document.getElementById("MUTEALL").style.backgroundColor === "green"){
-    allsoundsmuted = true;
+console.log(document.getElementById("MUTEALL").style.backgroundColor);
+if(document.getElementById("MUTEALL").style.backgroundColor === "red"){
+    allsoundsmuted = false;
 }
 document.getElementById("MUTEALL").addEventListener("click", function () {
     allsoundsmuted = !allsoundsmuted;

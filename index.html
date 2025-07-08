@@ -190,7 +190,8 @@
   const terminalLines = document.querySelectorAll('.terminal-line');
   var skipdatshit = false;
   console.log(localStorage.getItem("NOFACEITACCOUNT"));
-  (Number(localStorage.getItem("NOFACEITACCOUNT"))=== 0 ? skipdatshit = true :document.querySelectorAll(".two").forEach(element=>{element.textContent = "Looks like you might not know what you're doing, type tutorial for the tutorial!"}));
+  console.log(localStorage.getItem("faceit-name"));
+  (Number(localStorage.getItem("NOFACEITACCOUNT"))=== 0 && !localStorage.getItem("TerminalMode") ? skipdatshit = true :(localStorage.getItem("faceit-name")===null) ? document.querySelectorAll(".two").forEach(element=>{element.textContent = "Looks like you might not know what you're doing, type tutorial for the tutorial!"}) :console.log("Fart") );
   console.log(skipdatshit);
   (skipdatshit ? window.location.href = "MainPage.html" :localStorage.setItem("NOFACEITACCOUNT", 1) );
   
