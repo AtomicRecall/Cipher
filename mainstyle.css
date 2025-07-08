@@ -246,10 +246,7 @@ body {
   position: absolute;
   background-color: green;
   border-color: green;
-  display: flex;
-  left: 84%;
-  top: 3.4%;
-  justify-content: center;
+  transform: translate(1403px,-48px);
   font-size: 13.5px;
 }
 #anubis{
@@ -366,9 +363,7 @@ body {
   font-weight: bold;
   transition: .9s;
 }
-.divvv:hover{
-  cursor: pointer;
-}
+
 #spanimg{
   transform: trasnlateX(-10px);
 }
@@ -406,7 +401,7 @@ body {
   animation: blink 0.7s infinite;
 }
 #lgOut{
-  transform: translate(5px,45px);
+  transform: translate(5px,30px);
   filter: drop-shadow(3px 0px 1px #000000);
   font-size: 15px;
   color: #ffffff;
@@ -759,7 +754,7 @@ h3{
 #teamname{
   font-size: 25px;
   color: #ffffff;
-  transform: translate(19.7%,-160px)
+  transform: translate(19.7%,-146px)
 }
 #accountCreated{
   font-size: 25px;

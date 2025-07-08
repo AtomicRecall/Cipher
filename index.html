@@ -190,9 +190,9 @@
   const terminalLines = document.querySelectorAll('.terminal-line');
   var skipdatshit = false;
   console.log(localStorage.getItem("NOFACEITACCOUNT"));
-  (Number(localStorage.getItem("NOFACEITACCOUNT"))=== 1 ? skipdatshit = true :document.querySelectorAll(".two").forEach(element=>{element.textContent = "Looks like you might not know what you're doing, type tutorial for the tutorial!"}));
+  (Number(localStorage.getItem("NOFACEITACCOUNT"))=== 0 ? skipdatshit = true :document.querySelectorAll(".two").forEach(element=>{element.textContent = "Looks like you might not know what you're doing, type tutorial for the tutorial!"}));
   console.log(skipdatshit);
-  (skipdatshit ? localStorage.setItem("NOFACEITACCOUNT", 1) : window.location.href = "MainPage.html");
+  (skipdatshit ? window.location.href = "MainPage.html" :localStorage.setItem("NOFACEITACCOUNT", 1) );
   
   input.addEventListener('input', () => {
     if (input.value.length > 0) caret.classList.add('hidden');

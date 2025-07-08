@@ -26,7 +26,7 @@ let allsoundsmuted = true;
         muteallsounds.textContent = "RESUME ALL SOUNDS";
         muteallsounds.style.backgroundColor = "green";
         muteallsounds.style.borderColor = "green";
-        muteallsounds.style.fontSize = "12px"
+        muteallsounds.style.fontSize = "13.5px"
     }
     else{
         muteallsounds.textContent = "MUTE ALL SOUNDS";
@@ -40,7 +40,7 @@ let allsoundsmuted = true;
   });
 
 
-document.body.appendChild(muteallsounds);
+document.getElementById(".wrapper").insertBefore(muteallsounds,document.getElementById("redirect"));
 
 
 
@@ -200,7 +200,6 @@ if (name === "null" || name == undefined || name === ""){
     document.getElementById("h3").style.position = "absolute";
     document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"));
     document.getElementById("lgOut").innerHTML = "Log In?";
-    document.getElementById("lgOut").style.transform = "translate(5px,0px)";
     document.getElementById("redirect").href = "LoginPage.html";
     document.getElementById("lgOut").style.transform = "translate(5px,20px)";
     localStorage.setItem("NOFACEITACCOUNT", 1);
@@ -380,7 +379,15 @@ ontop();
 const srchbtn = document.getElementById("srchBtn");
 
 srchbtn.addEventListener('click', () =>{
-    
+    document.getElementById(".BanFileExplorer").style.transform = "translateY(-350px)";
+    document.getElementById(".form-wrapper").style.opacity = "0";
+document.getElementById(".BanFileExplorer").style.height = "750px";
+
+document.getElementById("h3").style.transform = "translate(600px,-40px)";
+document.getElementById("h3").style.position = "absolute";
+document.getElementById(".BanFileExplorer").prepend(document.getElementById("h3"));
+document.getElementById("srchBtn").style.visibility = "hidden";
+document.getElementById("rtrnBtn").style.visibility = "visible";
     removeElementsByClass("divv");
     removeElementsByClass("divvv");
     removeElementsByClass("divFart");
@@ -421,25 +428,37 @@ srchbtn.addEventListener('click', () =>{
     div.id = "srchboxdiv";
     div.style.padding = "10px";
     div.classList.add("input-group");
-    div.placeholder = "What team are ya lookin for?";
+    div.placeholder = "Enter FACEIT team name here";
     div.type = "text";
     div.style.fontSize = "40px";
     div.style.fontFamily = ''
 
 
     srch3.addEventListener('click',()=>{
-        document.getElementById("h3").innerHTML = "SEARCH RESULTS";
-        removeElementsByClass("divvv");
-        searchForTeams(document.getElementById("srchboxdiv").value);
-        srch3.style.transform = "translate(1430px,13px)";
-        window.addEventListener("beforeunload", () => {
-            // Clear all timeouts and intervals
-            let highestTimeoutId = setTimeout(() => {});
-            for (let i = 0; i < highestTimeoutId; i++) {
-                clearTimeout(i);
-                clearInterval(i);
-            }
-        });
+        console.log(document.getElementById("srchboxdiv").value);
+        if(document.getElementById("foundteamsdivider")){
+            document.getElementById("foundteamsdivider").remove();
+        }
+        if((document.getElementById("srchboxdiv").value!==" ")){
+            document.getElementById("poop").textContent = " ";
+            typeWriter(document.getElementById("h1"), "I found something for "+document.getElementById("srchboxdiv").value, 100, () => {
+                document.getElementById("poop").style.visibility = "visible";
+                (localStorage.getItem("faceit-name")!==" ") ? typeWriter(document.getElementById("poop"),  localStorage.getItem("faceit-name")+"!", 100): typeWriter(document.getElementById("poop"),  "Demo User", 100);    
+             });
+            document.getElementById("h3").innerHTML = "SEARCH RESULTS";
+            removeElementsByClass("divvv");
+            searchForTeams(document.getElementById("srchboxdiv").value);
+            srch3.style.transform = "translate(1430px,13px)";
+            window.addEventListener("beforeunload", () => {
+                // Clear all timeouts and intervals
+                let highestTimeoutId = setTimeout(() => {});
+                for (let i = 0; i < highestTimeoutId; i++) {
+                    clearTimeout(i);
+                    clearInterval(i);
+                }
+            });
+        }
+
 
     });
     document.getElementById(".BanFileExplorer").appendChild(srch3);
@@ -447,7 +466,7 @@ srchbtn.addEventListener('click', () =>{
 });
 
 const rtrnBtn = document.getElementById("rtrnBtn");
-rtrnBtn.addEventListener("click", () => location.reload());
+rtrnBtn.addEventListener("click", () => window.location.href = "MainPage.html");
 
 /*
 rtrnBtn.addEventListener('click', () =>{
@@ -556,22 +575,23 @@ function ontop(){
     localStorage.setItem("first-time", 1);
 
     if (localStorage.getItem("NOFACEITACCOUNT") != 1){
-       
         var ref = database.ref('USERS/'+name+'/LastLoggedIn').set(currenttimestring);
         //obtaining faceit information
         fetch('https://open.faceit.com/data/v4/players?nickname='+name+'&game=cs2', {
         headers: {
-
             'accept': 'application/json',
             'Authorization': 'Bearer 29645383-3447-4a8d-90b8-76fcf5904c45'
         }
         }).then((res) => {
             if(!res.ok){
+
+                document.getElementById("notice").innerHTML = res.json();
                 throw new Error("couldnt fetcht that shit");
             }
             return res.json();
         })
         .then((data) =>{
+            console.log("poop");
             var cvrimmg = document.createElement('img');
             cvrimmg.id = "cvrimg";
            // console.log("GET DOWN");
@@ -2205,7 +2225,7 @@ function searchForTeams(teamnme){
     foundteamsdivider.id = "foundteamsdivider";
     foundteamsdivider.style.width = "1450px";
     foundteamsdivider.classList.add("divvv"); 
-
+    foundteamsdivider.style.opacity = "0";
         fetch('https://open.faceit.com/data/v4/search/teams?nickname='+cocksucker+'&game=cs2&offset=0&limit=6', {
         headers: {
             'accept': 'application/json',
@@ -2227,7 +2247,7 @@ function searchForTeams(teamnme){
             }
         }
         for(let d = 0; d < datann.items.length; d++){
-   
+            
             let datan = datann.items[d];
             //console.log("PEJKFJDSFDS");
             //console.log(datan);
@@ -2315,13 +2335,7 @@ function searchForTeams(teamnme){
             divider.style.transform = "translate(0px,0px)";
             foundteamsdivider.style.display = "grid";
             foundteamsdivider.style.gridAutoFlow = "column"
-            if (localStorage.getItem("NOFACEITACCOUNT")!= 0){
-                foundteamsdivider.style.transform = "translateY(-280px)";
-            }
-            else{
-                foundteamsdivider.style.transform = "translateY(-150px)";
-
-            }
+            foundteamsdivider.style.transform = "translateY(-280px)";            
             foundteamsdivider.appendChild(divider);
 
             var avat = document.createElement('img');
@@ -2408,6 +2422,7 @@ function searchForTeams(teamnme){
                 testary.forEach(function(item){
                     if(datan.team_id == (item)){
                         favimg.src ="images/NicePng_star-shape-png_5691440_3.png";
+                        favimg.classList.add("AlreadySaved");
                         //fav.innerHTML ='<img class ="favimg" id="favimg'+d+'"src = "images/NicePng_star-shape-png_5691440_3.png" />'
                         return;
                     }
@@ -2458,51 +2473,62 @@ function searchForTeams(teamnme){
 
                 document.getElementById("fav"+d).style.transform = "translate(200px,-60px)";
                 let savedTeams = [];
+                
                 if(localStorage.getItem("savedTeams")){
                     savedTeams = JSON.parse(localStorage.getItem("savedTeams"));
                 }
+
                 document.getElementById("fav"+d).onclick = function(){
                     clicked = true;
                     document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+3+".png";
                     
                     if(localStorage.getItem("NOFACEITACCOUNT")!= 1){
                         pushToSavedTeams(datan.team_id);
-                        location.reload();
+                        window.location.href = "MainPage.html";
                     }
                     else{
                         savedTeams.push(datan.team_id);
                         localStorage.setItem("savedTeams", JSON.stringify(savedTeams));
-                        location.reload();
+                        window.location.href = "MainPage.html";
                     }
                     
                     
                 }
 
                 document.getElementById("fav"+d).onmouseover = function(){
-                    if(clicked == true){
-                        document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+3+".png";
+                    document.getElementById("fav"+d).style.cursor = "pointer";
+                    if(!document.getElementById("favimg"+d).classList.contains("AlreadySaved")){
+                        if(clicked == true){
+                            document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+3+".png";
+                        }
+                        else{
+                            document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+2+".png";
+                        }
                     }
-                    else{
-                        document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+2+".png";
-                    }
+
                 }
                 document.getElementById("fav"+d).onmouseout = function(){
-                    if(clicked == true){
-                        document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+3+".png";
-                    }
-                    else{
-                        document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+1+".png";
+                    document.getElementById("fav"+d).style.cursor = "default";
+                    if(!document.getElementById("favimg"+d).classList.contains("AlreadySaved")){
+                        if(clicked == true){
+                            document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+3+".png";
+                        }
+                        else{
+                            document.getElementById("favimg"+d).src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/NicePng_star-shape-png_5691440_"+1+".png";
+                        }
                     }
                 }
 
 
 
-                //d is current child; lol holds all childs.
-                let lol = document.getElementById("foundteamsdivider").children;
+        
             
                 // console.log(document.getElementById("div"+d));
 
-            for (let l = 1; l < lol.length; l++){
+                if(datann.items.length > 4){
+                            //d is current child; lol holds all childs.
+                let lol = document.getElementById("foundteamsdivider").children;
+                    for (let l = 1; l < lol.length; l++){
                 console.log(lol[l].id.substring(3)+" VAG");
 
                 //console.log(lol[l].id);
@@ -2532,6 +2558,8 @@ function searchForTeams(teamnme){
              else {
                //  console.log("DO NOTHING");
               }
+                }
+            
             }
             divider.onmouseout = function(){
                 //make sure to delete the shit you made up top!
@@ -2540,22 +2568,9 @@ function searchForTeams(teamnme){
                 cvrimg.width = 200;
                 cvrimg.style.filter = "blur(2px)";
                 document.getElementById("fav"+d).style.transform = "translate(115px, -60px)";
-
                 document.getElementById("avat"+d).style.transform = "translate(5px, -60px)";
 
-                /*
-                //for each row
-                for(let o = 1; o <= 2; o++){
-                if(document.getElementById(".BanFileExplorer").children[space+(o*4)] != undefined){
-                    document.getElementById(document.getElementById(".BanFileExplorer").children[space+(o*4)].id).style.opacity = 1;
-                    document.getElementById(document.getElementById(".BanFileExplorer").children[space+(o*4)].id).style.transform+= "translate(-100px)";
-                }
-                else {
-                    //DO NOTHING
-                }
-                
-            }
-                */
+                if(datann.items.length > 4){
             document.getElementById("pfpp"+(document.getElementById("foundteamsdivider").children[space].id.substring(3))).style.transform = "translate(10px,-120px)";
             document.getElementById("pfpp"+(document.getElementById("foundteamsdivider").children[space].id.substring(3))).style.opacity = "0";
             if(document.getElementById("foundteamsdivider").children[space+1] != undefined || document.getElementById("foundteamsdivider").children[space+1] != null){
@@ -2570,9 +2585,10 @@ function searchForTeams(teamnme){
             }
             else {}
             }
+            }
         }
         });
-
+        foundteamsdivider.style.opacity = "1";
         return;
 }
 let type = "Playoffs";

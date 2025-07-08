@@ -227,7 +227,23 @@ function InitializeCheck(input){
                 return;
             }
             const image = document.getElementById("profile");
-            image.src = data.avatar;
+            
+            switch(data.avatar){
+                case undefined:
+                    image.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg";
+                    break;
+                case null:
+                    image.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg";
+                    break;
+                case "":
+                    image.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg";
+                    break;
+                default:
+                    image.src = data.avatar;
+                    break;
+
+            }
+            image.style.opacity = "1";
             const bckrd = document.getElementById("background");
             //bckrd.src= data.cover_image;
             switch(data.cover_image){
@@ -244,6 +260,7 @@ function InitializeCheck(input){
                     bckrd.src = data.cover_image;
                     break;
             }
+            bckrd.style.opacity = "0.18";
             const nme = document.getElementById("namee");
             nme.innerHTML = data.nickname;
             const lvl = document.getElementById("level");
@@ -283,9 +300,10 @@ function InitializeCheck(input){
                     break;
                     
             }
-    
+            nme.style.opacity = "1";
+            lvl.style.opacity = "1";
             getTeamNameDoc(playerid,0,"temm");
-            
+ 
         });
         });
     
