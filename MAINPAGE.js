@@ -217,7 +217,7 @@ else{
     document.getElementById("shit").innerHTML = ("Cipher: "+name);
     document.getElementById("lgOut").addEventListener('click', () =>{
         localStorage.removeItem("faceit-name");
-        localStorage.setItem("NOFACEITACCOUNT",1);
+        //localStorage.setItem("NOFACEITACCOUNT",1);
     })
     localStorage.setItem("NOTEAMALERT", 1);
 }
@@ -805,7 +805,7 @@ function YOURSAVEDTEAMS(){
         }
     }
     //console.log("IS THIS PLAYER A ESEA LEAGUE PLAYER? WHAT THE FUCK "+NONESEALEAGUEPLAYERR3);
-    else if (NONESEALEAGUEPLAYERR3 != 1 && localStorage.getItem("NOFACEITACCOUNT") != 1){
+    else if (localStorage.getItem("NOFACEITACCOUNT") != 1){
         document.getElementById(".BanFileExplorer").appendChild(yoursaveteamsdivider);
         if (localStorage.getItem("NOTEAMALERT") != 0){
             database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
