@@ -17,6 +17,12 @@ loadingimage.classList.add("removemepls");
 var powerButton = document.createElement('img');
 powerButton.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/powerTemp.png";
 powerButton.id = "PowerButton";
+powerButton.onmouseover = function(){
+    powerButton.style.cursor = "pointer";
+}
+powerButton.onmouseout = function(){
+    powerButton.style.cursor = "default";
+}
 powerButton.addEventListener("click", function(){
     localStorage.setItem("TerminalMode",true);
     window.location.href = "index.html";
