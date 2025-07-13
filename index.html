@@ -173,7 +173,7 @@
         <div class="line terminal-line">Sending Client Info...</div> 
         <div class="line terminal-line">Now Initializing Cipher.....</div>
 
-  <div class="line poopfart" id="typing-line">Welcome to Cipher Beta Version 2.0.1</div>
+  <div class="line poopfart" id="typing-line">Welcome to Cipher Beta Version 2.1.0</div>
   <div class="line poopfart two" id="typing-line"> </div>
   <div class="input-line" id="input-line" style="display:none;">
     <span class="prompt">$<span class="caret" id="caret"></span></span>
@@ -191,7 +191,7 @@
   var skipdatshit = false;
   console.log(localStorage.getItem("NOFACEITACCOUNT"));
   console.log(localStorage.getItem("faceit-name"));
-  (Number(localStorage.getItem("NOFACEITACCOUNT"))=== 0 && !localStorage.getItem("TerminalMode") ? skipdatshit = true :(localStorage.getItem("faceit-name")===null) ? document.querySelectorAll(".two").forEach(element=>{element.textContent = "Looks like you might not know what you're doing, type tutorial for the tutorial!"}) :console.log("Fart") );
+  (Number(localStorage.getItem("NOFACEITACCOUNT")) === 0 && !localStorage.getItem("TerminalMode") ? skipdatshit = true : (localStorage.getItem("faceit-name")===null) ? document.querySelectorAll(".two").forEach(element=>{element.textContent = "Looks like you might not know what you're doing, type tutorial for the tutorial!"}) :skipdatshit = true );
   console.log(skipdatshit);
   (skipdatshit ? window.location.href = "MainPage.html" :localStorage.setItem("NOFACEITACCOUNT", 0) );
   
@@ -246,6 +246,8 @@
 |                                                             |
 | Cipher is a FACEIT analytics program to help analyze        |
 | and counter your opponents.                                 |
+|                                                             |
+| Type 'exit' to exit from this editor.                       |
 |                                                             |
 | Choose a topic below to learn more:                         |`;
 
@@ -321,7 +323,7 @@
           img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/logedinSide.png"
         },
         {
-          text: "Now will start the searching process.\n\nHow Cipher works is, it searches through ALL of the captains matches and obtains their played league matches, \nwith those matches I then retrieve the statistics like picks,bans, and player stats and output them.\n\nUSE THE MATCHES ALREADY FOUND is a button that the user (you) can click if the searching process is taking too long or if it went too far back.\nThe searching process will automatically stop when it reaches Season 48.",
+          text: "Now will start the searching process.\n\nHow Cipher works is, it searches through ALL of the captains matches and obtains their played league matches, \nwith those matches I then retrieve the statistics like picks,bans, and player stats and output them.\n\nUSE THE MATCHES ALREADY FOUND is a button that the user (you) can click if the searching process is taking too long or if it went too far back.\nThe searching process will automatically stop when it reaches Season 48, the team the captain was on has a different name, or the amount of matches we searched through reached 1000.",
           img: "https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/search.png"
         },
         {
@@ -480,6 +482,7 @@
           loading1.classList.add('line');
           terminal.insertBefore(loading1, inputLine);
           inputLine.style.display = 'none';
+          localStorage.setItem("TerminalMode",false);
           window.location.href = 'MainPage.html';
           break;
         case 'help':

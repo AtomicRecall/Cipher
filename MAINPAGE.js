@@ -448,7 +448,7 @@ document.getElementById("rtrnBtn").style.visibility = "visible";
 
  
     srch3.addEventListener('click',()=>{
-        console.log(document.getElementById("srchboxdiv").value);
+       // console.log(document.getElementById("srchboxdiv").value);
         if(document.getElementById("foundteamsdivider")){
             document.getElementById("foundteamsdivider").remove();
         }
@@ -609,7 +609,7 @@ function ontop(){
             return res.json();
         })
         .then((data) =>{
-            console.log("poop");
+          //  console.log("poop");
             var cvrimmg = document.createElement('img');
             cvrimmg.id = "cvrimg";
            // console.log("GET DOWN");
@@ -727,7 +727,7 @@ function ontop(){
                  
                         var singleteamarray = [];
                         singleteamarray.push(localStorage.getItem("team-id"));
-                        console.log("poop fart");
+                      //  console.log("poop fart");
                         funnyfunction(singleteamarray, "playerinfodivider");
                     
                     getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
@@ -762,7 +762,7 @@ function isValidJSON(str) {
     return true;
   }
 function YOURSAVEDTEAMS(){
-    console.log("RUNNING YOURSAVEDTEAMS");
+   // console.log("RUNNING YOURSAVEDTEAMS");
     if (document.getElementById("removemepls")){
         removeElementsByClass("removemepls");  
 
@@ -864,7 +864,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
         
         //console.log("finding from upcoming: ");
         //console.log(dataalolfunny[d]);
-        console.log(d);
+        //console.log(d);
         if(d === 0 || d % 2 === 0 ){
 
         
@@ -880,7 +880,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
             return res.json();
         })
         .then((datan) =>{ 
-            console.log(datan);
+           // console.log(datan);
             counter++;
             let leaderid = datan.leader;
             //avatar and cover image in the right spot, will have to figure out how to do this automatically with lots of mother fucking entries
@@ -1026,8 +1026,8 @@ function funnyfunction(dataalolfunny,wheretoadd){
                     timer = setTimeout(function() {
         
                         //perform single-click action
-                        console.log(dataalolfunny );
-                        console.log("lololol");
+                       // console.log(dataalolfunny );
+                       // console.log("lololol");
                        localStorage.setItem("THETEAMWEARESEARCHING" , dataalolfunny[d]);
                        localStorage.setItem("THETEAMWEARESEARCHINGNAME", datan.name);
                        var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/buttonclickrelease.wav');
@@ -1057,7 +1057,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                         clearTimeout(timer);    //prevent single-click action
 
                         if(confirm('Are you sure you want to delete '+Tmne.innerHTML+', fool?')){
-                            console.log(div.id);
+                           // console.log(div.id);
                             if(localStorage.getItem("NOFACEITACCOUNT")!=1){
                                 
                                 database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
@@ -1081,7 +1081,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                                 localStorage.setItem("savedTeams", JSON.stringify(storedArray));
 
 
-                                console.log(storedArray); // Updated array without the removed item
+                               // console.log(storedArray); // Updated array without the removed item
                                 location.reload();
                              }
         
@@ -1509,7 +1509,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                         clearTimeout(timer);    //prevent single-click action
 
                         if(confirm('Are you sure you want to delete '+Tmne.innerHTML+', fool?')){
-                            console.log(div.id);
+                           // console.log(div.id);
                             if(localStorage.getItem("NOFACEITACCOUNT")!=1){
                                 
                                 database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
@@ -1533,7 +1533,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                                 localStorage.setItem("savedTeams", JSON.stringify(storedArray));
 
 
-                                console.log(storedArray); // Updated array without the removed item
+                               // console.log(storedArray); // Updated array without the removed item
                                 location.reload();
                              }
         
@@ -1852,7 +1852,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                             clearTimeout(timer);    //prevent single-click action
     
                             if(confirm('Are you sure you want to delete '+Tmne.innerHTML+', fool?')){
-                                console.log(div.id);
+                               // console.log(div.id);
                                 if(localStorage.getItem("NOFACEITACCOUNT")!=1){
                                     
                                     database.ref("USERS/"+name+"/SAVED_TEAMS").on('value', function(snapshot){
@@ -1876,7 +1876,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                                     localStorage.setItem("savedTeams", JSON.stringify(storedArray));
     
     
-                                    console.log(storedArray); // Updated array without the removed item
+                                   // console.log(storedArray); // Updated array without the removed item
                                     location.reload();
                                  }
             
@@ -2151,7 +2151,7 @@ function getTeamNameDoc(name, offsett, docelement){
         return res.json();
     })
   .then((data) =>{
-    console.log(data);
+   // console.log(data);
 
     for(let key = 0; key < data.items.length; key++){
         // if the "items' competition_name has something to do with esea
@@ -2165,6 +2165,8 @@ function getTeamNameDoc(name, offsett, docelement){
                 division = "Advanced";
             }
             else if (division.includes("Open")){
+               // console.log("OPEN");
+                //console.log(division);
                 division = division;
             }
             else if (division.includes("Intermediate")){
@@ -2177,12 +2179,12 @@ function getTeamNameDoc(name, offsett, docelement){
             localStorage.setItem("daseasonyo",ssn);
             for(let key2 = 0; key2 < data.items[key].playing_players.length; key2++){
                 if(data.items[key].playing_players[key2].includes(name)){
-                    console.log("Fopund ur bitch ass LOL");
+                   // console.log("Fopund ur bitch ass LOL");
                     for (let key3 = 0; key3 < 5; key3++){
                         if(data.items[key].teams.faction1.players[key3].player_id.includes(name)){
 
-                            console.log("ohhh you in team1 big boy :)");
-                            console.log(data.items[key]);
+                           // console.log("ohhh you in team1 big boy :)");
+                           // console.log(data.items[key]);
                             //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction1.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
                            
                             document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction1.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON 54"+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
@@ -2191,7 +2193,7 @@ function getTeamNameDoc(name, offsett, docelement){
                             localStorage.setItem('team-id', data.items[key].teams.faction1.team_id);
                             var singleteamarray = [];
                             singleteamarray.push(localStorage.getItem("team-id"));
-                            console.log("poop fart");
+                          //  console.log("poop fart");
                             funnyfunction(singleteamarray, "playerinfodivider");
                             getUpcomingMatches(data.items[key].teams.faction1.team_id,52,"upcomingmatchesdivider");
 
@@ -2200,7 +2202,7 @@ function getTeamNameDoc(name, offsett, docelement){
 
                         }
                     }
-                    console.log("just guessing, you probably in team2 right now big boy :)");
+                   //console.log("just guessing, you probably in team2 right now big boy :)");
                     //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction2.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
                
                     document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction2.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON 54"+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
@@ -2209,7 +2211,7 @@ function getTeamNameDoc(name, offsett, docelement){
                     localStorage.setItem('team-id', data.items[key].teams.faction2.team_id);
                     var singleteamarray = [];
                     singleteamarray.push(localStorage.getItem("team-id"));
-                    console.log("poop fart");
+                   // console.log("poop fart");
                     funnyfunction(singleteamarray, "playerinfodivider");
                     getUpcomingMatches(data.items[key].teams.faction2.team_id,52,"upcomingmatchesdivider");
 
@@ -2286,8 +2288,8 @@ function searchForTeams(teamnme){
                             return res.json();
                         })
                         .then((datan12) =>{ 
-                            console.log("ummmmmmmmmmmmm");
-                            console.log(datan12);
+                          //  console.log("ummmmmmmmmmmmm");
+                           // console.log(datan12);
                             var teaminfoDivider = document.createElement("div");
 
                             if(datan12.cover_image == undefined){
@@ -2311,7 +2313,7 @@ function searchForTeams(teamnme){
 
                             for (const players of datan12.members){
                                 if (players.user_id == someleader){
-                                    console.log("LEADER FOUND "+players.nickname);
+                                 //   console.log("LEADER FOUND "+players.nickname);
                                     var crown = document.createElement('img');
                                     crown.id = "crn";
                                     crown.style.width = "30px";
@@ -2547,7 +2549,7 @@ function searchForTeams(teamnme){
                             //d is current child; lol holds all childs.
                 let lol = document.getElementById("foundteamsdivider").children;
                     for (let l = 1; l < lol.length; l++){
-                console.log(lol[l].id.substring(3)+" VAG");
+               // console.log(lol[l].id.substring(3)+" VAG");
 
                 //console.log(lol[l].id);
     
@@ -2562,7 +2564,7 @@ function searchForTeams(teamnme){
                     }
             }
             document.getElementById("pfpp"+(lol[space].id.substring(3))).style.transform = "translate(170px,-120px)";
-            console.log("moving "+"pfpp"+(lol[space].id.substring(3)));
+           // console.log("moving "+"pfpp"+(lol[space].id.substring(3)));
             document.getElementById("pfpp"+(lol[space].id.substring(3))).style.filter = "drop-shadow(0px .1px 2px black)";
             document.getElementById("pfpp"+(lol[space].id.substring(3))).style.opacity = "1";
 
@@ -2609,17 +2611,19 @@ function searchForTeams(teamnme){
         foundteamsdivider.style.opacity = "1";
         return;
 }
-let type = "Playoffs";
-let season = 53;
+let type = "Regular Season";
+let season = 54;
 function getUpcomingMatches(team,seasonn,upcomingdivider){
-    
-    console.log("division = "+localStorage.getItem("division"));
 
+   // console.log("division = "+localStorage.getItem("division"));
     let champID = null;
-   firebase.database().ref('/championshipIDS/Season '+season+'/'+type+'/'+localStorage.getItem("division")).get().then(snapshot => champID = snapshot.val());
-    switch (localStorage.getItem("division")){
+    firebase.database().ref('/championshipIDS/Season '+season+'/'+type+'/'+localStorage.getItem("division")).get().then(snapshot => {
+        champID = snapshot.val();
+       // console.log(champID);
+        switch (localStorage.getItem("division")){
 
         case "Main":
+        //    console.log(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=${champID}&limit=20`);
         //const url = `championships/v1/matches&participantId=${team}&participantType=TEAM&championshipId=c9f295b8-f68d-492b-bc38-75628dd91103`
         return fetch(`https://cipher-virid.vercel.app/api/faceitProxy?endpoint=&participantId=${team}&participantType=TEAM&championshipId=${champID}&limit=20`,{
             method: 'GET',
@@ -2648,26 +2652,10 @@ function getUpcomingMatches(team,seasonn,upcomingdivider){
         .then((data) => {
             if (data != null){
                 let payload = data.payload;
-                console.log(payload.items[payload.items.length-1]);
-                if(localStorage.getItem("currentseason")==="54"){
-                    let letuserknowitsempty = document.createElement("div");
-                    letuserknowitsempty.id = "returnednoupcomingmatches";
-                    letuserknowitsempty.innerHTML = "SEASON 54 UPCOMING SOON. GET READY.";
-                    letuserknowitsempty.style.color = "white";
-                    letuserknowitsempty.style.transform = "translateY(40px)";
-                    letuserknowitsempty.style.fontSize = "35px";
-                    letuserknowitsempty.style.width = "700px";
-                    if (document.getElementById("upcomingmatchesdivider")){
-                        document.getElementById("upcomingmatchesdivider").appendChild(letuserknowitsempty);
-    
-                    }   
-                    if(document.getElementById("removemepls")){
-                        document.getElementById("removemepls").remove();
-                    }
-                    
-                    return;
-                }
-                else if (!payload.items[payload.items.length-1] || payload.items[payload.items.length-1].status === "finished"){
+              //  console.log(data);
+               // console.log(payload.items[payload.items.length-1]);
+                
+                if (!payload.items[payload.items.length-1] || payload.items[payload.items.length-1].status === "finished"){
                     let letuserknowitsempty = document.createElement("div");
                     letuserknowitsempty.id = "returnednoupcomingmatches";
                     letuserknowitsempty.innerHTML = "YOU HAVE NO UPCOMING MATCHES";
@@ -2752,7 +2740,7 @@ function getUpcomingMatches(team,seasonn,upcomingdivider){
                 .then((data) => {
                     if (data != null){
                         let payload = data.payload;
-                        console.log(payload.items[payload.items.length-1]);
+                      //  console.log(payload.items[payload.items.length-1]);
                         if(localStorage.getItem("currentseason")==="54"){
                             let letuserknowitsempty = document.createElement("div");
                             letuserknowitsempty.id = "returnednoupcomingmatches";
@@ -2926,6 +2914,9 @@ function getUpcomingMatches(team,seasonn,upcomingdivider){
                 })
                 break;
     } 
+    });
+
+    
     
 }
 function removeElementsByClass(className) {
