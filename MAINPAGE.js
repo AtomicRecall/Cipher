@@ -731,7 +731,6 @@ function ontop(){
                         funnyfunction(singleteamarray, "playerinfodivider");
                     
                     getUpcomingMatches(localStorage.getItem('team-id'),52,"upcomingmatchesdivider");
-                    upcomingmatchestag.innerHTML = String(localStorage.getItem("danameyo")).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+localStorage.getItem("currentseason")+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
 
                 }
                 else{
@@ -1417,6 +1416,8 @@ function funnyfunction(dataalolfunny,wheretoadd){
             Tmne.id = "Tmne"+d;
             Tmne.innerHTML = datan.name;
             localStorage.setItem("danameyo",datan.name);
+            upcomingmatchestag.innerHTML = String(localStorage.getItem("danameyo")).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+localStorage.getItem("currentseason")+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
+
             if(datan.name.length >= 14){
                 Tmne.innerHTML = datan.name.substring(0,11)+"...";
             }
@@ -2187,7 +2188,7 @@ function getTeamNameDoc(name, offsett, docelement){
                            // console.log(data.items[key]);
                             //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction1.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction1.nickname;
                            
-                            document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction1.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON 54"+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
+                            //document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction1.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON 54"+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
 
                             localStorage.setItem("danameyo",data.items[key].teams.faction1.nickname);
                             localStorage.setItem('team-id', data.items[key].teams.faction1.team_id);
@@ -2205,7 +2206,7 @@ function getTeamNameDoc(name, offsett, docelement){
                    //console.log("just guessing, you probably in team2 right now big boy :)");
                     //ssn == "ea" ?  document.getElementById(docelement).innerHTML+="Qualifier for "+data.items[key].teams.faction2.nickname : document.getElementById(docelement).innerHTML+="Season "+ssn+" for "+data.items[key].teams.faction2.nickname;
                
-                    document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction2.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON 54"+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
+                   // document.getElementById("upcomingmatchestag").innerHTML = String(data.items[key].teams.faction2.nickname).toUpperCase()+"'S NEXT OPPONENTS IN SEASON 54"+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
 
                     localStorage.setItem("danameyo",data.items[key].teams.faction2.nickname);
                     localStorage.setItem('team-id', data.items[key].teams.faction2.team_id);

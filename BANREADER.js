@@ -4633,6 +4633,35 @@ function printToWebsite(dapicksanddabans, something){
                     MAYBE FETCH CALL AS THE USER CLICKS.
                     TRY TO FIND THE SAME CODE THAT YOU USED IN THE AUTOMATIC GATHERING
                     */
+                   
+
+                
+                document.querySelectorAll("#buttonspan").forEach(el =>{el.style.opacity = "1"});
+
+
+                moreclicks++;
+                //console.log("divider clicked "+moreclicks+" clicks");
+                dividerclicked = !dividerclicked;
+                shouldbeoff = !shouldbeoff;
+                
+
+                if (document.getElementById("EncompassingDivider")){
+                    document.getElementById("EncompassingDivider").remove();
+                }
+                if (document.getElementById("WHOLEPLAYERDIVIDER")){
+                    document.getElementById("WHOLEPLAYERDIVIDER").remove();
+                }
+
+                if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
+                    document.querySelectorAll(".scoreinthescore").forEach(el=>{el.style.filter = ""})
+        
+                }
+                document.querySelectorAll('.gamediv').forEach(element =>{
+                        element.style.filter = "none";
+                });
+
+                
+                let reverseclick = false;
                     //console.log(dapicksanddabans[d]);
                     return fetch(`https://open.faceit.com/data/v4/matches/${dapicksanddabans[d].vote_type}/stats`, {
                         headers: {
@@ -4686,35 +4715,6 @@ function printToWebsite(dapicksanddabans, something){
                             }
                         }
                         dapicksanddabans[d].playerStats = playerStatss;
-
-
-                
-                document.querySelectorAll("#buttonspan").forEach(el =>{el.style.opacity = "1"});
-
-
-                moreclicks++;
-                //console.log("divider clicked "+moreclicks+" clicks");
-                dividerclicked = !dividerclicked;
-                shouldbeoff = !shouldbeoff;
-                
-
-                if (document.getElementById("EncompassingDivider")){
-                    document.getElementById("EncompassingDivider").remove();
-                }
-                if (document.getElementById("WHOLEPLAYERDIVIDER")){
-                    document.getElementById("WHOLEPLAYERDIVIDER").remove();
-                }
-
-                if (document.getElementById("quickInfo").querySelectorAll('.scoreinthescore').length === 1){
-                    document.querySelectorAll(".scoreinthescore").forEach(el=>{el.style.filter = ""})
-        
-                }
-                document.querySelectorAll('.gamediv').forEach(element =>{
-                        element.style.filter = "none";
-                });
-
-                
-                let reverseclick = false;
      
                 if(dividerclicked && moreclicks > 0){
                     var audio = new Audio('https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/sounds/buttonclickrelease.wav');
