@@ -58,7 +58,7 @@ function LogintoAccount(){
 }
     var loadingtext = document.createElement("div");
     loadingtext.id = "loadingorsearching";
-    loadingtext.innerHTML = " Now Searching: "
+    loadingtext.innerHTML = "Starting to search for your last played team....";
     document.getElementById("signchek").appendChild(loadingtext); 
 
 //TODO: START OF SEASON WAHTEVER AND END OF SEASON WHATEVER FROM AND TO
@@ -71,8 +71,9 @@ function getTeamNameDoc(name, offsett, docelement){
         else {
             //localStorage.setItem("NONESEALEAGUEPLAYER",1);
             var ref = database.ref('USERS/'+document.getElementById("usrr").value+'/NONESEALEAGUEPLAYER').set(1);
-            window.location.href = "main.html";
+            window.location.href = "MainPage.html";
         }
+        return;
     }
     fetch('https://open.faceit.com/data/v4/players/'+name+'/history?game=cs2&offset='+offsett+'&limit=20', {
     headers: {
@@ -105,9 +106,6 @@ function getTeamNameDoc(name, offsett, docelement){
             else if (division.includes("Advanced")){
                 division = "Advanced";
             }
-            else if (division.includes("Open")){
-                division = "Open";
-            }
             else if (division.includes("Intermediate")){
                 division = "Intermediate";
             }
@@ -117,12 +115,12 @@ function getTeamNameDoc(name, offsett, docelement){
             for(let key2 = 0; key2 < data.items[key].playing_players.length; key2++){
                 //console.log(data.items[key].playing_players[key2]+"=="+name);
                 if(data.items[key].playing_players[key2].includes(name)){
-                    console.log("Fopund ur bitch ass LOL");
+                   //console.log("Fopund ur bitch ass LOL");
 
                     for (let key3 = 0; key3 < data.items[key].teams.faction1.players.length; key3++){
                         //console.log(data.items[key].teams.faction1.players[key3].player_id+" == "+ name);
                         if(data.items[key].teams.faction1.players[key3].player_id.includes(name)){
-                            console.log("ohhh you in team1 big boy :) scrips1js");
+                            //console.log("ohhh you in team1 big boy :) scrips1js");
                             document.getElementById(docelement).innerHTML =data.items[key].teams.faction1.nickname;
                             localStorage.setItem("danameyo",data.items[key].teams.faction1.nickname);
                             localStorage.setItem("daseasonyo",ssnn);
@@ -140,7 +138,7 @@ function getTeamNameDoc(name, offsett, docelement){
 
                         }
                     }
-                    console.log("just guessing, you probably in team2 right now big boy :)");
+                    //console.log("just guessing, you probably in team2 right now big boy :)");
 
                     document.getElementById(docelement).innerHTML = data.items[key].teams.faction2.nickname;
                     document.getElementById("loadingorsearching").innerHTML = " FOUND IN: "+data.items[key].competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;    
@@ -181,8 +179,9 @@ function InitializeCheck(input){
         }
         }).then((res) => {
             if(!res.ok){
+
                 alert("We didn't find a faceit account with that name? Did you type in your name wrong?");
-                console.log("bringing you back to the main page");
+
                 document.getElementById('incorrect-linkk').click();
             }
             
@@ -217,7 +216,7 @@ function InitializeCheck(input){
         }).then((res) => {
             if(!res.ok){
                 alert("Looks like we had an error finding your faceit account. Do you mind typing in your name again?");
-                window.location.reload();
+                document.getElementById('incorrect-linkk').click();
             }
             
             return res.json();

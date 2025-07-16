@@ -2757,6 +2757,7 @@ function fetchMatchData(matchid,leaderid,count) {
         //let compnamee = datan12.competition_name.substring(4);
         let season = datan12.competition_name.substring(6, 8);
         let division = datan12.competition_name.substring(12);
+
         let type = (division.includes("Playoffs")) ? "Playoffs" : "Regular Season";
         console.log(division);
 
@@ -2765,10 +2766,6 @@ function fetchMatchData(matchid,leaderid,count) {
         }
         else if (division.includes("Advanced")){
             division = "Advanced";
-        }
-        else if (division.includes("Open")){
-            //console.log(division);
-            division = division;
         }
         else if (division.includes("Intermediate")){
             division = "Intermediate";
@@ -2813,6 +2810,7 @@ function fetchMatchData(matchid,leaderid,count) {
             winner = fac2;
             winnerid = datan12.teams.faction2.faction_id;
         }
+        
          return fetch(`https://open.faceit.com/data/v4/matches/${matchid}/stats`, {
             headers: {
                 'accept': 'application/json',
@@ -7985,7 +7983,8 @@ var ILIEDLOLL = 3;
            // console.log("WTFFF "+ILIEDLOLL);
               //make the finalarrayiswear be removed of the season that is clicked
               //find the season by doing picksnbans[d].season
-              var newarray = getArrayFromSeason(label.textContent.substring(1), picksnbans);
+             
+              var newarray = getArrayFromSeason(label.textContent.substring(1), THEFINALARRAYISWEAR);
               //console.log("but first");
               console.log(THEFINALARRAYISWEAR);
               DotheThing(newarray,false,picksnbans);
@@ -8058,11 +8057,13 @@ function getArrayFromSeason(ssn, arrayofallmatchess){
 var THEFINALARRAYISWEAR = new Array();
 var ccccc = 0;
 function DotheThing (arrayofallmatches2, removeoradd){
+    
     bans = new Array(8).fill(0);
     picks = new Array(8).fill(0);
     played = new Array(8).fill(0);
     L = new Array(8).fill(0);
     W = new Array(8).fill(0);
+
     if(ccccc >= 1){
         THEFINALARRAYISWEAR.length = 0;
         ccccc = 0;
@@ -8072,7 +8073,6 @@ function DotheThing (arrayofallmatches2, removeoradd){
         THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.concat(arrayofallmatches2);
     }
     else{
-        
         THEFINALARRAYISWEAR = THEFINALARRAYISWEAR.filter(item => item.season !== arrayofallmatches2[0].season);
     }
     if(document.getElementById("mtches") && document.getElementById("quickInfo")){

@@ -982,7 +982,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
                     switch(datan.members[a].avatar){
                         case undefined:
-                            pfp.src = "https://cdn-frontend.faceit-cdn.net/web/static/media/assets_images_profile_header.jpg";
+                            pfp.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg";
                             break;
                         default:
                             pfp.src = datan.members[a].avatar;
@@ -1463,7 +1463,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
                     switch(datan.members[a].avatar){
                         case undefined:
-                            pfp.src = "https://cdn-frontend.faceit-cdn.net/web/static/media/assets_images_profile_header.jpg";
+                            pfp.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg";
                             break;
                         default:
                             pfp.src = datan.members[a].avatar;
@@ -1806,7 +1806,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
     
                         switch(datan.members[a].avatar){
                             case undefined:
-                                pfp.src = "https://cdn-frontend.faceit-cdn.net/web/static/media/assets_images_profile_header.jpg";
+                                pfp.src = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/DEFAULTT.jpg";
                                 break;
                             default:
                                 pfp.src = datan.members[a].avatar;
