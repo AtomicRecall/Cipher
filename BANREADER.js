@@ -320,6 +320,7 @@ function STARTDASEARCH(teamName) {
             console.log(teamData);
 
             localStorage.setItem("MostRecentMatch", teamData.lastMatchTime);
+            localStorage.setItem("MostRecentFinished", teamData.mostRecentMatchTime);
             localStorage.setItem("AdditionToDatabase", true);
 
             bans = teamData.BANS;
@@ -2617,7 +2618,10 @@ function GetLeaguePickBans(leaderid, offset) {
         console.log(DATABASEADD);
         //JSON.parse(localStorage.getItem("AdditionToDatabase"))
         let fetchCommand = (!DATABASEADD) ? `https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${offset}&limit=50` : `https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${offset}&limit=50&from=1709510400&to=${Number(localStorage.getItem("MostRecentMatch"))-10000}`;
-
+        console.log(Math.floor(Date.now()/1000));
+        if((parseInt(localStorage.getItem("MostRecentFinished")) < parseInt(Math.floor(Date.now()/1000)) ) && DATABASEADD){
+            fetchCommand = `https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${1}&limit=50&from=${parseInt(Math.floor(Date.now()/1000))}&to=${Number(localStorage.getItem("MostRecentFinished"))-10000}`
+        }
         console.log(fetchCommand);
         return fetch(fetchCommand, {
             headers: {

@@ -191,7 +191,8 @@
   var skipdatshit = false;
   console.log(localStorage.getItem("NOFACEITACCOUNT"));
   console.log(localStorage.getItem("faceit-name"));
-  (Number(localStorage.getItem("NOFACEITACCOUNT")) === 0 && !localStorage.getItem("TerminalMode") ? skipdatshit = true : (localStorage.getItem("faceit-name")===null) ? document.querySelectorAll(".two").forEach(element=>{element.textContent = "Looks like you might not know what you're doing, type tutorial for the tutorial!"}) :skipdatshit = true );
+  (Number(localStorage.getItem("NOFACEITACCOUNT")) === 0 && localStorage.getItem("TerminalMode") === "false" ? skipdatshit = true : (localStorage.getItem("faceit-name")===null) ? document.querySelectorAll(".two").forEach(element=>{element.textContent = "Looks like you might not know what you're doing, type tutorial for the tutorial!"}) :skipdatshit = true );
+  (localStorage.getItem("TerminalMode") === "true" ? skipdatshit = false : console.log("fart"));
   console.log(skipdatshit);
   (skipdatshit ? window.location.href = "MainPage.html" :localStorage.setItem("NOFACEITACCOUNT", 0) );
   

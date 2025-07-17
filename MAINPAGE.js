@@ -5,6 +5,7 @@ const teamName = params.get('teamName');
 
 var currentseason = 54;
 localStorage.setItem("currentseason",currentseason);
+
 var loadGears = "https://raw.githubusercontent.com/AtomicRecall/Cipher/refs/heads/main/images/gears.gif";
 var loadingimage = document.createElement("img");
 loadingimage.src = loadGears;
@@ -39,14 +40,13 @@ let allsoundsmuted = true;
         muteallsounds.textContent = "RESUME ALL SOUNDS";
         muteallsounds.style.backgroundColor = "green";
         muteallsounds.style.borderColor = "green";
-        muteallsounds.style.fontSize = "13.5px"
+        muteallsounds.style.transform = "translate(900%,-48px)";
     }
     else{
         muteallsounds.textContent = "MUTE ALL SOUNDS";
         muteallsounds.style.backgroundColor = "red";
         muteallsounds.style.borderColor = "red";
-        muteallsounds.style.color = "white";
-        muteallsounds.style.fontSize = "13.5px"
+        muteallsounds.style.transform = "translate(1020%,-48px)";
     }
 
 
@@ -221,8 +221,11 @@ if (name === "null" || name == undefined || name === ""){
 }
 else{
     document.getElementById("shit").innerHTML = ("Cipher: "+name);
+    localStorage.setItem("TerminalMode",false);
+    
     document.getElementById("lgOut").addEventListener('click', () =>{
         localStorage.removeItem("faceit-name");
+
         //localStorage.setItem("NOFACEITACCOUNT",1);
     })
     localStorage.setItem("NOTEAMALERT", 1);
