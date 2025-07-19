@@ -83,7 +83,9 @@ body {
   transform: translate(-6px,0px);
 }
 .wrapper {
-  width: 1500px;
+  max-width: 1500px;
+  margin: 0 auto; /* ensures it's centered */
+  position: relative; /* make it the reference box */
   height: 800px;
   background: #141616;
   padding: 50px;
@@ -241,12 +243,15 @@ body {
   position: absolute;
   transform: translate(950px,330px);
 }
-#MUTEALL{
-  color:white;
+#MUTEALL {
   position: absolute;
+  right: 0; /* align with right edge of .wrapper */
+  top: 0;   /* or adjust as needed */
+  transform: translateY(-40%); /* optional: vertical centering */
+  margin-top: 10px; /* add spacing from edges if needed */
+  color: white;
   background-color: green;
   border-color: green;
-  transform: translate(87rem,-48px);
   font-size: 13.5px;
 }
 #anubis{
