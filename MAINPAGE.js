@@ -40,13 +40,13 @@ let allsoundsmuted = true;
         muteallsounds.textContent = "RESUME ALL SOUNDS";
         muteallsounds.style.backgroundColor = "green";
         muteallsounds.style.borderColor = "green";
-        muteallsounds.style.transform = "translate(900%,-48px)";
+       // muteallsounds.style.transform = "translate(900%,-48px)";
     }
     else{
         muteallsounds.textContent = "MUTE ALL SOUNDS";
         muteallsounds.style.backgroundColor = "red";
         muteallsounds.style.borderColor = "red";
-        muteallsounds.style.transform = "translate(1020%,-48px)";
+       // muteallsounds.style.transform = "translate(1020%,-48px)";
     }
 
 
