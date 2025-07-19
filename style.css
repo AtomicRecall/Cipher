@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Play', sans-serif;
+  font-family: 'Courier New', monospace;
 }
 
 body {
@@ -45,11 +45,10 @@ BROUGHT BACK TO MOTHER FUCKING LIFE 08/17/24
   position: absolute;
   width: 400px;
   height: 500px;
-  background: #141616;
-  box-shadow: 0 0 50px #FF5500;
-  border-radius: 20px;
+  background: black;
   padding: 40px;
   overflow: hidden;
+  border: 2px solid #00ff00;
   
 }
 .form-wrapper {
@@ -94,12 +93,15 @@ h2 {
   font-size: 30px;
   color: #EBEFF3;
   text-align: center;
+  transform:translateY(-80px);
 }
+
 h6{
   font-size: 70px;
   color: #EBEFF3;
   text-align: center;
   transition: 1s;
+  transform:translateY(-40px);
 }
 h3 {
   font-size: 30px;
@@ -113,7 +115,15 @@ h4 {
   color: #D7DBDF;
   text-align: center;
 }
-
+h5{
+  transform:translateY(15px);
+  text-align: center;
+  font-size: 15px;
+  color:white;
+}
+#loginBtn{
+  transform:translateY(10%);
+}
 #center123 {
   position: relative;
   height: 10px;
@@ -169,15 +179,19 @@ h4 {
 #temm{
   position: absolute;
   height: 40px;
-  width: 220px;
+  width: 300px;
   top: 270px;
-  left: 140px;
   color: #EBEFF3;
   font-size: 30px;
   filter: drop-shadow(10px 5px 8px #000000);
   margin: 0 auto;
   text-align: center;
 
+}
+#loadingNotif{
+  color: white;
+  position: absolute;
+  top:280px;
 }
 #affirmativee {
   position: absolute;

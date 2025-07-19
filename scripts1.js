@@ -56,9 +56,13 @@ function LogintoAccount(){
     
     //console.log("function end");
 }
+    var loadingNotif = document.createElement("div");
+    loadingNotif.id = "loadingNotif";
     var loadingtext = document.createElement("div");
+
     loadingtext.id = "loadingorsearching";
     loadingtext.innerHTML = "Starting to search for your last played team....";
+    document.getElementById("signchek").appendChild(loadingNotif);
     document.getElementById("signchek").appendChild(loadingtext); 
 
 //TODO: START OF SEASON WAHTEVER AND END OF SEASON WHATEVER FROM AND TO
@@ -92,7 +96,8 @@ function getTeamNameDoc(name, offsett, docelement){
 
     for(let key = 0; key < data.items.length; key++){
         var dating = new Date(data.items[key].finished_at* 1000);
-        document.getElementById("loadingorsearching").innerHTML = "Searching: "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
+        document.getElementById("loadingNotif").innerHTML = "Searching: ";
+        document.getElementById("loadingorsearching").innerHTML = (dating.getMonth()+1)+"/"+dating.getDate()+" - "+((dating.getHours() < 10) ? 0+dating.getHours().toString() : dating.getHours())+":"+((dating.getMinutes() < 10) ? 0+dating.getMinutes().toString() : dating.getMinutes())+"<br>";
         // if the "items' competition_name has something to do with esea
         if(data.items[key].competition_name.toLowerCase().includes("esea") && !(data.items[key].competition_name.toLowerCase().includes("qualifier"))){
             var ssnn = data.items[key].competition_name.substring(6,8);
@@ -126,7 +131,8 @@ function getTeamNameDoc(name, offsett, docelement){
                             localStorage.setItem("daseasonyo",ssnn);
                             localStorage.setItem("team-id",data.items[key].teams.faction1.team_id);
                             localStorage.setItem("division", division);
-                            document.getElementById("loadingorsearching").innerHTML = " FOUND IN: "+data.items[key].competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;
+                            document.getElementById("loadingNotif").innerHTML = "FOUND IN:";
+                            document.getElementById("loadingorsearching").innerHTML = data.items[key].competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;
 
                             //console.log("ONE "+data.items[key].teams.faction1.team_id);
                             
@@ -141,7 +147,8 @@ function getTeamNameDoc(name, offsett, docelement){
                     //console.log("just guessing, you probably in team2 right now big boy :)");
 
                     document.getElementById(docelement).innerHTML = data.items[key].teams.faction2.nickname;
-                    document.getElementById("loadingorsearching").innerHTML = " FOUND IN: "+data.items[key].competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;    
+                    document.getElementById("loadingNotif").innerHTML = "FOUND IN:";
+                    document.getElementById("loadingorsearching").innerHTML = data.items[key].competition_name+" - "+(dating.getMonth()+1)+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes();;    
                     localStorage.setItem("team-id",data.items[key].teams.faction2.team_id);
                     localStorage.setItem("danameyo",data.items[key].teams.faction2.nickname);
                     localStorage.setItem("daseasonyo",ssnn);
