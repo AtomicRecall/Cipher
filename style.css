@@ -12,8 +12,10 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #323838;
+  background: black;
   background-image: url("https://raw.githubusercontent.com/AtomicRecall/Cipher/main/images/124411.jpeg");
+  background-color: rgba(0, 0, 0, 0.889);
+  background-blend-mode: overlay;
   
 }
 
@@ -87,6 +89,16 @@ BROUGHT BACK TO MOTHER FUCKING LIFE 08/17/24
   position: relative;
   bottom: 100px;
 }
+    .copyright-line {
+      white-space: pre-line;
+      font-size: 1em;
+      margin-bottom: 0px;
+      color: #00ff00;
+      flex-shrink: 0;
+      top: 90px;
+      position: absolute;
+       text-align: center;
+    }
 
 h2 {
   transition: 2s;

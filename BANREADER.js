@@ -2620,7 +2620,7 @@ function GetLeaguePickBans(leaderid, offset) {
         let fetchCommand = (!DATABASEADD) ? `https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${offset}&limit=50` : `https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${offset}&limit=50&from=1709510400&to=${Number(localStorage.getItem("MostRecentMatch"))-10000}`;
         console.log(Math.floor(Date.now()/1000));
         if((parseInt(localStorage.getItem("MostRecentFinished")) < parseInt(Math.floor(Date.now()/1000)) ) && DATABASEADD){
-            fetchCommand = `https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&limit=50&to=${Number(localStorage.getItem("MostRecentFinished"))+10000}`;
+            //fetchCommand = `https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&limit=50&to=${Number(localStorage.getItem("MostRecentFinished"))+10000}`;
             //here right code to make the program recognize that the info gathered should be sent to the top of the database stack
             //you will have to delete and recreate the stack properly and then send that to the database
         }
