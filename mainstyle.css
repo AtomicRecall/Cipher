@@ -828,9 +828,8 @@ transform: translateY(-120px);
   font-size: 18px;
   white-space: nowrap;
   transform: translate(10px, -75px);
-    font-size: 18px;
-  white-space: nowrap;
   display: inline-block;
+  vertical-align: middle;
 }
 
 .divv{
@@ -910,6 +909,7 @@ transform: translateY(-120px);
   margin-left: 10px; /* controls spacing between name and pfp */
   transition: 0.9s;
   position: static;
+
 }
 #PowerButton{
   position: absolute;

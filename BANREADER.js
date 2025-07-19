@@ -2620,7 +2620,9 @@ function GetLeaguePickBans(leaderid, offset) {
         let fetchCommand = (!DATABASEADD) ? `https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${offset}&limit=50` : `https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${offset}&limit=50&from=1709510400&to=${Number(localStorage.getItem("MostRecentMatch"))-10000}`;
         console.log(Math.floor(Date.now()/1000));
         if((parseInt(localStorage.getItem("MostRecentFinished")) < parseInt(Math.floor(Date.now()/1000)) ) && DATABASEADD){
-            fetchCommand = `https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&offset=${1}&limit=50&from=${parseInt(Math.floor(Date.now()/1000))}&to=${Number(localStorage.getItem("MostRecentFinished"))-10000}`
+            fetchCommand = `https://open.faceit.com/data/v4/players/${leaderid}/history?game=cs2&limit=50&to=${Number(localStorage.getItem("MostRecentFinished"))+10000}`;
+            //here right code to make the program recognize that the info gathered should be sent to the top of the database stack
+            //you will have to delete and recreate the stack properly and then send that to the database
         }
         console.log(fetchCommand);
         return fetch(fetchCommand, {
@@ -2643,7 +2645,6 @@ function GetLeaguePickBans(leaderid, offset) {
         .then((data) => {
     
             let allMatches = data.items;
-          
            if (!allMatches || allMatches.length === 0 || offset >= 700) return Promise.resolve(); // End if no more matches
     
             console.log(`Fetched ${allMatches.length} matches`);
@@ -2652,7 +2653,7 @@ function GetLeaguePickBans(leaderid, offset) {
 
             let matchPromises = allMatches.map((match) => {
                 //update the loading bar here.
-                
+
                 var dating = new Date(match.finished_at*1000);
                 //loadingbar.innerHTML+=match.competition_name+" - "+dating.getMonth()+"/"+dating.getDate()+" - "+dating.getHours()+":"+dating.getMinutes()+"<br>";
                 //console.log(match.teams);

@@ -1132,7 +1132,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 
                 setTimeout(() => {
                     const offsetX = Tmne.offsetLeft + Tmne.offsetWidth;
-                    pfpdiv.style.transform = `translate(${offsetX}px, -105px)`; // fine-tune the -5
+                    pfpdiv.style.transform = `translate(${offsetX}px, -110px)`; // fine-tune the -5
                 }, 0);
                 div.style.transition = "2s";
                 div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";
@@ -1532,7 +1532,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
                 setTimeout(() => {
                     const offsetX = Tmne.offsetLeft + Tmne.offsetWidth;
-                    pfpdiv.style.transform = `translate(${offsetX}px, -105px)`; // fine-tune the -5
+                    pfpdiv.style.transform = `translate(${offsetX}px, -110px)`; // fine-tune the -5
                 }, 0);
 
                 div.style.transition = "2s";
@@ -1805,7 +1805,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 Tmne.innerHTML = datan.name;
                 setTimeout(() => {
                     const offsetX = Tmne.offsetLeft + Tmne.offsetWidth;
-                    pfpdiv.style.transform = `translate(${offsetX}px, -105px)`; // fine-tune the -5
+                    pfpdiv.style.transform = `translate(${offsetX}px, -110px)`; // fine-tune the -5
                 }, 0);
                 div.style.transition = "2s";
                 div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";
@@ -1814,6 +1814,9 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 cvrimg.style.removeProperty('filter');
     
                 pfpdiv.style.transition = ".9s";
+
+    
+                
                 pfpdiv.style.removeProperty('filter');
                 pfpdiv.style.width = 800;
     
