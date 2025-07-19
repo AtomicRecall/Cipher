@@ -123,9 +123,10 @@ body {
   position: absolute;
   color: rgb(255, 255, 255);
   filter: drop-shadow(3px 0px 1px #000000);
-  transform: translate(-710px,-420px);
+  transform: translate(-720px,-430px);
   font-size: 15px;
   font-family: 'Minecraftia', sans-serif;
+  z-index: 1;
 }
 
 #quickInfo{
@@ -253,6 +254,7 @@ body {
   background-color: green;
   border-color: green;
   font-size: 13.5px;
+  font-weight: bold;
 }
 #anubis{
   filter: drop-shadow(.5px 0.5px 0.1px black);
@@ -732,6 +734,8 @@ h3{
   pointer-events: none;
   opacity: 100%;
   filter: blur(5px);
+  width: 100%;
+  display: block;
 
 }
 #elo{
@@ -757,9 +761,9 @@ h3{
   transform: translate(290px,-125px);
 }
 #teamname{
-  font-size: 25px;
+  font-size: 20px;
   color: #ffffff;
-  transform: translate(19.7%,-146px)
+  transform: translate(19rem,-146px)
 }
 #accountCreated{
   font-size: 25px;
@@ -815,14 +819,18 @@ transform: translateY(-120px);
 #pfp{
   height: 80px;
   width: 200px;
-  transform: translateY(-150px);
   pointer-events: none;
 }
 .TTmne{
   color: #ffffff;
   filter: drop-shadow(1px 0px 2px #000000);
-  font-size : 20px;
   pointer-events: none;
+  font-size: 18px;
+  white-space: nowrap;
+  transform: translate(10px, -75px);
+    font-size: 18px;
+  white-space: nowrap;
+  display: inline-block;
 }
 
 .divv{
@@ -887,8 +895,21 @@ transform: translateY(-120px);
   transform: translate(-450px, 80px);
 }
 #pfpp{
-  width: 25px;
-  height: 25px;
+    display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+  background-size: cover;
+  background-position: center;
+
+}
+
+.pfpp{
+    width: 30px;
+  height: 30px;
+  margin-left: 10px; /* controls spacing between name and pfp */
+  transition: 0.9s;
+  position: static;
 }
 #PowerButton{
   position: absolute;

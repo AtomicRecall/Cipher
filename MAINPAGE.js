@@ -395,7 +395,9 @@ ontop();
 const srchbtn = document.getElementById("srchBtn");
 
 srchbtn.addEventListener('click', () =>{
-    document.getElementById(".BanFileExplorer").style.transform = "translateY(-350px)";
+    if(localStorage.getItem("NOFACEITACCOUNT") === "0"){
+            document.getElementById(".BanFileExplorer").style.transform = "translateY(-350px)";
+    }
     document.getElementById(".form-wrapper").style.opacity = "0";
 document.getElementById(".BanFileExplorer").style.height = "750px";
 
@@ -946,7 +948,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
             else{
                 Tmne.innerHTML = datan.name;
             }
-            Tmne.style.transform = "translate(50px, -85px)";
+            
             Tmne.pointerEvents = "none";
             
 
@@ -1126,91 +1128,35 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 div.style.width = "500px";
                 cvrimg.style.width = "500px";
                 div.style.cursor = "pointer";
-            Tmne.innerHTML = datan.name;
-            div.style.transition = "2s";
-            div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";
-            
-            cvrimg.width = 500;
-            cvrimg.style.removeProperty('filter');
-
-            pfpdiv.style.transition = ".9s";
-                switch(datan.name.length){
-                    case 2:
-                        pfpdiv.style.transform = "translate(80px, -125px)";
-                        break;
-                    case 3:
-                        pfpdiv.style.transform = "translate(100px, -125px)";
-                        break;
-                    case 4:
-                        pfpdiv.style.transform = "translate(105px, -125px)";
-                        break;
-                    case 5:
-                        pfpdiv.style.transform = "translate(110px, -125px)";
-                        break;
-                    case 6:
-                        pfpdiv.style.transform = "translate(130px, -125px)";
-                        break;
-                    case 7:
-                        pfpdiv.style.transform = "translate(115px, -125px)";
-                        break;
-                    case 8:
-                        pfpdiv.style.transform = "translate(125px, -125px)";
-                        break;
-                    case 9:
-                        pfpdiv.style.transform = "translate(150px, -125px)";
-                        break;
-                    case 10:
-                        pfpdiv.style.transform = "translate(170px, -125px)";
-                        break;
-                    case 11:
-                        pfpdiv.style.transform = "translate(165px, -125px)";
-                        break;
-                    case 12:
-                        pfpdiv.style.transform = "translate(170px, -125px)";
-                        break;
-                    case 13:
-                        pfpdiv.style.transform = "translate(190px, -125px)";
-                        break;
-                    case 14:
-                        pfpdiv.style.transform = "translate(190px, -125px)";
-                        break;
-                    case 15:
-                        pfpdiv.style.transform = "translate(210px, -125px)"
-                        break;
-                    case 16:
-                        pfpdiv.style.transform = "translate(210px, -125px)"
-                        break;
-                    case 17:
-                        pfpdiv.style.transform = "translate(215px, -125px)"
-                        break;
-                    case 18:
-                        pfpdiv.style.transform = "translate(220px, -125px)"
-                        break;
-                    case 19:
-                        pfpdiv.style.transform = "translate(220px, -125px)"
-                        break;
-                    default:
-                        break;
-                }
-                //pfpdiv.style.transform = "translate(150px, -125px)";
-
-            
-            pfpdiv.style.removeProperty('filter');
-            pfpdiv.style.width = 800;
-
-           
-            document.getElementById(datan.nickname+"pfp").style.transition = "1s";
-            document.getElementById(datan.nickname+"pfp").height = 30;
-            document.getElementById(datan.nickname+"pfp").width = 30;
-            document.getElementById(datan.nickname+"pfp").style.removeProperty('filter');
-            document.getElementById(datan.nickname+"pfp").style.filter = "drop-shadow(0px 0px 2px #ffffff)";
+                Tmne.innerHTML = datan.name;
                 
-
-    
+                setTimeout(() => {
+                    const offsetX = Tmne.offsetLeft + Tmne.offsetWidth;
+                    pfpdiv.style.transform = `translate(${offsetX}px, -105px)`; // fine-tune the -5
+                }, 0);
+                div.style.transition = "2s";
+                div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";
                 
-            document.getElementById("matchDate"+d).style.transition = "2s";
-            document.getElementById("matchDate"+d).style.opacity = "1";// call when done
-            document.getElementById("matchDate"+d).style.transform = "translate(265px,-50px)";
+                cvrimg.width = "500px";
+                cvrimg.style.removeProperty('filter');
+
+                pfpdiv.style.transition = ".9s";
+                pfpdiv.style.height = "";
+                pfpdiv.style.removeProperty('filter');
+                pfpdiv.style.width = 800;
+
+                document.getElementById(datan.nickname+"pfp").style.transition = "1s";
+                document.getElementById(datan.nickname+"pfp").height = 30;
+                document.getElementById(datan.nickname+"pfp").width = 30;
+                document.getElementById(datan.nickname+"pfp").style.removeProperty('filter');
+                document.getElementById(datan.nickname+"pfp").style.filter = "drop-shadow(0px 0px 2px #ffffff)";
+                    
+
+        
+                    
+                document.getElementById("matchDate"+d).style.transition = "2s";
+                document.getElementById("matchDate"+d).style.opacity = "1";// call when done
+                document.getElementById("matchDate"+d).style.transform = "translate(265px,-50px)";
 
       
                
@@ -1218,52 +1164,50 @@ function funnyfunction(dataalolfunny,wheretoadd){
         
                 
 
-            //d is current child; lol holds all childs.
-            //find space in list from all childs, check if the child accross from it is there, if so do the shit, if not dont do shit
-            let lol = document.getElementById(wheretoadd).children;
-                // console.log(document.getElementById("div"+d));
+                //d is current child; lol holds all childs.
+                //find space in list from all childs, check if the child accross from it is there, if so do the shit, if not dont do shit
+                let lol = document.getElementById(wheretoadd).children;
+                    // console.log(document.getElementById("div"+d));
 
-            for (let l = 1; l < lol.length; l++){
-                if(!(wheretoadd === "upcomingmatchesdivider")){
-                    if (lol[l].id.substring(3)==(d)){
-                        // console.log("WE FOUND THE SPACE");
-                        space = l;
-                        break;
+                for (let l = 1; l < lol.length; l++){
+                    if(!(wheretoadd === "upcomingmatchesdivider")){
+                        if (lol[l].id.substring(3)==(d)){
+                            // console.log("WE FOUND THE SPACE");
+                            space = l;
+                            break;
+                        }
+                        else{
+                            continue;
+                        }
                     }
                     else{
-                        continue;
+                        if (lol[l].id.substring(4)==(d)){
+                            // console.log("WE FOUND THE SPACE");
+                            space = l;
+                            break;
+                        }
+                        else{
+                            continue;
+                        }
                     }
+
                 }
-                else{
-                    if (lol[l].id.substring(4)==(d)){
-                        // console.log("WE FOUND THE SPACE");
-                        space = l;
-                        break;
-                    }
-                    else{
-                        continue;
-                    }
+                if(lol[space+2] != undefined && lol[space+2] != null){
+                    // console.log("GO UNVISIBLE "+lol[space+2].id);
+                    document.getElementById(lol[space+2].id).style.transition = "0.5s";
+                    document.getElementById(lol[space+2].id).style.opacity = 0;
+                    updateTransformY(document.getElementById(lol[space+2].id), -20);            
+                }
+                if(lol[space+4]!= undefined && lol[space+4]!= null){
+                    //console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+4].id);
+                    document.getElementById(lol[space+4].id).style.transition = "0.5s";
+                    document.getElementById(lol[space+4].id).style.opacity = 0;
+                    updateTransformY(document.getElementById(lol[space+4].id), -20);
+                }
+                else {
+                //  console.log("DO NOTHING");
                 }
 
-            }
-            if(lol[space+2] != undefined && lol[space+2] != null){
-                  // console.log("GO UNVISIBLE "+lol[space+2].id);
-                document.getElementById(lol[space+2].id).style.transition = "0.5s";
-                document.getElementById(lol[space+2].id).style.opacity = 0;
-                updateTransformY(document.getElementById(lol[space+2].id), -20);            
-            }
-            if(lol[space+4]!= undefined && lol[space+4]!= null){
-                   //console.log("FOUND YOU ALSO GO UNVISIBALEw "+lol[space+4].id);
-                 document.getElementById(lol[space+4].id).style.transition = "0.5s";
-                 document.getElementById(lol[space+4].id).style.opacity = 0;
-                 updateTransformY(document.getElementById(lol[space+4].id), -20);
-            }
-            else {
-              //  console.log("DO NOTHING");
-             }
-
-                
-                
 
         }
        
@@ -1413,11 +1357,14 @@ function funnyfunction(dataalolfunny,wheretoadd){
             avat.width = 40;
             avat.style.transform = "translate(5px, -60px)";
 
+             var pfpdiv = document.createElement('div');
+            pfpdiv.id = "pfp";
 
             var Tmne = document.createElement('div');
             Tmne.classList.add("TTmne");
             Tmne.id = "Tmne"+d;
             Tmne.innerHTML = datan.name;
+            pfpdiv.style.backgroundImage = `url(${datan.pfpurl})`;
             localStorage.setItem("danameyo",datan.name);
             upcomingmatchestag.innerHTML = String(localStorage.getItem("danameyo")).toUpperCase()+"'S NEXT OPPONENTS IN SEASON "+localStorage.getItem("currentseason")+" OF "+String(localStorage.getItem("division")).toUpperCase()+":";
 
@@ -1427,7 +1374,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
             else{
                 Tmne.innerHTML = datan.name;
             }
-            Tmne.style.transform = "translate(50px, -85px)";
+         
             Tmne.pointerEvents = "none";
             
 
@@ -1436,8 +1383,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
 
 
             let space = 1;
-            var pfpdiv = document.createElement('div');
-            pfpdiv.id = "pfp";
+
             pfpdiv.classList.add("pfpp");
             pfpdiv.style.filter = "blur(100px)";
 
@@ -1477,8 +1423,10 @@ function funnyfunction(dataalolfunny,wheretoadd){
                     pfpdiv.appendChild(crown);
                 }
             }
-
-           
+            var overTop = document.createElement("div");
+            overTop.id = "overTop";
+            overTop.appendChild(cvrimg);
+            div.appendChild(overTop);
             div.appendChild(cvrimg);
             div.appendChild(avat);
             div.appendChild(Tmne);
@@ -1575,82 +1523,34 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 div.addEventListener('mouseout', function () {
                 // You can also reset any states here if needed
                 });
+
             div.onmouseover = function(){
 
                 div.style.cursor = "pointer";
-            Tmne.innerHTML = datan.name;
-            div.style.transition = "2s";
-            div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";
-            div.style.width = "500px";
-            cvrimg.style.width = "500px";
-            cvrimg.style.removeProperty('filter');
 
-            pfpdiv.style.transition = ".9s";
-                switch(datan.name.length){
-                    case 2:
-                        pfpdiv.style.transform = "translate(80px, -125px)";
-                        break;
-                    case 3:
-                        pfpdiv.style.transform = "translate(100px, -125px)";
-                        break;
-                    case 4:
-                        pfpdiv.style.transform = "translate(105px, -125px)";
-                        break;
-                    case 5:
-                        pfpdiv.style.transform = "translate(110px, -125px)";
-                        break;
-                    case 6:
-                        pfpdiv.style.transform = "translate(130px, -125px)";
-                        break;
-                    case 7:
-                        pfpdiv.style.transform = "translate(115px, -125px)";
-                        break;
-                    case 8:
-                        pfpdiv.style.transform = "translate(125px, -125px)";
-                        break;
-                    case 9:
-                        pfpdiv.style.transform = "translate(150px, -125px)";
-                        break;
-                    case 10:
-                        pfpdiv.style.transform = "translate(170px, -125px)";
-                        break;
-                    case 11:
-                        pfpdiv.style.transform = "translate(160px, -125px)";
-                        break;
-                    case 12:
-                        pfpdiv.style.transform = "translate(170px, -125px)";
-                        break;
-                    case 13:
-                        pfpdiv.style.transform = "translate(190px, -125px)";
-                        break;
-                    case 14:
-                        pfpdiv.style.transform = "translate(190px, -125px)";
-                        break;
-                    case 15:
-                        pfpdiv.style.transform = "translate(210px, -125px)"
-                        break;
-                    case 16:
-                        pfpdiv.style.transform = "translate(210px, -125px)"
-                        break;
-                    default:
-                        break;
-                }
-                //pfpdiv.style.transform = "translate(150px, -125px)";
+                Tmne.innerHTML = datan.name;
 
-            
-            pfpdiv.style.removeProperty('filter');
-            pfpdiv.style.width = 800;
+                setTimeout(() => {
+                    const offsetX = Tmne.offsetLeft + Tmne.offsetWidth;
+                    pfpdiv.style.transform = `translate(${offsetX}px, -105px)`; // fine-tune the -5
+                }, 0);
+
+                div.style.transition = "2s";
+                div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";
+                div.style.width = "500px";
+                cvrimg.style.width = "500px";
+                cvrimg.style.removeProperty('filter');
+
+                pfpdiv.style.transition = ".9s";            
+                pfpdiv.style.removeProperty('filter');
+                pfpdiv.style.width = 800;
 
            
-            document.getElementById(datan.nickname+"pfp").style.transition = "1s";
-            document.getElementById(datan.nickname+"pfp").height = 30;
-            document.getElementById(datan.nickname+"pfp").width = 30;
-            document.getElementById(datan.nickname+"pfp").style.removeProperty('filter');
-            document.getElementById(datan.nickname+"pfp").style.filter = "drop-shadow(0px 0px 2px #ffffff)";
-
-
-                
-                
+                document.getElementById(datan.nickname+"pfp").style.transition = "1s";
+                document.getElementById(datan.nickname+"pfp").height = 30;
+                document.getElementById(datan.nickname+"pfp").width = 30;
+                document.getElementById(datan.nickname+"pfp").style.removeProperty('filter');
+                document.getElementById(datan.nickname+"pfp").style.filter = "drop-shadow(0px 0px 2px #ffffff)"; 
 
         }
        
@@ -1662,6 +1562,7 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 else{
                     Tmne.innerHTML = datan.name;
                 }
+
                 div.style.filter = "";
                 div.style.width = "200px";
                 cvrimg.style.width = "200px";
@@ -1764,13 +1665,15 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 Tmne.classList.add("TTmne");
                 Tmne.id = "Tmne"+d;
                 Tmne.innerHTML = datan.name;
+                
+
                 if(datan.name.length >= 14){
                     Tmne.innerHTML = datan.name.substring(0,8)+"...";
                 }
                 else{
                     Tmne.innerHTML = datan.name;
                 }
-                Tmne.style.transform = "translate(50px, -85px)";
+                
                 Tmne.pointerEvents = "none";
                 
     
@@ -1900,6 +1803,10 @@ function funnyfunction(dataalolfunny,wheretoadd){
                        }
                     div.style.cursor = "pointer";
                 Tmne.innerHTML = datan.name;
+                setTimeout(() => {
+                    const offsetX = Tmne.offsetLeft + Tmne.offsetWidth;
+                    pfpdiv.style.transform = `translate(${offsetX}px, -105px)`; // fine-tune the -5
+                }, 0);
                 div.style.transition = "2s";
                 div.style.filter = "drop-shadow(0px 0px 10px #ffffff)";
                 div.style.width = "500px";
@@ -1907,58 +1814,6 @@ function funnyfunction(dataalolfunny,wheretoadd){
                 cvrimg.style.removeProperty('filter');
     
                 pfpdiv.style.transition = ".9s";
-                    switch(datan.name.length){
-                        case 2:
-                            pfpdiv.style.transform = "translate(80px, -125px)";
-                            break;
-                        case 3:
-                            pfpdiv.style.transform = "translate(100px, -125px)";
-                            break;
-                        case 4:
-                            pfpdiv.style.transform = "translate(105px, -125px)";
-                            break;
-                        case 5:
-                            pfpdiv.style.transform = "translate(110px, -125px)";
-                            break;
-                        case 6:
-                            pfpdiv.style.transform = "translate(130px, -125px)";
-                            break;
-                        case 7:
-                            pfpdiv.style.transform = "translate(115px, -125px)";
-                            break;
-                        case 8:
-                            pfpdiv.style.transform = "translate(125px, -125px)";
-                            break;
-                        case 9:
-                            pfpdiv.style.transform = "translate(150px, -125px)";
-                            break;
-                        case 10:
-                            pfpdiv.style.transform = "translate(170px, -125px)";
-                            break;
-                        case 11:
-                            pfpdiv.style.transform = "translate(160px, -125px)";
-                            break;
-                        case 12:
-                            pfpdiv.style.transform = "translate(170px, -125px)";
-                            break;
-                        case 13:
-                            pfpdiv.style.transform = "translate(190px, -125px)";
-                            break;
-                        case 14:
-                            pfpdiv.style.transform = "translate(190px, -125px)";
-                            break;
-                        case 15:
-                            pfpdiv.style.transform = "translate(210px, -125px)"
-                            break;
-                        case 16:
-                            pfpdiv.style.transform = "translate(210px, -125px)"
-                            break;
-                        default:
-                            break;
-                    }
-                    //pfpdiv.style.transform = "translate(150px, -125px)";
-    
-                
                 pfpdiv.style.removeProperty('filter');
                 pfpdiv.style.width = 800;
     
@@ -2411,7 +2266,7 @@ function searchForTeams(teamnme){
             else{
                 Tmne.innerHTML = datan.name;
             }
-            Tmne.style.transform = "translate(50px, -85px)";
+      
             Tmne.pointerEvents = "none";
 
 
