@@ -7391,49 +7391,49 @@ function UtilityInfo(playerStatss,matchinfo, isOverallLeaderboard,goingbacktoori
                 encompassinginfodivider.style.transform = "translate(10px,-52px)";
             }
             let UtilC = document.createElement("div");
-            UtilC.innerHTML = "Utility Count : <span class = blue2>"+overallPlayerStats[team][player].UtilC+"</span>";
+            UtilC.innerHTML = "HE Count : <span class = blue2>"+parseFloat(overallPlayerStats[team][player].UtilC.toFixed(2))+"</span>";
             UtilC.classList.add("infothing");
             encompassinginfodivider.appendChild(UtilC);
             //UtilC.style.transform = "translate(235px,-36px)";
 
             let UtilS = document.createElement("div");
-            UtilS.innerHTML = "Utility Success : <span class = green2>"+parseFloat(overallPlayerStats[team][player].UtilS.toFixed(2))+"</span>";
+            UtilS.innerHTML = "HE Success : <span class = green2>"+parseFloat(overallPlayerStats[team][player].UtilS.toFixed(2))+"</span>";
             UtilS.classList.add("infothing");
             encompassinginfodivider.appendChild(UtilS);
             //UtilS.style.transform = "translate(235px,-36px)";
 
             let UtilUse = document.createElement("div");
-            UtilUse.innerHTML = "Utility Usage : <span class = blue2>"+overallPlayerStats[team][player].UtilityUse+"</span>";
+            UtilUse.innerHTML = "HE Usage : <span class = blue2>"+parseFloat(overallPlayerStats[team][player].UtilityUse.toFixed(2))+"</span>";
             UtilUse.classList.add("infothing");
             encompassinginfodivider.appendChild(UtilUse);
            // UtilUse.style.transform = "translate(235px,-36px)";
 
             let UtilDam = document.createElement("div");
-            UtilDam.innerHTML = "Utility Damage : <span class = orange2>"+overallPlayerStats[team][player].UtilDam+"</span>";
+            UtilDam.innerHTML = "HE Damage : <span class = orange2>"+parseFloat(overallPlayerStats[team][player].UtilDam.toFixed(2))+"</span>";
             UtilDam.classList.add("infothing");
             encompassinginfodivider.appendChild(UtilDam);
            // UtilDam.style.transform = "translate(235px,-36px)";
 
             let Utildammatch = document.createElement("div");
-            Utildammatch.innerHTML = "Utility Damage per Round : <span class = green2>"+parseFloat(overallPlayerStats[team][player].UtilDamPerRoundMatch.toFixed(2))+"</span>";
+            Utildammatch.innerHTML = "Utility Damage per HE : <span class = green2>"+parseFloat(overallPlayerStats[team][player].UtilDamPerRoundMatch.toFixed(2))+"</span>";
             Utildammatch.classList.add("infothing");
             encompassinginfodivider.appendChild(Utildammatch);
             //Utildammatch.style.transform = "translate(235px,-36px)";
 
             let FlashC = document.createElement("div");
-            FlashC.innerHTML = "Flash Count : <span class = blue2>"+overallPlayerStats[team][player].FlashC+"</span>";
+            FlashC.innerHTML = "Flash Count : <span class = blue2>"+parseFloat(overallPlayerStats[team][player].FlashC.toFixed(2))+"</span>";
             FlashC.classList.add("infothing");
             encompassinginfodivider.appendChild(FlashC);
             FlashC.style.transform = "translate(213px,-55px)";
 
             let FlashS = document.createElement("div");
-            FlashS.innerHTML = "Flash Successes : <span class = green2>"+overallPlayerStats[team][player].FlashS+"</span>";
+            FlashS.innerHTML = "Flash Successes : <span class = green2>"+parseFloat(overallPlayerStats[team][player].FlashS.toFixed(2))+"</span>";
             FlashS.classList.add("infothing");
             encompassinginfodivider.appendChild(FlashS);
             FlashS.style.transform = "translate(194px,-55px)";
 
             let EnemyFlash = document.createElement("div");
-            EnemyFlash.innerHTML = "Enemies Flashed : <span class = green2>"+overallPlayerStats[team][player].EnemyFlash+"</span>";
+            EnemyFlash.innerHTML = "Enemies Flashed : <span class = green2>"+parseFloat(overallPlayerStats[team][player].EnemyFlash.toFixed(2))+"</span>";
             EnemyFlash.classList.add("infothing");
             encompassinginfodivider.appendChild(EnemyFlash);
             EnemyFlash.style.transform = "translate(191px,-55px)";
