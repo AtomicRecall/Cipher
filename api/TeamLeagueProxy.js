@@ -2,7 +2,8 @@
 import axios from 'axios';
 
 export default async function handler(req, res) {
-  const apiUrl = `https://www.faceit.com/api/team-leagues/v1/teams/${url}/profile/leagues/summary`;
+    const { teamId } = req.query; 
+  const apiUrl = `https://www.faceit.com/api/team-leagues/v1/teams/${teamId}/profile/leagues/summary`;
 
   console.log("Requesting data from:", apiUrl); // Debug log to verify the URL
 
